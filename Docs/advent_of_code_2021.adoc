@@ -1,0 +1,19 @@
+= Advent of Code 2021
+:stylesheet: /Docs/aoc.css
+:linkcss:
+:source-highlighter: pygments
+:pygments-style: default
+:pygments-linenums-mode: table
+:nofooter:
+:toc: left
+:toc-title: Days
+
+[.lead]
+This doc has my solutions for the link:https://adventofcode.com/2021[2021 Advent of Code].
+
+== Day 1 (link:https://adventofcode.com/2021/day/1[link])
+
+[source,julia,indent=0]
+----
+include::Day 1/aoc_01_setup.jl[indent=4]
+----

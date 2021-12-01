@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.16">
+<title>Advent of Code 2021</title>
+<link rel="stylesheet" href="/Docs/aoc.css">
+<link rel="stylesheet" href="/Docs/syntax-theme.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Advent of Code 2021</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Days</div>
+<ul class="sectlevel1">
+<li><a href="#_day_1_link">Day 1 (link)</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph lead">
+<p>This doc has my solutions for the <a href="https://adventofcode.com/2021">2021 Advent of Code</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_day_1_link">Day 1 (<a href="https://adventofcode.com/2021/day/1">link</a>)</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">module</span> <span class="tok-n">Aoc01</span>
+<span class="tok-k">using</span> <span class="tok-n">DataStructures</span>
+
+<span class="tok-k">function</span> <span class="tok-n">get_n_increasing_running_avg_depths</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-p">)</span>
+    <span class="tok-n">depth_buf</span> <span class="tok-o">=</span> <span class="tok-n">CircularBuffer</span><span class="tok-p">{</span><span class="tok-kt">Int</span><span class="tok-p">}(</span><span class="tok-n">n</span><span class="tok-p">)</span>
+    <span class="tok-n">lines</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input_01.txt&quot;</span><span class="tok-p">)))</span>
+
+    <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">lines</span>
+        <span class="tok-n">depth</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">line</span><span class="tok-p">)</span>
+        <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">,</span> <span class="tok-n">depth</span><span class="tok-p">)</span>
+
+        <span class="tok-k">if</span> <span class="tok-n">isfull</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">)</span>
+            <span class="tok-k">break</span>
+        <span class="tok-k">end</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-nd">@assert</span> <span class="tok-n">isfull</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">)</span>
+
+    <span class="tok-n">n_increasing</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
+
+    <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">lines</span>
+        <span class="tok-n">new_depth</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">line</span><span class="tok-p">)</span>
+        <span class="tok-n">old_depth</span> <span class="tok-o">=</span> <span class="tok-n">depth_buf</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">]</span>
+
+        <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">,</span> <span class="tok-n">new_depth</span><span class="tok-p">)</span>
+
+        <span class="tok-k">if</span> <span class="tok-n">new_depth</span> <span class="tok-o">&gt;</span> <span class="tok-n">old_depth</span>
+            <span class="tok-n">n_increasing</span> <span class="tok-o">+=</span> <span class="tok-mi">1</span>
+        <span class="tok-k">end</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-n">n_increasing</span>
+<span class="tok-k">end</span>
+
+<span class="tok-k">end</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

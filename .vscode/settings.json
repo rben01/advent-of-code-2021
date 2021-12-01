@@ -1,0 +1,5 @@
+{
+	"code-runner.executorMap": {
+		"asciidoc": "asciidoctor --base-dir . --load-path docs -r syntax-highlighter $fullFileName",
+	}
+}
