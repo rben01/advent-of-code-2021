@@ -7,7 +7,33 @@
 <meta name="generator" content="Asciidoctor 2.0.16">
 <title>Advent of Code 2021</title>
 <link rel="stylesheet" href="/Docs/aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/Docs/syntax-theme.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -15,7 +41,8 @@
 <div id="toc" class="toc2">
 <div id="toctitle">Days</div>
 <ul class="sectlevel1">
-<li><a href="#_day_1_link">Day 1 (link)</a></li>
+<li><a href="#_sonar_sweep">1. Sonar Sweep</a></li>
+<li><a href="#_dive">2. Dive!</a></li>
 </ul>
 </div>
 </div>
@@ -23,50 +50,158 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph lead">
-<p>This doc has my solutions for the <a href="https://adventofcode.com/2021">2021 Advent of Code</a>.</p>
+<p>This doc has my solutions for the <a href="https://adventofcode.com/2021" target="_blank" rel="noopener">2021 Advent of Code</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Advent of Code gives all participants the same problems, but gives different inputs to each participant.
+Therefore, it makes little sense to give the actual numeric answers to problems here.
+However, these solutions should work for any input/output pair provided by Advent of Code.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This document has the solutions out in the open!
+Don&#8217;t read it if you&#8217;re still working on Advent of Code.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_day_1_link">Day 1 (<a href="https://adventofcode.com/2021/day/1">link</a>)</h2>
+<h2 id="_sonar_sweep">1. Sonar Sweep</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/1" target="_blank" rel="noopener"><span class="icon"><i class="fa fa-external-link"></i></span> Problem description</a></p>
+</div>
+<div class="paragraph">
+<div class="title">{soln-description-texternal-link}</div>
+<p>Problem 1 asks to find when the current depth is greater than the previous depth.
+Problem 2 asks to find when the current running sum of depths is greater than the previous running sum (with a running sum of length 3, but no need to bake that in just yet).
+Problem 1 is a special case of Problem 2, with a running sum length of \(n=1\).</p>
+</div>
+<div class="paragraph">
+<p>The solution uses a <a href="https://juliacollections.github.io/DataStructures.jl/latest/circ_buffer/" target="_blank" rel="noopener"><code>CircularBuffer</code></a> (c.f. <a href="https://en.wikipedia.org/wiki/Circular_buffer" class="bare">en.wikipedia.org/wiki/Circular_buffer</a>) to keep the past \(n\) depths.
+Since the “interior” components of the current and previous running sums are the same, we can compare the two running sums by merely checking the new depth against the oldest depth still in the buffer.
+If the current depth is greater, then so is the current running sum.</p>
+</div>
 <div class="listingblock">
+<div class="title">Setup</div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">module</span> <span class="tok-n">Aoc01</span>
-<span class="tok-k">using</span> <span class="tok-n">DataStructures</span>
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">using</span> <span class="tok-n">DataStructures</span>
+<span class="tok-k">using</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">Iterators</span>
 
-<span class="tok-k">function</span> <span class="tok-n">get_n_increasing_running_avg_depths</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-p">)</span>
+<span class="tok-k">function</span> <span class="tok-n">get_n_increasing_running_sum_of_depths</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-p">)</span>
     <span class="tok-n">depth_buf</span> <span class="tok-o">=</span> <span class="tok-n">CircularBuffer</span><span class="tok-p">{</span><span class="tok-kt">Int</span><span class="tok-p">}(</span><span class="tok-n">n</span><span class="tok-p">)</span>
-    <span class="tok-n">lines</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input_01.txt&quot;</span><span class="tok-p">)))</span>
+    <span class="tok-n">depths</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">))</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">)))</span>
 
-    <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">lines</span>
-        <span class="tok-n">depth</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">line</span><span class="tok-p">)</span>
-        <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">,</span> <span class="tok-n">depth</span><span class="tok-p">)</span>
-
-        <span class="tok-k">if</span> <span class="tok-n">isfull</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">)</span>
-            <span class="tok-k">break</span>
-        <span class="tok-k">end</span>
-    <span class="tok-k">end</span>
-
+    <span class="tok-n">append!</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">,</span> <span class="tok-n">take</span><span class="tok-p">(</span><span class="tok-n">depths</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">))</span>
     <span class="tok-nd">@assert</span> <span class="tok-n">isfull</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">)</span>
 
     <span class="tok-n">n_increasing</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
 
-    <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">lines</span>
-        <span class="tok-n">new_depth</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">line</span><span class="tok-p">)</span>
+    <span class="tok-k">for</span> <span class="tok-n">new_depth</span> <span class="tok-kp">in</span> <span class="tok-n">depths</span>
         <span class="tok-n">old_depth</span> <span class="tok-o">=</span> <span class="tok-n">depth_buf</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">]</span>
 
         <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">,</span> <span class="tok-n">new_depth</span><span class="tok-p">)</span>
-
         <span class="tok-k">if</span> <span class="tok-n">new_depth</span> <span class="tok-o">&gt;</span> <span class="tok-n">old_depth</span>
             <span class="tok-n">n_increasing</span> <span class="tok-o">+=</span> <span class="tok-mi">1</span>
         <span class="tok-k">end</span>
     <span class="tok-k">end</span>
 
     <span class="tok-n">n_increasing</span>
+<span class="tok-k">end</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Part 1</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-nd">@show</span> <span class="tok-n">get_n_increasing_running_sum_of_depths</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Part 2</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-nd">@show</span> <span class="tok-n">get_n_increasing_running_sum_of_depths</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dive">2. Dive!</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/2" target="_blank" rel="noopener"><span class="icon"><i class="fa fa-external-link"></i></span> Problem description</a></p>
+</div>
+<div class="paragraph">
+<div class="title">Description of Solution</div>
+<p>There isn&#8217;t really anything too deep to go into here.
+You just have to update the current state correctly.
+Easy!</p>
+</div>
+<div class="listingblock">
+<div class="title">Part 1</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">horizontal</span> <span class="tok-o">=</span> <span class="tok-n">vertical</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
+<span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
+    <span class="tok-n">dir</span><span class="tok-p">,</span> <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">line</span> <span class="tok-o">|&gt;</span> <span class="tok-n">strip</span> <span class="tok-o">|&gt;</span> <span class="tok-n">split</span>
+    <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">dist</span><span class="tok-p">)</span>
+
+    <span class="tok-k">if</span> <span class="tok-n">dir</span> <span class="tok-o">==</span> <span class="tok-s">&quot;forward&quot;</span>
+        <span class="tok-n">horizontal</span> <span class="tok-o">+=</span> <span class="tok-n">dist</span>
+    <span class="tok-k">elseif</span> <span class="tok-n">dir</span> <span class="tok-o">==</span> <span class="tok-s">&quot;up&quot;</span>
+        <span class="tok-n">vertical</span> <span class="tok-o">-=</span> <span class="tok-n">dist</span>
+    <span class="tok-k">elseif</span> <span class="tok-n">dir</span> <span class="tok-o">==</span> <span class="tok-s">&quot;down&quot;</span>
+        <span class="tok-n">vertical</span> <span class="tok-o">+=</span> <span class="tok-n">dist</span>
+    <span class="tok-k">else</span>
+        <span class="tok-n">throw</span><span class="tok-p">(</span><span class="tok-s">&quot;Invalid direction </span><span class="tok-si">$</span><span class="tok-p">(</span><span class="tok-n">dir</span><span class="tok-p">)</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
+    <span class="tok-k">end</span>
+
 <span class="tok-k">end</span>
 
-<span class="tok-k">end</span></code></pre>
+<span class="tok-n">ans</span> <span class="tok-o">=</span> <span class="tok-n">horizontal</span> <span class="tok-o">*</span> <span class="tok-n">vertical</span>
+<span class="tok-nd">@show</span> <span class="tok-n">ans</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Part 2</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">horizontal</span> <span class="tok-o">=</span> <span class="tok-n">vertical</span> <span class="tok-o">=</span> <span class="tok-n">aim</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
+<span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
+    <span class="tok-n">dir</span><span class="tok-p">,</span> <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">line</span> <span class="tok-o">|&gt;</span> <span class="tok-n">strip</span> <span class="tok-o">|&gt;</span> <span class="tok-n">split</span>
+    <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">dist</span><span class="tok-p">)</span>
+
+    <span class="tok-k">if</span> <span class="tok-n">dir</span> <span class="tok-o">==</span> <span class="tok-s">&quot;forward&quot;</span>
+        <span class="tok-n">horizontal</span> <span class="tok-o">+=</span> <span class="tok-n">dist</span>
+        <span class="tok-n">vertical</span> <span class="tok-o">+=</span> <span class="tok-n">aim</span> <span class="tok-o">*</span> <span class="tok-n">dist</span>
+    <span class="tok-k">elseif</span> <span class="tok-n">dir</span> <span class="tok-o">==</span> <span class="tok-s">&quot;up&quot;</span>
+        <span class="tok-n">aim</span> <span class="tok-o">-=</span> <span class="tok-n">dist</span>
+    <span class="tok-k">elseif</span> <span class="tok-n">dir</span> <span class="tok-o">==</span> <span class="tok-s">&quot;down&quot;</span>
+        <span class="tok-n">aim</span> <span class="tok-o">+=</span> <span class="tok-n">dist</span>
+    <span class="tok-k">else</span>
+        <span class="tok-n">throw</span><span class="tok-p">(</span><span class="tok-s">&quot;Invalid direction </span><span class="tok-si">$</span><span class="tok-p">(</span><span class="tok-n">dir</span><span class="tok-p">)</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
+    <span class="tok-k">end</span>
+<span class="tok-k">end</span>
+
+<span class="tok-n">ans</span> <span class="tok-o">=</span> <span class="tok-n">horizontal</span> <span class="tok-o">*</span> <span class="tok-n">vertical</span>
+<span class="tok-nd">@show</span> <span class="tok-n">ans</span></code></pre>
 </div>
 </div>
 </div>

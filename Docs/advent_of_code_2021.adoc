@@ -1,19 +1,49 @@
 = Advent of Code 2021
+:docinfodir: ./Docs
+:docinfo: shared
 :stylesheet: /Docs/aoc.css
 :linkcss:
-:source-highlighter: pygments
-:pygments-style: default
-:pygments-linenums-mode: table
 :nofooter:
 :toc: left
 :toc-title: Days
+:toclevels: 1
+:sectnums:
+:source-highlighter: pygments
+:pygments-style: default
+:pygments-linenums-mode: table
+:src-dir: src
+:icons: font
+:click-to-reveal: Click to reveal answer
+:caution-caption:
+:soln-description-title: Description of Solution
+:part-title: Part
+:advent-day-url-stem: https://adventofcode.com/2021/day/
+:external-link: icon:external-link[] Problem description^
+:external-link-left-delim:
+:external-link-right-delim:
+:hide-uri-scheme:
 
 [.lead]
-This doc has my solutions for the link:https://adventofcode.com/2021[2021 Advent of Code].
+This doc has my solutions for the https://adventofcode.com/2021[2021 Advent of Code^].
 
-== Day 1 (link:https://adventofcode.com/2021/day/1[link])
 
-[source,julia,indent=0]
-----
-include::Day 1/aoc_01_setup.jl[indent=4]
-----
+[NOTE]
+====
+Advent of Code gives all participants the same problems, but gives different inputs to each participant.
+Therefore, it makes little sense to give the actual numeric answers to problems here.
+However, these solutions should work for any input/output pair provided by Advent of Code.
+====
+
+[WARNING]
+====
+This document has the solutions out in the open!
+Don't read it if you're still working on Advent of Code.
+====
+
+== Sonar Sweep
+
+include::{src-dir}/day_01/soln.adoc[tag=content,leveloffset+=1]
+
+== Dive!
+
+include::{src-dir}/day_02/soln.adoc[tag=content, leveloffset+=1]

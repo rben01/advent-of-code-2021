@@ -1,5 +1,5 @@
 {
 	"code-runner.executorMap": {
-		"asciidoc": "asciidoctor --base-dir . --load-path docs -r syntax-highlighter $fullFileName",
-	}
+		"asciidoc": "asciidoctor --base-dir . --load-path docs -r syntax-highlighter ./Docs/advent_of_code_2021.adoc # ",
+	},
 }
