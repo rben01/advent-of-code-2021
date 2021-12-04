@@ -1,6 +1,6 @@
 # tag::pt1[]
 horizontal = vertical = 0
-for line in eachline(joinpath(@__DIR__, "input.txt"))
+for line ∈ eachline(joinpath(@__DIR__, "input.txt"))
     dir, dist = split(strip(line))
     dist = parse(Int, dist)
 
@@ -21,7 +21,7 @@ ans = horizontal * vertical
 
 # tag::pt2[]
 horizontal = vertical = aim = 0
-for line in eachline(joinpath(@__DIR__, "input.txt"))
+for line ∈ eachline(joinpath(@__DIR__, "input.txt"))
     dir, dist = split(strip(line))
     dist = parse(Int, dist)
 

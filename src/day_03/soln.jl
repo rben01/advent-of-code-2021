@@ -4,7 +4,7 @@ elems = vcat((begin
                   bit_row = reshape(bit_vec, (1, :))
                   bit_row
               end
-              for line in eachline(joinpath(@__DIR__, "input.txt")))...)
+              for line ∈ eachline(joinpath(@__DIR__, "input.txt")))...)
 
 (n_lines, line_length) = size(elems)
 
@@ -29,7 +29,7 @@ epsilon_rate = (2^line_length - 1) - gamma_rate
 # tag::pt2[]
 function value_of_line_chosen_by_criterion(comparison_predicate)
     candidates = fill(true, n_lines)
-    for i in 1:line_length
+    for i = 1:line_length
         n_candidates_remaining = sum(candidates)
         if n_candidates_remaining == 1
             break
