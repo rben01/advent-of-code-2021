@@ -43,6 +43,7 @@
 <ul class="sectlevel1">
 <li><a href="#_sonar_sweep">1. Sonar Sweep</a></li>
 <li><a href="#_dive">2. Dive!</a></li>
+<li><a href="#_binary_diagnostic">3. Binary Diagnostic</a></li>
 </ul>
 </div>
 </div>
@@ -92,10 +93,10 @@ Don&#8217;t read it if you&#8217;re still working on Advent of Code.</p>
 <p><a href="https://adventofcode.com/2021/day/1" target="_blank" rel="noopener"><span class="icon"><i class="fa fa-external-link"></i></span> Problem description</a></p>
 </div>
 <div class="paragraph">
-<div class="title">{soln-description-texternal-link}</div>
-<p>Problem 1 asks to find when the current depth is greater than the previous depth.
-Problem 2 asks to find when the current running sum of depths is greater than the previous running sum (with a running sum of length 3, but no need to bake that in just yet).
-Problem 1 is a special case of Problem 2, with a running sum length of \(n=1\).</p>
+<div class="title">Description of Solution</div>
+<p>Part 1 asks to find when the current depth is greater than the previous depth.
+Part 2 asks to find when the current running sum of depths is greater than the previous running sum, with a running sum of length 3.
+These are both special cases of finding when the current length-\(n\) running sum of depths is greater than the previous length-\(n\) running sum, with Part 1 using a length of \(n=1\) and Part 2 using \(n=3\).</p>
 </div>
 <div class="paragraph">
 <p>The solution uses a <a href="https://juliacollections.github.io/DataStructures.jl/latest/circ_buffer/" target="_blank" rel="noopener"><code>CircularBuffer</code></a> (c.f. <a href="https://en.wikipedia.org/wiki/Circular_buffer" class="bare">en.wikipedia.org/wiki/Circular_buffer</a>) to keep the past \(n\) depths.
@@ -126,7 +127,7 @@ If the current depth is greater, then so is the current running sum.</p>
         <span class="tok-k">end</span>
     <span class="tok-k">end</span>
 
-    <span class="tok-n">n_increasing</span>
+    <span class="tok-k">return</span> <span class="tok-n">n_increasing</span>
 <span class="tok-k">end</span></code></pre>
 </div>
 </div>
@@ -161,7 +162,7 @@ Easy!</p>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">horizontal</span> <span class="tok-o">=</span> <span class="tok-n">vertical</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
 <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
-    <span class="tok-n">dir</span><span class="tok-p">,</span> <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">line</span> <span class="tok-o">|&gt;</span> <span class="tok-n">strip</span> <span class="tok-o">|&gt;</span> <span class="tok-n">split</span>
+    <span class="tok-n">dir</span><span class="tok-p">,</span> <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">))</span>
     <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">dist</span><span class="tok-p">)</span>
 
     <span class="tok-k">if</span> <span class="tok-n">dir</span> <span class="tok-o">==</span> <span class="tok-s">&quot;forward&quot;</span>
@@ -173,7 +174,6 @@ Easy!</p>
     <span class="tok-k">else</span>
         <span class="tok-n">throw</span><span class="tok-p">(</span><span class="tok-s">&quot;Invalid direction </span><span class="tok-si">$</span><span class="tok-p">(</span><span class="tok-n">dir</span><span class="tok-p">)</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
     <span class="tok-k">end</span>
-
 <span class="tok-k">end</span>
 
 <span class="tok-n">ans</span> <span class="tok-o">=</span> <span class="tok-n">horizontal</span> <span class="tok-o">*</span> <span class="tok-n">vertical</span>
@@ -185,7 +185,7 @@ Easy!</p>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">horizontal</span> <span class="tok-o">=</span> <span class="tok-n">vertical</span> <span class="tok-o">=</span> <span class="tok-n">aim</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
 <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
-    <span class="tok-n">dir</span><span class="tok-p">,</span> <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">line</span> <span class="tok-o">|&gt;</span> <span class="tok-n">strip</span> <span class="tok-o">|&gt;</span> <span class="tok-n">split</span>
+    <span class="tok-n">dir</span><span class="tok-p">,</span> <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">))</span>
     <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">dist</span><span class="tok-p">)</span>
 
     <span class="tok-k">if</span> <span class="tok-n">dir</span> <span class="tok-o">==</span> <span class="tok-s">&quot;forward&quot;</span>
@@ -202,6 +202,123 @@ Easy!</p>
 
 <span class="tok-n">ans</span> <span class="tok-o">=</span> <span class="tok-n">horizontal</span> <span class="tok-o">*</span> <span class="tok-n">vertical</span>
 <span class="tok-nd">@show</span> <span class="tok-n">ans</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_binary_diagnostic">3. Binary Diagnostic</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/3" target="_blank" rel="noopener"><span class="icon"><i class="fa fa-external-link"></i></span> Problem description</a></p>
+</div>
+<div class="paragraph">
+<div class="title">Setup</div>
+<p>The first thing we do is read the input file into a <code>BitArray</code> named <code>elems</code> of size <code>(n_lines, line_length)</code>, where <code>elems[i, j] == (lines[i][j] == '1')</code>.
+We also create a function that converts a binary vector, most significant digit first, to a (decimal) number.
+For example, given <code>10011</code>, we compute <code>[1, 0, 0, 1, 1] .* [16, 8, 4, 2, 1] = [16, 0, 0, 2, 1]</code>, whose sum is 19.
+(This is just how <a href="https://en.wikipedia.org/wiki/Positional_notation#Mathematics" target="_blank" rel="noopener">positional notation</a> works.)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">elems</span> <span class="tok-o">=</span> <span class="tok-n">vcat</span><span class="tok-p">((</span><span class="tok-k">begin</span>
+                  <span class="tok-n">bit_vec</span> <span class="tok-o">=</span> <span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">))</span> <span class="tok-o">.==</span> <span class="tok-sc">&#39;1&#39;</span>
+                  <span class="tok-n">bit_row</span> <span class="tok-o">=</span> <span class="tok-n">reshape</span><span class="tok-p">(</span><span class="tok-n">bit_vec</span><span class="tok-p">,</span> <span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-o">:</span><span class="tok-p">))</span>
+                  <span class="tok-n">bit_row</span>
+              <span class="tok-k">end</span>
+              <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">)))</span><span class="tok-o">...</span><span class="tok-p">)</span>
+
+<span class="tok-p">(</span><span class="tok-n">n_lines</span><span class="tok-p">,</span> <span class="tok-n">line_length</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">size</span><span class="tok-p">(</span><span class="tok-n">elems</span><span class="tok-p">)</span>
+
+<span class="tok-k">function</span> <span class="tok-n">to_decimal</span><span class="tok-p">(</span><span class="tok-n">binary_digit_vector_msbf</span><span class="tok-o">::</span><span class="tok-kt">AbstractVector</span><span class="tok-p">)</span>
+    <span class="tok-n">n_digits</span> <span class="tok-o">=</span> <span class="tok-n">length</span><span class="tok-p">(</span><span class="tok-n">binary_digit_vector_msbf</span><span class="tok-p">)</span>
+    <span class="tok-n">pow_2s</span> <span class="tok-o">=</span> <span class="tok-mi">2</span> <span class="tok-o">.^</span> <span class="tok-p">((</span><span class="tok-n">n_digits</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-p">)</span><span class="tok-o">:-</span><span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-mi">0</span><span class="tok-p">)</span>
+    <span class="tok-k">return</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">pow_2s</span> <span class="tok-o">.*</span> <span class="tok-n">binary_digit_vector_msbf</span><span class="tok-p">)</span>
+<span class="tok-k">end</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 1</div>
+<p>We are asked to find two numbers, <code>gamma_rate</code> (\(\gamma\)) and <code>epsilon_rate</code> (\(\varepsilon\)).
+\(\gamma\) is the value of the binary number whose \(i\)<sup>th</sup> digit is the most common digit in column \(i\) of the array of values.
+\(\varepsilon\) is computed using the same idea, but with the least common digit instead.
+(It is assumed that there will be no ties.)</p>
+</div>
+<div class="paragraph">
+<p>Since there are only two digits to choose from, the most common digit and the least common digit in each column will be opposites, and so \(\gamma + \varepsilon = \text{all 1s} = 2^{\text{\texttt{line\textunderscore{}width}}}-1\).
+In other words we don&#8217;t need to compute \(\varepsilon\) “the long way”; once we have \(\gamma\), we immediately have \(\varepsilon\).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">n_ones</span> <span class="tok-o">=</span> <span class="tok-n">vec</span><span class="tok-p">(</span><span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">elems</span><span class="tok-p">;</span> <span class="tok-n">dims</span><span class="tok-o">=</span><span class="tok-mi">1</span><span class="tok-p">))</span>
+<span class="tok-n">n_zeros</span> <span class="tok-o">=</span> <span class="tok-n">n_lines</span> <span class="tok-o">.-</span> <span class="tok-n">n_ones</span>
+<span class="tok-n">col_has_more_ones_than_zeros</span> <span class="tok-o">=</span> <span class="tok-n">n_ones</span> <span class="tok-o">.&gt;</span> <span class="tok-n">n_zeros</span>
+
+<span class="tok-n">gamma_rate</span> <span class="tok-o">=</span> <span class="tok-n">to_decimal</span><span class="tok-p">(</span><span class="tok-n">col_has_more_ones_than_zeros</span><span class="tok-p">)</span>
+<span class="tok-n">epsilon_rate</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-o">^</span><span class="tok-n">line_length</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-p">)</span> <span class="tok-o">-</span> <span class="tok-n">gamma_rate</span>
+
+<span class="tok-nd">@show</span> <span class="tok-n">gamma_rate</span> <span class="tok-o">*</span> <span class="tok-n">epsilon_rate</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 2</div>
+<p>We are asked to find two new numbers, the oxygen scrubber rating <code>oxy_rate</code> and the CO2 scrubber rating <code>co2_rate</code>.
+The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Initialize the list of candidate values to the full list of rows in <code>elems</code> as defined above.</p>
+</li>
+<li>
+<p>With \(i\) ranging from the leftmost column index in <code>elems</code> to the rightmost column index (most significant digit to least):</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Successively narrow down the list of candidates by keeping only those remaining candidates whose \(i\)<sup>th</sup> digit is the most common \(i\)<sup>th</sup> digit of the remaining candidates, with a tie between 0 and 1 going to 1.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For instance, when \(i=5\), then keep only the remaining candidates whose 5<sup>th</sup> digit is the most common 5<sup>th</sup> digit (0 or 1, ties going to 1) of all remaining candidates at that stage.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Stop when only one candidate remains. (This is guaranteed to happen as long as the rows are all distinct.)</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The procedure for <code>co2_rate</code> is the same, except that the list of candidates is filtered down according to the <em>least</em> common digit in each position, with ties going to 0.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">value_of_line_chosen_by_criterion</span><span class="tok-p">(</span><span class="tok-n">comparison_predicate</span><span class="tok-p">)</span>
+    <span class="tok-n">candidates</span> <span class="tok-o">=</span> <span class="tok-n">fill</span><span class="tok-p">(</span><span class="tok-kc">true</span><span class="tok-p">,</span> <span class="tok-n">n_lines</span><span class="tok-p">)</span>
+    <span class="tok-k">for</span> <span class="tok-n">i</span> <span class="tok-kp">in</span> <span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-n">line_length</span>
+        <span class="tok-n">n_candidates_remaining</span> <span class="tok-o">=</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">candidates</span><span class="tok-p">)</span>
+        <span class="tok-k">if</span> <span class="tok-n">n_candidates_remaining</span> <span class="tok-o">==</span> <span class="tok-mi">1</span>
+            <span class="tok-k">break</span>
+        <span class="tok-k">end</span>
+
+        <span class="tok-n">digits</span> <span class="tok-o">=</span> <span class="tok-n">elems</span><span class="tok-p">[</span><span class="tok-n">candidates</span><span class="tok-p">,</span> <span class="tok-n">i</span><span class="tok-p">]</span>
+        <span class="tok-n">most_common_digit</span> <span class="tok-o">=</span> <span class="tok-n">comparison_predicate</span><span class="tok-p">(</span><span class="tok-mi">2</span> <span class="tok-o">*</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">digits</span><span class="tok-p">),</span> <span class="tok-n">n_candidates_remaining</span><span class="tok-p">)</span>
+        <span class="tok-n">candidates</span> <span class="tok-o">.&amp;=</span> <span class="tok-n">elems</span><span class="tok-p">[</span><span class="tok-o">:</span><span class="tok-p">,</span> <span class="tok-n">i</span><span class="tok-p">]</span> <span class="tok-o">.==</span> <span class="tok-n">most_common_digit</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-n">index</span> <span class="tok-o">=</span> <span class="tok-n">findfirst</span><span class="tok-p">(</span><span class="tok-n">candidates</span><span class="tok-p">)</span>
+    <span class="tok-n">line</span> <span class="tok-o">=</span> <span class="tok-n">elems</span><span class="tok-p">[</span><span class="tok-n">index</span><span class="tok-p">,</span> <span class="tok-o">:</span><span class="tok-p">]</span>
+    <span class="tok-n">value</span> <span class="tok-o">=</span> <span class="tok-n">to_decimal</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span>
+
+    <span class="tok-k">return</span> <span class="tok-n">value</span>
+<span class="tok-k">end</span>
+
+<span class="tok-p">(</span><span class="tok-n">oxy_rate</span><span class="tok-p">,</span> <span class="tok-n">co2_rate</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">map</span><span class="tok-p">(</span><span class="tok-n">value_of_line_chosen_by_criterion</span><span class="tok-p">,</span> <span class="tok-p">(</span><span class="tok-o">&gt;=</span><span class="tok-p">,</span> <span class="tok-o">&lt;</span><span class="tok-p">))</span>
+<span class="tok-nd">@show</span> <span class="tok-n">oxy_rate</span> <span class="tok-o">*</span> <span class="tok-n">co2_rate</span></code></pre>
 </div>
 </div>
 </div>

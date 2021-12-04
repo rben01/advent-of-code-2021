@@ -1,14 +1,12 @@
-= Day 1
-
-// tag::content[]
+= Sonar Sweep
 
 :day-num: 1
 {external-link-left-delim}link:{advent-day-url-stem}{day-num}[{external-link}]{external-link-right-delim}
 
-.{soln-description-texternal-link}
-Problem 1 asks to find when the current depth is greater than the previous depth.
-Problem 2 asks to find when the current running sum of depths is greater than the previous running sum (with a running sum of length 3, but no need to bake that in just yet).
-Problem 1 is a special case of Problem 2, with a running sum length of \(n=1\).
+.{soln-description-title}
+{part-title} 1 asks to find when the current depth is greater than the previous depth.
+{part-title} 2 asks to find when the current running sum of depths is greater than the previous running sum, with a running sum of length 3.
+These are both special cases of finding when the current length-\(n\) running sum of depths is greater than the previous length-\(n\) running sum, with {part-title} 1 using a length of \(n=1\) and {part-title} 2 using \(n=3\).
 
 The solution uses a https://juliacollections.github.io/DataStructures.jl/latest/circ_buffer/[`CircularBuffer`^] (c.f. https://en.wikipedia.org/wiki/Circular_buffer) to keep the past \(n\) depths.
 Since the “interior” components of the current and previous running sums are the same, we can compare the two running sums by merely checking the new depth against the oldest depth still in the buffer.
@@ -32,5 +30,3 @@ include::./soln.jl[tag=pt1,indent=3]
 ----
 include::./soln.jl[tag=pt2,indent=3]
 ----
-
-// end::content[]

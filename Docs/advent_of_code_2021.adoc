@@ -40,10 +40,8 @@ This document has the solutions out in the open!
 Don't read it if you're still working on Advent of Code.
 ====
 
-== Sonar Sweep
+include::{src-dir}/day_01/soln.adoc[leveloffset=+1]
 
-include::{src-dir}/day_01/soln.adoc[tag=content,leveloffset+=1]
+include::{src-dir}/day_02/soln.adoc[leveloffset=+1]
 
-== Dive!
-
-include::{src-dir}/day_02/soln.adoc[tag=content, leveloffset+=1]
+include::{src-dir}/day_03/soln.adoc[leveloffset=+1]

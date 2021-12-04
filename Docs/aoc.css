@@ -2636,3 +2636,7 @@ p {
 code span.linenos {
 	padding-right: 20px;
 }
+
+.katex .katex-html .texttt {
+	font-family: var(--mono-font-family);
+}

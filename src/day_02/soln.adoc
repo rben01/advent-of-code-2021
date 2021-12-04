@@ -1,6 +1,4 @@
-= Day 2
-
-// tag::content[]
+= Dive!
 
 :day-num: 2
 {external-link-left-delim}link:{advent-day-url-stem}{day-num}[{external-link}]{external-link-right-delim}
@@ -21,5 +19,3 @@ include::./soln.jl[tag=pt1,indent=3]
 ----
 include::./soln.jl[tag=pt2,indent=3]
 ----
-
-// end::content[]
