@@ -1,7 +1,7 @@
 # tag::pt1[]
 horizontal = vertical = 0
 for line in eachline(joinpath(@__DIR__, "input.txt"))
-    dir, dist = line |> strip |> split
+    dir, dist = split(strip(line))
     dist = parse(Int, dist)
 
     if dir == "forward"
@@ -13,7 +13,6 @@ for line in eachline(joinpath(@__DIR__, "input.txt"))
     else
         throw("Invalid direction $(dir)")
     end
-
 end
 
 ans = horizontal * vertical
@@ -23,7 +22,7 @@ ans = horizontal * vertical
 # tag::pt2[]
 horizontal = vertical = aim = 0
 for line in eachline(joinpath(@__DIR__, "input.txt"))
-    dir, dist = line |> strip |> split
+    dir, dist = split(strip(line))
     dist = parse(Int, dist)
 
     if dir == "forward"

@@ -20,7 +20,7 @@ function get_n_increasing_running_sum_of_depths(n)
         end
     end
 
-    n_increasing
+    return n_increasing
 end
 # end::setup[]
 
