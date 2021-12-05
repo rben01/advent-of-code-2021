@@ -12,7 +12,7 @@ The solution uses a https://juliacollections.github.io/DataStructures.jl/latest/
 Since the “interior” components of the current and previous running sums are the same, we can compare the two running sums by merely checking the new depth against the oldest depth still in the buffer.
 If the current depth is greater, then so is the current running sum.
 
-.Setup
+.{setup-title}
 [source,julia,indent=0]
 ----
 include::./soln.jl[tag=setup,indent=3]

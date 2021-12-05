@@ -16,6 +16,7 @@
 :click-to-reveal: Click to reveal answer
 :caution-caption:
 :soln-description-title: Description of Solution
+:setup-title: Setup
 :part-title: Part
 :advent-day-url-stem: https://adventofcode.com/2021/day/
 :external-link: icon:external-link[] Problem description^
@@ -26,6 +27,7 @@
 [.lead]
 This doc has my solutions for the https://adventofcode.com/2021[2021 Advent of Code^].
 It assumes some familiarity with https://julialang.org/[the Julia language^].
+(For the most part, Julia looks kind of like a fusion of Python and Numpy, except it uses 1-based indexing and static functions instead of methods.)
 
 
 [NOTE]
@@ -48,3 +50,5 @@ include::{src-dir}/day_02/soln.adoc[leveloffset=+1]
 include::{src-dir}/day_03/soln.adoc[leveloffset=+1]
 
 include::{src-dir}/day_04/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_05/soln.adoc[leveloffset=+1]

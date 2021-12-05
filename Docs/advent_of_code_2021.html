@@ -45,6 +45,7 @@
 <li><a href="#_dive">2. Dive!</a></li>
 <li><a href="#_binary_diagnostic">3. Binary Diagnostic</a></li>
 <li><a href="#_giant_squid">4. Giant Squid</a></li>
+<li><a href="#_hydrothermal_venture">5. Hydrothermal Venture</a></li>
 </ul>
 </div>
 </div>
@@ -53,7 +54,8 @@
 <div class="sectionbody">
 <div class="paragraph lead">
 <p>This doc has my solutions for the <a href="https://adventofcode.com/2021" target="_blank" rel="noopener">2021 Advent of Code</a>.
-It assumes some familiarity with <a href="https://julialang.org/" target="_blank" rel="noopener">the Julia language</a>.</p>
+It assumes some familiarity with <a href="https://julialang.org/" target="_blank" rel="noopener">the Julia language</a>.
+(For the most part, Julia looks kind of like a fusion of Python and Numpy, except it uses 1-based indexing and static functions instead of methods.)</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -515,6 +517,95 @@ When the last un-won boards wins, we use it to compute the answer.</p>
 <span class="tok-k">end</span>
 
 <span class="tok-nd">@show</span> <span class="tok-n">play_until_last_winner</span><span class="tok-p">(</span><span class="tok-n">game</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hydrothermal_venture">5. Hydrothermal Venture</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/5" target="_blank" rel="noopener"><span class="icon"><i class="fa fa-external-link"></i></span> Problem description</a></p>
+</div>
+<div class="paragraph">
+<div class="title">Setup</div>
+<p>First, we read the input into a list of lines of the form \(((x_1, y_1), (x_2, y_2))\)
+We also define the helpful <code>range_between(a, b)</code> function, which returns the (nonempty!) range of integers between <code>a</code> and <code>b</code>, inclusive.
+The range is ascending if and only if <code>a &lt; b</code>.
+(This is different from <code>a:b</code>, which is empty if <code>a &gt; b</code>.)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">using</span> <span class="tok-n">DataStructures</span>
+<span class="tok-k">import</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">Iterators</span><span class="tok-o">:</span> <span class="tok-n">flatten</span>
+
+<span class="tok-n">Point</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span> <span class="tok-o">=</span> <span class="tok-kt">NTuple</span><span class="tok-p">{</span><span class="tok-mi">2</span><span class="tok-p">,</span><span class="tok-n">T</span><span class="tok-p">}</span>
+<span class="tok-n">EndpointPair</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span> <span class="tok-o">=</span> <span class="tok-kt">NTuple</span><span class="tok-p">{</span><span class="tok-mi">2</span><span class="tok-p">,</span><span class="tok-n">Point</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}}</span>
+
+<span class="tok-n">line_endpoints</span> <span class="tok-o">=</span> <span class="tok-p">[</span>
+    <span class="tok-k">begin</span>
+        <span class="tok-n">point_re</span> <span class="tok-o">=</span> <span class="tok-sr">r&quot;\s*(\d+),(\d+)\s*-&gt;\s*(\d+),(\d+)\s*&quot;</span>
+        <span class="tok-n">m</span> <span class="tok-o">=</span> <span class="tok-n">match</span><span class="tok-p">(</span><span class="tok-n">point_re</span><span class="tok-p">,</span> <span class="tok-n">line</span><span class="tok-p">)</span>
+        <span class="tok-n">m</span> <span class="tok-o">===</span> <span class="tok-nb">nothing</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">error</span><span class="tok-p">(</span><span class="tok-s">&quot;could not parse input: </span><span class="tok-si">$</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
+        <span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">,</span> <span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">m</span><span class="tok-o">.</span><span class="tok-n">captures</span><span class="tok-p">)</span>
+        <span class="tok-p">((</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span><span class="tok-o">::</span><span class="tok-n">EndpointPair</span><span class="tok-p">{</span><span class="tok-kt">Int</span><span class="tok-p">}</span>
+    <span class="tok-k">end</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-o">∈</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
+<span class="tok-p">]</span>
+
+<span class="tok-k">function</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">b</span><span class="tok-p">)</span>
+    <span class="tok-n">step</span> <span class="tok-o">=</span> <span class="tok-n">a</span> <span class="tok-o">&lt;</span> <span class="tok-n">b</span> <span class="tok-o">?</span> <span class="tok-mi">1</span> <span class="tok-o">:</span> <span class="tok-o">-</span><span class="tok-mi">1</span>
+    <span class="tok-k">return</span> <span class="tok-n">a</span><span class="tok-o">:</span><span class="tok-n">step</span><span class="tok-o">:</span><span class="tok-n">b</span>
+<span class="tok-k">end</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 1</div>
+<p>Part 1 asks us to count how many times each point belongs to some horizontal or vertical line.
+These are lines \(((x_1, y_1), (x_2, y_2))\) for which \(x_1 = x_2\) or \(y_1 = y_2\).
+Such a line&#8217;s points are the Cartesian “product” of the ranges <code>range_between(x1, x2)</code> and <code>range_between(y1, y2)</code> (“product” in quotes because one of those ranges has length 1, so it&#8217;s not much of a product).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">get_hv_point_counts</span><span class="tok-p">(</span><span class="tok-n">endpoints</span><span class="tok-o">::</span><span class="tok-kt">Vector</span><span class="tok-p">{</span><span class="tok-n">EndpointPair</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span>
+    <span class="tok-n">acc</span> <span class="tok-o">=</span> <span class="tok-n">Accumulator</span><span class="tok-p">{</span><span class="tok-n">Point</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">},</span><span class="tok-kt">Int</span><span class="tok-p">}()</span>
+    <span class="tok-k">for</span> <span class="tok-p">((</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span> <span class="tok-o">∈</span> <span class="tok-n">endpoints</span>
+        <span class="tok-n">x1</span> <span class="tok-o">==</span> <span class="tok-n">x2</span> <span class="tok-o">||</span> <span class="tok-n">y1</span> <span class="tok-o">==</span> <span class="tok-n">y2</span> <span class="tok-o">||</span> <span class="tok-k">continue</span>
+        <span class="tok-k">for</span> <span class="tok-n">x</span> <span class="tok-o">∈</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">x2</span><span class="tok-p">),</span> <span class="tok-n">y</span> <span class="tok-o">∈</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">y1</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">)</span>
+            <span class="tok-n">inc!</span><span class="tok-p">(</span><span class="tok-n">acc</span><span class="tok-p">,</span> <span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-p">))</span>
+        <span class="tok-k">end</span>
+    <span class="tok-k">end</span>
+    <span class="tok-k">return</span> <span class="tok-n">acc</span>
+<span class="tok-k">end</span>
+
+<span class="tok-n">hv_point_counts</span> <span class="tok-o">=</span> <span class="tok-n">get_hv_point_counts</span><span class="tok-p">(</span><span class="tok-n">line_endpoints</span><span class="tok-p">)</span>
+<span class="tok-n">pt1_ans</span> <span class="tok-o">=</span> <span class="tok-n">count</span><span class="tok-p">(</span><span class="tok-n">p</span> <span class="tok-o">-&gt;</span> <span class="tok-n">last</span><span class="tok-p">(</span><span class="tok-n">p</span><span class="tok-p">)</span> <span class="tok-o">&gt;=</span> <span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">hv_point_counts</span><span class="tok-p">))</span>
+<span class="tok-nd">@show</span> <span class="tok-n">pt1_ans</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 2</div>
+<p>Part 2 asks us to count how many times each point belongs to either a horizontal line, a vertical line, or a \(45^\circ\) diagonal line.
+We found the points on horizontal and vertical lines in Part 1.
+Diagonal lines are lines \(((x_1, y_1), (x_2, y_2))\) for which the rise and run have the same magnitude, i.e., \(|y_2-y_1| = |x_2-x_1|\).
+If the \(x\)-step is \(d_x\) and the \(y\)-step is \(d_y\), with \(d_x,d_y\in\{-1,1\}\), then a line&#8217;s points are \((x_1,y_1), (x_1+d_x,y_1+d_y), (x_1+2d_x, y_1+2d_y), \ldots, (x_2,y_2)\). This is simply the <code>zip</code> of <code>range_between(x1, x2)</code> with <code>range_between(y1, y2)</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">get_diag_point_counts</span><span class="tok-p">(</span><span class="tok-n">endpoints</span><span class="tok-o">::</span><span class="tok-kt">Vector</span><span class="tok-p">{</span><span class="tok-n">EndpointPair</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span>
+    <span class="tok-n">acc</span> <span class="tok-o">=</span> <span class="tok-n">Accumulator</span><span class="tok-p">{</span><span class="tok-n">Point</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">},</span><span class="tok-kt">Int</span><span class="tok-p">}()</span>
+    <span class="tok-k">for</span> <span class="tok-p">((</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span> <span class="tok-o">∈</span> <span class="tok-n">endpoints</span>
+        <span class="tok-n">abs</span><span class="tok-p">(</span><span class="tok-n">x2</span> <span class="tok-o">-</span> <span class="tok-n">x1</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-n">abs</span><span class="tok-p">(</span><span class="tok-n">y2</span> <span class="tok-o">-</span> <span class="tok-n">y1</span><span class="tok-p">)</span> <span class="tok-o">||</span> <span class="tok-k">continue</span>
+        <span class="tok-k">for</span> <span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-p">)</span> <span class="tok-kp">in</span> <span class="tok-n">zip</span><span class="tok-p">(</span><span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">x2</span><span class="tok-p">),</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">y1</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span>
+            <span class="tok-n">inc!</span><span class="tok-p">(</span><span class="tok-n">acc</span><span class="tok-p">,</span> <span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-p">))</span>
+        <span class="tok-k">end</span>
+    <span class="tok-k">end</span>
+    <span class="tok-k">return</span> <span class="tok-n">acc</span>
+<span class="tok-k">end</span>
+
+<span class="tok-n">diag_point_counts</span> <span class="tok-o">=</span> <span class="tok-n">get_diag_point_counts</span><span class="tok-p">(</span><span class="tok-n">line_endpoints</span><span class="tok-p">)</span>
+<span class="tok-n">all_point_counts</span> <span class="tok-o">=</span> <span class="tok-n">merge</span><span class="tok-p">(</span><span class="tok-n">diag_point_counts</span><span class="tok-p">,</span> <span class="tok-n">hv_point_counts</span><span class="tok-p">)</span>
+<span class="tok-n">pt2_ans</span> <span class="tok-o">=</span> <span class="tok-n">count</span><span class="tok-p">(</span><span class="tok-n">p</span> <span class="tok-o">-&gt;</span> <span class="tok-n">last</span><span class="tok-p">(</span><span class="tok-n">p</span><span class="tok-p">)</span> <span class="tok-o">&gt;=</span> <span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">all_point_counts</span><span class="tok-p">))</span>
+<span class="tok-nd">@show</span> <span class="tok-n">pt2_ans</span></code></pre>
 </div>
 </div>
 </div>

@@ -3,7 +3,7 @@
 :day-num: 3
 {external-link-left-delim}link:{advent-day-url-stem}{day-num}[{external-link}]{external-link-right-delim}
 
-.Setup
+.{setup-title}
 The first thing we do is read the input file into a `BitArray` named `elems` of size `(n_lines, line_length)`, where `elems[i, j] == (lines[i][j] == '1')`.
 We also create a function that converts a binary vector, most significant digit first, to a (decimal) number.
 For example, given `10011`, we compute `[1, 0, 0, 1, 1] .* [16, 8, 4, 2, 1] = [16, 0, 0, 2, 1]`, whose sum is 19.

@@ -3,7 +3,7 @@
 :day-num: 4
 {external-link-left-delim}link:{advent-day-url-stem}{day-num}[{external-link}]{external-link-right-delim}
 
-.Setup
+.{setup-title}
 The game is represented as a list of boards and a list of drawn numbers.
 Each board has:
 

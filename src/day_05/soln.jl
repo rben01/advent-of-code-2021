@@ -11,7 +11,7 @@ line_endpoints = [
         m = match(point_re, line)
         m === nothing && error("could not parse input: $(line)")
         x1, y1, x2, y2 = parse.(Int, m.captures)
-        ((x1, y1), (x2, y2))
+        ((x1, y1), (x2, y2))::EndpointPair{Int}
     end for line ∈ eachline(joinpath(@__DIR__, "input.txt"))
 ]
 
