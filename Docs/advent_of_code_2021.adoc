@@ -25,6 +25,7 @@
 
 [.lead]
 This doc has my solutions for the https://adventofcode.com/2021[2021 Advent of Code^].
+It assumes some familiarity with https://julialang.org/[the Julia language^].
 
 
 [NOTE]

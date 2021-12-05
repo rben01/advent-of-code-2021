@@ -3,5 +3,5 @@ always_use_return = true
 conditional_to_if = true
 format_docstrings = true
 remove_extra_newlines = true
-style = "yas"
+style = "blue"
 whitespace_ops_in_indices = true

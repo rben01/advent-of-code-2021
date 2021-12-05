@@ -1,10 +1,13 @@
 # tag::setup[]
-elems = vcat((begin
-                  bit_vec = collect(strip(line)) .== '1'
-                  bit_row = reshape(bit_vec, (1, :))
-                  bit_row
-              end
-              for line ∈ eachline(joinpath(@__DIR__, "input.txt")))...)
+elems = vcat(
+    (
+        begin
+            bit_vec = collect(strip(line)) .== '1'
+            bit_row = reshape(bit_vec, (1, :))
+            bit_row
+        end for line ∈ eachline(joinpath(@__DIR__, "input.txt"))
+    )...,
+)
 
 (n_lines, line_length) = size(elems)
 
