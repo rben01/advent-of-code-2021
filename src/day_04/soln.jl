@@ -2,23 +2,21 @@
 import Base.Iterators: Stateful, popfirst!, flatten
 
 """
-Gives progress towards a win as the number of marked squares per row, col. If one of those
-numbers hits the max (`size`), the board has won.
+Gives progress towards a win as the number of unmarked squares per row/col. If one of those
+numbers hits 0 — the row/col has no unmarked squares left — the board has won.
 """
 mutable struct BoardProgress
-    limit::Int
-
     # From top to bottom
     rows::Vector{Int}
 
     # From left to right
     cols::Vector{Int}
 
-    BoardProgress(n) = new(n, fill(0, n), fill(0, n))
+    BoardProgress(n) = new(fill(n, n), fill(n, n))
 end
 
 function has_won(progress::BoardProgress)
-    return any(count == progress.limit for count ∈ flatten((progress.rows, progress.cols)))
+    return any(count == 0 for count ∈ flatten((progress.rows, progress.cols)))
 end
 
 """
@@ -46,8 +44,8 @@ function apply_number(board::Board{T}, number::T) where {T}
 
     if cartesian_index !== missing
         (row, col) = Tuple(cartesian_index)
-        board.progress.rows[row] += 1
-        board.progress.cols[col] += 1
+        board.progress.rows[row] -= 1
+        board.progress.cols[col] -= 1
 
         delete!(board.grid, number)
     end
@@ -68,27 +66,23 @@ function read_input_into_game(::Type{T}, in_file::AbstractString) where {T<:Inte
     # the rows of the last board in the event that the file doesn't already end in a newline
     lines = Stateful(strip(line) for line ∈ flatten((eachline(in_file), ("",))))
 
-    numbers_drawn = parse.(Int, split(popfirst!(lines), ','))
+    numbers_drawn = parse.(T, split(popfirst!(lines), ','))
 
     boards = Board{T}[]
     this_mat_rows = Matrix{T}[]
 
-    function add_board(rows)
-        board = Board(vcat(rows...))
-        return push!(boards, board)
-    end
-
     for line ∈ lines
         if isempty(line)
             if !isempty(this_mat_rows)
-                add_board(this_mat_rows)
+                let mat = vcat(this_mat_rows...), board = Board(mat)
+                    push!(boards, board)
+                end
+                empty!(this_mat_rows)
             end
-            this_mat_rows = []
-            continue
+        else
+            row = reshape(parse.(T, split(line)), (1, :))
+            push!(this_mat_rows, row)
         end
-
-        row = reshape(parse.(Int, split(line)), (1, :))
-        push!(this_mat_rows, row)
     end
 
     return Game(boards, numbers_drawn)
@@ -123,8 +117,9 @@ function play_until_last_winner(game::Game{T}) where {T}
     ongoing_boards = Set{Int}(keys(game.boards))
 
     for number ∈ game.numbers, (board_index, board) ∈ pairs(game.boards)
-        already_won = board_index ∉ ongoing_boards
-        already_won && continue
+        let already_won = board_index ∉ ongoing_boards
+            already_won && continue
+        end
 
         apply_number(board, number)
         if has_won(board)
