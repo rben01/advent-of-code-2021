@@ -5,9 +5,10 @@
 :linkcss:
 :nofooter:
 :toc: left
-:toc-title: Days
+:toc-title: Challenges
 :toclevels: 1
 :sectnums:
+:sectnumlevels: 1
 :source-highlighter: pygments
 :pygments-style: default
 :pygments-linenums-mode: table
@@ -18,10 +19,6 @@
 :soln-description-title: Description of Solution
 :setup-title: Setup
 :part-title: Part
-:advent-day-url-stem: https://adventofcode.com/2021/day/
-:external-link: icon:external-link[] Problem description^
-:external-link-left-delim:
-:external-link-right-delim:
 :hide-uri-scheme:
 
 [.lead]
@@ -52,3 +49,7 @@ include::{src-dir}/day_03/soln.adoc[leveloffset=+1]
 include::{src-dir}/day_04/soln.adoc[leveloffset=+1]
 
 include::{src-dir}/day_05/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_06/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_07/soln.adoc[leveloffset=+1]

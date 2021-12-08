@@ -1699,8 +1699,8 @@ table.tableblock #preamble > .sectionbody > .paragraph:first-of-type p {
 	margin-bottom: 1.25em;
 	padding: 1.25em;
 	background: var(--sidebar-bg-color);
-	/* -webkit-border-radius: 0; */
-	border-radius: 8px;
+	-webkit-border-radius: 0;
+	border-radius: 0;
 }
 
 .sidebarblock > :first-child {
@@ -2057,16 +2057,16 @@ ol dd,
 
 dd > .ulist > ul > li p,
 dd > .olist > ol > li p {
-	margin-bottom: 0.05em;
+	margin-bottom: 0.1em;
 }
 
 ol > li p,
 ul > li p {
-	margin-bottom: 0.1em;
+	margin-bottom: 0.3em;
 }
 
-:is(ol, ul) > li > :is(.paragraph > p, .paragraph:last-child > p) {
-	margin-bottom: 0.5em;
+:is(ol, ul) > li > :is(p:first-child, .paragraph > p, .paragraph:last-child > p) {
+	margin-bottom: 0.7em;
 }
 
 :is(.ulist, .olist) :is(ol, ul) > li :is(.ulist, .olist) :is(ol, ul) > li > p,
@@ -2089,7 +2089,7 @@ ul > li > .paragraph:last-child > p {
 
 :not(dd) ol,
 :not(dd) ul {
-	margin-bottom: 0.7em;
+	margin-bottom: 0.35em;
 }
 
 ul.unstyled,

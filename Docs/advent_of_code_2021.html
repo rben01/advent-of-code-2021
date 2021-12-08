@@ -39,13 +39,15 @@
 <div id="header">
 <h1>Advent of Code 2021</h1>
 <div id="toc" class="toc2">
-<div id="toctitle">Days</div>
+<div id="toctitle">Challenges</div>
 <ul class="sectlevel1">
 <li><a href="#_sonar_sweep">1. Sonar Sweep</a></li>
 <li><a href="#_dive">2. Dive!</a></li>
 <li><a href="#_binary_diagnostic">3. Binary Diagnostic</a></li>
 <li><a href="#_giant_squid">4. Giant Squid</a></li>
 <li><a href="#_hydrothermal_venture">5. Hydrothermal Venture</a></li>
+<li><a href="#_lanternfish">6. Lanternfish</a></li>
+<li><a href="#_the_treachery_of_whales">7. The Treachery of Whales</a></li>
 </ul>
 </div>
 </div>
@@ -94,10 +96,9 @@ Don&#8217;t read it if you&#8217;re still working on Advent of Code.</p>
 <h2 id="_sonar_sweep">1. Sonar Sweep</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://adventofcode.com/2021/day/1" target="_blank" rel="noopener"><span class="icon"><i class="fa fa-external-link"></i></span> Problem description</a></p>
+<p><a href="https://adventofcode.com/2021/day/1" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 1 problem description</a></p>
 </div>
 <div class="paragraph">
-<div class="title">Description of Solution</div>
 <p>Part 1 asks to find when the current depth is greater than the previous depth.
 Part 2 asks to find when the current running sum of depths is greater than the previous running sum, with a running sum of length 3.
 These are both special cases of finding when the current length-\(n\) running sum of depths is greater than the previous length-\(n\) running sum, with Part 1 using a length of \(n=1\) and Part 2 using \(n=3\).</p>
@@ -107,8 +108,8 @@ These are both special cases of finding when the current length-\(n\) running su
 Since the “interior” components of the current and previous running sums are the same, we can compare the two running sums by merely checking the new depth against the oldest depth still in the buffer.
 If the current depth is greater, then so is the current running sum.</p>
 </div>
+<hr>
 <div class="listingblock">
-<div class="title">Setup</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">using</span> <span class="tok-n">DataStructures</span>
 <span class="tok-k">using</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">Iterators</span>
@@ -136,13 +137,11 @@ If the current depth is greater, then so is the current running sum.</p>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Part 1</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-nd">@show</span> <span class="tok-n">get_n_increasing_running_sum_of_depths</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">)</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Part 2</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-nd">@show</span> <span class="tok-n">get_n_increasing_running_sum_of_depths</span><span class="tok-p">(</span><span class="tok-mi">3</span><span class="tok-p">)</span></code></pre>
 </div>
@@ -153,16 +152,15 @@ If the current depth is greater, then so is the current running sum.</p>
 <h2 id="_dive">2. Dive!</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://adventofcode.com/2021/day/2" target="_blank" rel="noopener"><span class="icon"><i class="fa fa-external-link"></i></span> Problem description</a></p>
+<p><a href="https://adventofcode.com/2021/day/2" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 2 problem description</a></p>
 </div>
 <div class="paragraph">
-<div class="title">Description of Solution</div>
 <p>There isn&#8217;t really anything too deep to go into here.
 You just have to update the current state correctly.
 Easy!</p>
 </div>
+<hr>
 <div class="listingblock">
-<div class="title">Part 1</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">horizontal</span> <span class="tok-o">=</span> <span class="tok-n">vertical</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
 <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-o">∈</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
@@ -185,7 +183,6 @@ Easy!</p>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Part 2</div>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">horizontal</span> <span class="tok-o">=</span> <span class="tok-n">vertical</span> <span class="tok-o">=</span> <span class="tok-n">aim</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
 <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-o">∈</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
@@ -214,8 +211,12 @@ Easy!</p>
 <h2 id="_binary_diagnostic">3. Binary Diagnostic</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://adventofcode.com/2021/day/3" target="_blank" rel="noopener"><span class="icon"><i class="fa fa-external-link"></i></span> Problem description</a></p>
+<p><a href="https://adventofcode.com/2021/day/3" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 3 problem description</a></p>
 </div>
+<div class="paragraph">
+<p>This challenge mostly just requires filtering arrays and counting elements satisfying a condition.</p>
+</div>
+<hr>
 <div class="paragraph">
 <div class="title">Setup</div>
 <p>The first thing we do is read the input file into a <code>BitArray</code> named <code>elems</code> of size <code>(n_lines, line_length)</code>, where <code>elems[i, j] == (lines[i][j] == '1')</code>.
@@ -247,7 +248,7 @@ For example, given <code>10011</code>, we compute <code>[1, 0, 0, 1, 1] .* [16, 
 <div class="paragraph">
 <div class="title">Part 1</div>
 <p>We are asked to find two numbers, <code>gamma_rate</code> (\(\gamma\)) and <code>epsilon_rate</code> (\(\varepsilon\)).
-\(\gamma\) is the value of the binary number whose \(i\)<sup>th</sup> digit is the most common digit in column \(i\) of the array of values.
+\(\gamma\) is the value of the binary number whose \(k\)<sup>th</sup> digit is the most common digit in column \(k\) of the array of values.
 \(\varepsilon\) is computed using the same idea, but with the least common digit instead.
 (It is assumed that there will be no ties.)</p>
 </div>
@@ -292,7 +293,8 @@ The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
 </div>
 </li>
 <li>
-<p>Stop when only one candidate remains. (This is guaranteed to happen as long as the rows are all distinct.)</p>
+<p>Stop when only one candidate remains. (This is guaranteed to happen a
+Since the \(i\)<sup>th</sup> element of <code>range_between(a, b)</code> is \(a + i\)s long as the rows are all distinct.)</p>
 </li>
 </ol>
 </div>
@@ -306,7 +308,7 @@ The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">value_of_line_chosen_by_criterion</span><span class="tok-p">(</span><span class="tok-n">comparison_predicate</span><span class="tok-p">)</span>
     <span class="tok-n">candidates</span> <span class="tok-o">=</span> <span class="tok-n">fill</span><span class="tok-p">(</span><span class="tok-kc">true</span><span class="tok-p">,</span> <span class="tok-n">n_lines</span><span class="tok-p">)</span>
-    <span class="tok-k">for</span> <span class="tok-n">i</span> <span class="tok-o">=</span> <span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-n">line_length</span>
+    <span class="tok-k">for</span> <span class="tok-n">i</span> <span class="tok-o">∈</span> <span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-n">line_length</span>
         <span class="tok-n">n_candidates_remaining</span> <span class="tok-o">=</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">candidates</span><span class="tok-p">)</span>
         <span class="tok-k">if</span> <span class="tok-n">n_candidates_remaining</span> <span class="tok-o">==</span> <span class="tok-mi">1</span>
             <span class="tok-k">break</span>
@@ -334,10 +336,9 @@ The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
 <h2 id="_giant_squid">4. Giant Squid</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://adventofcode.com/2021/day/4" target="_blank" rel="noopener"><span class="icon"><i class="fa fa-external-link"></i></span> Problem description</a></p>
+<p><a href="https://adventofcode.com/2021/day/4" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 4 problem description</a></p>
 </div>
 <div class="paragraph">
-<div class="title">Setup</div>
 <p>The game is represented as a list of boards and a list of drawn numbers.
 Each board has:</p>
 </div>
@@ -346,7 +347,7 @@ Each board has:</p>
 <li>
 <p>A dictionary <code>grid</code> that maps undrawn numbers on the board to their Cartesian coordinates (a pair <code>(row, col)</code>) on the board.
 When a number is drawn, its Cartesian coordinates are used to update <code>progress</code> (below), and then the number is removed from the dictionary.</p>
-<div class="exampleblock">
+<div class="sidebarblock">
 <div class="content">
 <div class="paragraph">
 <p>The only reason drawn numbers are removed from a board&#8217;s dictionary is that Advent of Code asks for the sum of the board&#8217;s undrawn numbers to compute the answer, so we need to keep track of which numbers on a given board haven&#8217;t been drawn yet.
@@ -364,7 +365,9 @@ If one of those counts hit zero, then every number in that row/column has been d
 </li>
 </ol>
 </div>
+<hr>
 <div class="paragraph">
+<div class="title">Setup</div>
 <p>Reading the input text into a game (numbers and boards) is in <code>read_input_into_game</code>, whose (not particularly interesting) implementation should serve as its docs.
 <code>get_answer_from_final_game_state</code> is just used to prove to Advent of Code that we actually got the solution.</p>
 </div>
@@ -525,8 +528,12 @@ When the last un-won boards wins, we use it to compute the answer.</p>
 <h2 id="_hydrothermal_venture">5. Hydrothermal Venture</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://adventofcode.com/2021/day/5" target="_blank" rel="noopener"><span class="icon"><i class="fa fa-external-link"></i></span> Problem description</a></p>
+<p><a href="https://adventofcode.com/2021/day/5" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 5 problem description</a></p>
 </div>
+<div class="paragraph">
+<p>This challenge requires iterating the integer points between two other points on the plane.</p>
+</div>
+<hr>
 <div class="paragraph">
 <div class="title">Setup</div>
 <p>First, we read the input into a list of lines of the form \(((x_1, y_1), (x_2, y_2))\)
@@ -541,6 +548,7 @@ The range is ascending if and only if <code>a &lt; b</code>.
 
 <span class="tok-n">Point</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span> <span class="tok-o">=</span> <span class="tok-kt">NTuple</span><span class="tok-p">{</span><span class="tok-mi">2</span><span class="tok-p">,</span><span class="tok-n">T</span><span class="tok-p">}</span>
 <span class="tok-n">EndpointPair</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span> <span class="tok-o">=</span> <span class="tok-kt">NTuple</span><span class="tok-p">{</span><span class="tok-mi">2</span><span class="tok-p">,</span><span class="tok-n">Point</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}}</span>
+<span class="tok-n">LinesVec</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span> <span class="tok-o">=</span> <span class="tok-kt">Vector</span><span class="tok-p">{</span><span class="tok-n">EndpointPair</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}}</span>
 
 <span class="tok-n">line_endpoints</span> <span class="tok-o">=</span> <span class="tok-p">[</span>
     <span class="tok-k">begin</span>
@@ -555,6 +563,10 @@ The range is ascending if and only if <code>a &lt; b</code>.
 <span class="tok-k">function</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">b</span><span class="tok-p">)</span>
     <span class="tok-n">step</span> <span class="tok-o">=</span> <span class="tok-n">a</span> <span class="tok-o">&lt;</span> <span class="tok-n">b</span> <span class="tok-o">?</span> <span class="tok-mi">1</span> <span class="tok-o">:</span> <span class="tok-o">-</span><span class="tok-mi">1</span>
     <span class="tok-k">return</span> <span class="tok-n">a</span><span class="tok-o">:</span><span class="tok-n">step</span><span class="tok-o">:</span><span class="tok-n">b</span>
+<span class="tok-k">end</span>
+
+<span class="tok-k">function</span> <span class="tok-n">get_ans</span><span class="tok-p">(</span><span class="tok-n">point_counts</span><span class="tok-p">)</span>
+    <span class="tok-k">return</span> <span class="tok-n">count</span><span class="tok-p">(</span><span class="tok-n">p</span> <span class="tok-o">-&gt;</span> <span class="tok-n">last</span><span class="tok-p">(</span><span class="tok-n">p</span><span class="tok-p">)</span> <span class="tok-o">&gt;=</span> <span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">point_counts</span><span class="tok-p">))</span>
 <span class="tok-k">end</span></code></pre>
 </div>
 </div>
@@ -566,7 +578,7 @@ Such a line&#8217;s points are the Cartesian “product” of the ranges <code>r
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">get_hv_point_counts</span><span class="tok-p">(</span><span class="tok-n">endpoints</span><span class="tok-o">::</span><span class="tok-kt">Vector</span><span class="tok-p">{</span><span class="tok-n">EndpointPair</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span>
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">get_hv_point_counts</span><span class="tok-p">(</span><span class="tok-n">endpoints</span><span class="tok-o">::</span><span class="tok-n">LinesVec</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span>
     <span class="tok-n">acc</span> <span class="tok-o">=</span> <span class="tok-n">Accumulator</span><span class="tok-p">{</span><span class="tok-n">Point</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">},</span><span class="tok-kt">Int</span><span class="tok-p">}()</span>
     <span class="tok-k">for</span> <span class="tok-p">((</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span> <span class="tok-o">∈</span> <span class="tok-n">endpoints</span>
         <span class="tok-n">x1</span> <span class="tok-o">==</span> <span class="tok-n">x2</span> <span class="tok-o">||</span> <span class="tok-n">y1</span> <span class="tok-o">==</span> <span class="tok-n">y2</span> <span class="tok-o">||</span> <span class="tok-k">continue</span>
@@ -578,20 +590,19 @@ Such a line&#8217;s points are the Cartesian “product” of the ranges <code>r
 <span class="tok-k">end</span>
 
 <span class="tok-n">hv_point_counts</span> <span class="tok-o">=</span> <span class="tok-n">get_hv_point_counts</span><span class="tok-p">(</span><span class="tok-n">line_endpoints</span><span class="tok-p">)</span>
-<span class="tok-n">pt1_ans</span> <span class="tok-o">=</span> <span class="tok-n">count</span><span class="tok-p">(</span><span class="tok-n">p</span> <span class="tok-o">-&gt;</span> <span class="tok-n">last</span><span class="tok-p">(</span><span class="tok-n">p</span><span class="tok-p">)</span> <span class="tok-o">&gt;=</span> <span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">hv_point_counts</span><span class="tok-p">))</span>
-<span class="tok-nd">@show</span> <span class="tok-n">pt1_ans</span></code></pre>
+<span class="tok-nd">@show</span> <span class="tok-n">get_ans</span><span class="tok-p">(</span><span class="tok-n">hv_point_counts</span><span class="tok-p">)</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <div class="title">Part 2</div>
-<p>Part 2 asks us to count how many times each point belongs to either a horizontal line, a vertical line, or a \(45^\circ\) diagonal line.
-We found the points on horizontal and vertical lines in Part 1.
-Diagonal lines are lines \(((x_1, y_1), (x_2, y_2))\) for which the rise and run have the same magnitude, i.e., \(|y_2-y_1| = |x_2-x_1|\).
-If the \(x\)-step is \(d_x\) and the \(y\)-step is \(d_y\), with \(d_x,d_y\in\{-1,1\}\), then a line&#8217;s points are \((x_1,y_1), (x_1+d_x,y_1+d_y), (x_1+2d_x, y_1+2d_y), \ldots, (x_2,y_2)\). This is simply the <code>zip</code> of <code>range_between(x1, x2)</code> with <code>range_between(y1, y2)</code>.</p>
+<p>Part 2 asks us to count how many times each point belongs to either a horizontal line, a vertical line, or a \(45^\circ\) diagonal line (whose slope must be \(\pm1\)).
+We already found the points on horizontal and vertical lines in Part 1.
+Diagonal lines are lines \(((x_1, y_1), (x_2, y_2))\) whose points \( (x_k,y_k)\) satisfy \(|x_k-x_1|=|y_k-y_1|\) with \(x_k\) between \(x_1\) and \(x_2\) and \(y_k\) between \(y_k\) and \(y_2\) (inclusive).
+Since the \(k\)<sup>th</sup> element of <code>range_between(a, b)</code> is \(a + k\), the points of the diagonal line in question are in fact simply the elements of <code>zip(range_between(x1, x2), range_between(y1, y2))</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">get_diag_point_counts</span><span class="tok-p">(</span><span class="tok-n">endpoints</span><span class="tok-o">::</span><span class="tok-kt">Vector</span><span class="tok-p">{</span><span class="tok-n">EndpointPair</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span>
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">get_diag_point_counts</span><span class="tok-p">(</span><span class="tok-n">endpoints</span><span class="tok-o">::</span><span class="tok-n">LinesVec</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span>
     <span class="tok-n">acc</span> <span class="tok-o">=</span> <span class="tok-n">Accumulator</span><span class="tok-p">{</span><span class="tok-n">Point</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">},</span><span class="tok-kt">Int</span><span class="tok-p">}()</span>
     <span class="tok-k">for</span> <span class="tok-p">((</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span> <span class="tok-o">∈</span> <span class="tok-n">endpoints</span>
         <span class="tok-n">abs</span><span class="tok-p">(</span><span class="tok-n">x2</span> <span class="tok-o">-</span> <span class="tok-n">x1</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-n">abs</span><span class="tok-p">(</span><span class="tok-n">y2</span> <span class="tok-o">-</span> <span class="tok-n">y1</span><span class="tok-p">)</span> <span class="tok-o">||</span> <span class="tok-k">continue</span>
@@ -602,10 +613,216 @@ If the \(x\)-step is \(d_x\) and the \(y\)-step is \(d_y\), with \(d_x,d_y\in\{-
     <span class="tok-k">return</span> <span class="tok-n">acc</span>
 <span class="tok-k">end</span>
 
-<span class="tok-n">diag_point_counts</span> <span class="tok-o">=</span> <span class="tok-n">get_diag_point_counts</span><span class="tok-p">(</span><span class="tok-n">line_endpoints</span><span class="tok-p">)</span>
-<span class="tok-n">all_point_counts</span> <span class="tok-o">=</span> <span class="tok-n">merge</span><span class="tok-p">(</span><span class="tok-n">diag_point_counts</span><span class="tok-p">,</span> <span class="tok-n">hv_point_counts</span><span class="tok-p">)</span>
-<span class="tok-n">pt2_ans</span> <span class="tok-o">=</span> <span class="tok-n">count</span><span class="tok-p">(</span><span class="tok-n">p</span> <span class="tok-o">-&gt;</span> <span class="tok-n">last</span><span class="tok-p">(</span><span class="tok-n">p</span><span class="tok-p">)</span> <span class="tok-o">&gt;=</span> <span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">all_point_counts</span><span class="tok-p">))</span>
-<span class="tok-nd">@show</span> <span class="tok-n">pt2_ans</span></code></pre>
+<span class="tok-n">all_point_counts</span> <span class="tok-o">=</span> <span class="tok-n">get_diag_point_counts</span><span class="tok-p">(</span><span class="tok-n">line_endpoints</span><span class="tok-p">)</span>
+<span class="tok-n">merge!</span><span class="tok-p">(</span><span class="tok-n">all_point_counts</span><span class="tok-p">,</span> <span class="tok-n">hv_point_counts</span><span class="tok-p">)</span>
+<span class="tok-nd">@show</span> <span class="tok-n">get_ans</span><span class="tok-p">(</span><span class="tok-n">all_point_counts</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lanternfish">6. Lanternfish</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/6" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 6 problem description</a></p>
+</div>
+<div class="paragraph">
+<p>At a high level, this problem requires modifying a map from ints to ints in a controlled fashion.
+At a low level:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>This map&#8217;s keys are actually the integers from 0 to 8 (inclusive), so it can just be stored in a list-like data structure, such as a tuple.</p>
+</li>
+<li>
+<p>The “controlled fashion” is merely shifting most values over, while occasionally adding to said values.</p>
+</li>
+</ol>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The tuple is <em>generated</em> using Julia&#8217;s <code>@generated</code> function macro.
+A <a href="https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions"><code>@generated</code> function</a> is compiled anew for each tuple of argument types it receives, allowing the function&#8217;s author to use type information — in particular <em>dependent</em> type information — to build the function&#8217;s body at compile time.</p>
+</div>
+</div>
+</div>
+<hr>
+<div class="paragraph">
+<p>First things first, we need to read our input in.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">using</span> <span class="tok-n">BenchmarkTools</span>
+
+<span class="tok-k">function</span> <span class="tok-n">get_ages_tup</span><span class="tok-p">(</span><span class="tok-o">::</span><span class="tok-kt">Type</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-o">&lt;:</span><span class="tok-kt">Integer</span><span class="tok-p">}</span>
+    <span class="tok-n">arr</span> <span class="tok-o">=</span> <span class="tok-n">fill</span><span class="tok-p">(</span><span class="tok-n">zero</span><span class="tok-p">(</span><span class="tok-n">T</span><span class="tok-p">),</span> <span class="tok-mi">9</span><span class="tok-p">)</span>
+
+    <span class="tok-n">contents</span> <span class="tok-o">=</span> <span class="tok-n">read</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;sample_input.txt&quot;</span><span class="tok-p">),</span> <span class="tok-n">String</span><span class="tok-p">)</span>
+    <span class="tok-n">nums_list</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">T</span><span class="tok-p">,</span> <span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-n">contents</span><span class="tok-p">,</span> <span class="tok-sc">&#39;,&#39;</span><span class="tok-p">))</span>
+
+    <span class="tok-k">for</span> <span class="tok-n">num</span> <span class="tok-o">∈</span> <span class="tok-n">nums_list</span>
+        <span class="tok-n">arr</span><span class="tok-p">[</span><span class="tok-n">num</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-o">+=</span> <span class="tok-mi">1</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-k">return</span> <span class="tok-kt">Tuple</span><span class="tok-p">(</span><span class="tok-n">arr</span><span class="tok-p">)</span><span class="tok-o">::</span><span class="tok-kt">NTuple</span><span class="tok-p">{</span><span class="tok-mi">9</span><span class="tok-p">,</span><span class="tok-n">T</span><span class="tok-p">}</span>
+<span class="tok-k">end</span>
+
+<span class="tok-n">get_pop</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">)</span>
+<span class="tok-n">ages</span> <span class="tok-o">=</span> <span class="tok-n">get_ages_tup</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then we create a <code>@generated</code> function that returns (the expression the evaluates to) the tuple containing the next generation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-nd">@generated</span> <span class="tok-k">function</span> <span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-o">::</span><span class="tok-kt">NTuple</span><span class="tok-p">{</span><span class="tok-n">N</span><span class="tok-p">})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">N</span><span class="tok-p">}</span>
+    <span class="tok-n">tuple_expr</span> <span class="tok-o">=</span> <span class="tok-kt">Expr</span><span class="tok-p">(</span><span class="tok-o">:</span><span class="tok-n">tuple</span><span class="tok-p">)</span>
+    <span class="tok-k">for</span> <span class="tok-n">i</span> <span class="tok-kp">in</span> <span class="tok-n">Iterators</span><span class="tok-o">.</span><span class="tok-n">flatten</span><span class="tok-p">((</span><span class="tok-mi">2</span><span class="tok-o">:</span><span class="tok-n">N</span><span class="tok-p">,</span> <span class="tok-mi">1</span><span class="tok-p">))</span>
+        <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">tuple_expr</span><span class="tok-o">.</span><span class="tok-n">args</span><span class="tok-p">,</span> <span class="tok-o">:</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-o">$</span><span class="tok-n">i</span><span class="tok-p">]))</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-c"># We need to update the former location of ages[8]</span>
+    <span class="tok-c"># 2, 3, 4, 5, 6, 7, 8 &lt;- 7 items</span>
+    <span class="tok-n">tuple_expr</span><span class="tok-o">.</span><span class="tok-n">args</span><span class="tok-p">[</span><span class="tok-mi">7</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-o">:</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">8</span><span class="tok-p">]</span> <span class="tok-o">+</span> <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">])</span>
+
+    <span class="tok-k">return</span> <span class="tok-n">tuple_expr</span>
+<span class="tok-k">end</span>
+
+<span class="tok-k">function</span> <span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-p">,</span> <span class="tok-n">ages</span><span class="tok-o">::</span><span class="tok-kt">NTuple</span><span class="tok-p">)</span>
+    <span class="tok-n">n</span> <span class="tok-o">=</span> <span class="tok-n">convert</span><span class="tok-p">(</span><span class="tok-kt">Unsigned</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">)</span>
+    <span class="tok-k">for</span> <span class="tok-n">_</span> <span class="tok-o">∈</span> <span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-n">n</span>
+        <span class="tok-n">ages</span> <span class="tok-o">=</span> <span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">)</span>
+    <span class="tok-k">end</span>
+    <span class="tok-k">return</span> <span class="tok-n">ages</span>
+<span class="tok-k">end</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And then our answers are just the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-nd">@show</span> <span class="tok-n">get_pop</span><span class="tok-p">(</span><span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-mi">80</span><span class="tok-p">,</span> <span class="tok-n">ages</span><span class="tok-p">))</span>
+<span class="tok-nd">@show</span> <span class="tok-n">get_pop</span><span class="tok-p">(</span><span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-mi">256</span><span class="tok-p">,</span> <span class="tok-n">ages</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It&#8217;s interesting to see what the <code>@generated</code> function actually gets turned into.
+We can see this using Julia&#8217;s <code>@code_lowered</code> macro.
+As we can see, it&#8217;s just creating a tuple with some simple indexing and one addition.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">julia</span><span class="tok-o">&gt;</span> <span class="tok-nd">@code_lowered</span> <span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">)</span>
+<span class="tok-n">CodeInfo</span><span class="tok-p">(</span>
+    <span class="tok-err">@</span> <span class="tok-o">/</span><span class="tok-n">Users</span><span class="tok-o">/</span><span class="tok-n">robert</span><span class="tok-o">/</span><span class="tok-n">Documents</span><span class="tok-o">/</span><span class="tok-n">CloudDocs</span><span class="tok-o">/</span><span class="tok-n">Documents</span><span class="tok-o">/</span><span class="tok-n">Coding</span><span class="tok-o">/</span><span class="tok-n">Projects</span><span class="tok-o">/</span><span class="tok-n">Advent</span> <span class="tok-n">of</span> <span class="tok-n">Code</span><span class="tok-o">/</span><span class="tok-mi">2021</span><span class="tok-o">/</span><span class="tok-n">src</span><span class="tok-o">/</span><span class="tok-n">day_06</span><span class="tok-o">/</span><span class="tok-n">soln</span><span class="tok-o">.</span><span class="tok-n">jl</span><span class="tok-o">:</span><span class="tok-mi">84</span> <span class="tok-n">within</span> <span class="tok-sb">`tick`</span>
+   <span class="tok-n">┌</span> <span class="tok-err">@</span> <span class="tok-o">/</span><span class="tok-n">Users</span><span class="tok-o">/</span><span class="tok-n">robert</span><span class="tok-o">/</span><span class="tok-n">Documents</span><span class="tok-o">/</span><span class="tok-n">CloudDocs</span><span class="tok-o">/</span><span class="tok-n">Documents</span><span class="tok-o">/</span><span class="tok-n">Coding</span><span class="tok-o">/</span><span class="tok-n">Projects</span><span class="tok-o">/</span><span class="tok-n">Advent</span> <span class="tok-n">of</span> <span class="tok-n">Code</span><span class="tok-o">/</span><span class="tok-mi">2021</span><span class="tok-o">/</span><span class="tok-n">src</span><span class="tok-o">/</span><span class="tok-n">day_06</span><span class="tok-o">/</span><span class="tok-n">soln</span><span class="tok-o">.</span><span class="tok-n">jl</span> <span class="tok-n">within</span> <span class="tok-sb">`macro expansion`</span>
+<span class="tok-mi">1</span> <span class="tok-n">─│</span> <span class="tok-o">%</span><span class="tok-mi">1</span>  <span class="tok-o">=</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">getindex</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">)</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">2</span>  <span class="tok-o">=</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">getindex</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">,</span> <span class="tok-mi">3</span><span class="tok-p">)</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">3</span>  <span class="tok-o">=</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">getindex</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">,</span> <span class="tok-mi">4</span><span class="tok-p">)</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">4</span>  <span class="tok-o">=</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">getindex</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">,</span> <span class="tok-mi">5</span><span class="tok-p">)</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">5</span>  <span class="tok-o">=</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">getindex</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">,</span> <span class="tok-mi">6</span><span class="tok-p">)</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">6</span>  <span class="tok-o">=</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">getindex</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">,</span> <span class="tok-mi">7</span><span class="tok-p">)</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">7</span>  <span class="tok-o">=</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">getindex</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">,</span> <span class="tok-mi">8</span><span class="tok-p">)</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">8</span>  <span class="tok-o">=</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">getindex</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">,</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">9</span>  <span class="tok-o">=</span> <span class="tok-o">%</span><span class="tok-mi">7</span> <span class="tok-o">+</span> <span class="tok-o">%</span><span class="tok-mi">8</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">10</span> <span class="tok-o">=</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">getindex</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">,</span> <span class="tok-mi">9</span><span class="tok-p">)</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">11</span> <span class="tok-o">=</span> <span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">getindex</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">,</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+<span class="tok-n">│</span>  <span class="tok-n">│</span> <span class="tok-o">%</span><span class="tok-mi">12</span> <span class="tok-o">=</span> <span class="tok-n">Core</span><span class="tok-o">.</span><span class="tok-n">tuple</span><span class="tok-p">(</span><span class="tok-o">%</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-mi">4</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-mi">5</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-mi">6</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-mi">9</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-mi">10</span><span class="tok-p">,</span> <span class="tok-o">%</span><span class="tok-mi">11</span><span class="tok-p">)</span>
+<span class="tok-n">└──│</span>       <span class="tok-k">return</span> <span class="tok-o">%</span><span class="tok-mi">12</span>
+   <span class="tok-n">└</span>
+<span class="tok-p">)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In other words, it&#8217;s equivalent to this (which has an identical <code>@code_lowered</code> representation):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-o">::</span><span class="tok-kt">NTuple</span><span class="tok-p">{</span><span class="tok-n">N</span><span class="tok-p">})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">N</span><span class="tok-p">}</span>
+   <span class="tok-k">return</span> <span class="tok-p">(</span>
+      <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">2</span><span class="tok-p">],</span>
+      <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">3</span><span class="tok-p">],</span>
+      <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">4</span><span class="tok-p">],</span>
+      <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">5</span><span class="tok-p">],</span>
+      <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">6</span><span class="tok-p">],</span>
+      <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">7</span><span class="tok-p">],</span>
+      <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">8</span><span class="tok-p">]</span> <span class="tok-o">+</span> <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">],</span>
+      <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">9</span><span class="tok-p">],</span>
+      <span class="tok-n">ages</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">],</span>
+    <span class="tok-p">)</span>
+<span class="tok-k">end</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_treachery_of_whales">7. The Treachery of Whales</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/7" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 7 problem description</a></p>
+</div>
+<div class="paragraph">
+<p>This problem asks us, in effect, to find the number that minimizes the sum of particular measures of error.
+(Since the number of points is fixed, we will use “sum” and “mean” of the errors interchangeably, as they merely differ by a constant factor.)
+A naive solution would iterate through all possibilities; the right way to do this is to use knowledge of statistics.
+In both parts, we aim to minimize an <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm" target="_blank" rel="noopener">\(l_p\)-norm</a>.</p>
+</div>
+<hr>
+<div class="paragraph">
+<div class="title">Setup</div>
+<p>Reading in the input:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">using</span> <span class="tok-n">Statistics</span>
+
+<span class="tok-n">positions</span> <span class="tok-o">=</span>
+    <span class="tok-k">let</span> <span class="tok-n">fn</span> <span class="tok-o">=</span> <span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">),</span>
+        <span class="tok-n">content</span> <span class="tok-o">=</span> <span class="tok-n">read</span><span class="tok-p">(</span><span class="tok-n">fn</span><span class="tok-p">,</span> <span class="tok-n">String</span><span class="tok-p">),</span>
+        <span class="tok-n">items</span> <span class="tok-o">=</span> <span class="tok-n">strip</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-n">content</span><span class="tok-p">,</span> <span class="tok-sc">&#39;,&#39;</span><span class="tok-p">))</span>
+
+        <span class="tok-n">parse</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">items</span><span class="tok-p">)</span>
+    <span class="tok-k">end</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 1</div>
+<p>Part 1 asks us, in effect, to find the number \(x\) that minimizes the mean absolute deviation, or the \(l_1\)-norm of the error.
+The number that does this is simply the median of the dataset.</p>
+</div>
+<div class="paragraph">
+<p>Proof:
+If you are not at the median and move towards it, you are moving toward at least as many data points as you are moving away from, which at best decreases the mean absolute deviation and at worst leaves it unchanged.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">md</span> <span class="tok-o">=</span> <span class="tok-n">round</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">median</span><span class="tok-p">(</span><span class="tok-n">positions</span><span class="tok-p">))</span>
+<span class="tok-nd">@show</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">abs</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">positions</span> <span class="tok-o">.-</span> <span class="tok-n">md</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 2</div>
+<p>In Part 2, the cost associated with a distance of \(n\) is \(\sum_{k=1}^n k = \frac{n(n+1)}{2}\).
+Since \(n\) is an integer, \(n^2\ge n\), and so \(n^2+n\) is “not relatively penalized more than” \(n^2\) would be, which means the mean of the \(\frac{n(n+1)}{2}\) will be minimized whenever the mean of \(n^2\) is minimized.
+(It would be a problem if \(n\) exceeded \(n^2\), as then it might dominate in the sum and we&#8217;d no longer be looking to minimize the mean of the \(n^2\).)
+This is the <a href="https://en.wikipedia.org/wiki/Mean_squared_error" target="_blank" rel="noopener">mean squared error</a> (MSE, or \(l_2\)-norm of the error), and it is a <a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_theorem" target="_blank" rel="noopener">well-known fact of statistics</a> that the MSE is minimized by the arithmetic mean of the data.</p>
+</div>
+<div class="paragraph">
+<p>The only catch is that the arithmetic mean need not be an integer, but the solution to the problem must be.
+Naturally we simply try the two integers on either side of the arithmetic mean (which will both be the arithmetic mean itself if it&#8217;s an integer) and pick whichever of the two leads to a smaller error.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">mn_lo</span><span class="tok-p">,</span> <span class="tok-n">mn_hi</span> <span class="tok-o">=</span> <span class="tok-n">round</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">mean</span><span class="tok-p">(</span><span class="tok-n">positions</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-nb">RoundDown</span><span class="tok-p">,</span> <span class="tok-nb">RoundUp</span><span class="tok-p">))</span>
+<span class="tok-n">cost</span><span class="tok-p">(</span><span class="tok-n">diff</span><span class="tok-p">)</span> <span class="tok-o">=</span>
+    <span class="tok-k">let</span> <span class="tok-n">diff</span> <span class="tok-o">=</span> <span class="tok-n">abs</span><span class="tok-p">(</span><span class="tok-n">diff</span><span class="tok-p">)</span>
+        <span class="tok-n">div</span><span class="tok-p">(</span><span class="tok-n">diff</span> <span class="tok-o">*</span> <span class="tok-p">(</span><span class="tok-n">diff</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">),</span> <span class="tok-mi">2</span><span class="tok-p">)</span>
+    <span class="tok-k">end</span>
+<span class="tok-nd">@show</span> <span class="tok-n">minimum</span><span class="tok-p">(</span><span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">cost</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">positions</span> <span class="tok-o">.-</span> <span class="tok-p">[</span><span class="tok-n">mn_lo</span> <span class="tok-n">mn_hi</span><span class="tok-p">]);</span> <span class="tok-n">dims</span><span class="tok-o">=</span><span class="tok-mi">1</span><span class="tok-p">))</span></code></pre>
 </div>
 </div>
 </div>

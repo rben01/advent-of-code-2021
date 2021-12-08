@@ -1,7 +1,10 @@
 = Hydrothermal Venture
 
-:day-num: 5
-{external-link-left-delim}link:{advent-day-url-stem}{day-num}[{external-link}]{external-link-right-delim}
+link_day:5[]
+
+This challenge requires iterating the integer points between two other points on the plane.
+
+***
 
 .{setup-title}
 First, we read the input into a list of lines of the form \(\((x_1, y_1), (x_2, y_2))\)
@@ -9,28 +12,19 @@ We also define the helpful `range_between(a, b)` function, which returns the (no
 The range is ascending if and only if `a < b`.
 (This is different from `a:b`, which is empty if `a > b`.)
 
-[source,julia,indent=0]
-----
-include::soln.jl[tag=setup,indent=3]
-----
+include_source::soln.jl[tag=setup]
 
 .{part-title} 1
 Part 1 asks us to count how many times each point belongs to some horizontal or vertical line.
 These are lines \(\((x_1, y_1), (x_2, y_2))\) for which \(x_1 = x_2\) or \(y_1 = y_2\).
 Such a line's points are the Cartesian “product” of the ranges `range_between(x1, x2)` and `range_between(y1, y2)` (“product” in quotes because one of those ranges has length 1, so it's not much of a product).
 
-[source,julia,indent=0]
-----
-include::soln.jl[tag=pt1,indent=3]
-----
+include_source::soln.jl[tag=pt1]
 
 .{part-title} 2
-Part 2 asks us to count how many times each point belongs to either a horizontal line, a vertical line, or a \(45^\circ\) diagonal line.
-We found the points on horizontal and vertical lines in {part-title} 1.
-Diagonal lines are lines \(\((x_1, y_1), (x_2, y_2))\) for which the rise and run have the same magnitude, i.e., \(|y_2-y_1| = |x_2-x_1|\).
-If the \(x\)-step is \(d_x\) and the \(y\)-step is \(d_y\), with \(d_x,d_y\in\{-1,1\}\), then a line's points are \((x_1,y_1), (x_1+d_x,y_1+d_y), (x_1+2d_x, y_1+2d_y), \ldots, (x_2,y_2)\). This is simply the `zip` of `range_between(x1, x2)` with `range_between(y1, y2)`.
+Part 2 asks us to count how many times each point belongs to either a horizontal line, a vertical line, or a \(45^\circ\) diagonal line (whose slope must be \(\pm1\)).
+We already found the points on horizontal and vertical lines in {part-title} 1.
+Diagonal lines are lines \(\((x_1, y_1), (x_2, y_2))\) whose points \( (x_k,y_k)\) satisfy \(|x_k-x_1|=|y_k-y_1|\) with \(x_k\) between \(x_1\) and \(x_2\) and \(y_k\) between \(y_k\) and \(y_2\) (inclusive).
+Since the \(k\)^th^ element of `range_between(a, b)` is \(a + k\), the points of the diagonal line in question are in fact simply the elements of `zip(range_between(x1, x2), range_between(y1, y2))`.
 
-[source,julia,indent=0]
-----
-include::soln.jl[tag=pt2,indent=3]
-----
+include_source::soln.jl[tag=pt2]

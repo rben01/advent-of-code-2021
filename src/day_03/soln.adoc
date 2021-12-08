@@ -1,7 +1,10 @@
 = Binary Diagnostic
 
-:day-num: 3
-{external-link-left-delim}link:{advent-day-url-stem}{day-num}[{external-link}]{external-link-right-delim}
+link_day:3[]
+
+This challenge mostly just requires filtering arrays and counting elements satisfying a condition.
+
+***
 
 .{setup-title}
 The first thing we do is read the input file into a `BitArray` named `elems` of size `(n_lines, line_length)`, where `elems[i, j] == (lines[i][j] == '1')`.
@@ -9,25 +12,19 @@ We also create a function that converts a binary vector, most significant digit 
 For example, given `10011`, we compute `[1, 0, 0, 1, 1] .* [16, 8, 4, 2, 1] = [16, 0, 0, 2, 1]`, whose sum is 19.
 (This is just how link:https://en.wikipedia.org/wiki/Positional_notation#Mathematics[positional notation^] works.)
 
-[source,julia,indent=0]
-----
-include::./soln.jl[tag=setup,indent=3]
-----
+include_source::soln.jl[tag=setup]
 
 .{part-title} 1
 
 We are asked to find two numbers, `gamma_rate` (\(\gamma\)) and `epsilon_rate` (\(\varepsilon\)).
-\(\gamma\) is the value of the binary number whose \(i\)^th^ digit is the most common digit in column \(i\) of the array of values.
+\(\gamma\) is the value of the binary number whose \(k\)^th^ digit is the most common digit in column \(k\) of the array of values.
 \(\varepsilon\) is computed using the same idea, but with the least common digit instead.
 (It is assumed that there will be no ties.)
 
 Since there are only two digits to choose from, the most common digit and the least common digit in each column will be opposites, and so \(\gamma + \varepsilon = \text{all 1s} = 2^{\text{\texttt{line\textunderscore{}width}}}-1\).
 In other words we don't need to compute \(\varepsilon\) “the long way”; once we have \(\gamma\), we immediately have \(\varepsilon\).
 
-[source,julia,indent=0]
-----
-include::./soln.jl[tag=pt1,indent=3]
-----
+include_source::soln.jl[tag=pt1]
 
 .{part-title} 2
 
@@ -38,11 +35,9 @@ The procedure to find the `oxy_rate` is as follows: +
 . With \(i\) ranging from the leftmost column index in `elems` to the rightmost column index (most significant digit to least):
 .. Successively narrow down the list of candidates by keeping only those remaining candidates whose \(i\)^th^ digit is the most common \(i\)^th^ digit of the remaining candidates, with a tie between 0 and 1 going to 1.
 *** For instance, when \(i=5\), then keep only the remaining candidates whose 5^th^ digit is the most common 5^th^ digit (0 or 1, ties going to 1) of all remaining candidates at that stage.
-.. Stop when only one candidate remains. (This is guaranteed to happen as long as the rows are all distinct.)
+.. Stop when only one candidate remains. (This is guaranteed to happen a
+Since the \(i\)^th^ element of `range_between(a, b)` is \(a + i\)s long as the rows are all distinct.)
 
 The procedure for `co2_rate` is the same, except that the list of candidates is filtered down according to the _least_ common digit in each position, with ties going to 0.
 
-[source,julia,indent=0]
-----
-include::./soln.jl[tag=pt2,indent=3]
-----
+include_source::soln.jl[tag=pt2]

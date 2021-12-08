@@ -1,21 +1,15 @@
 = Dive!
 
-:day-num: 2
-{external-link-left-delim}link:{advent-day-url-stem}{day-num}[{external-link}]{external-link-right-delim}
+link_day:2[]
 
-.{soln-description-title}
 There isn't really anything too deep to go into here.
 You just have to update the current state correctly.
 Easy!
 
+***
+
 .{part-title} 1
-[source,julia,indent=0]
-----
-include::./soln.jl[tag=pt1,indent=3]
-----
+include_source::soln.jl[tag=pt1]
 
 .{part-title} 2
-[source,julia,indent=0]
-----
-include::./soln.jl[tag=pt2,indent=3]
-----
+include_source::soln.jl[tag=pt2]

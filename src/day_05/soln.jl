@@ -1,9 +1,12 @@
+# %%
+
 # tag::setup[]
 using DataStructures
 import Base.Iterators: flatten
 
 Point{T} = NTuple{2,T}
 EndpointPair{T} = NTuple{2,Point{T}}
+LinesVec{T} = Vector{EndpointPair{T}}
 
 line_endpoints = [
     begin
@@ -20,10 +23,16 @@ function range_between(a, b)
     return a:step:b
 end
 
+function get_ans(point_counts)
+    return count(p -> last(p) >= 2, collect(point_counts))
+end
+
 # end::setup[]
 
+# %%
+
 # tag::pt1[]
-function get_hv_point_counts(endpoints::Vector{EndpointPair{T}}) where {T}
+function get_hv_point_counts(endpoints::LinesVec{T}) where {T}
     acc = Accumulator{Point{T},Int}()
     for ((x1, y1), (x2, y2)) ∈ endpoints
         x1 == x2 || y1 == y2 || continue
@@ -35,12 +44,11 @@ function get_hv_point_counts(endpoints::Vector{EndpointPair{T}}) where {T}
 end
 
 hv_point_counts = get_hv_point_counts(line_endpoints)
-pt1_ans = count(p -> last(p) >= 2, collect(hv_point_counts))
-@show pt1_ans
+@show get_ans(hv_point_counts)
 # end::pt1[]
 
 # tag::pt2[]
-function get_diag_point_counts(endpoints::Vector{EndpointPair{T}}) where {T}
+function get_diag_point_counts(endpoints::LinesVec{T}) where {T}
     acc = Accumulator{Point{T},Int}()
     for ((x1, y1), (x2, y2)) ∈ endpoints
         abs(x2 - x1) == abs(y2 - y1) || continue
@@ -51,8 +59,7 @@ function get_diag_point_counts(endpoints::Vector{EndpointPair{T}}) where {T}
     return acc
 end
 
-diag_point_counts = get_diag_point_counts(line_endpoints)
-all_point_counts = merge(diag_point_counts, hv_point_counts)
-pt2_ans = count(p -> last(p) >= 2, collect(all_point_counts))
-@show pt2_ans
+all_point_counts = get_diag_point_counts(line_endpoints)
+merge!(all_point_counts, hv_point_counts)
+@show get_ans(all_point_counts)
 # end::pt2[]

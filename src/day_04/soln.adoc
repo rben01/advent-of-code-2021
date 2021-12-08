@@ -1,48 +1,39 @@
 = Giant Squid
 
-:day-num: 4
-{external-link-left-delim}link:{advent-day-url-stem}{day-num}[{external-link}]{external-link-right-delim}
+link_day:4[]
 
-.{setup-title}
 The game is represented as a list of boards and a list of drawn numbers.
 Each board has:
 
 . A dictionary `grid` that maps undrawn numbers on the board to their Cartesian coordinates (a pair `(row, col)`) on the board.
 When a number is drawn, its Cartesian coordinates are used to update `progress` (below), and then the number is removed from the dictionary.
 +
-[sidebar]
-====
+****
 The only reason drawn numbers are removed from a board's dictionary is that Advent of Code asks for the sum of the board's undrawn numbers to compute the answer, so we need to keep track of which numbers on a given board haven't been drawn yet.
 Otherwise, we'd have had no reason to mutate the dictionary at all.
-====
+****
 
 . `progress`, which stores for each row and column the count of numbers in that row/column have not yet been drawn.
 If one of those counts hit zero, then every number in that row/column has been drawn, and so the board has a "Bingo" (i.e., has won).
 +
 The row and column indices have the same meaning as the Cartesian coordinates in the dictionary described above: if number 25 is drawn, and 25's position on a particular board is `(2, 3)`, then `progress.rows[2]` and `progress.cols[3]` each get decremented.
 
+***
+
+.{setup-title}
 Reading the input text into a game (numbers and boards) is in `read_input_into_game`, whose (not particularly interesting) implementation should serve as its docs.
 `get_answer_from_final_game_state` is just used to prove to Advent of Code that we actually got the solution.
 
 
-[source,julia,indent=0]
-----
-include::soln.jl[tag=setup,indent=3]
-----
+include_source::soln.jl[tag=setup]
 
 .{part-title} 1
 We simply draw numbers until a board has won, then get the answer.
 
-[source,julia,indent=0]
-----
-include::soln.jl[tag=pt1,indent=3]
-----
+include_source::soln.jl[tag=pt1]
 
 .{part-title} 2
 This time, we keep track of all of the boards that haven't won yet.
 When the last un-won boards wins, we use it to compute the answer.
 
-[source,julia,indent=0]
-----
-include::soln.jl[tag=pt2,indent=3]
-----
+include_source::soln.jl[tag=pt2]

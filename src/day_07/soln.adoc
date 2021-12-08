@@ -1,0 +1,35 @@
+= The Treachery of Whales
+
+link_day:7[]
+
+This problem asks us, in effect, to find the number that minimizes the sum of particular measures of error.
+(Since the number of points is fixed, we will use “sum” and “mean” of the errors interchangeably, as they merely differ by a constant factor.)
+A naive solution would iterate through all possibilities; the right way to do this is to use knowledge of statistics.
+In both parts, we aim to minimize an https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm[\(l_p\)-norm^].
+
+***
+
+.{setup-title}
+Reading in the input:
+
+include_source::soln.jl[tag=setup]
+
+.{part-title} 1
+{part-title} 1 asks us, in effect, to find the number \(x\) that minimizes the mean absolute deviation, or the \(l_1\)-norm of the error.
+The number that does this is simply the median of the dataset.
+
+Proof:
+If you are not at the median and move towards it, you are moving toward at least as many data points as you are moving away from, which at best decreases the mean absolute deviation and at worst leaves it unchanged.
+
+include_source::soln.jl[tag=pt1]
+
+.{part-title} 2
+In {part-title} 2, the cost associated with a distance of \(n\) is \(\sum_{k=1}^n k = \frac{n(n+1)}{2}\).
+Since \(n\) is an integer, \(n^2\ge n\), and so \(n^2+n\) is “not relatively penalized more than” \(n^2\) would be, which means the mean of the \(\frac{n(n+1)}{2}\) will be minimized whenever the mean of \(n^2\) is minimized.
+(It would be a problem if \(n\) exceeded \(n^2\), as then it might dominate in the sum and we'd no longer be looking to minimize the mean of the \(n^2\).)
+This is the https://en.wikipedia.org/wiki/Mean_squared_error[mean squared error^] (MSE, or \(l_2\)-norm of the error), and it is a https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_theorem[well-known fact of statistics^] that the MSE is minimized by the arithmetic mean of the data.
+
+The only catch is that the arithmetic mean need not be an integer, but the solution to the problem must be.
+Naturally we simply try the two integers on either side of the arithmetic mean (which will both be the arithmetic mean itself if it's an integer) and pick whichever of the two leads to a smaller error.
+
+include_source::soln.jl[tag=pt2]

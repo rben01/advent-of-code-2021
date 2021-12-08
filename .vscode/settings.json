@@ -1,5 +1,6 @@
 {
 	"code-runner.executorMap": {
-		"asciidoc": "asciidoctor --base-dir . --load-path docs -r syntax-highlighter ./Docs/advent_of_code_2021.adoc # ",
+		"asciidoc": "asciidoctor --verbose --warnings --base-dir . --load-path docs -r adoc_ruby/syntax-highlighter -r adoc_ruby/aoc-day-link-inserter -r adoc_ruby/source_includer.rb ./Docs/advent_of_code_2021.adoc # ",
 	},
+	"liveServer.settings.wait": 1000,
 }
