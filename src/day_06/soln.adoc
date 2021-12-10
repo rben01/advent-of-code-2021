@@ -8,11 +8,6 @@ At a low level:
 . This map's keys are actually the integers from 0 to 8 (inclusive), so it can just be stored in a list-like data structure, such as a tuple.
 . The “controlled fashion” is merely shifting most values over, while occasionally adding to said values.
 
-****
-The tuple is _generated_ using Julia's `@generated` function macro.
-A https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions[`@generated` function] is compiled anew for each tuple of argument types it receives, allowing the function's author to use type information — in particular _dependent_ type information — to build the function's body at compile time.
-****
-
 ***
 
 First things first, we need to read our input in.
@@ -20,6 +15,11 @@ First things first, we need to read our input in.
 include_source::soln.jl[tag=common]
 
 Then we create a `@generated` function that returns (the expression the evaluates to) the tuple containing the next generation.
+
+****
+A https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions[`@generated` function] is compiled anew for each tuple of argument types it receives, allowing the function's author to use type information — in particular _dependent_ type information — to build the function's body at compile time.
+****
+
 
 include_source::soln.jl[tag=tuple_soln]
 

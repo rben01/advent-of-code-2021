@@ -48,6 +48,8 @@
 <li><a href="#_hydrothermal_venture">5. Hydrothermal Venture</a></li>
 <li><a href="#_lanternfish">6. Lanternfish</a></li>
 <li><a href="#_the_treachery_of_whales">7. The Treachery of Whales</a></li>
+<li><a href="#_seven_segment_search">8. Seven Segment Search</a></li>
+<li><a href="#_smoke_basin">9. Smoke Basin</a></li>
 </ul>
 </div>
 </div>
@@ -57,7 +59,8 @@
 <div class="paragraph lead">
 <p>This doc has my solutions for the <a href="https://adventofcode.com/2021" target="_blank" rel="noopener">2021 Advent of Code</a>.
 It assumes some familiarity with <a href="https://julialang.org/" target="_blank" rel="noopener">the Julia language</a>.
-(For the most part, Julia looks kind of like a fusion of Python and Numpy, except it uses 1-based indexing and static functions instead of methods.)</p>
+(For the most part, Julia looks kind of like a fusion of Python and Numpy, except it uses 1-based indexing and static functions instead of methods.
+Under the hood, they could not be more different, though.)</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -116,14 +119,14 @@ If the current depth is greater, then so is the current running sum.</p>
 
 <span class="tok-k">function</span> <span class="tok-n">get_n_increasing_running_sum_of_depths</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-p">)</span>
     <span class="tok-n">depth_buf</span> <span class="tok-o">=</span> <span class="tok-n">CircularBuffer</span><span class="tok-p">{</span><span class="tok-kt">Int</span><span class="tok-p">}(</span><span class="tok-n">n</span><span class="tok-p">)</span>
-    <span class="tok-n">depths</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">))</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-o">∈</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">)))</span>
+    <span class="tok-n">depths</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">))</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">)))</span>
 
     <span class="tok-n">append!</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">,</span> <span class="tok-n">take</span><span class="tok-p">(</span><span class="tok-n">depths</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">))</span>
     <span class="tok-nd">@assert</span> <span class="tok-n">isfull</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">)</span>
 
     <span class="tok-n">n_increasing</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
 
-    <span class="tok-k">for</span> <span class="tok-n">new_depth</span> <span class="tok-o">∈</span> <span class="tok-n">depths</span>
+    <span class="tok-k">for</span> <span class="tok-n">new_depth</span> <span class="tok-kp">in</span> <span class="tok-n">depths</span>
         <span class="tok-n">old_depth</span> <span class="tok-o">=</span> <span class="tok-n">depth_buf</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-p">]</span>
 
         <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">depth_buf</span><span class="tok-p">,</span> <span class="tok-n">new_depth</span><span class="tok-p">)</span>
@@ -163,7 +166,7 @@ Easy!</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">horizontal</span> <span class="tok-o">=</span> <span class="tok-n">vertical</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
-<span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-o">∈</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
+<span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
     <span class="tok-n">dir</span><span class="tok-p">,</span> <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">))</span>
     <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">dist</span><span class="tok-p">)</span>
 
@@ -185,7 +188,7 @@ Easy!</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">horizontal</span> <span class="tok-o">=</span> <span class="tok-n">vertical</span> <span class="tok-o">=</span> <span class="tok-n">aim</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
-<span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-o">∈</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
+<span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
     <span class="tok-n">dir</span><span class="tok-p">,</span> <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">))</span>
     <span class="tok-n">dist</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">dist</span><span class="tok-p">)</span>
 
@@ -232,7 +235,7 @@ For example, given <code>10011</code>, we compute <code>[1, 0, 0, 1, 1] .* [16, 
             <span class="tok-n">bit_vec</span> <span class="tok-o">=</span> <span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">))</span> <span class="tok-o">.==</span> <span class="tok-sc">&#39;1&#39;</span>
             <span class="tok-n">bit_row</span> <span class="tok-o">=</span> <span class="tok-n">reshape</span><span class="tok-p">(</span><span class="tok-n">bit_vec</span><span class="tok-p">,</span> <span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-o">:</span><span class="tok-p">))</span>
             <span class="tok-n">bit_row</span>
-        <span class="tok-k">end</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-o">∈</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
+        <span class="tok-k">end</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
     <span class="tok-p">)</span><span class="tok-o">...</span><span class="tok-p">,</span>
 <span class="tok-p">)</span>
 
@@ -279,22 +282,22 @@ The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
 <p>Initialize the list of candidate values to the full list of rows in <code>elems</code> as defined above.</p>
 </li>
 <li>
-<p>With \(i\) ranging from the leftmost column index in <code>elems</code> to the rightmost column index (most significant digit to least):</p>
+<p>With \(k\) ranging from the leftmost column index in <code>elems</code> to the rightmost column index (most significant digit to least):</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Successively narrow down the list of candidates by keeping only those remaining candidates whose \(i\)<sup>th</sup> digit is the most common \(i\)<sup>th</sup> digit of the remaining candidates, with a tie between 0 and 1 going to 1.</p>
+<p>Successively narrow down the list of candidates by keeping only those remaining candidates whose \(k\)<sup>th</sup> digit is the most common \(k\)<sup>th</sup> digit of the remaining candidates, with a tie between 0 and 1 going to 1.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>For instance, when \(i=5\), then keep only the remaining candidates whose 5<sup>th</sup> digit is the most common 5<sup>th</sup> digit (0 or 1, ties going to 1) of all remaining candidates at that stage.</p>
+<p>For instance, when \(k=5\), then keep only the remaining candidates whose 5<sup>th</sup> digit is the most common 5<sup>th</sup> digit (0 or 1, ties going to 1) of all remaining candidates at that stage.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Stop when only one candidate remains. (This is guaranteed to happen a
-Since the \(i\)<sup>th</sup> element of <code>range_between(a, b)</code> is \(a + i\)s long as the rows are all distinct.)</p>
+<p>Stop when only one candidate remains.
+(This is guaranteed to happen as long as the rows are all distinct.)</p>
 </li>
 </ol>
 </div>
@@ -308,7 +311,7 @@ Since the \(i\)<sup>th</sup> element of <code>range_between(a, b)</code> is \(a 
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">value_of_line_chosen_by_criterion</span><span class="tok-p">(</span><span class="tok-n">comparison_predicate</span><span class="tok-p">)</span>
     <span class="tok-n">candidates</span> <span class="tok-o">=</span> <span class="tok-n">fill</span><span class="tok-p">(</span><span class="tok-kc">true</span><span class="tok-p">,</span> <span class="tok-n">n_lines</span><span class="tok-p">)</span>
-    <span class="tok-k">for</span> <span class="tok-n">i</span> <span class="tok-o">∈</span> <span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-n">line_length</span>
+    <span class="tok-k">for</span> <span class="tok-n">i</span> <span class="tok-kp">in</span> <span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-n">line_length</span>
         <span class="tok-n">n_candidates_remaining</span> <span class="tok-o">=</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">candidates</span><span class="tok-p">)</span>
         <span class="tok-k">if</span> <span class="tok-n">n_candidates_remaining</span> <span class="tok-o">==</span> <span class="tok-mi">1</span>
             <span class="tok-k">break</span>
@@ -390,7 +393,7 @@ If one of those counts hit zero, then every number in that row/column has been d
 <span class="tok-k">end</span>
 
 <span class="tok-k">function</span> <span class="tok-n">has_won</span><span class="tok-p">(</span><span class="tok-n">progress</span><span class="tok-o">::</span><span class="tok-n">BoardProgress</span><span class="tok-p">)</span>
-    <span class="tok-k">return</span> <span class="tok-n">any</span><span class="tok-p">(</span><span class="tok-n">count</span> <span class="tok-o">==</span> <span class="tok-mi">0</span> <span class="tok-k">for</span> <span class="tok-n">count</span> <span class="tok-o">∈</span> <span class="tok-n">flatten</span><span class="tok-p">((</span><span class="tok-n">progress</span><span class="tok-o">.</span><span class="tok-n">rows</span><span class="tok-p">,</span> <span class="tok-n">progress</span><span class="tok-o">.</span><span class="tok-n">cols</span><span class="tok-p">)))</span>
+    <span class="tok-k">return</span> <span class="tok-n">any</span><span class="tok-p">(</span><span class="tok-n">count</span> <span class="tok-o">==</span> <span class="tok-mi">0</span> <span class="tok-k">for</span> <span class="tok-n">count</span> <span class="tok-kp">in</span> <span class="tok-n">flatten</span><span class="tok-p">((</span><span class="tok-n">progress</span><span class="tok-o">.</span><span class="tok-n">rows</span><span class="tok-p">,</span> <span class="tok-n">progress</span><span class="tok-o">.</span><span class="tok-n">cols</span><span class="tok-p">)))</span>
 <span class="tok-k">end</span>
 
 <span class="tok-s">&quot;&quot;&quot;</span>
@@ -408,7 +411,7 @@ If one of those counts hit zero, then every number in that row/column has been d
         <span class="tok-n">size</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">,</span> <span class="tok-mi">1</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-n">size</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">)</span> <span class="tok-o">||</span> <span class="tok-n">error</span><span class="tok-p">(</span><span class="tok-s">&quot;grid must be a square; got </span><span class="tok-si">$</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">)</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
 
         <span class="tok-n">grid_size</span> <span class="tok-o">=</span> <span class="tok-n">size</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">,</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
-        <span class="tok-n">grid</span> <span class="tok-o">=</span> <span class="tok-kt">Dict</span><span class="tok-p">((</span><span class="tok-n">reverse</span><span class="tok-p">(</span><span class="tok-n">p</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-n">p</span> <span class="tok-o">∈</span> <span class="tok-n">pairs</span><span class="tok-p">(</span><span class="tok-n">IndexCartesian</span><span class="tok-p">(),</span> <span class="tok-n">mat</span><span class="tok-p">)))</span>
+        <span class="tok-n">grid</span> <span class="tok-o">=</span> <span class="tok-kt">Dict</span><span class="tok-p">((</span><span class="tok-n">reverse</span><span class="tok-p">(</span><span class="tok-n">p</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-n">p</span> <span class="tok-kp">in</span> <span class="tok-n">pairs</span><span class="tok-p">(</span><span class="tok-n">IndexCartesian</span><span class="tok-p">(),</span> <span class="tok-n">mat</span><span class="tok-p">)))</span>
         <span class="tok-k">return</span> <span class="tok-n">new</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}(</span><span class="tok-n">grid</span><span class="tok-p">,</span> <span class="tok-n">BoardProgress</span><span class="tok-p">(</span><span class="tok-n">grid_size</span><span class="tok-p">))</span>
     <span class="tok-k">end</span>
 <span class="tok-k">end</span>
@@ -438,14 +441,14 @@ If one of those counts hit zero, then every number in that row/column has been d
 <span class="tok-k">function</span> <span class="tok-n">read_input_into_game</span><span class="tok-p">(</span><span class="tok-o">::</span><span class="tok-kt">Type</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">},</span> <span class="tok-n">in_file</span><span class="tok-o">::</span><span class="tok-kt">AbstractString</span><span class="tok-p">)</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-o">&lt;:</span><span class="tok-kt">Integer</span><span class="tok-p">}</span>
     <span class="tok-c"># Add an empty last element to the iterator so we don&#39;t have to special-case collecting</span>
     <span class="tok-c"># the rows of the last board in the event that the file doesn&#39;t already end in a newline</span>
-    <span class="tok-n">lines</span> <span class="tok-o">=</span> <span class="tok-n">Stateful</span><span class="tok-p">(</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-o">∈</span> <span class="tok-n">flatten</span><span class="tok-p">((</span><span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">in_file</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-s">&quot;&quot;</span><span class="tok-p">,))))</span>
+    <span class="tok-n">lines</span> <span class="tok-o">=</span> <span class="tok-n">Stateful</span><span class="tok-p">(</span><span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">flatten</span><span class="tok-p">((</span><span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">in_file</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-s">&quot;&quot;</span><span class="tok-p">,))))</span>
 
     <span class="tok-n">numbers_drawn</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">T</span><span class="tok-p">,</span> <span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-n">popfirst!</span><span class="tok-p">(</span><span class="tok-n">lines</span><span class="tok-p">),</span> <span class="tok-sc">&#39;,&#39;</span><span class="tok-p">))</span>
 
     <span class="tok-n">boards</span> <span class="tok-o">=</span> <span class="tok-n">Board</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}[]</span>
     <span class="tok-n">this_mat_rows</span> <span class="tok-o">=</span> <span class="tok-kt">Matrix</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}[]</span>
 
-    <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-o">∈</span> <span class="tok-n">lines</span>
+    <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">lines</span>
         <span class="tok-k">if</span> <span class="tok-n">isempty</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span>
             <span class="tok-k">if</span> <span class="tok-o">!</span><span class="tok-n">isempty</span><span class="tok-p">(</span><span class="tok-n">this_mat_rows</span><span class="tok-p">)</span>
                 <span class="tok-k">let</span> <span class="tok-n">mat</span> <span class="tok-o">=</span> <span class="tok-n">vcat</span><span class="tok-p">(</span><span class="tok-n">this_mat_rows</span><span class="tok-o">...</span><span class="tok-p">),</span> <span class="tok-n">board</span> <span class="tok-o">=</span> <span class="tok-n">Board</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">)</span>
@@ -477,7 +480,7 @@ If one of those counts hit zero, then every number in that row/column has been d
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">play_until_first_winner</span><span class="tok-p">(</span><span class="tok-n">game</span><span class="tok-o">::</span><span class="tok-n">Game</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span>
-    <span class="tok-k">for</span> <span class="tok-n">number</span> <span class="tok-o">∈</span> <span class="tok-n">game</span><span class="tok-o">.</span><span class="tok-n">numbers</span><span class="tok-p">,</span> <span class="tok-n">board</span> <span class="tok-o">∈</span> <span class="tok-n">game</span><span class="tok-o">.</span><span class="tok-n">boards</span>
+    <span class="tok-k">for</span> <span class="tok-n">number</span> <span class="tok-kp">in</span> <span class="tok-n">game</span><span class="tok-o">.</span><span class="tok-n">numbers</span><span class="tok-p">,</span> <span class="tok-n">board</span> <span class="tok-kp">in</span> <span class="tok-n">game</span><span class="tok-o">.</span><span class="tok-n">boards</span>
         <span class="tok-n">apply_number</span><span class="tok-p">(</span><span class="tok-n">board</span><span class="tok-p">,</span> <span class="tok-n">number</span><span class="tok-p">)</span>
         <span class="tok-k">if</span> <span class="tok-n">has_won</span><span class="tok-p">(</span><span class="tok-n">board</span><span class="tok-p">)</span>
             <span class="tok-k">return</span> <span class="tok-n">get_answer_from_final_game_state</span><span class="tok-p">(</span><span class="tok-n">number</span><span class="tok-p">,</span> <span class="tok-n">board</span><span class="tok-p">)</span>
@@ -501,7 +504,7 @@ When the last un-won boards wins, we use it to compute the answer.</p>
     <span class="tok-c"># The boards that haven&#39;t won yet</span>
     <span class="tok-n">ongoing_boards</span> <span class="tok-o">=</span> <span class="tok-kt">Set</span><span class="tok-p">{</span><span class="tok-kt">Int</span><span class="tok-p">}(</span><span class="tok-n">keys</span><span class="tok-p">(</span><span class="tok-n">game</span><span class="tok-o">.</span><span class="tok-n">boards</span><span class="tok-p">))</span>
 
-    <span class="tok-k">for</span> <span class="tok-n">number</span> <span class="tok-o">∈</span> <span class="tok-n">game</span><span class="tok-o">.</span><span class="tok-n">numbers</span><span class="tok-p">,</span> <span class="tok-p">(</span><span class="tok-n">board_index</span><span class="tok-p">,</span> <span class="tok-n">board</span><span class="tok-p">)</span> <span class="tok-o">∈</span> <span class="tok-n">pairs</span><span class="tok-p">(</span><span class="tok-n">game</span><span class="tok-o">.</span><span class="tok-n">boards</span><span class="tok-p">)</span>
+    <span class="tok-k">for</span> <span class="tok-n">number</span> <span class="tok-kp">in</span> <span class="tok-n">game</span><span class="tok-o">.</span><span class="tok-n">numbers</span><span class="tok-p">,</span> <span class="tok-p">(</span><span class="tok-n">board_index</span><span class="tok-p">,</span> <span class="tok-n">board</span><span class="tok-p">)</span> <span class="tok-kp">in</span> <span class="tok-n">pairs</span><span class="tok-p">(</span><span class="tok-n">game</span><span class="tok-o">.</span><span class="tok-n">boards</span><span class="tok-p">)</span>
         <span class="tok-k">let</span> <span class="tok-n">already_won</span> <span class="tok-o">=</span> <span class="tok-n">board_index</span> <span class="tok-o">∉</span> <span class="tok-n">ongoing_boards</span>
             <span class="tok-n">already_won</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-k">continue</span>
         <span class="tok-k">end</span>
@@ -557,7 +560,7 @@ The range is ascending if and only if <code>a &lt; b</code>.
         <span class="tok-n">m</span> <span class="tok-o">===</span> <span class="tok-nb">nothing</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">error</span><span class="tok-p">(</span><span class="tok-s">&quot;could not parse input: </span><span class="tok-si">$</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span><span class="tok-s">&quot;</span><span class="tok-p">)</span>
         <span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">,</span> <span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">m</span><span class="tok-o">.</span><span class="tok-n">captures</span><span class="tok-p">)</span>
         <span class="tok-p">((</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span><span class="tok-o">::</span><span class="tok-n">EndpointPair</span><span class="tok-p">{</span><span class="tok-kt">Int</span><span class="tok-p">}</span>
-    <span class="tok-k">end</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-o">∈</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
+    <span class="tok-k">end</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
 <span class="tok-p">]</span>
 
 <span class="tok-k">function</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">b</span><span class="tok-p">)</span>
@@ -580,9 +583,9 @@ Such a line&#8217;s points are the Cartesian “product” of the ranges <code>r
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">get_hv_point_counts</span><span class="tok-p">(</span><span class="tok-n">endpoints</span><span class="tok-o">::</span><span class="tok-n">LinesVec</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span>
     <span class="tok-n">acc</span> <span class="tok-o">=</span> <span class="tok-n">Accumulator</span><span class="tok-p">{</span><span class="tok-n">Point</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">},</span><span class="tok-kt">Int</span><span class="tok-p">}()</span>
-    <span class="tok-k">for</span> <span class="tok-p">((</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span> <span class="tok-o">∈</span> <span class="tok-n">endpoints</span>
+    <span class="tok-k">for</span> <span class="tok-p">((</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span> <span class="tok-kp">in</span> <span class="tok-n">endpoints</span>
         <span class="tok-n">x1</span> <span class="tok-o">==</span> <span class="tok-n">x2</span> <span class="tok-o">||</span> <span class="tok-n">y1</span> <span class="tok-o">==</span> <span class="tok-n">y2</span> <span class="tok-o">||</span> <span class="tok-k">continue</span>
-        <span class="tok-k">for</span> <span class="tok-n">x</span> <span class="tok-o">∈</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">x2</span><span class="tok-p">),</span> <span class="tok-n">y</span> <span class="tok-o">∈</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">y1</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">)</span>
+        <span class="tok-k">for</span> <span class="tok-n">x</span> <span class="tok-kp">in</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">x2</span><span class="tok-p">),</span> <span class="tok-n">y</span> <span class="tok-kp">in</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">y1</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">)</span>
             <span class="tok-n">inc!</span><span class="tok-p">(</span><span class="tok-n">acc</span><span class="tok-p">,</span> <span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-p">))</span>
         <span class="tok-k">end</span>
     <span class="tok-k">end</span>
@@ -604,7 +607,7 @@ Since the \(k\)<sup>th</sup> element of <code>range_between(a, b)</code> is \(a 
 <div class="content">
 <pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">get_diag_point_counts</span><span class="tok-p">(</span><span class="tok-n">endpoints</span><span class="tok-o">::</span><span class="tok-n">LinesVec</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span>
     <span class="tok-n">acc</span> <span class="tok-o">=</span> <span class="tok-n">Accumulator</span><span class="tok-p">{</span><span class="tok-n">Point</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">},</span><span class="tok-kt">Int</span><span class="tok-p">}()</span>
-    <span class="tok-k">for</span> <span class="tok-p">((</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span> <span class="tok-o">∈</span> <span class="tok-n">endpoints</span>
+    <span class="tok-k">for</span> <span class="tok-p">((</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">y1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">x2</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span> <span class="tok-kp">in</span> <span class="tok-n">endpoints</span>
         <span class="tok-n">abs</span><span class="tok-p">(</span><span class="tok-n">x2</span> <span class="tok-o">-</span> <span class="tok-n">x1</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-n">abs</span><span class="tok-p">(</span><span class="tok-n">y2</span> <span class="tok-o">-</span> <span class="tok-n">y1</span><span class="tok-p">)</span> <span class="tok-o">||</span> <span class="tok-k">continue</span>
         <span class="tok-k">for</span> <span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-p">)</span> <span class="tok-kp">in</span> <span class="tok-n">zip</span><span class="tok-p">(</span><span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">x1</span><span class="tok-p">,</span> <span class="tok-n">x2</span><span class="tok-p">),</span> <span class="tok-n">range_between</span><span class="tok-p">(</span><span class="tok-n">y1</span><span class="tok-p">,</span> <span class="tok-n">y2</span><span class="tok-p">))</span>
             <span class="tok-n">inc!</span><span class="tok-p">(</span><span class="tok-n">acc</span><span class="tok-p">,</span> <span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-p">))</span>
@@ -640,14 +643,6 @@ At a low level:</p>
 </li>
 </ol>
 </div>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph">
-<p>The tuple is <em>generated</em> using Julia&#8217;s <code>@generated</code> function macro.
-A <a href="https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions"><code>@generated</code> function</a> is compiled anew for each tuple of argument types it receives, allowing the function&#8217;s author to use type information — in particular <em>dependent</em> type information — to build the function&#8217;s body at compile time.</p>
-</div>
-</div>
-</div>
 <hr>
 <div class="paragraph">
 <p>First things first, we need to read our input in.</p>
@@ -662,7 +657,7 @@ A <a href="https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-fu
     <span class="tok-n">contents</span> <span class="tok-o">=</span> <span class="tok-n">read</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;sample_input.txt&quot;</span><span class="tok-p">),</span> <span class="tok-n">String</span><span class="tok-p">)</span>
     <span class="tok-n">nums_list</span> <span class="tok-o">=</span> <span class="tok-n">parse</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">T</span><span class="tok-p">,</span> <span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-n">contents</span><span class="tok-p">,</span> <span class="tok-sc">&#39;,&#39;</span><span class="tok-p">))</span>
 
-    <span class="tok-k">for</span> <span class="tok-n">num</span> <span class="tok-o">∈</span> <span class="tok-n">nums_list</span>
+    <span class="tok-k">for</span> <span class="tok-n">num</span> <span class="tok-kp">in</span> <span class="tok-n">nums_list</span>
         <span class="tok-n">arr</span><span class="tok-p">[</span><span class="tok-n">num</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">]</span> <span class="tok-o">+=</span> <span class="tok-mi">1</span>
     <span class="tok-k">end</span>
 
@@ -675,6 +670,13 @@ A <a href="https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-fu
 </div>
 <div class="paragraph">
 <p>Then we create a <code>@generated</code> function that returns (the expression the evaluates to) the tuple containing the next generation.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>A <a href="https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions"><code>@generated</code> function</a> is compiled anew for each tuple of argument types it receives, allowing the function&#8217;s author to use type information — in particular <em>dependent</em> type information — to build the function&#8217;s body at compile time.</p>
+</div>
+</div>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -693,7 +695,7 @@ A <a href="https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-fu
 
 <span class="tok-k">function</span> <span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-p">,</span> <span class="tok-n">ages</span><span class="tok-o">::</span><span class="tok-kt">NTuple</span><span class="tok-p">)</span>
     <span class="tok-n">n</span> <span class="tok-o">=</span> <span class="tok-n">convert</span><span class="tok-p">(</span><span class="tok-kt">Unsigned</span><span class="tok-p">,</span> <span class="tok-n">n</span><span class="tok-p">)</span>
-    <span class="tok-k">for</span> <span class="tok-n">_</span> <span class="tok-o">∈</span> <span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-n">n</span>
+    <span class="tok-k">for</span> <span class="tok-n">_</span> <span class="tok-kp">in</span> <span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-n">n</span>
         <span class="tok-n">ages</span> <span class="tok-o">=</span> <span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-n">ages</span><span class="tok-p">)</span>
     <span class="tok-k">end</span>
     <span class="tok-k">return</span> <span class="tok-n">ages</span>
@@ -823,6 +825,409 @@ Naturally we simply try the two integers on either side of the arithmetic mean (
         <span class="tok-n">div</span><span class="tok-p">(</span><span class="tok-n">diff</span> <span class="tok-o">*</span> <span class="tok-p">(</span><span class="tok-n">diff</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">),</span> <span class="tok-mi">2</span><span class="tok-p">)</span>
     <span class="tok-k">end</span>
 <span class="tok-nd">@show</span> <span class="tok-n">minimum</span><span class="tok-p">(</span><span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">cost</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">positions</span> <span class="tok-o">.-</span> <span class="tok-p">[</span><span class="tok-n">mn_lo</span> <span class="tok-n">mn_hi</span><span class="tok-p">]);</span> <span class="tok-n">dims</span><span class="tok-o">=</span><span class="tok-mi">1</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_seven_segment_search">8. Seven Segment Search</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/8" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 8 problem description</a></p>
+</div>
+<div class="paragraph">
+<p>What an interesting problem!
+We are asked to deduce the manner in which a computer has been incorrectly hooked up to a <a href="https://en.wikipedia.org/wiki/Seven-segment_display" target="_blank" rel="noopener">seven-segment display</a> (7SD):</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Seven_segment_01_Pengo.jpg/485px-Seven_segment_01_Pengo.jpg" alt="A seven-segment display chip with pins showing" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>We will use the following display schematic (note the segments labeled A–G):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code><span></span>  0:      1:      2:      3:      4:
+ AAAA            AAAA    AAAA
+B    C       C       C       C  B    C
+B    C       C       C       C  B    C
+                 DDDD    DDDD    DDDD
+E    F       F  E            F       F
+E    F       F  E            F       F
+ GGGG            GGGG    GGGG
+
+  5:      6:      7:      8:      9:
+ AAAA    AAAA    AAAA    AAAA    AAAA
+B       B            C  B    C  B    C
+B       B            C  B    C  B    C
+ DDDD    DDDD            DDDD    DDDD
+     F  E    F       F  E    F       F
+     F  E    F       F  E    F       F
+ GGGG    GGGG            GGGG    GGGG</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The computer sends a stream of digits that we see as various patterns of lit segments on the 7SD.
+The computer has the correct logic to display digits, but its wires to the 7SD got crossed during setup, so the digits it attempts to display end up looking like gibberish to us.
+But because the computer&#8217;s underlying logic still holds, we can still deduce things from its output.
+For instance, if it lights up only two segments, we know that it is trying to display a 1, and so the two segments it lit up <em>should</em> be rewired to the two segments <code>CF</code> (although we still don&#8217;t know in which order).
+If it lights up five segments, then it could be trying to display either a 2 (<code>ACDEG</code>), 3 (<code>ACDFG</code>), or 5 (<code>ABDFG</code>).
+By observing the patterns it lights up, and using our knowledge of how the digits 0–9 should have been displayed, we can deduce the full wiring scheme and how the computer must be rewired to the display in order to function correctly.</p>
+</div>
+<div class="paragraph">
+<p>The only other wrinkle is we don&#8217;t even get to tell the computer which digits to attempt to display; that is entirely up to it.
+We simply receive a stream of <em>some</em> digits, and from that must deduce the wiring scheme.</p>
+</div>
+<div class="paragraph">
+<div class="title">The Solution</div>
+<p>The strategy is as follows: for each garbled digit we see, record its pattern and the list of candidate digits (those having the same number of segments turned on).
+Then, by taking set differences and intersections between the patterns seen and their candidates, we can derive more specific information about the rewiring.
+For instance:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Suppose the computer sends two digits and lights up <code>ABD</code> and <code>AB</code>.
+<code>ABD</code> only has one candidate, 7 (<code>ACF</code>), because only 7 has three segments turned on.
+<code>AB</code> only has one candidate, 1 (<code>CF</code>), because only 1 has two segments turned on.
+Then we take the difference of the displayed segments — <code>ABD − AB = D</code> — and all pairwise differences between their corresponding candidates (just one in this case) — <code>ACF − CF = A</code> — to deduce that <code>D</code> must be rewired to <code>A</code>.
+We continue this logic, subtracting (say) the map <code>D ➜ A</code> from other display-candidate pairs to narrow <em>them</em> down.
+We are done when we know the one segment that each segment needs to be rewired to.</p>
+</li>
+<li>
+<p>Suppose the computer sends <code>ABCDE</code>; its candidates would be 2 (<code>ACDEG</code>), 3 (<code>ACDFG</code>), and 5 (<code>ABDFG</code>).
+If it then sends <code>DEF</code>, its candidates would be just 7 (<code>ACF</code>).
+The intersection of the two sent digits is <code>DE</code>.
+Taking the pairwise intersections between the candidates, and keeping only those with the same length as <code>DE</code>, we see that the candidates for <code>DE</code> are <code>AC</code> and <code>AF</code>.
+Subtracting <code>D ➜ A</code> from this, we deduce that <code>E</code> must be mapped to either <code>C</code> or <code>F</code>.
+Subtracting <code>D ➜ A</code> and <code>E ➜ C|F</code> from <code>DEF ➜ ACF</code>, we see that <code>F ➜ C|F</code> as well.</p>
+</li>
+<li>
+<p>Continuing this way, we can eventually deduce all the mappings.</p>
+</li>
+</ol>
+</div>
+<hr>
+<div class="paragraph">
+<div class="title">Setup</div>
+<p>First, we model the notion of a digit.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">N_SEGMENTS</span> <span class="tok-o">=</span> <span class="tok-mi">7</span>
+
+<span class="tok-k">struct</span> <span class="tok-n">Digit</span>
+    <span class="tok-n">segments</span><span class="tok-o">::</span><span class="tok-kt">NTuple</span><span class="tok-p">{</span><span class="tok-n">N_SEGMENTS</span><span class="tok-p">,</span><span class="tok-kt">Bool</span><span class="tok-p">}</span>
+    <span class="tok-n">n_on</span><span class="tok-o">::</span><span class="tok-kt">UInt8</span>
+
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-n">segments</span><span class="tok-o">::</span><span class="tok-kt">NTuple</span><span class="tok-p">{</span><span class="tok-n">N_SEGMENTS</span><span class="tok-p">,</span><span class="tok-kt">Bool</span><span class="tok-p">})</span> <span class="tok-o">=</span> <span class="tok-n">new</span><span class="tok-p">(</span><span class="tok-n">segments</span><span class="tok-p">,</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">segments</span><span class="tok-p">))</span>
+<span class="tok-k">end</span>
+<span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-n">b</span><span class="tok-o">::</span><span class="tok-kt">Bool</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-n">ntuple</span><span class="tok-p">(</span><span class="tok-n">Returns</span><span class="tok-p">(</span><span class="tok-n">b</span><span class="tok-p">),</span> <span class="tok-n">N_SEGMENTS</span><span class="tok-p">))</span>
+
+<span class="tok-k">function</span> <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-n">segments</span><span class="tok-o">::</span><span class="tok-kt">AbstractString</span><span class="tok-p">)</span>
+    <span class="tok-n">v</span> <span class="tok-o">=</span> <span class="tok-n">fill</span><span class="tok-p">(</span><span class="tok-kc">false</span><span class="tok-p">,</span> <span class="tok-n">N_SEGMENTS</span><span class="tok-p">)</span>
+    <span class="tok-k">for</span> <span class="tok-n">c</span> <span class="tok-kp">in</span> <span class="tok-n">segments</span>
+        <span class="tok-n">i</span> <span class="tok-o">=</span> <span class="tok-mi">1</span> <span class="tok-o">+</span> <span class="tok-kt">Int</span><span class="tok-p">(</span><span class="tok-n">lowercase</span><span class="tok-p">(</span><span class="tok-n">c</span><span class="tok-p">))</span> <span class="tok-o">-</span> <span class="tok-kt">Int</span><span class="tok-p">(</span><span class="tok-sc">&#39;a&#39;</span><span class="tok-p">)</span>
+        <span class="tok-n">v</span><span class="tok-p">[</span><span class="tok-n">i</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-kc">true</span>
+    <span class="tok-k">end</span>
+    <span class="tok-k">return</span> <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-kt">Tuple</span><span class="tok-p">(</span><span class="tok-n">v</span><span class="tok-p">))</span>
+<span class="tok-k">end</span>
+
+<span class="tok-n">segments</span><span class="tok-p">(</span><span class="tok-n">d</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">d</span><span class="tok-o">.</span><span class="tok-n">segments</span>
+<span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">d</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">d</span><span class="tok-o">.</span><span class="tok-n">n_on</span>
+
+<span class="tok-n">DIGITS</span> <span class="tok-o">=</span> <span class="tok-kt">Dict</span><span class="tok-p">(</span>
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-s">&quot;abcefg&quot;</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-mi">0</span><span class="tok-p">,</span>
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-s">&quot;cf&quot;</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-mi">1</span><span class="tok-p">,</span>
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-s">&quot;acdeg&quot;</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-mi">2</span><span class="tok-p">,</span>
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-s">&quot;acdfg&quot;</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-mi">3</span><span class="tok-p">,</span>
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-s">&quot;bcdf&quot;</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-mi">4</span><span class="tok-p">,</span>
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-s">&quot;abdfg&quot;</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-mi">5</span><span class="tok-p">,</span>
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-s">&quot;abdefg&quot;</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-mi">6</span><span class="tok-p">,</span>
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-s">&quot;acf&quot;</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-mi">7</span><span class="tok-p">,</span>
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-s">&quot;abcdefg&quot;</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-mi">8</span><span class="tok-p">,</span>
+    <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-s">&quot;abcdfg&quot;</span><span class="tok-p">)</span> <span class="tok-o">=&gt;</span> <span class="tok-mi">9</span><span class="tok-p">,</span>
+<span class="tok-p">)</span>
+
+<span class="tok-n">binop</span><span class="tok-p">(</span><span class="tok-n">op</span><span class="tok-p">,</span> <span class="tok-n">d</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-o">...</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-n">op</span><span class="tok-p">(</span><span class="tok-n">segments</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">d</span><span class="tok-p">)</span><span class="tok-o">...</span><span class="tok-p">))</span>
+<span class="tok-n">Base</span><span class="tok-o">.:</span><span class="tok-p">(</span><span class="tok-o">|</span><span class="tok-p">)(</span><span class="tok-n">x</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-o">...</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">binop</span><span class="tok-p">(</span><span class="tok-o">.|</span><span class="tok-p">,</span> <span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-o">...</span><span class="tok-p">)</span>
+<span class="tok-n">Base</span><span class="tok-o">.:</span><span class="tok-p">(</span><span class="tok-o">&amp;</span><span class="tok-p">)(</span><span class="tok-n">x</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-o">...</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">binop</span><span class="tok-p">(</span><span class="tok-o">.&amp;</span><span class="tok-p">,</span> <span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-o">...</span><span class="tok-p">)</span>
+<span class="tok-n">Base</span><span class="tok-o">.:</span><span class="tok-p">(</span><span class="tok-o">~</span><span class="tok-p">)(</span><span class="tok-n">x</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">binop</span><span class="tok-p">(</span><span class="tok-o">.~</span><span class="tok-p">,</span> <span class="tok-n">x</span><span class="tok-p">)</span>
+
+<span class="tok-n">Base</span><span class="tok-o">.:</span><span class="tok-p">(</span><span class="tok-o">⊆</span><span class="tok-p">)(</span><span class="tok-n">x</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-n">x</span> <span class="tok-o">&amp;</span> <span class="tok-n">y</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-n">x</span>
+<span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">isless</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">,</span> <span class="tok-n">y</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">string</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span> <span class="tok-o">&lt;</span> <span class="tok-n">string</span><span class="tok-p">(</span><span class="tok-n">y</span><span class="tok-p">)</span>
+
+<span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">print</span><span class="tok-p">(</span><span class="tok-n">io</span><span class="tok-o">::</span><span class="tok-kt">IO</span><span class="tok-p">,</span> <span class="tok-n">d</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">)</span> <span class="tok-o">=</span>
+    <span class="tok-k">let</span> <span class="tok-n">s</span> <span class="tok-o">=</span> <span class="tok-n">segments</span><span class="tok-p">(</span><span class="tok-n">d</span><span class="tok-p">),</span> <span class="tok-n">on_indices</span> <span class="tok-o">=</span> <span class="tok-n">findall</span><span class="tok-p">(</span><span class="tok-n">s</span><span class="tok-p">)</span>
+        <span class="tok-k">if</span> <span class="tok-n">length</span><span class="tok-p">(</span><span class="tok-n">on_indices</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-mi">0</span>
+            <span class="tok-n">print</span><span class="tok-p">(</span><span class="tok-n">io</span><span class="tok-p">,</span> <span class="tok-sc">&#39;∅&#39;</span><span class="tok-p">)</span>
+        <span class="tok-k">else</span>
+            <span class="tok-n">join</span><span class="tok-p">(</span><span class="tok-n">io</span><span class="tok-p">,</span> <span class="tok-p">(</span><span class="tok-s">&quot;ABCDEFG&quot;</span><span class="tok-p">[</span><span class="tok-n">i</span><span class="tok-p">]</span> <span class="tok-k">for</span> <span class="tok-n">i</span> <span class="tok-kp">in</span> <span class="tok-n">on_indices</span><span class="tok-p">))</span>
+        <span class="tok-k">end</span>
+        <span class="tok-n">index</span> <span class="tok-o">=</span> <span class="tok-n">findfirst</span><span class="tok-p">(</span><span class="tok-o">==</span><span class="tok-p">(</span><span class="tok-n">d</span><span class="tok-p">),</span> <span class="tok-n">DIGITS</span><span class="tok-p">)</span>
+        <span class="tok-k">if</span> <span class="tok-n">index</span> <span class="tok-o">!==</span> <span class="tok-nb">nothing</span>
+            <span class="tok-n">print</span><span class="tok-p">(</span><span class="tok-n">io</span><span class="tok-p">,</span> <span class="tok-sc">&#39;=&#39;</span><span class="tok-p">,</span> <span class="tok-n">index</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-p">)</span>
+        <span class="tok-k">end</span>
+    <span class="tok-k">end</span>
+<span class="tok-n">Base</span><span class="tok-o">.</span><span class="tok-n">show</span><span class="tok-p">(</span><span class="tok-n">io</span><span class="tok-o">::</span><span class="tok-kt">IO</span><span class="tok-p">,</span> <span class="tok-n">d</span><span class="tok-o">::</span><span class="tok-n">Digit</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">print</span><span class="tok-p">(</span><span class="tok-n">io</span><span class="tok-p">,</span> <span class="tok-n">d</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">The Algorithm</div>
+<p>We repeatedly take the intersection and set-differences between digits, getting a more and more refined mapping until finally we are left with a 1:1 mapping.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">using</span> <span class="tok-n">Combinatorics</span>
+
+<span class="tok-k">function</span> <span class="tok-n">mapping_from_garbled_digits</span><span class="tok-p">(</span><span class="tok-n">garbled_digits</span><span class="tok-o">::</span><span class="tok-kt">AbstractVector</span><span class="tok-p">{</span><span class="tok-n">Digit</span><span class="tok-p">})</span>
+    <span class="tok-n">mappings</span> <span class="tok-o">=</span> <span class="tok-kt">Dict</span><span class="tok-p">{</span><span class="tok-n">Digit</span><span class="tok-p">,</span><span class="tok-kt">Set</span><span class="tok-p">{</span><span class="tok-n">Digit</span><span class="tok-p">}}()</span>
+    <span class="tok-k">for</span> <span class="tok-n">gd</span> <span class="tok-kp">in</span> <span class="tok-n">garbled_digits</span>
+        <span class="tok-n">mappings</span><span class="tok-p">[</span><span class="tok-n">gd</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-kt">Set</span><span class="tok-p">(</span><span class="tok-n">Iterators</span><span class="tok-o">.</span><span class="tok-n">filter</span><span class="tok-p">(</span><span class="tok-n">d</span> <span class="tok-o">-&gt;</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">d</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">gd</span><span class="tok-p">),</span> <span class="tok-n">keys</span><span class="tok-p">(</span><span class="tok-n">DIGITS</span><span class="tok-p">)))</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-k">while</span> <span class="tok-kc">true</span>
+        <span class="tok-n">new_mappings</span> <span class="tok-o">=</span> <span class="tok-n">typeof</span><span class="tok-p">(</span><span class="tok-n">mappings</span><span class="tok-p">)()</span>
+
+        <span class="tok-n">garbled_keys</span> <span class="tok-o">=</span> <span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">keys</span><span class="tok-p">(</span><span class="tok-n">mappings</span><span class="tok-p">))</span>
+        <span class="tok-k">for</span> <span class="tok-p">(</span><span class="tok-n">garbled1</span><span class="tok-p">,</span> <span class="tok-n">garbled2</span><span class="tok-p">)</span> <span class="tok-kp">in</span> <span class="tok-n">combinations</span><span class="tok-p">(</span><span class="tok-n">garbled_keys</span><span class="tok-p">,</span> <span class="tok-mi">2</span><span class="tok-p">)</span>
+            <span class="tok-n">choices1</span> <span class="tok-o">=</span> <span class="tok-n">mappings</span><span class="tok-p">[</span><span class="tok-n">garbled1</span><span class="tok-p">]</span>
+            <span class="tok-n">choices2</span> <span class="tok-o">=</span> <span class="tok-n">mappings</span><span class="tok-p">[</span><span class="tok-n">garbled2</span><span class="tok-p">]</span>
+
+            <span class="tok-n">ops</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-n">identity</span><span class="tok-p">,</span> <span class="tok-o">~</span><span class="tok-p">)</span>
+            <span class="tok-k">for</span> <span class="tok-n">op1</span> <span class="tok-kp">in</span> <span class="tok-n">ops</span><span class="tok-p">,</span> <span class="tok-n">op2</span> <span class="tok-kp">in</span> <span class="tok-n">ops</span>
+                <span class="tok-n">op1</span> <span class="tok-o">==</span> <span class="tok-n">op2</span> <span class="tok-o">==</span> <span class="tok-p">(</span><span class="tok-o">~</span><span class="tok-p">)</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-k">continue</span>
+
+                <span class="tok-n">new_garbled</span> <span class="tok-o">=</span> <span class="tok-n">op1</span><span class="tok-p">(</span><span class="tok-n">garbled1</span><span class="tok-p">)</span> <span class="tok-o">&amp;</span> <span class="tok-n">op2</span><span class="tok-p">(</span><span class="tok-n">garbled2</span><span class="tok-p">)</span>
+                <span class="tok-mi">0</span> <span class="tok-o">&lt;</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">new_garbled</span><span class="tok-p">)</span> <span class="tok-o">&lt;</span> <span class="tok-n">N_SEGMENTS</span> <span class="tok-o">||</span> <span class="tok-k">continue</span>
+
+                <span class="tok-n">new_goods</span> <span class="tok-o">=</span> <span class="tok-kt">Set</span><span class="tok-p">{</span><span class="tok-n">Digit</span><span class="tok-p">}()</span>
+
+                <span class="tok-k">for</span> <span class="tok-n">good1</span> <span class="tok-kp">in</span> <span class="tok-n">choices1</span><span class="tok-p">,</span> <span class="tok-n">good2</span> <span class="tok-kp">in</span> <span class="tok-n">choices2</span>
+                    <span class="tok-n">new_good</span> <span class="tok-o">=</span> <span class="tok-n">op1</span><span class="tok-p">(</span><span class="tok-n">good1</span><span class="tok-p">)</span> <span class="tok-o">&amp;</span> <span class="tok-n">op2</span><span class="tok-p">(</span><span class="tok-n">good2</span><span class="tok-p">)</span>
+                    <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">new_good</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">new_garbled</span><span class="tok-p">)</span> <span class="tok-o">||</span> <span class="tok-k">continue</span>
+                    <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">new_goods</span><span class="tok-p">,</span> <span class="tok-n">new_good</span><span class="tok-p">)</span>
+                <span class="tok-k">end</span>
+
+                <span class="tok-k">if</span> <span class="tok-n">new_garbled</span> <span class="tok-o">∉</span> <span class="tok-n">keys</span><span class="tok-p">(</span><span class="tok-n">new_mappings</span><span class="tok-p">)</span>
+                    <span class="tok-n">new_mappings</span><span class="tok-p">[</span><span class="tok-n">new_garbled</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-n">new_goods</span>
+                <span class="tok-k">else</span>
+                    <span class="tok-n">intersect!</span><span class="tok-p">(</span><span class="tok-n">new_mappings</span><span class="tok-p">[</span><span class="tok-n">new_garbled</span><span class="tok-p">],</span> <span class="tok-n">new_goods</span><span class="tok-p">)</span>
+                <span class="tok-k">end</span>
+            <span class="tok-k">end</span>
+        <span class="tok-k">end</span>
+
+        <span class="tok-c"># Remove all keys that can be written as the disjoint-bitwise-or of two other keys,</span>
+        <span class="tok-c"># as they&#39;re redundant. This means if e.g., A and BC are present, then remove ABC.</span>
+        <span class="tok-c"># But if only AB and BC are present, then do *not* remove ABC (as AB and BC are not</span>
+        <span class="tok-c"># disjoint)</span>
+        <span class="tok-n">redundant_keys</span> <span class="tok-o">=</span> <span class="tok-kt">Set</span><span class="tok-p">{</span><span class="tok-n">Digit</span><span class="tok-p">}()</span>
+        <span class="tok-n">new_garbled_keys</span> <span class="tok-o">=</span> <span class="tok-n">keys</span><span class="tok-p">(</span><span class="tok-n">new_mappings</span><span class="tok-p">)</span>
+        <span class="tok-k">for</span> <span class="tok-p">(</span><span class="tok-n">garbled1</span><span class="tok-p">,</span> <span class="tok-n">garbled2</span><span class="tok-p">)</span> <span class="tok-kp">in</span> <span class="tok-n">combinations</span><span class="tok-p">(</span><span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">new_garbled_keys</span><span class="tok-p">),</span> <span class="tok-mi">2</span><span class="tok-p">)</span>
+            <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">garbled1</span> <span class="tok-o">&amp;</span> <span class="tok-n">garbled2</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-mi">0</span> <span class="tok-o">||</span> <span class="tok-k">continue</span>
+
+            <span class="tok-n">bwo</span> <span class="tok-o">=</span> <span class="tok-n">garbled1</span> <span class="tok-o">|</span> <span class="tok-n">garbled2</span>
+            <span class="tok-k">if</span> <span class="tok-n">bwo</span> <span class="tok-o">∈</span> <span class="tok-n">new_garbled_keys</span>
+                <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">redundant_keys</span><span class="tok-p">,</span> <span class="tok-n">bwo</span><span class="tok-p">)</span>
+            <span class="tok-k">end</span>
+        <span class="tok-k">end</span>
+
+        <span class="tok-k">for</span> <span class="tok-n">k</span> <span class="tok-kp">in</span> <span class="tok-n">redundant_keys</span>
+            <span class="tok-n">delete!</span><span class="tok-p">(</span><span class="tok-n">new_mappings</span><span class="tok-p">,</span> <span class="tok-n">k</span><span class="tok-p">)</span>
+        <span class="tok-k">end</span>
+
+        <span class="tok-k">if</span> <span class="tok-p">(</span><span class="tok-n">length</span><span class="tok-p">(</span><span class="tok-n">mappings</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-n">N_SEGMENTS</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">all</span><span class="tok-p">(</span><span class="tok-n">length</span><span class="tok-p">(</span><span class="tok-n">o</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-mi">1</span> <span class="tok-k">for</span> <span class="tok-n">o</span> <span class="tok-kp">in</span> <span class="tok-n">values</span><span class="tok-p">(</span><span class="tok-n">mappings</span><span class="tok-p">)))</span>
+            <span class="tok-k">return</span> <span class="tok-kt">Dict</span><span class="tok-p">((</span><span class="tok-n">k</span> <span class="tok-o">=&gt;</span> <span class="tok-n">first</span><span class="tok-p">(</span><span class="tok-n">o</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-p">(</span><span class="tok-n">k</span><span class="tok-p">,</span> <span class="tok-n">o</span><span class="tok-p">)</span> <span class="tok-kp">in</span> <span class="tok-n">mappings</span><span class="tok-p">)</span><span class="tok-o">...</span><span class="tok-p">)</span>
+        <span class="tok-k">elseif</span> <span class="tok-n">mappings</span> <span class="tok-o">==</span> <span class="tok-n">new_mappings</span>
+            <span class="tok-k">return</span> <span class="tok-p">(</span><span class="tok-n">mappings</span><span class="tok-p">,</span> <span class="tok-s">&quot;could not narrow down to just one choice per segment&quot;</span><span class="tok-p">)</span>
+        <span class="tok-k">end</span>
+
+        <span class="tok-n">mappings</span> <span class="tok-o">=</span> <span class="tok-n">new_mappings</span>
+    <span class="tok-k">end</span>
+<span class="tok-k">end</span>
+
+<span class="tok-k">function</span> <span class="tok-n">apply_mapping_to_garbled_digit</span><span class="tok-p">(</span>
+    <span class="tok-n">mapping</span><span class="tok-o">::</span><span class="tok-n">AbstractDict</span><span class="tok-p">{</span><span class="tok-n">Digit</span><span class="tok-p">,</span><span class="tok-n">Digit</span><span class="tok-p">},</span> <span class="tok-n">garbled_digit</span><span class="tok-o">::</span><span class="tok-n">Digit</span>
+<span class="tok-p">)</span>
+    <span class="tok-n">result</span> <span class="tok-o">=</span> <span class="tok-n">Digit</span><span class="tok-p">(</span><span class="tok-kc">false</span><span class="tok-p">)</span>
+    <span class="tok-k">for</span> <span class="tok-p">(</span><span class="tok-n">k</span><span class="tok-p">,</span> <span class="tok-n">v</span><span class="tok-p">)</span> <span class="tok-kp">in</span> <span class="tok-n">mapping</span>
+        <span class="tok-k">if</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">garbled_digit</span> <span class="tok-o">&amp;</span> <span class="tok-n">k</span><span class="tok-p">)</span> <span class="tok-o">&gt;</span> <span class="tok-mi">0</span>
+            <span class="tok-n">result</span> <span class="tok-o">|=</span> <span class="tok-n">v</span>
+        <span class="tok-k">end</span>
+    <span class="tok-k">end</span>
+    <span class="tok-k">return</span> <span class="tok-n">DIGITS</span><span class="tok-p">[</span><span class="tok-n">result</span><span class="tok-p">]</span>
+<span class="tok-k">end</span>
+
+<span class="tok-n">Line</span> <span class="tok-o">=</span> <span class="tok-n">NamedTuple</span><span class="tok-p">{(</span><span class="tok-o">:</span><span class="tok-kp">in</span><span class="tok-p">,</span> <span class="tok-o">:</span><span class="tok-n">out</span><span class="tok-p">),</span><span class="tok-kt">Tuple</span><span class="tok-p">{</span><span class="tok-kt">Vector</span><span class="tok-p">{</span><span class="tok-n">Digit</span><span class="tok-p">},</span><span class="tok-kt">Vector</span><span class="tok-p">{</span><span class="tok-n">Digit</span><span class="tok-p">}}}</span>
+<span class="tok-n">lines</span> <span class="tok-o">=</span> <span class="tok-k">let</span>
+    <span class="tok-n">arr</span> <span class="tok-o">=</span> <span class="tok-n">Line</span><span class="tok-p">[]</span>
+    <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
+        <span class="tok-n">line</span> <span class="tok-o">=</span> <span class="tok-n">strip</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span>
+        <span class="tok-n">length</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-mi">0</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-k">continue</span>
+
+        <span class="tok-kp">in</span><span class="tok-p">,</span> <span class="tok-n">out</span> <span class="tok-o">=</span> <span class="tok-n">strip</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">,</span> <span class="tok-sc">&#39;|&#39;</span><span class="tok-p">))</span>
+
+        <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">arr</span><span class="tok-p">,</span> <span class="tok-p">(;</span> <span class="tok-kp">in</span><span class="tok-o">=</span><span class="tok-n">Digit</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-kp">in</span><span class="tok-p">)),</span> <span class="tok-n">out</span><span class="tok-o">=</span><span class="tok-n">Digit</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-n">out</span><span class="tok-p">))))</span>
+    <span class="tok-k">end</span>
+    <span class="tok-n">arr</span>
+<span class="tok-k">end</span>
+
+<span class="tok-k">function</span> <span class="tok-n">translate_line_to_digits</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-o">::</span><span class="tok-n">Line</span><span class="tok-p">)</span>
+    <span class="tok-n">mapping</span> <span class="tok-o">=</span> <span class="tok-n">mapping_from_garbled_digits</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-o">.</span><span class="tok-kp">in</span><span class="tok-p">)</span>
+    <span class="tok-n">digits</span> <span class="tok-o">=</span> <span class="tok-n">apply_mapping_to_garbled_digit</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-kt">Ref</span><span class="tok-p">(</span><span class="tok-n">mapping</span><span class="tok-p">),</span> <span class="tok-n">line</span><span class="tok-o">.</span><span class="tok-n">out</span><span class="tok-p">)</span>
+    <span class="tok-k">return</span> <span class="tok-n">digits</span>
+<span class="tok-k">end</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, we prove to Advent of Code that we got the right answer.</p>
+</div>
+<div class="openblock">
+<div class="title">Part 1</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">all_output_digits</span> <span class="tok-o">=</span> <span class="tok-n">hcat</span><span class="tok-p">(</span><span class="tok-n">translate_line_to_digits</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">lines</span><span class="tok-p">)</span><span class="tok-o">...</span><span class="tok-p">)</span>
+<span class="tok-nd">@show</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">all_output_digits</span> <span class="tok-o">.∈</span> <span class="tok-kt">Ref</span><span class="tok-p">((</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">4</span><span class="tok-p">,</span> <span class="tok-mi">7</span><span class="tok-p">,</span> <span class="tok-mi">8</span><span class="tok-p">)))</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Part 2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">translate_line_to_base10</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-o">::</span><span class="tok-n">Line</span><span class="tok-p">)</span>
+    <span class="tok-n">digits</span> <span class="tok-o">=</span> <span class="tok-n">translate_line_to_digits</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)</span>
+    <span class="tok-n">pow10s</span> <span class="tok-o">=</span> <span class="tok-mi">10</span> <span class="tok-o">.^</span> <span class="tok-p">((</span><span class="tok-n">length</span><span class="tok-p">(</span><span class="tok-n">digits</span><span class="tok-p">)</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-p">)</span><span class="tok-o">:-</span><span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-mi">0</span><span class="tok-p">)</span>
+    <span class="tok-k">return</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">digits</span> <span class="tok-o">.*</span> <span class="tok-n">pow10s</span><span class="tok-p">)</span>
+<span class="tok-k">end</span>
+
+<span class="tok-nd">@show</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">translate_line_to_base10</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-n">lines</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_smoke_basin">9. Smoke Basin</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/9" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 9 problem description</a></p>
+</div>
+<div class="paragraph">
+<p>Nothing complicated here, especially because Julia makes working with arrays/matrices so easy.
+We must do the following things with a 2D matrix whose entries are between 1 and 9 (inclusive).</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Part 1 we have to find the local minima of the matrix.</p>
+</li>
+<li>
+<p>In Part 2 we have to find the matrix&#8217;s maximal connected regions containing no 9s.
+This is just a DFS through the matrix with a small amount of bookkeeping.</p>
+</li>
+</ol>
+</div>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">heightmap</span> <span class="tok-o">=</span>
+    <span class="tok-k">let</span> <span class="tok-n">lines</span> <span class="tok-o">=</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">)),</span>
+        <span class="tok-n">vecs</span> <span class="tok-o">=</span> <span class="tok-n">map</span><span class="tok-p">(</span><span class="tok-n">line</span> <span class="tok-o">-&gt;</span> <span class="tok-n">reshape</span><span class="tok-p">(</span><span class="tok-n">parse</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">)),</span> <span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-o">:</span><span class="tok-p">)),</span> <span class="tok-n">lines</span><span class="tok-p">),</span>
+        <span class="tok-n">mat</span> <span class="tok-o">=</span> <span class="tok-n">vcat</span><span class="tok-p">(</span><span class="tok-n">vecs</span><span class="tok-o">...</span><span class="tok-p">)</span>
+
+        <span class="tok-n">mat</span>
+    <span class="tok-k">end</span>
+
+<span class="tok-k">function</span> <span class="tok-n">is_lower_than_neighbors</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">,</span> <span class="tok-n">i</span><span class="tok-o">::</span><span class="tok-kt">CartesianIndex</span><span class="tok-p">,</span> <span class="tok-n">mat_axes</span><span class="tok-p">)</span>
+    <span class="tok-n">r</span><span class="tok-p">,</span> <span class="tok-n">c</span> <span class="tok-o">=</span> <span class="tok-kt">Tuple</span><span class="tok-p">(</span><span class="tok-n">i</span><span class="tok-p">)</span>
+    <span class="tok-n">val</span> <span class="tok-o">=</span> <span class="tok-n">mat</span><span class="tok-p">[</span><span class="tok-n">r</span><span class="tok-p">,</span> <span class="tok-n">c</span><span class="tok-p">]</span>
+
+    <span class="tok-n">row_ax</span><span class="tok-p">,</span> <span class="tok-n">col_ax</span> <span class="tok-o">=</span> <span class="tok-n">mat_axes</span>
+
+    <span class="tok-n">neighbor_indices</span> <span class="tok-o">=</span> <span class="tok-p">((</span><span class="tok-n">r</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-n">c</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">r</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-n">c</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">r</span><span class="tok-p">,</span> <span class="tok-n">c</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">r</span><span class="tok-p">,</span> <span class="tok-n">c</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-p">))</span>
+    <span class="tok-k">for</span> <span class="tok-p">(</span><span class="tok-n">nghbr_r</span><span class="tok-p">,</span> <span class="tok-n">nghbr_c</span><span class="tok-p">)</span> <span class="tok-kp">in</span> <span class="tok-n">neighbor_indices</span>
+        <span class="tok-k">if</span> <span class="tok-n">nghbr_r</span> <span class="tok-o">∈</span> <span class="tok-n">row_ax</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">nghbr_c</span> <span class="tok-o">∈</span> <span class="tok-n">col_ax</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">mat</span><span class="tok-p">[</span><span class="tok-n">nghbr_r</span><span class="tok-p">,</span> <span class="tok-n">nghbr_c</span><span class="tok-p">]</span> <span class="tok-o">&lt;=</span> <span class="tok-n">val</span>
+            <span class="tok-k">return</span> <span class="tok-kc">false</span>
+        <span class="tok-k">end</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-k">return</span> <span class="tok-kc">true</span>
+<span class="tok-k">end</span>
+
+<span class="tok-n">is_lower_than_neighbors</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">)</span> <span class="tok-o">=</span>
+    <span class="tok-k">let</span> <span class="tok-n">mat_axes</span> <span class="tok-o">=</span> <span class="tok-n">axes</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">)</span>
+        <span class="tok-n">map</span><span class="tok-p">(</span><span class="tok-n">i</span> <span class="tok-o">-&gt;</span> <span class="tok-n">is_lower_than_neighbors</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">,</span> <span class="tok-n">i</span><span class="tok-p">,</span> <span class="tok-n">mat_axes</span><span class="tok-p">),</span> <span class="tok-n">CartesianIndices</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">))</span>
+    <span class="tok-k">end</span>
+
+<span class="tok-n">risk_level</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">)</span> <span class="tok-o">=</span> <span class="tok-n">mat</span> <span class="tok-o">.+</span> <span class="tok-mi">1</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Part 1</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">low_point_risks</span> <span class="tok-o">=</span> <span class="tok-n">risk_level</span><span class="tok-p">(</span><span class="tok-n">heightmap</span><span class="tok-p">)</span> <span class="tok-o">.*</span> <span class="tok-n">is_lower_than_neighbors</span><span class="tok-p">(</span><span class="tok-n">heightmap</span><span class="tok-p">)</span>
+<span class="tok-nd">@show</span> <span class="tok-n">sum</span><span class="tok-p">(</span><span class="tok-n">low_point_risks</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Part 2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">get_basin_sizes</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-o">::</span><span class="tok-kt">AbstractMatrix</span><span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">})</span> <span class="tok-n">where</span> <span class="tok-p">{</span><span class="tok-n">T</span><span class="tok-p">}</span>
+    <span class="tok-n">row_ax</span><span class="tok-p">,</span> <span class="tok-n">col_ax</span> <span class="tok-o">=</span> <span class="tok-n">axes</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">)</span>
+    <span class="tok-n">basin_sizes</span> <span class="tok-o">=</span> <span class="tok-kt">Int</span><span class="tok-p">[]</span>
+    <span class="tok-n">not_yet_visited</span> <span class="tok-o">=</span> <span class="tok-n">mat</span> <span class="tok-o">.!=</span> <span class="tok-mi">9</span>
+
+    <span class="tok-k">while</span> <span class="tok-p">(</span><span class="tok-n">first_coords</span> <span class="tok-o">=</span> <span class="tok-n">findfirst</span><span class="tok-p">(</span><span class="tok-n">not_yet_visited</span><span class="tok-p">))</span> <span class="tok-o">!==</span> <span class="tok-nb">nothing</span>
+        <span class="tok-n">visited</span> <span class="tok-o">=</span> <span class="tok-kt">Set</span><span class="tok-p">{</span><span class="tok-n">keytype</span><span class="tok-p">(</span><span class="tok-n">mat</span><span class="tok-p">)}()</span>
+        <span class="tok-n">coords_stack</span> <span class="tok-o">=</span> <span class="tok-p">[</span><span class="tok-n">first_coords</span><span class="tok-p">]</span>
+
+        <span class="tok-k">while</span> <span class="tok-o">!</span><span class="tok-n">isempty</span><span class="tok-p">(</span><span class="tok-n">coords_stack</span><span class="tok-p">)</span>
+            <span class="tok-n">coords</span> <span class="tok-o">=</span> <span class="tok-n">pop!</span><span class="tok-p">(</span><span class="tok-n">coords_stack</span><span class="tok-p">)</span>
+            <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">visited</span><span class="tok-p">,</span> <span class="tok-n">coords</span><span class="tok-p">)</span>
+            <span class="tok-n">not_yet_visited</span><span class="tok-p">[</span><span class="tok-n">coords</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-kc">false</span>
+
+            <span class="tok-n">r</span><span class="tok-p">,</span> <span class="tok-n">c</span> <span class="tok-o">=</span> <span class="tok-kt">Tuple</span><span class="tok-p">(</span><span class="tok-n">coords</span><span class="tok-p">)</span>
+            <span class="tok-n">neighbor_indices</span> <span class="tok-o">=</span> <span class="tok-n">map</span><span class="tok-p">(</span>
+                <span class="tok-kt">CartesianIndex</span><span class="tok-p">,</span> <span class="tok-p">((</span><span class="tok-n">r</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-n">c</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">r</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-n">c</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">r</span><span class="tok-p">,</span> <span class="tok-n">c</span> <span class="tok-o">+</span> <span class="tok-mi">1</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-n">r</span><span class="tok-p">,</span> <span class="tok-n">c</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-p">))</span>
+            <span class="tok-p">)</span>
+
+            <span class="tok-k">for</span> <span class="tok-n">nghbr_idx</span> <span class="tok-kp">in</span> <span class="tok-n">neighbor_indices</span>
+                <span class="tok-n">nghbr_idx</span> <span class="tok-o">∈</span> <span class="tok-n">visited</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-k">continue</span>
+
+                <span class="tok-n">nghbr_r</span><span class="tok-p">,</span> <span class="tok-n">nghbr_c</span> <span class="tok-o">=</span> <span class="tok-kt">Tuple</span><span class="tok-p">(</span><span class="tok-n">nghbr_idx</span><span class="tok-p">)</span>
+                <span class="tok-k">if</span> <span class="tok-n">nghbr_r</span> <span class="tok-o">∈</span> <span class="tok-n">row_ax</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">nghbr_c</span> <span class="tok-o">∈</span> <span class="tok-n">col_ax</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">mat</span><span class="tok-p">[</span><span class="tok-n">nghbr_r</span><span class="tok-p">,</span> <span class="tok-n">nghbr_c</span><span class="tok-p">]</span> <span class="tok-o">!=</span> <span class="tok-mi">9</span>
+                    <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">coords_stack</span><span class="tok-p">,</span> <span class="tok-n">nghbr_idx</span><span class="tok-p">)</span>
+                <span class="tok-k">end</span>
+            <span class="tok-k">end</span>
+        <span class="tok-k">end</span>
+
+        <span class="tok-n">push!</span><span class="tok-p">(</span><span class="tok-n">basin_sizes</span><span class="tok-p">,</span> <span class="tok-n">length</span><span class="tok-p">(</span><span class="tok-n">visited</span><span class="tok-p">))</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-k">return</span> <span class="tok-n">basin_sizes</span>
+<span class="tok-k">end</span>
+
+<span class="tok-n">basin_sizes</span> <span class="tok-o">=</span> <span class="tok-n">sort</span><span class="tok-p">(</span><span class="tok-n">get_basin_sizes</span><span class="tok-p">(</span><span class="tok-n">heightmap</span><span class="tok-p">);</span> <span class="tok-n">rev</span><span class="tok-o">=</span><span class="tok-kc">true</span><span class="tok-p">)</span>
+<span class="tok-nd">@show</span> <span class="tok-n">reduce</span><span class="tok-p">(</span><span class="tok-o">*</span><span class="tok-p">,</span> <span class="tok-n">basin_sizes</span><span class="tok-p">[</span><span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-mi">3</span><span class="tok-p">])</span></code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>

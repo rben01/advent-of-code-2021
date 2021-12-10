@@ -24,7 +24,8 @@
 [.lead]
 This doc has my solutions for the https://adventofcode.com/2021[2021 Advent of Code^].
 It assumes some familiarity with https://julialang.org/[the Julia language^].
-(For the most part, Julia looks kind of like a fusion of Python and Numpy, except it uses 1-based indexing and static functions instead of methods.)
+(For the most part, Julia looks kind of like a fusion of Python and Numpy, except it uses 1-based indexing and static functions instead of methods.
+Under the hood, they could not be more different, though.)
 
 
 [NOTE]
@@ -53,3 +54,7 @@ include::{src-dir}/day_05/soln.adoc[leveloffset=+1]
 include::{src-dir}/day_06/soln.adoc[leveloffset=+1]
 
 include::{src-dir}/day_07/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_08/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_09/soln.adoc[leveloffset=+1]

@@ -9,7 +9,7 @@ function get_ages_tup(::Type{T}) where {T<:Integer}
     contents = read(joinpath(@__DIR__, "sample_input.txt"), String)
     nums_list = parse.(T, split(contents, ','))
 
-    for num ∈ nums_list
+    for num in nums_list
         arr[num + 1] += 1
     end
 
@@ -44,22 +44,6 @@ empty_ages_vec(::Type{T}) where {T} = empty_ages_vec(T, 8)
     return expr
 end
 
-# function tick(ages::AbstractVector{T}, out::AbstractVector{T}) where {T}
-#     ADULT_TIMER_MAX = 6
-#     NEWBORN_TIMER_MAX = 8
-
-#     for timer ∈ 2:length(ages)
-#         count = ages[timer]
-#         out[timer - 1] = count
-#     end
-
-#     n_children = ages[1]
-#     out[ADULT_TIMER_MAX + 1] += n_children
-#     out[NEWBORN_TIMER_MAX + 1] = n_children
-
-#     return nothing
-# end
-
 function tick(n, ages::AbstractVector{T}) where {T}
     n = convert(Unsigned, n)
     new_ages = empty_ages_vec(T)
@@ -67,7 +51,7 @@ function tick(n, ages::AbstractVector{T}) where {T}
     # Don't mutate original
     ages = copy(ages)
 
-    for _ ∈ 1:n
+    for _ in 1:n
         tick(ages, new_ages)
         ages, new_ages = new_ages, ages
     end
@@ -96,7 +80,7 @@ end
 
 function tick(n, ages::NTuple)
     n = convert(Unsigned, n)
-    for _ ∈ 1:n
+    for _ in 1:n
         ages = tick(ages)
     end
     return ages

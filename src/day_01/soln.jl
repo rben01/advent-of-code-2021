@@ -4,14 +4,14 @@ using Base.Iterators
 
 function get_n_increasing_running_sum_of_depths(n)
     depth_buf = CircularBuffer{Int}(n)
-    depths = (parse(Int, strip(line)) for line ∈ eachline(joinpath(@__DIR__, "input.txt")))
+    depths = (parse(Int, strip(line)) for line in eachline(joinpath(@__DIR__, "input.txt")))
 
     append!(depth_buf, take(depths, n))
     @assert isfull(depth_buf)
 
     n_increasing = 0
 
-    for new_depth ∈ depths
+    for new_depth in depths
         old_depth = depth_buf[1]
 
         push!(depth_buf, new_depth)

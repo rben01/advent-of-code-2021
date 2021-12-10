@@ -16,7 +16,7 @@ mutable struct BoardProgress
 end
 
 function has_won(progress::BoardProgress)
-    return any(count == 0 for count ∈ flatten((progress.rows, progress.cols)))
+    return any(count == 0 for count in flatten((progress.rows, progress.cols)))
 end
 
 """
@@ -34,7 +34,7 @@ mutable struct Board{T<:Integer}
         size(mat, 1) == size(mat, 2) || error("grid must be a square; got $(mat)")
 
         grid_size = size(mat, 1)
-        grid = Dict((reverse(p) for p ∈ pairs(IndexCartesian(), mat)))
+        grid = Dict((reverse(p) for p in pairs(IndexCartesian(), mat)))
         return new{T}(grid, BoardProgress(grid_size))
     end
 end
@@ -64,14 +64,14 @@ end
 function read_input_into_game(::Type{T}, in_file::AbstractString) where {T<:Integer}
     # Add an empty last element to the iterator so we don't have to special-case collecting
     # the rows of the last board in the event that the file doesn't already end in a newline
-    lines = Stateful(strip(line) for line ∈ flatten((eachline(in_file), ("",))))
+    lines = Stateful(strip(line) for line in flatten((eachline(in_file), ("",))))
 
     numbers_drawn = parse.(T, split(popfirst!(lines), ','))
 
     boards = Board{T}[]
     this_mat_rows = Matrix{T}[]
 
-    for line ∈ lines
+    for line in lines
         if isempty(line)
             if !isempty(this_mat_rows)
                 let mat = vcat(this_mat_rows...), board = Board(mat)
@@ -98,7 +98,7 @@ game = read_input_into_game(Int, joinpath(@__DIR__, "input.txt"))
 
 # tag::pt1[]
 function play_until_first_winner(game::Game{T}) where {T}
-    for number ∈ game.numbers, board ∈ game.boards
+    for number in game.numbers, board in game.boards
         apply_number(board, number)
         if has_won(board)
             return get_answer_from_final_game_state(number, board)
@@ -116,7 +116,7 @@ function play_until_last_winner(game::Game{T}) where {T}
     # The boards that haven't won yet
     ongoing_boards = Set{Int}(keys(game.boards))
 
-    for number ∈ game.numbers, (board_index, board) ∈ pairs(game.boards)
+    for number in game.numbers, (board_index, board) in pairs(game.boards)
         let already_won = board_index ∉ ongoing_boards
             already_won && continue
         end

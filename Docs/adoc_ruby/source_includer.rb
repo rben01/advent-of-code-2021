@@ -17,10 +17,6 @@ class SourceIncluderMacro < Asciidoctor::Extensions::BlockMacroProcessor
       lang = "julia"
     end
 
-    # if lang.length > 0
-    #   lang = "#{lang},"
-    # end
-
     attr_comps = []
     attrs.each_pair { |k, v|
       attr_comps.push(%(#{k}=#{v}))

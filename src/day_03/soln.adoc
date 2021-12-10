@@ -32,11 +32,11 @@ We are asked to find two new numbers, the oxygen scrubber rating `oxy_rate` and 
 The procedure to find the `oxy_rate` is as follows: +
 
 . Initialize the list of candidate values to the full list of rows in `elems` as defined above.
-. With \(i\) ranging from the leftmost column index in `elems` to the rightmost column index (most significant digit to least):
-.. Successively narrow down the list of candidates by keeping only those remaining candidates whose \(i\)^th^ digit is the most common \(i\)^th^ digit of the remaining candidates, with a tie between 0 and 1 going to 1.
-*** For instance, when \(i=5\), then keep only the remaining candidates whose 5^th^ digit is the most common 5^th^ digit (0 or 1, ties going to 1) of all remaining candidates at that stage.
-.. Stop when only one candidate remains. (This is guaranteed to happen a
-Since the \(i\)^th^ element of `range_between(a, b)` is \(a + i\)s long as the rows are all distinct.)
+. With \(k\) ranging from the leftmost column index in `elems` to the rightmost column index (most significant digit to least):
+.. Successively narrow down the list of candidates by keeping only those remaining candidates whose \(k\)^th^ digit is the most common \(k\)^th^ digit of the remaining candidates, with a tie between 0 and 1 going to 1.
+*** For instance, when \(k=5\), then keep only the remaining candidates whose 5^th^ digit is the most common 5^th^ digit (0 or 1, ties going to 1) of all remaining candidates at that stage.
+.. Stop when only one candidate remains.
+(This is guaranteed to happen as long as the rows are all distinct.)
 
 The procedure for `co2_rate` is the same, except that the list of candidates is filtered down according to the _least_ common digit in each position, with ties going to 0.
 

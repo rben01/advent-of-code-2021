@@ -1,4 +1,4 @@
-always_for_in = false
+always_for_in = true
 always_use_return = true
 conditional_to_if = true
 format_docstrings = true

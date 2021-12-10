@@ -15,7 +15,7 @@ line_endpoints = [
         m === nothing && error("could not parse input: $(line)")
         x1, y1, x2, y2 = parse.(Int, m.captures)
         ((x1, y1), (x2, y2))::EndpointPair{Int}
-    end for line ∈ eachline(joinpath(@__DIR__, "input.txt"))
+    end for line in eachline(joinpath(@__DIR__, "input.txt"))
 ]
 
 function range_between(a, b)
@@ -34,9 +34,9 @@ end
 # tag::pt1[]
 function get_hv_point_counts(endpoints::LinesVec{T}) where {T}
     acc = Accumulator{Point{T},Int}()
-    for ((x1, y1), (x2, y2)) ∈ endpoints
+    for ((x1, y1), (x2, y2)) in endpoints
         x1 == x2 || y1 == y2 || continue
-        for x ∈ range_between(x1, x2), y ∈ range_between(y1, y2)
+        for x in range_between(x1, x2), y in range_between(y1, y2)
             inc!(acc, (x, y))
         end
     end
@@ -50,7 +50,7 @@ hv_point_counts = get_hv_point_counts(line_endpoints)
 # tag::pt2[]
 function get_diag_point_counts(endpoints::LinesVec{T}) where {T}
     acc = Accumulator{Point{T},Int}()
-    for ((x1, y1), (x2, y2)) ∈ endpoints
+    for ((x1, y1), (x2, y2)) in endpoints
         abs(x2 - x1) == abs(y2 - y1) || continue
         for (x, y) in zip(range_between(x1, x2), range_between(y1, y2))
             inc!(acc, (x, y))
