@@ -1,4 +1,4 @@
-# %%
+module Day6
 
 # tag::common[]
 using BenchmarkTools
@@ -20,11 +20,11 @@ get_pop(ages) = sum(ages)
 ages = get_ages_tup(Int)
 # end::common[]
 
+# tag::array_soln[]
 macro bench(obj)
     return :(@benchmark(get_pop(tick(2000, $obj)), samples = 10000, evals = 20))
 end
-# %%
-# tag::array_soln[]
+
 using StaticArrays
 
 function empty_ages_vec(::Type{T}, max_age) where {T}
@@ -63,7 +63,7 @@ tick(ages::AbstractVector{T}) where {T} = tick(1, ages)
 ages_vec = convert(MVector{length(ages),eltype(ages)}, ages)
 @bench ages_vec
 # end::array_soln[]
-# %%
+
 # tag::tuple_soln[]
 @generated function tick(ages::NTuple{N}) where {N}
     tuple_expr = Expr(:tuple)
@@ -88,9 +88,10 @@ end
 
 # end::tuple_soln[]
 @bench ages
-# %%
 
 # tag::ans[]
 @show get_pop(tick(80, ages))
 @show get_pop(tick(256, ages))
 # end::ans[]
+
+end

@@ -1,4 +1,5 @@
 # %%
+module Day10
 
 # tag::setup[]
 lines = collect(eachline(joinpath(@__DIR__, "input.txt")))
@@ -142,3 +143,4 @@ incomplete_scores = sort(score.(filter(r -> r isa Incomplete, results)))
 )]
 # end::pt2[]
 
+end

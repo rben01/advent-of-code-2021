@@ -1,4 +1,5 @@
-# %%
+module Day9
+
 # tag::setup[]
 heightmap =
     let lines = eachline(joinpath(@__DIR__, "input.txt")),
@@ -80,3 +81,5 @@ end
 basin_sizes = sort(get_basin_sizes(heightmap); rev=true)
 @show reduce(*, basin_sizes[1:3])
 # end::pt2[]
+
+end

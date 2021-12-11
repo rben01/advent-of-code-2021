@@ -1,3 +1,5 @@
+module Day1
+
 # tag::setup[]
 using DataStructures
 using Base.Iterators
@@ -30,3 +32,5 @@ end
 # tag::pt2[]
 @show get_n_increasing_running_sum_of_depths(3)
 # end::pt2[]
+
+end

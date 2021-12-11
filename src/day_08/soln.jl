@@ -1,4 +1,5 @@
-# %%
+module Day8
+
 # tag::digit[]
 N_SEGMENTS = 7
 
@@ -158,12 +159,12 @@ function translate_line_to_digits(line::Line)
     return digits
 end
 # end::setup[]
-# %%
+
 # tag::pt1[]
 all_output_digits = hcat(translate_line_to_digits.(lines)...)
 @show sum(all_output_digits .∈ Ref((1, 4, 7, 8)))
 # end::pt1[]
-# %%
+
 # tag::pt2[]
 function translate_line_to_base10(line::Line)
     digits = translate_line_to_digits(line)
@@ -173,3 +174,5 @@ end
 
 @show sum(translate_line_to_base10.(lines))
 # end::pt2[]
+
+end

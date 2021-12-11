@@ -1,3 +1,5 @@
+module Day2
+
 # tag::pt1[]
 horizontal = vertical = 0
 for line in eachline(joinpath(@__DIR__, "input.txt"))
@@ -40,3 +42,5 @@ end
 ans = horizontal * vertical
 @show ans
 # end::pt2[]
+
+end

@@ -7,7 +7,7 @@ We are asked to deduce the manner in which a computer has been incorrectly hooke
 
 image::https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Seven_segment_01_Pengo.jpg/485px-Seven_segment_01_Pengo.jpg[A seven-segment display chip with pins showing,width=300]
 
-We will use the following display schematic (note the segments labeled A–G):
+We will use the following display schematic, with the segments labeled A–G:
 
 [source]
 ----
@@ -33,7 +33,7 @@ B       B            C  B    C  B    C
 The computer sends a stream of digits that we see as various patterns of lit segments on the 7SD.
 The computer has the correct logic to display digits, but its wires to the 7SD got crossed during setup, so the digits it attempts to display end up looking like gibberish to us.
 But because the computer's underlying logic still holds, we can still deduce things from its output.
-For instance, if it lights up only two segments, we know that it is trying to display a 1, and so the two segments it lit up _should_ be rewired to the two segments `CF` (although we still don't know in which order).
+For instance, if it lights up only two segments, we know that it is trying to display a 1 (because 1 is the only digit made of exactly two segments), and so the two segments it lit up _should_ be rewired to the two segments `CF` (although we still don't know in which order).
 If it lights up five segments, then it could be trying to display either a 2 (`ACDEG`), 3 (`ACDFG`), or 5 (`ABDFG`).
 By observing the patterns it lights up, and using our knowledge of how the digits 0–9 should have been displayed, we can deduce the full wiring scheme and how the computer must be rewired to the display in order to function correctly.
 

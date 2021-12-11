@@ -1,3 +1,5 @@
+module Day4
+
 # tag::setup[]
 import Base.Iterators: Stateful, popfirst!, flatten
 
@@ -136,3 +138,5 @@ end
 
 @show play_until_last_winner(game)
 # end::pt2[]
+
+end

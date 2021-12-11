@@ -1,4 +1,5 @@
-# %%
+module Day7
+
 # tag::setup[]
 using Statistics
 
@@ -10,12 +11,12 @@ positions =
         parse.(Int, items)
     end
 # end::setup[]
-# %%
+
 # tag::pt1[]
 md = round(Int, median(positions))
 @show sum(abs.(positions .- md))
 # end::pt1[]
-# %%
+
 # tag::pt2[]
 mn_lo, mn_hi = round.(Int, mean(positions), (RoundDown, RoundUp))
 cost(diff) =
@@ -25,3 +26,5 @@ cost(diff) =
 @show minimum(sum(cost.(positions .- [mn_lo mn_hi]); dims=1))
 
 # end::pt2[]
+
+end

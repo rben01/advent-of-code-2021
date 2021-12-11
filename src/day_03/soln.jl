@@ -1,3 +1,5 @@
+module Day3
+
 # tag::setup[]
 elems = vcat(
     (
@@ -54,3 +56,4 @@ end
 @show oxy_rate * co2_rate
 
 # end::pt2[]
+end

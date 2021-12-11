@@ -1,4 +1,4 @@
-# %%
+module Day5
 
 # tag::setup[]
 using DataStructures
@@ -28,8 +28,6 @@ function get_ans(point_counts)
 end
 
 # end::setup[]
-
-# %%
 
 # tag::pt1[]
 function get_hv_point_counts(endpoints::LinesVec{T}) where {T}
@@ -63,3 +61,5 @@ all_point_counts = get_diag_point_counts(line_endpoints)
 merge!(all_point_counts, hv_point_counts)
 @show get_ans(all_point_counts)
 # end::pt2[]
+
+end
