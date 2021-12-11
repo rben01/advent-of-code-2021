@@ -7,7 +7,9 @@ heightmap =
 
         mat
     end
+# end::setup[]
 
+# tag::pt1[]
 function is_lower_than_neighbors(mat, i::CartesianIndex, mat_axes)
     r, c = Tuple(i)
     val = mat[r, c]
@@ -30,9 +32,7 @@ is_lower_than_neighbors(mat) =
     end
 
 risk_level(mat) = mat .+ 1
-# end::setup[]
 
-# tag::pt1[]
 low_point_risks = risk_level(heightmap) .* is_lower_than_neighbors(heightmap)
 @show sum(low_point_risks)
 # end::pt1[]
@@ -43,9 +43,13 @@ function get_basin_sizes(mat::AbstractMatrix{T}) where {T}
     basin_sizes = Int[]
     not_yet_visited = mat .!= 9
 
+    visited = Set{keytype(mat)}()
+    coords_stack = keytype(mat)[]
     while (first_coords = findfirst(not_yet_visited)) !== nothing
-        visited = Set{keytype(mat)}()
-        coords_stack = [first_coords]
+        empty!(visited)
+
+        empty!(coords_stack)
+        push!(coords_stack, first_coords)
 
         while !isempty(coords_stack)
             coords = pop!(coords_stack)
