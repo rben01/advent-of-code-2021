@@ -1,4 +1,3 @@
-module Day2
 
 # tag::pt1[]
 horizontal = vertical = 0
@@ -42,5 +41,3 @@ end
 ans = horizontal * vertical
 @show ans
 # end::pt2[]
-
-end

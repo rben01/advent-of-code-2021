@@ -14,30 +14,45 @@ julia> braces
  '<'  '>'
 ```
 """
-braces = ['(' ')'; '[' ']'; '{' '}'; '<' '>']
+const braces = ['(' ')'; '[' ']'; '{' '}'; '<' '>']
 
-bracetype_axis, orientation_axis = axes(braces)
+const bracetype_axis, orientation_axis = axes(braces)
 
-B = O = Int
+struct BraceId
+    id::Int
+    function BraceId(id::Int)
+        id in bracetype_axis || error("Invalid brace: $(id)")
+        return new(id)
+    end
+end
+struct OrientationId
+    id::Int
+    function OrientationId(id::Int)
+        id in orientation_axis || error("Invalid brace: $(id)")
+        return new(id)
+    end
+end
 
-BraceKind{N} = @NamedTuple {index::B, elems::NTuple{2,Char}}
-Orientation{N} = @NamedTuple {index::O, elems::NTuple{4,Char}}
+flip(o::OrientationId) = OrientationId(length(orientation_axis) - o.id + 1)
 
-parens, squares, curlys, angles = map(
-    i -> (; index=i, elems=Tuple(braces[i, :]))::BraceKind, bracetype_axis
+BraceKind{N} = @NamedTuple {id::BraceId, elems::NTuple{2,Char}}
+Orientation{N} = @NamedTuple {id::OrientationId, elems::NTuple{4,Char}}
+
+const parens, squares, curlys, angles = map(
+    i -> (; id=BraceId(i), elems=Tuple(braces[i, :]))::BraceKind, bracetype_axis
 )
 
-lefts, rights = map(
-    i -> (; index=i, elems=Tuple(braces[:, i]))::Orientation, orientation_axis
+const lefts, rights = map(
+    i -> (; id=OrientationId(i), elems=Tuple(braces[:, i]))::Orientation, orientation_axis
 )
 
 struct Token
-    brace::B
-    orientation::O
+    brace::BraceId
+    orientation::OrientationId
 
-    function Token(brace, orientation)
-        brace ∈ bracetype_axis || error("Invalid brace: $(brace)")
-        orientation ∈ orientation_axis || error("Invalid orientation: $(orientation)")
+    function Token(brace::BraceId, orientation::OrientationId)
+        brace.id ∈ bracetype_axis || error("Invalid brace: $(brace)")
+        orientation.id ∈ orientation_axis || error("Invalid orientation: $(orientation)")
         return new(brace, orientation)
     end
 end
@@ -49,8 +64,8 @@ function get_container(elem, sets)
     return superset
 end
 function Token(c::Char)
-    brace = get_container(c, (parens, squares, curlys, angles)).index
-    orientation = get_container(c, (lefts, rights)).index
+    brace = get_container(c, (parens, squares, curlys, angles)).id
+    orientation = get_container(c, (lefts, rights)).id
 
     return Token(brace, orientation)
 end
@@ -59,10 +74,10 @@ Base.show(io::IO, token::Token) = Base.show(io, braces[token.orientation, token.
 
 brace_kind(t::Token) = t.brace
 orientation(t::Token) = t.orientation
-flip(t::Token) = Token(brace_kind(t), length(orientation_axis) - orientation(t) + 1)
+flip(t::Token) = Token(brace_kind(t), flip(orientation(t)))
 
-matches(t::Token, b::BraceKind) = brace_kind(t) == b.index
-matches(t::Token, o::Orientation) = orientation(t) == o.index
+matches(t::Token, b::BraceKind) = brace_kind(t) == b.id
+matches(t::Token, o::Orientation) = orientation(t) == o.id
 
 struct Ok end
 struct Corrupted
@@ -109,9 +124,7 @@ function score(corr::Corrupted)
     )::NTuple{4,Tuple{BraceKind,Int}}
 
     idx = findfirst(((brace_type, _),) -> matches(t, brace_type), scores)
-    idx === nothing && error("invalid token: $(t)")
-
-    (_, score) = scores[idx]
+    _, score = scores[idx]
     return score
 end
 
@@ -128,9 +141,7 @@ function score(inco::Incomplete)
         net_score *= 5
 
         idx = findfirst(((brace_type, _),) -> matches(t, brace_type), scores)
-        idx === nothing && error("invalid token: $(t)")
-
-        (_, score) = scores[idx]
+        _, score = scores[idx]
         net_score += score
     end
 
