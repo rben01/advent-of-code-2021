@@ -7,12 +7,12 @@ This challenge mostly just requires filtering arrays and counting elements satis
 ***
 
 .{setup-title}
-The first thing we do is read the input file into a `BitArray` named `elems` of size `(n_lines, line_length)`, where `elems[i, j] == (lines[i][j] == '1')`.
-We also create a function that converts a binary vector, most significant digit first, to a (decimal) number.
+The first thing we do is read the input file into a `ndarray::Array2<bool>` of size `(n_rows, n_cols)`, where a `true` value corresponds to a `1` character in the input, and a `false` to a `0`.
+We also created a function that converts a binary vector, most significant digit first, to a (decimal) number (see the <<Setup>> section above).
 For example, given `10011`, we compute `[1, 0, 0, 1, 1] .* [16, 8, 4, 2, 1] = [16, 0, 0, 2, 1]`, whose sum is 19.
 (This is just how link:https://en.wikipedia.org/wiki/Positional_notation#Mathematics[positional notation^] works.)
 
-include_source::soln.jl[tag=setup]
+include_source::mod.rs[tag=setup]
 
 .{part-title} 1
 
@@ -24,7 +24,7 @@ We are asked to find two numbers, `gamma_rate` (\(\gamma\)) and `epsilon_rate` (
 Since there are only two digits to choose from, the most common digit and the least common digit in each column will be opposites, and so \(\gamma + \varepsilon = \text{all 1s} = 2^{\text{\texttt{line\textunderscore{}width}}}-1\).
 In other words we don't need to compute \(\varepsilon\) “the long way”; once we have \(\gamma\), we immediately have \(\varepsilon\).
 
-include_source::soln.jl[tag=pt1]
+include_source::mod.rs[tag=pt1]
 
 .{part-title} 2
 
@@ -40,4 +40,4 @@ The procedure to find the `oxy_rate` is as follows: +
 
 The procedure for `co2_rate` is the same, except that the list of candidates is filtered down according to the _least_ common digit in each position, with ties going to 0.
 
-include_source::soln.jl[tag=pt2]
+include_source::mod.rs[tag=pt2]

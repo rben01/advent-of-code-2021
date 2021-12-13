@@ -1,13 +1,15 @@
 # %%
 module Day11
 # %%
-# tag::pt1[]
+# tag::setup[]
 octopi = let
     lines = eachline(joinpath(@__DIR__, "input.txt"))
     parsed_lines = (parse.(Int, reshape(collect(line), (1, :))) for line in lines)
     vcat(parsed_lines...)
 end
+# end::setup[]
 
+# tag::pt1[]
 function tick_in_place(octopi::AbstractArray)
     octopi .+= 1
 
@@ -46,16 +48,18 @@ end
 
 function tick(n::Int, octopi)
     octopi = copy(octopi)
-
     n_flashes = 0
-
     for _ in 1:n
         n_flashes += tick_in_place(octopi)
     end
 
-    return (n_flashes, octopi) # got swapped with out in the last round
+    return (n_flashes, octopi)
 end
 
+@show tick(100, octopi)
+# end::pt1[]
+
+# tag::pt2[]
 function find_simultaneous_flash_tick(octopi)
     octopi = copy(octopi)
 
@@ -70,6 +74,6 @@ end
 
 @show find_simultaneous_flash_tick(octopi)
 
-# end::pt1[]
+# end::pt2[]
 # %%
 end

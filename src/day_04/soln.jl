@@ -110,7 +110,9 @@ function play_until_first_winner(game::Game{T}) where {T}
     return error("no boards won")
 end
 
+xx = Game(deepcopy(game.boards), copy(game.numbers))
 @show play_until_first_winner(game)
+@show xx.boards == game.boards
 # end::pt1[]
 
 # tag::pt2[]

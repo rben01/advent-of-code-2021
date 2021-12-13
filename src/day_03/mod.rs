@@ -1,8 +1,9 @@
+// tag::setup[]
 use crate::{to_decimal, Answer};
 use ndarray::prelude::*;
 
 fn get_input_mat() -> Option<ndarray::Array2<bool>> {
-	let mut char_vec = Vec::new();
+	let mut bit_vec = Vec::new();
 	let mut lines = include_str!("./input.txt").lines();
 
 	let first_line = lines.next()?;
@@ -10,14 +11,16 @@ fn get_input_mat() -> Option<ndarray::Array2<bool>> {
 
 	for line in std::iter::once(first_line).chain(lines) {
 		for c in line.bytes() {
-			char_vec.push(c == b'1');
+			bit_vec.push(c == b'1');
 		}
 	}
 
-	let n_lines = char_vec.len() / line_length;
-	Array2::from_shape_vec((n_lines, line_length), char_vec).ok()
+	let n_lines = bit_vec.len() / line_length;
+	Array2::from_shape_vec((n_lines, line_length), bit_vec).ok()
 }
+// end::setup[]
 
+// tag::pt1[]
 fn pt1(mat: &Array2<bool>) -> usize {
 	let (n_rows, n_cols) = mat.dim();
 
@@ -35,7 +38,9 @@ fn pt1(mat: &Array2<bool>) -> usize {
 
 	gamma_rate * epsilon_rate
 }
+// end::pt1[]
 
+// tag::pt2[]
 fn value_of_line_chosen_by_criterion(
 	mat: &Array2<bool>,
 	cmp_predicate: impl Fn(usize, usize) -> bool,
@@ -81,13 +86,16 @@ fn value_of_line_chosen_by_criterion(
 }
 
 fn pt2(mat: &Array2<bool>) -> usize {
-	let oxy_rate = value_of_line_chosen_by_criterion(mat, |x, y| x >= y);
-	let co2_rate = value_of_line_chosen_by_criterion(mat, |x, y| x < y);
+	let [oxy_rate, co2_rate] =
+		[|x, y| x >= y, |x, y| x < y].map(|op| value_of_line_chosen_by_criterion(mat, op));
 
 	oxy_rate * co2_rate
 }
+// end::pt2[]
+// tag::setup[]
 
 pub fn ans() -> Answer<usize, usize> {
 	let mat = get_input_mat().unwrap();
 	(pt1(&mat), pt2(&mat)).into()
 }
+// end::setup[]
