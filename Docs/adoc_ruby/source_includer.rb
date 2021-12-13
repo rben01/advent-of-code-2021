@@ -15,6 +15,8 @@ class SourceIncluderMacro < Asciidoctor::Extensions::BlockMacroProcessor
     lang = ""
     if target.end_with? ".jl"
       lang = "julia"
+    elsif target.end_with? ".rs"
+      lang = "rust"
     end
 
     attr_comps = []

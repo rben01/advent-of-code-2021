@@ -313,6 +313,7 @@ pre,
 samp {
 	font-family: var(--mono-font-family), serif;
 	font-size: var(--mono-font-size);
+	tab-size: 3;
 }
 
 kbd {

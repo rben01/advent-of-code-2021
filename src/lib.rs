@@ -1,9 +1,13 @@
 use std::fmt::{Debug, Display};
-
+// tag::mods[]
 pub mod day_01;
 pub mod day_02;
 pub mod day_03;
+pub mod day_04;
+pub mod day_05;
 pub mod day_12;
+pub mod day_13;
+// end::mods[]
 
 #[derive(Debug)]
 pub struct Answer<T1, T2> {
