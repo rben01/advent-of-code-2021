@@ -29,12 +29,8 @@ It assumes some familiarity with https://www.rust-lang.org/[the Rust language^].
 Rust is a very strict language and makes you explicitly handle all errors that might arise (as opposed to, say,  exceptions implicitly being thrown on error, as Python does).
 However, we can trust our inputs, taken straight from Advent of Code, to be correct and give unambiguous answers without errors.
 For this reason, we tend to be pretty loosey-goosey about unwrapping the ``Option``s and ``Result``s that the Rust compiler correctly points out we could theoretically encounter.
-(There wouldn't be any point to handling those cases gracefully; we're just trying to solve Advent of Code, not create general-purpose submarine-squid-bingo-players.
-Their residual variants might as well be marked `unreachable!()Passage Pathingssage Pathing
-
-link_day:12[]
-
- `.)
+(There wouldn't be any point to handling those cases gracefully; we're just trying to solve Advent of Code, not create general-purpose a submarine-squid-bingo-player that can function sensibly even when the squid gives us nonsensical input.
+For our purposes, the residual variants of a `Try` object at the boundary of our program are `unreachable!()`.)
 
 
 [NOTE]
@@ -76,3 +72,7 @@ include::{src-dir}/day_08/soln.adoc[leveloffset=+1]
 include::{src-dir}/day_09/soln.adoc[leveloffset=+1]
 
 include::{src-dir}/day_10/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_11/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_12/soln.adoc[leveloffset=+1]

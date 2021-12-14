@@ -51,6 +51,8 @@
 <li><a href="#_seven_segment_search">8. Seven Segment Search</a></li>
 <li><a href="#_smoke_basin">9. Smoke Basin</a></li>
 <li><a href="#_syntax_scoring">10. Syntax Scoring</a></li>
+<li><a href="#_dumbo_octopus">11. Dumbo Octopus</a></li>
+<li><a href="#_passage_pathing">12. Passage Pathing</a></li>
 </ul>
 </div>
 </div>
@@ -65,8 +67,8 @@ It assumes some familiarity with <a href="https://www.rust-lang.org/" target="_b
 <p>Rust is a very strict language and makes you explicitly handle all errors that might arise (as opposed to, say,  exceptions implicitly being thrown on error, as Python does).
 However, we can trust our inputs, taken straight from Advent of Code, to be correct and give unambiguous answers without errors.
 For this reason, we tend to be pretty loosey-goosey about unwrapping the <code>Option</code>s and <code>Result</code>s that the Rust compiler correctly points out we could theoretically encounter.
-(There wouldn&#8217;t be any point to handling those cases gracefully; we&#8217;re just trying to solve Advent of Code, not create general-purpose submarine-squid-bingo-players.
-Their residual variants might as well be marked <code>unreachable!()</code>.)</p>
+(There wouldn&#8217;t be any point to handling those cases gracefully; we&#8217;re just trying to solve Advent of Code, not create general-purpose a submarine-squid-bingo-player that can function sensibly even when the squid gives us nonsensical input.
+For our purposes, the residual variants of a <code>Try</code> object at the boundary of our program are <code>unreachable!()</code>.)</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1617,6 +1619,293 @@ The only way to make this interesting was to try and make the code as DRY as pos
 <span class="tok-p">)]</span></code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dumbo_octopus">11. Dumbo Octopus</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/11" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 11 problem description</a></p>
+</div>
+<div class="paragraph">
+<p>These problems where you just have to manage the state of an array and update it correctly, and potentially query the state of the array, aren&#8217;t that interesting to me anymore.
+There is no algorithmic interestingness to them.</p>
+</div>
+<hr>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-n">octopi</span> <span class="tok-o">=</span> <span class="tok-k">let</span>
+    <span class="tok-n">lines</span> <span class="tok-o">=</span> <span class="tok-n">eachline</span><span class="tok-p">(</span><span class="tok-n">joinpath</span><span class="tok-p">(</span><span class="tok-nd">@__DIR__</span><span class="tok-p">,</span> <span class="tok-s">&quot;input.txt&quot;</span><span class="tok-p">))</span>
+    <span class="tok-n">parsed_lines</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-n">parse</span><span class="tok-o">.</span><span class="tok-p">(</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">reshape</span><span class="tok-p">(</span><span class="tok-n">collect</span><span class="tok-p">(</span><span class="tok-n">line</span><span class="tok-p">),</span> <span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-o">:</span><span class="tok-p">)))</span> <span class="tok-k">for</span> <span class="tok-n">line</span> <span class="tok-kp">in</span> <span class="tok-n">lines</span><span class="tok-p">)</span>
+    <span class="tok-n">vcat</span><span class="tok-p">(</span><span class="tok-n">parsed_lines</span><span class="tok-o">...</span><span class="tok-p">)</span>
+<span class="tok-k">end</span>
+
+<span class="tok-k">function</span> <span class="tok-n">tick_in_place</span><span class="tok-p">(</span><span class="tok-n">octopi</span><span class="tok-o">::</span><span class="tok-kt">AbstractArray</span><span class="tok-p">)</span>
+    <span class="tok-n">octopi</span> <span class="tok-o">.+=</span> <span class="tok-mi">1</span>
+
+    <span class="tok-n">row_ax</span><span class="tok-p">,</span> <span class="tok-n">col_ax</span> <span class="tok-o">=</span> <span class="tok-n">axes</span><span class="tok-p">(</span><span class="tok-n">octopi</span><span class="tok-p">)</span>
+    <span class="tok-n">n_flashes</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
+
+    <span class="tok-c"># We use equality with FLASH_THRESH to mean &quot;will flash right now&quot;, whereas being</span>
+    <span class="tok-c"># greater than FLASH_THRESH means &quot;has already flashed (and won&#39;t flash again)&quot;</span>
+
+    <span class="tok-n">FLASH_THRESH</span> <span class="tok-o">=</span> <span class="tok-mi">10</span>
+    <span class="tok-k">while</span> <span class="tok-kc">true</span>
+        <span class="tok-n">flashing_octopi_idxs</span> <span class="tok-o">=</span> <span class="tok-n">findall</span><span class="tok-p">(</span><span class="tok-n">octopi</span> <span class="tok-o">.==</span> <span class="tok-n">FLASH_THRESH</span><span class="tok-p">)</span>
+        <span class="tok-n">isempty</span><span class="tok-p">(</span><span class="tok-n">flashing_octopi_idxs</span><span class="tok-p">)</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-k">break</span>
+
+        <span class="tok-n">n_flashes</span> <span class="tok-o">+=</span> <span class="tok-n">length</span><span class="tok-p">(</span><span class="tok-n">flashing_octopi_idxs</span><span class="tok-p">)</span>
+        <span class="tok-k">for</span> <span class="tok-n">idx</span> <span class="tok-kp">in</span> <span class="tok-n">flashing_octopi_idxs</span>
+            <span class="tok-n">octopi</span><span class="tok-p">[</span><span class="tok-n">idx</span><span class="tok-p">]</span> <span class="tok-o">+=</span> <span class="tok-mi">1</span>
+
+            <span class="tok-n">flash_r</span><span class="tok-p">,</span> <span class="tok-n">flash_c</span> <span class="tok-o">=</span> <span class="tok-kt">Tuple</span><span class="tok-p">(</span><span class="tok-n">idx</span><span class="tok-p">)</span>
+            <span class="tok-k">for</span> <span class="tok-n">dr</span> <span class="tok-kp">in</span> <span class="tok-o">-</span><span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-n">dc</span> <span class="tok-kp">in</span> <span class="tok-o">-</span><span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-mi">1</span>
+                <span class="tok-n">r</span> <span class="tok-o">=</span> <span class="tok-n">flash_r</span> <span class="tok-o">+</span> <span class="tok-n">dr</span>
+                <span class="tok-n">c</span> <span class="tok-o">=</span> <span class="tok-n">flash_c</span> <span class="tok-o">+</span> <span class="tok-n">dc</span>
+                <span class="tok-n">r</span> <span class="tok-o">∈</span> <span class="tok-n">row_ax</span> <span class="tok-o">&amp;&amp;</span> <span class="tok-n">c</span> <span class="tok-o">∈</span> <span class="tok-n">col_ax</span> <span class="tok-o">||</span> <span class="tok-k">continue</span>
+
+                <span class="tok-k">if</span> <span class="tok-n">octopi</span><span class="tok-p">[</span><span class="tok-n">r</span><span class="tok-p">,</span> <span class="tok-n">c</span><span class="tok-p">]</span> <span class="tok-o">&lt;</span> <span class="tok-n">FLASH_THRESH</span>
+                    <span class="tok-n">octopi</span><span class="tok-p">[</span><span class="tok-n">r</span><span class="tok-p">,</span> <span class="tok-n">c</span><span class="tok-p">]</span> <span class="tok-o">+=</span> <span class="tok-mi">1</span>
+                <span class="tok-k">end</span>
+            <span class="tok-k">end</span>
+        <span class="tok-k">end</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-n">octopi</span><span class="tok-p">[</span><span class="tok-n">octopi</span> <span class="tok-o">.&gt;=</span> <span class="tok-n">FLASH_THRESH</span><span class="tok-p">]</span> <span class="tok-o">.=</span> <span class="tok-mi">0</span>
+
+    <span class="tok-k">return</span> <span class="tok-n">n_flashes</span>
+<span class="tok-k">end</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Part 1</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-o">::</span><span class="tok-kt">Int</span><span class="tok-p">,</span> <span class="tok-n">octopi</span><span class="tok-p">)</span>
+    <span class="tok-n">octopi</span> <span class="tok-o">=</span> <span class="tok-n">copy</span><span class="tok-p">(</span><span class="tok-n">octopi</span><span class="tok-p">)</span>
+    <span class="tok-n">n_flashes</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
+    <span class="tok-k">for</span> <span class="tok-n">_</span> <span class="tok-kp">in</span> <span class="tok-mi">1</span><span class="tok-o">:</span><span class="tok-n">n</span>
+        <span class="tok-n">n_flashes</span> <span class="tok-o">+=</span> <span class="tok-n">tick_in_place</span><span class="tok-p">(</span><span class="tok-n">octopi</span><span class="tok-p">)</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-k">return</span> <span class="tok-p">(</span><span class="tok-n">n_flashes</span><span class="tok-p">,</span> <span class="tok-n">octopi</span><span class="tok-p">)</span>
+<span class="tok-k">end</span>
+
+<span class="tok-nd">@show</span> <span class="tok-n">tick</span><span class="tok-p">(</span><span class="tok-mi">100</span><span class="tok-p">,</span> <span class="tok-n">octopi</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Part 2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="julia"><span></span><span class="tok-k">function</span> <span class="tok-n">find_simultaneous_flash_tick</span><span class="tok-p">(</span><span class="tok-n">octopi</span><span class="tok-p">)</span>
+    <span class="tok-n">octopi</span> <span class="tok-o">=</span> <span class="tok-n">copy</span><span class="tok-p">(</span><span class="tok-n">octopi</span><span class="tok-p">)</span>
+
+    <span class="tok-n">i</span> <span class="tok-o">=</span> <span class="tok-mi">0</span>
+    <span class="tok-k">while</span> <span class="tok-n">any</span><span class="tok-p">(</span><span class="tok-n">octopi</span> <span class="tok-o">.!=</span> <span class="tok-mi">0</span><span class="tok-p">)</span>
+        <span class="tok-n">tick_in_place</span><span class="tok-p">(</span><span class="tok-n">octopi</span><span class="tok-p">)</span>
+        <span class="tok-n">i</span> <span class="tok-o">+=</span> <span class="tok-mi">1</span>
+    <span class="tok-k">end</span>
+
+    <span class="tok-k">return</span> <span class="tok-n">i</span>
+<span class="tok-k">end</span>
+
+<span class="tok-nd">@show</span> <span class="tok-n">find_simultaneous_flash_tick</span><span class="tok-p">(</span><span class="tok-n">octopi</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_passage_pathing">12. Passage Pathing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/12" target="^"><span class="icon"><i class="fa fa-external-link"></i></span> Day 12 problem description</a> | <a href="/src/day_12/input.txt" target="^">Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>Finally, a problem that isn&#8217;t just about array manipulation.
+This problem asks us to count the number of paths from the origin node of an undirected graph to the destination node, with constraints on how many times we may visit certain nodes and no constraints on how many times we may use an edge.
+(Note that the problem has us exploring an underwater cave system, so the source code below refers to nodes as “caves”.)
+Nodes are classified as either “big” or “small”, depending on the case of their name in the input.
+A big node can be visited arbitrarily many times, whereas a small node can only be visited a limited number of times.
+(If two big nodes were adjacent, then there would be infinitely many paths through the graph since because we could just bounce back and forth between them forever.)</p>
+</div>
+<div class="paragraph">
+<p>First, we must build the graph.
+We ingest the list of edges into a dictionary mapping each node to the set of nodes reachable from it.
+After doing this we traverse the graph.
+We maintain a stack representing the current path; we push onto the stack from the choices in the current node&#8217;s entry in the dictionary, and when we&#8217;ve exhausted all of the edges available from the current node, we pop the current node.
+We don&#8217;t actually maintain a stack in the code; we merely use the call stack.</p>
+</div>
+<hr>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="rust"><span></span><span class="tok-k">use</span><span class="tok-w"> </span><span class="tok-k">crate</span>::<span class="tok-n">Answer</span><span class="tok-p">;</span><span class="tok-w"></span>
+<span class="tok-k">use</span><span class="tok-w"> </span><span class="tok-n">std</span>::<span class="tok-n">collections</span>::<span class="tok-n">BTreeMap</span><span class="tok-w"> </span><span class="tok-k">as</span><span class="tok-w"> </span><span class="tok-n">Map</span><span class="tok-p">;</span><span class="tok-w"></span>
+
+<span class="tok-cp">#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]</span><span class="tok-w"></span>
+<span class="tok-k">enum</span> <span class="tok-nc">CaveKind</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-n">Big</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-n">Small</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-cp">#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]</span><span class="tok-w"></span>
+<span class="tok-k">struct</span> <span class="tok-nc">Cave</span><span class="tok-o">&lt;&#39;</span><span class="tok-na">a</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-n">name</span>: <span class="tok-kp">&amp;</span><span class="tok-o">&#39;</span><span class="tok-na">a</span> <span class="tok-kt">str</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-n">kind</span>: <span class="tok-nc">CaveKind</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-k">impl</span><span class="tok-o">&lt;&#39;</span><span class="tok-na">a</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-n">Cave</span><span class="tok-o">&lt;&#39;</span><span class="tok-na">a</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-k">fn</span> <span class="tok-nf">new</span><span class="tok-p">(</span><span class="tok-n">name</span>: <span class="tok-kp">&amp;</span><span class="tok-o">&#39;</span><span class="tok-na">a</span> <span class="tok-kt">str</span><span class="tok-p">)</span><span class="tok-w"> </span>-&gt; <span class="tok-nc">Self</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-n">is_small</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">name</span><span class="tok-p">.</span><span class="tok-n">chars</span><span class="tok-p">().</span><span class="tok-n">map</span><span class="tok-p">(</span><span class="tok-o">|</span><span class="tok-n">c</span><span class="tok-o">|</span><span class="tok-w"> </span><span class="tok-n">c</span><span class="tok-p">.</span><span class="tok-n">is_ascii_lowercase</span><span class="tok-p">()).</span><span class="tok-n">all</span><span class="tok-p">(</span><span class="tok-o">|</span><span class="tok-n">b</span><span class="tok-o">|</span><span class="tok-w"> </span><span class="tok-n">b</span><span class="tok-p">);</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-n">kind</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-n">is_small</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-n">CaveKind</span>::<span class="tok-n">Small</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-p">}</span><span class="tok-w"> </span><span class="tok-k">else</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-n">CaveKind</span>::<span class="tok-n">Big</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-p">};</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-bp">Self</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"> </span><span class="tok-n">name</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-n">kind</span><span class="tok-w"> </span><span class="tok-p">}</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-p">}</span><span class="tok-w"></span>
+<span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-cp">#[derive(Debug)]</span><span class="tok-w"></span>
+<span class="tok-k">struct</span> <span class="tok-nc">CaveSystem</span><span class="tok-o">&lt;&#39;</span><span class="tok-na">a</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-n">start</span>: <span class="tok-nc">Cave</span><span class="tok-o">&lt;&#39;</span><span class="tok-na">a</span><span class="tok-o">&gt;</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-n">edges</span>: <span class="tok-nc">Map</span><span class="tok-o">&lt;&amp;&#39;</span><span class="tok-na">a</span><span class="tok-w"> </span><span class="tok-kt">str</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-nb">Vec</span><span class="tok-o">&lt;</span><span class="tok-n">Cave</span><span class="tok-o">&lt;&#39;</span><span class="tok-na">a</span><span class="tok-o">&gt;&gt;&gt;</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-k">impl</span><span class="tok-o">&lt;&#39;</span><span class="tok-na">a</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-n">CaveSystem</span><span class="tok-o">&lt;&#39;</span><span class="tok-na">a</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-k">fn</span> <span class="tok-nf">from_input</span><span class="tok-p">(</span><span class="tok-n">input</span>: <span class="tok-kp">&amp;</span><span class="tok-o">&#39;</span><span class="tok-na">a</span> <span class="tok-kt">str</span><span class="tok-p">)</span><span class="tok-w"> </span>-&gt; <span class="tok-nb">Option</span><span class="tok-o">&lt;</span><span class="tok-bp">Self</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-k">mut</span><span class="tok-w"> </span><span class="tok-n">edges</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">Map</span>::<span class="tok-n">new</span><span class="tok-p">();</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-k">for</span><span class="tok-w"> </span><span class="tok-n">line</span><span class="tok-w"> </span><span class="tok-k">in</span><span class="tok-w"> </span><span class="tok-n">input</span><span class="tok-p">.</span><span class="tok-n">lines</span><span class="tok-p">()</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-k">mut</span><span class="tok-w"> </span><span class="tok-n">split</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">line</span><span class="tok-p">.</span><span class="tok-n">split</span><span class="tok-p">(</span><span class="tok-sc">&#39;-&#39;</span><span class="tok-p">);</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-n">left</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">split</span><span class="tok-p">.</span><span class="tok-n">next</span><span class="tok-p">()</span><span class="tok-o">?</span><span class="tok-p">;</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-n">right</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">split</span><span class="tok-p">.</span><span class="tok-n">next</span><span class="tok-p">()</span><span class="tok-o">?</span><span class="tok-p">;</span><span class="tok-w"></span>
+
+<span class="tok-w">			</span><span class="tok-k">for</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">orig</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-n">dest</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-k">in</span><span class="tok-w"> </span><span class="tok-p">[(</span><span class="tok-n">left</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-n">right</span><span class="tok-p">),</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-n">right</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-n">left</span><span class="tok-p">)]</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-n">orig</span><span class="tok-w"> </span><span class="tok-o">!=</span><span class="tok-w"> </span><span class="tok-s">&quot;end&quot;</span><span class="tok-w"> </span><span class="tok-o">&amp;&amp;</span><span class="tok-w"> </span><span class="tok-n">dest</span><span class="tok-w"> </span><span class="tok-o">!=</span><span class="tok-w"> </span><span class="tok-s">&quot;start&quot;</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">					</span><span class="tok-n">edges</span><span class="tok-w"></span>
+<span class="tok-w">						</span><span class="tok-p">.</span><span class="tok-n">entry</span><span class="tok-p">(</span><span class="tok-n">orig</span><span class="tok-p">)</span><span class="tok-w"></span>
+<span class="tok-w">						</span><span class="tok-p">.</span><span class="tok-n">or_insert_with</span><span class="tok-p">(</span><span class="tok-nb">Vec</span>::<span class="tok-n">new</span><span class="tok-p">)</span><span class="tok-w"></span>
+<span class="tok-w">						</span><span class="tok-p">.</span><span class="tok-n">push</span><span class="tok-p">(</span><span class="tok-n">Cave</span>::<span class="tok-n">new</span><span class="tok-p">(</span><span class="tok-n">dest</span><span class="tok-p">));</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-p">}</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-p">}</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-w">		</span><span class="tok-nb">Some</span><span class="tok-p">(</span><span class="tok-bp">Self</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-n">start</span>: <span class="tok-nc">Cave</span>::<span class="tok-n">new</span><span class="tok-p">(</span><span class="tok-s">&quot;start&quot;</span><span class="tok-p">),</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-n">edges</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-p">})</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-p">}</span><span class="tok-w"></span>
+<span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-k">impl</span><span class="tok-o">&lt;&#39;</span><span class="tok-na">a</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-n">CaveSystem</span><span class="tok-o">&lt;&#39;</span><span class="tok-na">a</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-k">fn</span> <span class="tok-nf">traverse_helper</span><span class="tok-p">(</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-o">&amp;&#39;</span><span class="tok-na">a</span><span class="tok-w"> </span><span class="tok-bp">self</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-n">curr_cave</span>: <span class="tok-kp">&amp;</span><span class="tok-o">&#39;</span><span class="tok-na">a</span> <span class="tok-kt">str</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-n">n_finished</span>: <span class="tok-kp">&amp;</span><span class="tok-nc">mut</span><span class="tok-w"> </span><span class="tok-kt">usize</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-n">cave_visit_counts</span>: <span class="tok-kp">&amp;</span><span class="tok-nc">mut</span><span class="tok-w"> </span><span class="tok-n">Map</span><span class="tok-o">&lt;&amp;&#39;</span><span class="tok-na">a</span><span class="tok-w"> </span><span class="tok-kt">str</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-kt">usize</span><span class="tok-o">&gt;</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-n">can_visit_one_small_cave_twice</span>: <span class="tok-kt">bool</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-n">has_visited_a_small_cave_twice</span>: <span class="tok-kt">bool</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-p">)</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-k">for</span><span class="tok-w"> </span><span class="tok-n">next_cave</span><span class="tok-w"> </span><span class="tok-k">in</span><span class="tok-w"> </span><span class="tok-o">&amp;</span><span class="tok-bp">self</span><span class="tok-p">.</span><span class="tok-n">edges</span><span class="tok-p">[</span><span class="tok-n">curr_cave</span><span class="tok-p">]</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-n">next_cave</span><span class="tok-p">.</span><span class="tok-n">name</span><span class="tok-w"> </span><span class="tok-o">==</span><span class="tok-w"> </span><span class="tok-s">&quot;end&quot;</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-o">*</span><span class="tok-n">n_finished</span><span class="tok-w"> </span><span class="tok-o">+=</span><span class="tok-w"> </span><span class="tok-mi">1</span><span class="tok-p">;</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-k">continue</span><span class="tok-p">;</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-w">			</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-n">this_dest_n_visits</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">cave_visit_counts</span><span class="tok-p">.</span><span class="tok-n">entry</span><span class="tok-p">(</span><span class="tok-n">next_cave</span><span class="tok-p">.</span><span class="tok-n">name</span><span class="tok-p">).</span><span class="tok-n">or_insert</span><span class="tok-p">(</span><span class="tok-mi">0</span><span class="tok-p">);</span><span class="tok-w"></span>
+
+<span class="tok-w">			</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-n">is_small_cave</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-fm">matches!</span><span class="tok-p">(</span><span class="tok-n">next_cave</span><span class="tok-p">.</span><span class="tok-n">kind</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-n">CaveKind</span>::<span class="tok-n">Small</span><span class="tok-p">);</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-k">if</span><span class="tok-w"> </span><span class="tok-n">is_small_cave</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-o">&amp;&amp;</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-o">*</span><span class="tok-n">this_dest_n_visits</span><span class="tok-w"> </span><span class="tok-o">&gt;=</span><span class="tok-w"> </span><span class="tok-mi">1</span><span class="tok-w"></span>
+<span class="tok-w">					</span><span class="tok-o">&amp;&amp;</span><span class="tok-w"> </span><span class="tok-p">(</span><span class="tok-o">!</span><span class="tok-n">can_visit_one_small_cave_twice</span><span class="tok-w"> </span><span class="tok-o">||</span><span class="tok-w"> </span><span class="tok-n">has_visited_a_small_cave_twice</span><span class="tok-p">))</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-k">continue</span><span class="tok-p">;</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-w">			</span><span class="tok-o">*</span><span class="tok-n">this_dest_n_visits</span><span class="tok-w"> </span><span class="tok-o">+=</span><span class="tok-w"> </span><span class="tok-mi">1</span><span class="tok-p">;</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-n">n_visits</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-o">*</span><span class="tok-n">this_dest_n_visits</span><span class="tok-p">;</span><span class="tok-w"></span>
+
+<span class="tok-w">			</span><span class="tok-bp">self</span><span class="tok-p">.</span><span class="tok-n">traverse_helper</span><span class="tok-p">(</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-n">next_cave</span><span class="tok-p">.</span><span class="tok-n">name</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-n">n_finished</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-n">cave_visit_counts</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-n">can_visit_one_small_cave_twice</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-n">has_visited_a_small_cave_twice</span><span class="tok-w"> </span><span class="tok-o">||</span><span class="tok-w"> </span><span class="tok-n">is_small_cave</span><span class="tok-w"> </span><span class="tok-o">&amp;&amp;</span><span class="tok-w"> </span><span class="tok-n">n_visits</span><span class="tok-w"> </span><span class="tok-o">&gt;=</span><span class="tok-w"> </span><span class="tok-mi">2</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-p">);</span><span class="tok-w"></span>
+
+<span class="tok-w">			</span><span class="tok-n">cave_visit_counts</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-p">.</span><span class="tok-n">entry</span><span class="tok-p">(</span><span class="tok-n">next_cave</span><span class="tok-p">.</span><span class="tok-n">name</span><span class="tok-p">)</span><span class="tok-w"></span>
+<span class="tok-w">				</span><span class="tok-p">.</span><span class="tok-n">and_modify</span><span class="tok-p">(</span><span class="tok-o">|</span><span class="tok-n">v</span><span class="tok-o">|</span><span class="tok-w"> </span><span class="tok-o">*</span><span class="tok-n">v</span><span class="tok-w"> </span><span class="tok-o">-=</span><span class="tok-w"> </span><span class="tok-mi">1</span><span class="tok-p">);</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-p">}</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-w">	</span><span class="tok-k">fn</span> <span class="tok-nf">traverse</span><span class="tok-p">(</span><span class="tok-o">&amp;&#39;</span><span class="tok-na">a</span><span class="tok-w"> </span><span class="tok-bp">self</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-n">can_visit_one_small_cave_twice</span>: <span class="tok-kt">bool</span><span class="tok-p">)</span><span class="tok-w"> </span>-&gt; <span class="tok-kt">usize</span> <span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-k">mut</span><span class="tok-w"> </span><span class="tok-n">n_finished</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-mi">0</span><span class="tok-p">;</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-k">mut</span><span class="tok-w"> </span><span class="tok-n">cave_visit_counts</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">Map</span>::<span class="tok-n">new</span><span class="tok-p">();</span><span class="tok-w"></span>
+
+<span class="tok-w">		</span><span class="tok-bp">self</span><span class="tok-p">.</span><span class="tok-n">traverse_helper</span><span class="tok-p">(</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-s">&quot;start&quot;</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-o">&amp;</span><span class="tok-k">mut</span><span class="tok-w"> </span><span class="tok-n">n_finished</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-o">&amp;</span><span class="tok-k">mut</span><span class="tok-w"> </span><span class="tok-n">cave_visit_counts</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-n">can_visit_one_small_cave_twice</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">			</span><span class="tok-kc">false</span><span class="tok-p">,</span><span class="tok-w"></span>
+<span class="tok-w">		</span><span class="tok-p">);</span><span class="tok-w"></span>
+
+<span class="tok-w">		</span><span class="tok-n">n_finished</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-p">}</span><span class="tok-w"></span>
+<span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-k">fn</span> <span class="tok-nf">get_cave</span><span class="tok-p">()</span><span class="tok-w"> </span>-&gt; <span class="tok-nc">CaveSystem</span><span class="tok-o">&lt;&#39;</span><span class="tok-nb">static</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-n">s</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-fm">include_str!</span><span class="tok-p">(</span><span class="tok-s">&quot;./input.txt&quot;</span><span class="tok-p">);</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-n">cave</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">CaveSystem</span>::<span class="tok-n">from_input</span><span class="tok-p">(</span><span class="tok-n">s</span><span class="tok-p">).</span><span class="tok-n">unwrap</span><span class="tok-p">();</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-n">cave</span><span class="tok-w"></span>
+<span class="tok-p">}</span><span class="tok-w"></span>
+
+<span class="tok-k">pub</span><span class="tok-w"> </span><span class="tok-k">fn</span> <span class="tok-nf">ans</span><span class="tok-p">()</span><span class="tok-w"> </span>-&gt; <span class="tok-nc">Answer</span><span class="tok-o">&lt;</span><span class="tok-kt">usize</span><span class="tok-p">,</span><span class="tok-w"> </span><span class="tok-kt">usize</span><span class="tok-o">&gt;</span><span class="tok-w"> </span><span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-kd">let</span><span class="tok-w"> </span><span class="tok-n">cave</span><span class="tok-w"> </span><span class="tok-o">=</span><span class="tok-w"> </span><span class="tok-n">get_cave</span><span class="tok-p">();</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-p">(</span><span class="tok-n">pt1</span><span class="tok-p">(</span><span class="tok-o">&amp;</span><span class="tok-n">cave</span><span class="tok-p">),</span><span class="tok-w"> </span><span class="tok-n">pt2</span><span class="tok-p">(</span><span class="tok-o">&amp;</span><span class="tok-n">cave</span><span class="tok-p">)).</span><span class="tok-n">into</span><span class="tok-p">()</span><span class="tok-w"></span>
+<span class="tok-p">}</span><span class="tok-w"></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 1</div>
+<p>In Part 1, we may only visit each small node at most once.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="rust"><span></span><span class="tok-k">fn</span> <span class="tok-nf">pt1</span><span class="tok-p">(</span><span class="tok-n">cave</span>: <span class="tok-kp">&amp;</span><span class="tok-nc">CaveSystem</span><span class="tok-p">)</span><span class="tok-w"> </span>-&gt; <span class="tok-kt">usize</span> <span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-n">cave</span><span class="tok-p">.</span><span class="tok-n">traverse</span><span class="tok-p">(</span><span class="tok-kc">false</span><span class="tok-p">)</span><span class="tok-w"></span>
+<span class="tok-p">}</span><span class="tok-w"></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 2</div>
+<p>Part 2 is slightly more relaxed; in addition to the paths visiting each small node at most once, valid paths now include those in which a single small node is visited a second time.
+But this wrinkle was already handled in the Setup section; we switch the behavior with a single boolean argument.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="rust"><span></span><span class="tok-k">fn</span> <span class="tok-nf">pt2</span><span class="tok-p">(</span><span class="tok-n">cave</span>: <span class="tok-kp">&amp;</span><span class="tok-nc">CaveSystem</span><span class="tok-p">)</span><span class="tok-w"> </span>-&gt; <span class="tok-kt">usize</span> <span class="tok-p">{</span><span class="tok-w"></span>
+<span class="tok-w">	</span><span class="tok-n">cave</span><span class="tok-p">.</span><span class="tok-n">traverse</span><span class="tok-p">(</span><span class="tok-kc">true</span><span class="tok-p">)</span><span class="tok-w"></span>
+<span class="tok-p">}</span><span class="tok-w"></span></code></pre>
 </div>
 </div>
 </div>

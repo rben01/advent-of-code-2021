@@ -1,6 +1,6 @@
-use std::collections::BTreeMap as Map;
-
+// tag::setup[]
 use crate::Answer;
+use std::collections::BTreeMap as Map;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 enum CaveKind {
@@ -120,16 +120,24 @@ fn get_cave() -> CaveSystem<'static> {
 	let cave = CaveSystem::from_input(s).unwrap();
 	cave
 }
+// end::setup[]
 
+// tag::pt1[]
 fn pt1(cave: &CaveSystem) -> usize {
 	cave.traverse(false)
 }
+// end::pt1[]
 
+// tag::pt2[]
 fn pt2(cave: &CaveSystem) -> usize {
 	cave.traverse(true)
 }
+// end::pt2[]
+
+// tag::setup[]
 
 pub fn ans() -> Answer<usize, usize> {
 	let cave = get_cave();
 	(pt1(&cave), pt2(&cave)).into()
 }
+// end::setup[]

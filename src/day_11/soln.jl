@@ -7,9 +7,7 @@ octopi = let
     parsed_lines = (parse.(Int, reshape(collect(line), (1, :))) for line in lines)
     vcat(parsed_lines...)
 end
-# end::setup[]
 
-# tag::pt1[]
 function tick_in_place(octopi::AbstractArray)
     octopi .+= 1
 
@@ -45,7 +43,9 @@ function tick_in_place(octopi::AbstractArray)
 
     return n_flashes
 end
+# end::setup[]
 
+# tag::pt1[]
 function tick(n::Int, octopi)
     octopi = copy(octopi)
     n_flashes = 0
