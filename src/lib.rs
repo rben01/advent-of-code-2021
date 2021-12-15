@@ -7,6 +7,7 @@ pub mod day_04;
 pub mod day_05;
 pub mod day_12;
 pub mod day_13;
+pub mod day_14;
 // end::mods[]
 
 #[derive(Debug)]
@@ -23,7 +24,7 @@ impl<T1, T2> Answer<T1, T2> {
 
 impl<T1: Debug, T2: Debug> Display for Answer<T1, T2> {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(f, "Part 1: {:?}; Part 2: {:?}", self.pt1, self.pt2)
+		write!(f, "Part 1: {:?} ; Part 2: {:?}", self.pt1, self.pt2)
 	}
 }
 

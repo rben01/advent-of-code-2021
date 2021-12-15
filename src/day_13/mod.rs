@@ -1,6 +1,6 @@
 // tag::setup[]
 use crate::Answer;
-use num::Integer;
+use num::{CheckedAdd, Integer};
 use std::{collections::BTreeSet as Set, fmt::Display, str::FromStr};
 
 #[derive(Copy, Clone)]
@@ -75,8 +75,10 @@ impl<T: Integer + Copy> Paper<T> {
 		paper
 	}
 }
+// end::setup[]
 
-impl Display for Paper<i32> {
+// tag::pt2[]
+impl<T: Integer + CheckedAdd + Clone + Copy> Display for Paper<T> {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		let (max_x, max_y) = {
 			let mut max_x = num::zero();
@@ -91,8 +93,8 @@ impl Display for Paper<i32> {
 			}
 			(max_x, max_y)
 		};
-		for y in num::zero()..=max_y {
-			for x in num::zero()..=max_x {
+		for y in num::range_step_inclusive(num::zero(), max_y, num::one()) {
+			for x in num::range_step_inclusive(num::zero(), max_x, num::one()) {
 				f.write_str(if self.dots.contains(&Point(x, y)) {
 					"█" // unicode "full block" 0x2588
 				} else {
@@ -105,6 +107,9 @@ impl Display for Paper<i32> {
 		Ok(())
 	}
 }
+// end::pt2[]
+
+// tag::setup[]
 
 fn read_input<T: Integer + FromStr + Copy>() -> Option<(Paper<T>, Vec<Fold<T>>)> {
 	let s = include_str!("./input.txt");
@@ -130,13 +135,13 @@ fn read_input<T: Integer + FromStr + Copy>() -> Option<(Paper<T>, Vec<Fold<T>>)>
 // end::setup[]
 
 // tag::pt1[]
-fn pt1<T: Integer + Copy>(paper: &Paper<T>, folds: &[Fold<T>]) -> usize {
-	paper.do_folds(folds).dots.len()
+fn pt1<T: Integer + Copy>(paper: &Paper<T>, fold: &Fold<T>) -> usize {
+	paper.folded_across(fold).dots.len()
 }
 // end::pt1[]
 
 // tag::pt2[]
-fn pt2(paper: &Paper<i32>, folds: &[Fold<i32>]) -> String {
+fn pt2<T: Integer + CheckedAdd + Clone + Copy>(paper: &Paper<T>, folds: &[Fold<T>]) -> String {
 	format!("{}", paper.do_folds(folds))
 }
 // end::pt2[]
@@ -149,6 +154,6 @@ pub fn ans() -> Answer<usize, String> {
 	let p2 = pt2(&paper, &folds);
 	println!("{}", p2);
 
-	(pt1(&paper, &folds), p2).into()
+	(pt1(&paper, &folds[0]), p2).into()
 }
 // end::setup[]

@@ -1,0 +1,43 @@
+= Transparent Origami
+
+link_day:13[] │ link_input:13[]
+
+This problem asks us track how dots on a transparent piece of paper migrate as that piece of paper is folded across vertical and horizontal lines.
+Throughout, the upper left corner of the page remains fixed in place; folds move the bottom right corner either up or to the left.
+It is a precondition that no dot will lie _on_ a fold.
+
+When the page is reflected over the vertical line \(x=a\), one of two things will happen to the dot \( (x,y)\):
+
+. If \( (x,y)\) is left of \(x=a\) (i.e., \(x<a\)), it remains in place.
+. Otherwise, the dot will end up as far to the left of \(x=a\) as it was to the right of \(x=a\) before the fold; this distance is simply \(x-a\), and so it ends up with an \(x\)-coordinate of \(a-(x-a)\), and a final position of \( (a-(x-a), y)\).
+
+For a fold over the horizontal line \(y=b\), simply exchange \(x\) with \(y\) and \(a\) with \(b\).
+
+.{setup-title}
+The input comes in as a list of dots `x,y` followed by a list of folds.
+
+include_source::mod.rs[tag=setup]
+
+.{part-title} 1
+{part-title} 1 has us perform a single fold. (Just one? No fun!)
+
+include_source::mod.rs[tag=pt1]
+
+.{part-title} 2
+{part-title} 2 has us perform all of the folds, and then _read the resulting arrangement of dots as a password containing eight capital capital letters_
+
+include_source::mod.rs[tag=pt2]
+
+For once, the input is actually interesting!
+It's not enough to just “get the answer” (say, the positions of the dots at the end of the folding procedure); we have to print them out too so that we can read them.
+Here was my output: `PGHZBFJC`.
+
+[source.code-as-text,text]
+----
+███   ██  █  █ ████ ███  ████   ██  ██
+█  █ █  █ █  █    █ █  █ █       █ █  █
+█  █ █    ████   █  ███  ███     █ █
+███  █ ██ █  █  █   █  █ █       █ █
+█    █  █ █  █ █    █  █ █    █  █ █  █
+█     ███ █  █ ████ ███  █     ██   ██
+----
