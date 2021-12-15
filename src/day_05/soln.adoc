@@ -1,16 +1,16 @@
 = Hydrothermal Venture
 
-link_day:5[]
+link_day:5[] {link-sep} link_input:5[]
 
 This challenge requires iterating the integer points between two other points on the plane.
 
 ***
 
 .{setup-title}
-First, we read the input into a list of lines of the form \(\((x_1, y_1), (x_2, y_2))\)
+First, we read the input into a list of lines of the form \(\((x_1, y_1), (x_2, y_2))\).
 We also define the helpful `range_between(a, b)` function, which returns the (nonempty!) range of integers between `a` and `b`, inclusive.
 The range is ascending if and only if `a < b`.
-(This is different from `a:b`, which is empty if `a > b`.)
+(This is different from `a..=b`, which is empty if `a > b`.)
 
 include_source::mod.rs[tag=setup]
 
@@ -25,6 +25,6 @@ include_source::mod.rs[tag=pt1]
 Part 2 asks us to count how many times each point belongs to either a horizontal line, a vertical line, or a \(45^\circ\) diagonal line (whose slope must be \(\pm1\)).
 We already found the points on horizontal and vertical lines in {part-title} 1.
 Diagonal lines are lines \(\((x_1, y_1), (x_2, y_2))\) whose points \( (x_k,y_k)\) satisfy \(|x_k-x_1|=|y_k-y_1|\) with \(x_k\) between \(x_1\) and \(x_2\) and \(y_k\) between \(y_k\) and \(y_2\) (inclusive).
-Since the \(k\)^th^ element of `range_between(a, b)` is \(a + k\), the points of the diagonal line in question are in fact simply the elements of `zip(range_between(x1, x2), range_between(y1, y2))`.
+Since the \(k\)^th^ element of `range_between(a, b)` is \(k\) away from \(a\), the points of the diagonal line in question are in fact simply the elements of `range_between(x1, x2).zip(range_between(y1, y2))`.
 
 include_source::mod.rs[tag=pt2]

@@ -1,6 +1,6 @@
 = Smoke Basin
 
-link_day:9[]
+link_day:9[] {link-sep} link_input:9[]
 
 Nothing complicated here, especially because Julia makes working with arrays/matrices so easy.
 We must do the following things with a 2D matrix whose entries are between 1 and 9 (inclusive).

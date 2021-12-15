@@ -28,7 +28,6 @@ impl<'a> Cave<'a> {
 
 #[derive(Debug)]
 struct CaveSystem<'a> {
-	start: Cave<'a>,
 	edges: Map<&'a str, Vec<Cave<'a>>>,
 }
 
@@ -50,10 +49,7 @@ impl<'a> CaveSystem<'a> {
 			}
 		}
 
-		Some(Self {
-			start: Cave::new("start"),
-			edges,
-		})
+		Some(Self { edges })
 	}
 }
 

@@ -536,7 +536,7 @@ a:hover .icon i.fa {
 
 a:hover .icon i.fa {
 	text-decoration: none;
-	transform: scale(1.3);
+	transform: scale(1.2);
 }
 
 a:focus {
@@ -2641,4 +2641,8 @@ code span.linenos {
 .katex .katex-html .texttt {
 	font-size: 1.05rem;
 	font-family: var(--mono-font-family);
+}
+
+.listingblock.code-as-text pre code {
+	line-height: 1.35;
 }

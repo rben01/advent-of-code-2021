@@ -1,0 +1,47 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build asciidoctor",
+			"type": "shell",
+			"command": "asciidoctor",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"args": [
+				"--verbose",
+				"--warnings",
+				"--base-dir",
+				".",
+				"--load-path",
+				"docs",
+				"-r",
+				"adoc_ruby/syntax-highlighter",
+				"-r",
+				"adoc_ruby/aoc-day-link-inserter",
+				"-r",
+				"adoc_ruby/source-includer.rb",
+				"-r",
+				"adoc_ruby/input-link-inserter.rb",
+				"./Docs/advent_of_code_2021.adoc",
+			]
+		},
+		{
+			"type": "process",
+			"command": "cargo",
+			"args": [
+				"run",
+			],
+			"problemMatcher": "$rustc",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"group": "build",
+			"label": "run solution"
+		},
+	]
+}

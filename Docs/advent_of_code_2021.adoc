@@ -14,6 +14,7 @@
 :pygments-linenums-mode: table
 :src-dir: src
 :icons: font
+:link-sep: │
 :click-to-reveal: Click to reveal answer
 :caution-caption:
 :soln-description-title: Description of Solution
@@ -37,7 +38,8 @@ For our purposes, the residual variants of a `Try` object at the boundary of our
 ====
 Advent of Code gives all participants the same problems, but gives different inputs to each participant.
 Therefore, it makes little sense to give the actual numeric answers to problems here.
-However, these solutions should work for any input/output pair provided by Advent of Code.
+However, we do provide the input that was given to us in order to contextualize the input-parsing code.
+The solutions below should work for any input/output pair provided by Advent of Code.
 ====
 
 [WARNING]
@@ -76,3 +78,5 @@ include::{src-dir}/day_10/soln.adoc[leveloffset=+1]
 include::{src-dir}/day_11/soln.adoc[leveloffset=+1]
 
 include::{src-dir}/day_12/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_13/soln.adoc[leveloffset=+1]

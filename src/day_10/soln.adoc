@@ -1,6 +1,6 @@
 = Syntax Scoring
 
-link_day:10[]
+link_day:10[] {link-sep} link_input:10[]
 
 Pretty basic.
 The only way to make this interesting was to try and make the code as DRY as possible and to embed as much information in Julia's limited type system as possible.

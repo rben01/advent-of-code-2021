@@ -1,6 +1,6 @@
 = Sonar Sweep
 
-link_day:1[]
+link_day:1[] {link-sep} link_input:1[]
 
 {part-title} 1 asks to find when the current depth is greater than the previous depth.
 {part-title} 2 asks to find when the current running sum of depths is greater than the previous running sum, with a running sum of length 3.

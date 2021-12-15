@@ -29,13 +29,13 @@ fn get_n_increasing_running_sum_of_depths(n: usize) -> Option<usize> {
 // end::setup[]
 
 // tag::pt1[]
-pub(crate) fn pt1() -> usize {
+pub fn pt1() -> usize {
 	get_n_increasing_running_sum_of_depths(1).unwrap()
 }
 // end::pt1[]
 
 // tag::pt2[]
-pub(crate) fn pt2() -> usize {
+pub fn pt2() -> usize {
 	get_n_increasing_running_sum_of_depths(3).unwrap()
 }
 // end::pt2[]

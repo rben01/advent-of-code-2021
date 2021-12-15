@@ -1,6 +1,6 @@
 = Binary Diagnostic
 
-link_day:3[]
+link_day:3[] {link-sep} link_input:3[]
 
 This challenge mostly just requires filtering arrays and counting elements satisfying a condition.
 

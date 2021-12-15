@@ -1,6 +1,6 @@
 = Seven Segment Search
 
-link_day:8[]
+link_day:8[] {link-sep} link_input:8[]
 
 What an interesting problem!
 We are asked to deduce the manner in which a computer has been incorrectly hooked up to a https://en.wikipedia.org/wiki/Seven-segment_display[seven-segment display^] (7SD):

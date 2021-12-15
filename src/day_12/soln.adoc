@@ -1,9 +1,9 @@
 = Passage Pathing
 
-link_day:12[] | link_input:/src/day_12/[^]
+link_day:12[] | link_input:12[]
 
 Finally, a problem that isn't just about array manipulation.
-This problem asks us to count the number of paths from the origin node of an undirected graph to the destination node, with constraints on how many times we may visit certain nodes and no constraints on how many times we may use an edge.
+This problem asks us to count the number of paths from the origin node of an undirected graph to the destination node, with constraints on how many times we may visit certain nodes, but no constraints on how many times we may use an edge.
 (Note that the problem has us exploring an underwater cave system, so the source code below refers to nodes as “caves”.)
 Nodes are classified as either “big” or “small”, depending on the case of their name in the input.
 A big node can be visited arbitrarily many times, whereas a small node can only be visited a limited number of times.

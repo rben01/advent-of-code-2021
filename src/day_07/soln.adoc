@@ -1,6 +1,6 @@
 = The Treachery of Whales
 
-link_day:7[]
+link_day:7[] {link-sep} link_input:7[]
 
 This problem asks us, in effect, to find the number that minimizes the sum of particular measures of error.
 (Since the number of points is fixed, we will use “sum” and “mean” of the errors interchangeably, as they merely differ by a constant factor.)
@@ -31,5 +31,6 @@ This is the https://en.wikipedia.org/wiki/Mean_squared_error[mean squared error^
 
 The only catch is that the arithmetic mean need not be an integer, but the solution to the problem must be.
 Naturally we simply try the two integers on either side of the arithmetic mean (which will both be the arithmetic mean itself if it's an integer) and pick whichever of the two leads to a smaller error.
+This works because the error is concave up, i.e., a local minimum is the global minimum.
 
 include_source::soln.jl[tag=pt2]

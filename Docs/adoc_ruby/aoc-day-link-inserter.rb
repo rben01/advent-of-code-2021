@@ -15,7 +15,7 @@ class LinkToDayProblemMacro < Asciidoctor::Extensions::InlineMacroProcessor
     link = "https://adventofcode.com/2021/day/#{day_num}"
 
     parent.document.register :links, link
-    create_anchor parent, "icon:external-link[] Day #{day_num} problem description", type: :link, target: link, attributes: { "subs" => :normal, "window" => "^" }
+    create_anchor parent, "icon:star-half-o[] Day #{day_num} problem description", type: :link, target: link, attributes: { "subs" => :normal, "window" => "^" }
 
     ## Graveyard
     # %(#{(create_anchor parent, text, type: :link, target: target).convert}) create_inline_pass parent, adoc_link, attributes: { "subs" => "macros,quotes,attributes" }

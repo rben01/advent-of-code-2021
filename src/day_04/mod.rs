@@ -1,3 +1,4 @@
+// tag::setup[]
 use std::{
 	collections::{BTreeMap as Map, BTreeSet as Set},
 	str::FromStr,
@@ -123,7 +124,9 @@ impl<T: Integer + Copy + FromStr> Game<T> {
 		})
 	}
 }
+// end::setup[]
 
+// tag::pt1[]
 fn pt1() -> i32 {
 	let mut game = Game::<i32>::from(include_str!("./input.txt")).unwrap();
 	for num in game.numbers.iter() {
@@ -136,7 +139,10 @@ fn pt1() -> i32 {
 	}
 	unreachable!();
 }
+// end::pt1[]
 
+
+// tag::pt2[]
 fn pt2() -> i32 {
 	let mut game = Game::<i32>::from(include_str!("./input.txt")).unwrap();
 	let mut ongoing_game_idxs = Set::from_iter(0..game.boards.len());
@@ -160,7 +166,11 @@ fn pt2() -> i32 {
 	}
 	unreachable!();
 }
+// end::pt2[]
+
+// tag::setup[]
 
 pub fn ans() -> Answer<i32, i32> {
 	(pt1(), pt2()).into()
 }
+// end::setup[]
