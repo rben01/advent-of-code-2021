@@ -1,0 +1,52 @@
+= Extended Polymerization
+
+link_day:14[] {link-sep} link_input:14[]
+
+This problem asks us to perform a sequence of transformations to a starting string and then compute the counts of characters in the resulting string.
+Specifically, we are given a map from pairs of characters to single characters.
+Each generation, each pair of characters in the original string is to have its entry in this map (if it exists) inserted between the two characters.
+This runs on a specified starting string for a specified number of generations, producing a final string.
+
+My initial attempt involved actually building the string at each stage.
+Unfortunately, because the string approximately doubles in length in each step, it's computationally infeasible to generate the string the requested 40 generations out, nor would we be able to store it in memory (2^40^ is around one trillion).
+
+The right way to do this problem is to maintain a tally of counts of each pair `(c1, c2)` of characters in the string.
+Each generation, we run through the pairs, and if the mapping contains a character `c3` to insert, then we remove key `(c1, c2)` and assign its tally to keys `(c1, c3)` and `(c3, c2)`.
+This doesn't tell us what the resulting string is, but thankfully the problem doesn't ask us about the string per se; it only asks for character counts within the string.
+
+To count the number of times a character `c` appears in the string, we simply note that it is counted twice, once for each pair it is the first character of and once for each pair it is the second character of.
+So we just add up the number of times we see it in a pair and then divide by 2, right?
+Wrong!
+The first (respectively, last) character of the string is actually only counted once because it is only the first (respectively, second) character of _one_ pair of characters, not two.
+The way we model this is maintain a tally not just of character counts, but of the positions of those characters.
+Our tally now assigns counts to triples `(c1, c2, pos0)` where `pos0` is one of “start”, “middle”, and “end”.
+When we insert `c3` between `c1` and `c2`, we obtain `(c1, c3, pos1)` and `(c3, c2, pos2)`, where:
+
+. `pos1` is either “start” or “middle”; it is “start” if and only if `pos0` was “start”, and
+. `pos2` is either “end” or “middle”; it is “end” if and only if `pos0` was “end”.
+
+Now, only the characters occurring in the “middle” are double-counted, so the number of times a character appears in the final string is the number of times it occurred in a character pair in the “start” or “end” positions, plus half the number of times it occurred in a “middle” character pair.
+To make the counting easier when working with integers and floored division, we double the “start” and “end” character counts, add them to the “middle” character counts, and then halve everything at the end.
+
+[sidebar]
+****
+As you might have guessed, my first attempt at this problem did not keep track of pairs’ positions and so was plagued by an off-by-one error which only arose for specific inputs.
+(I believe it had to do with whether the final string started and ended with the same character, but I didn't bother generating test cases to check this.)
+My first submission was too large, so I subtracted 1 from it and re-submitted and got it correct.
+This was the first problem of this year's Advent of Code that I thought it was feasible for someone to arrive at the right answer with buggy code and some guesswork.
+****
+
+.{setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
+
+.{part-title} 1
+--
+include_source::mod.rs[tag=pt1]
+--
+
+.{part-title} 2
+--
+include_source::mod.rs[tag=pt2]
+--

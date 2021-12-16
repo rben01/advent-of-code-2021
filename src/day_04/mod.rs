@@ -1,10 +1,9 @@
 // tag::setup[]
-use std::{
-	collections::{BTreeMap as Map, BTreeSet as Set},
-	str::FromStr,
-};
+use std::collections::{BTreeMap as Map, BTreeSet as Set};
+use std::str::FromStr;
 
-use num::{integer::div_mod_floor, Integer};
+use num::integer::div_mod_floor;
+use num::Integer;
 
 use crate::Answer;
 
@@ -124,6 +123,10 @@ impl<T: Integer + Copy + FromStr> Game<T> {
 		})
 	}
 }
+
+pub fn ans() -> Answer<i32, i32> {
+	(4, (pt1(), pt2())).into()
+}
 // end::setup[]
 
 // tag::pt1[]
@@ -140,7 +143,6 @@ fn pt1() -> i32 {
 	unreachable!();
 }
 // end::pt1[]
-
 
 // tag::pt2[]
 fn pt2() -> i32 {
@@ -167,10 +169,3 @@ fn pt2() -> i32 {
 	unreachable!();
 }
 // end::pt2[]
-
-// tag::setup[]
-
-pub fn ans() -> Answer<i32, i32> {
-	(pt1(), pt2()).into()
-}
-// end::setup[]

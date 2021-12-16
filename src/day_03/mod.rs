@@ -18,6 +18,11 @@ fn get_input_mat() -> Option<ndarray::Array2<bool>> {
 	let n_lines = bit_vec.len() / line_length;
 	Array2::from_shape_vec((n_lines, line_length), bit_vec).ok()
 }
+
+pub fn ans() -> Answer<usize, usize> {
+	let mat = get_input_mat().unwrap();
+	(3, (pt1(&mat), pt2(&mat))).into()
+}
 // end::setup[]
 
 // tag::pt1[]
@@ -92,10 +97,3 @@ fn pt2(mat: &Array2<bool>) -> usize {
 	oxy_rate * co2_rate
 }
 // end::pt2[]
-// tag::setup[]
-
-pub fn ans() -> Answer<usize, usize> {
-	let mat = get_input_mat().unwrap();
-	(pt1(&mat), pt2(&mat)).into()
-}
-// end::setup[]

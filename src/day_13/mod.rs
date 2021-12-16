@@ -1,7 +1,9 @@
 // tag::setup[]
 use crate::Answer;
 use num::{CheckedAdd, Integer};
-use std::{collections::BTreeSet as Set, fmt::Display, str::FromStr};
+use std::collections::BTreeSet as Set;
+use std::fmt::Display;
+use std::str::FromStr;
 
 #[derive(Copy, Clone)]
 enum Fold<T> {
@@ -75,7 +77,40 @@ impl<T: Integer + Copy> Paper<T> {
 		paper
 	}
 }
+
+fn read_input<T: Integer + FromStr + Copy>() -> Option<(Paper<T>, Vec<Fold<T>>)> {
+	let s = include_str!("./input.txt");
+	let mut lines = s.lines();
+
+	let points = lines
+		.by_ref()
+		.take_while(|line| !line.trim().is_empty())
+		.map(|line| {
+			let mut comps = line.split(',');
+			let x = comps.next()?.parse::<T>().ok()?;
+			let y = comps.next()?.parse::<T>().ok()?;
+
+			Some(Point(x, y))
+		})
+		.collect::<Option<Vec<_>>>()?;
+	let paper = Paper::<T>::from_dots(points);
+
+	let folds = lines.map(Fold::<T>::from_str).collect::<Option<Vec<_>>>()?;
+
+	Some((paper, folds))
+}
+
+pub fn ans() -> Answer<usize, String> {
+	let (paper, folds) = read_input::<i32>().unwrap();
+	(13, (pt1(&paper, &folds[0]), pt2(&paper, &folds))).into()
+}
 // end::setup[]
+
+// tag::pt1[]
+fn pt1<T: Integer + Copy>(paper: &Paper<T>, fold: &Fold<T>) -> usize {
+	paper.folded_across(fold).dots.len()
+}
+// end::pt1[]
 
 // tag::pt2[]
 impl<T: Integer + CheckedAdd + Clone + Copy> Display for Paper<T> {
@@ -107,53 +142,10 @@ impl<T: Integer + CheckedAdd + Clone + Copy> Display for Paper<T> {
 		Ok(())
 	}
 }
-// end::pt2[]
 
-// tag::setup[]
-
-fn read_input<T: Integer + FromStr + Copy>() -> Option<(Paper<T>, Vec<Fold<T>>)> {
-	let s = include_str!("./input.txt");
-	let mut lines = s.lines();
-
-	let points = lines
-		.by_ref()
-		.take_while(|line| !line.trim().is_empty())
-		.map(|line| {
-			let mut comps = line.split(',');
-			let x = comps.next()?.parse::<T>().ok()?;
-			let y = comps.next()?.parse::<T>().ok()?;
-
-			Some(Point(x, y))
-		})
-		.collect::<Option<Vec<_>>>()?;
-	let paper = Paper::<T>::from_dots(points);
-
-	let folds = lines.map(Fold::<T>::from_str).collect::<Option<Vec<_>>>()?;
-
-	Some((paper, folds))
-}
-// end::setup[]
-
-// tag::pt1[]
-fn pt1<T: Integer + Copy>(paper: &Paper<T>, fold: &Fold<T>) -> usize {
-	paper.folded_across(fold).dots.len()
-}
-// end::pt1[]
-
-// tag::pt2[]
 fn pt2<T: Integer + CheckedAdd + Clone + Copy>(paper: &Paper<T>, folds: &[Fold<T>]) -> String {
-	format!("{}", paper.do_folds(folds))
+	let ans = paper.do_folds(folds);
+	println!("{}", ans);
+	ans.to_string()
 }
 // end::pt2[]
-
-// tag::setup[]
-
-pub fn ans() -> Answer<usize, String> {
-	let (paper, folds) = read_input::<i32>().unwrap();
-
-	let p2 = pt2(&paper, &folds);
-	println!("{}", p2);
-
-	(pt1(&paper, &folds[0]), p2).into()
-}
-// end::setup[]

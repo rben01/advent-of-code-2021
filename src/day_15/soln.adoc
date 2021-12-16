@@ -1,0 +1,38 @@
+= Chiton
+
+link_day:15[] {link-sep} link_input:15[]
+
+Given a grid of numbers, this problem asks us to find the path from the grid's top left corner to its bottom right corner that minimizes the sum of all numbers used in the path, which we will call the path's _cost_.
+This is a classic CS problem which can be solved with the https://en.wikipedia.org/wiki/A*_search_algorithm[A* Algorithm^].
+My initial solution used a (max-) https://docs.rs/priority-queue/latest/priority_queue/[priority queue^] to choose the next node to examine, with priority equal to the (negative of the) total cost of the path up to that node.
+While this solution worked, it took an inordinate amount of time on the larger input, which was 500×500.
+(I suspect that this was due to the fact that the implementation of that priority queue uses a https://doc.rust-lang.org/std/collections/struct.HashMap.html[`HashMap`^] instead of a (perhaps) more optimal structure such as a https://doc.rust-lang.org/std/collections/struct.BTreeMap.html[`BTreeMap`^].
+I also didn't really feel like seeing if I could speed it up with a faster hasher.
+And I definitely didn't want to implement my own priority queue with a `BTreeMap` instead.)
+
+Despite being theoretically suboptimal, my second solution performed much faster — fast enough that its output appeared to print instantaneously. (Profiling revealed it took around half a second.)
+This new solution was simply to maintain a grid of tentative costs to reach each number on the grid.
+This grid of tentative costs was initially set to `u32::MAX`, except for the top left corner which was set to `0`.
+On each iteration, for each node \(P\) in the grid, we examine \(P\)’s four neighbors.
+If the cost to reach a neighbor through \(P\) is cheaper than the neighbor's current tentative cost, we replace the latter cost with the former cost.
+We repeat this process until no modifications are made to any tentative cost, at which point the answer is simply the cost of reaching the bottom right corner.
+
+***
+
+.{setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
+
+.{part-title} 1
+--
+include_source::mod.rs[tag=pt1]
+--
+
+.{part-title} 2
+{part-title} 2 asked us not just to traverse the grid, but to construct a larger grid to use as our input, which was formed by concatenating modified copies of {part-title} 1's input.
+This falls under “boring array manipulation”, so I won't discuss it further.
+
+--
+include_source::mod.rs[tag=pt2]
+--

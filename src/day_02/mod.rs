@@ -11,6 +11,11 @@ impl Position {
 		self.h * self.v
 	}
 }
+
+pub fn ans() -> Answer<i32, i32> {
+	let s = include_str!("./input.txt");
+	(2, (pt1(s).unwrap(), pt2(s).unwrap())).into()
+}
 // end::setup[]
 
 // tag::pt1[]
@@ -58,13 +63,4 @@ fn pt2<S: AsRef<str>>(s: S) -> Option<i32> {
 
 	Some(Position { h, v }.get_ans())
 }
-
 // end::pt2[]
-
-// tag::setup[]
-
-pub fn ans() -> Answer<i32, i32> {
-	let s = include_str!("./input.txt");
-	(pt1(s).unwrap(), pt2(s).unwrap()).into()
-}
-// end::setup[]

@@ -35,6 +35,11 @@ fn get_ans<T>(counter: &PointCounter<T>) -> usize {
 		.map(|count| if *count >= 2 { 1 } else { 0 })
 		.sum()
 }
+
+pub fn ans() -> Answer<usize, usize> {
+	let endpoints = get_lines().unwrap();
+	(5, (pt1(&endpoints), pt2(&endpoints))).into()
+}
 // end::setup[]
 
 // tag::pt1[]
@@ -89,11 +94,3 @@ fn pt2(endpoints: &[EndpointPair<i32>]) -> usize {
 	get_ans(&all_counter)
 }
 // end::pt2[]
-
-// tag::setup[]
-
-pub fn ans() -> Answer<usize, usize> {
-	let endpoints = get_lines().unwrap();
-	(pt1(&endpoints), pt2(&endpoints)).into()
-}
-// end::setup[]

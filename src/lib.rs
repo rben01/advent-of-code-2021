@@ -1,50 +1,61 @@
 use std::fmt::{Debug, Display};
 // tag::mods[]
-pub mod day_01;
-pub mod day_02;
-pub mod day_03;
-pub mod day_04;
-pub mod day_05;
-pub mod day_12;
-pub mod day_13;
-pub mod day_14;
+
+macro_rules! include_days {
+	($($mod_name:ident:$ft_name:literal),* $(,)?) => {
+		$(#[cfg(feature = $ft_name)] pub mod $mod_name;)*
+	};
+}
+
+include_days!(
+	day_01:"day_01",
+	day_02:"day_02",
+	day_03:"day_03",
+	day_04:"day_04",
+	day_05:"day_05",
+	// day_06:"day_06",
+	// day_07:"day_07",
+	// day_08:"day_08",
+	// day_09:"day_09",
+	// day_10:"day_10",
+	// day_11:"day_11",
+	day_12:"day_12",
+	day_13:"day_13",
+	day_14:"day_14",
+	day_15:"day_15",
+	// day_16:"day_16",
+	// day_17:"day_17",
+	// day_18:"day_18",
+	// day_19:"day_19",
+	// day_20:"day_20",
+	// day_21:"day_21",
+	// day_22:"day_22",
+	// day_23:"day_23",
+	// day_24:"day_24",
+	// day_25:"day_25",
+);
+
 // end::mods[]
 
 #[derive(Debug)]
 pub struct Answer<T1, T2> {
+	day: usize,
 	pt1: T1,
 	pt2: T2,
 }
 
-impl<T1, T2> Answer<T1, T2> {
-	fn new(pt1: T1, pt2: T2) -> Self {
-		Self { pt1, pt2 }
-	}
-}
-
 impl<T1: Debug, T2: Debug> Display for Answer<T1, T2> {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(f, "Part 1: {:?} ; Part 2: {:?}", self.pt1, self.pt2)
+		let Answer { day, pt1, pt2 } = self;
+		write!(f, "Day: {:?} ; Part 1: {:?} ; Part 2: {:?}", day, pt1, pt2)
 	}
 }
 
-impl<T1, T2> From<(T1, T2)> for Answer<T1, T2> {
-	fn from(other: (T1, T2)) -> Self {
-		let (pt1, pt2) = other;
-		Self::new(pt1, pt2)
+impl<T1, T2> From<(usize, (T1, T2))> for Answer<T1, T2> {
+	fn from((day, (pt1, pt2)): (usize, (T1, T2))) -> Self {
+		Self { day, pt1, pt2 }
 	}
 }
 
-pub(crate) fn to_decimal<V: AsRef<[bool]>>(binary_digits_msbf: V) -> usize {
-	let binary_digits_msbf = binary_digits_msbf.as_ref();
-	let n_digits = binary_digits_msbf.len();
-	let pow2s = num::range_step_inclusive((n_digits - 1) as i32, 0, -1);
-	pow2s
-		.zip(binary_digits_msbf)
-		.map(|(pow2, is_on)| {
-			let is_on: usize = (*is_on).into();
-			is_on * 2usize.pow(pow2 as u32)
-		})
-		.reduce(|a, b| a + b)
-		.unwrap_or(0) as usize
-}
+mod utils;
+pub(crate) use utils::to_decimal;

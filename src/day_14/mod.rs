@@ -137,6 +137,12 @@ fn get_ans(polymer: &Polymer, n: usize) -> usize {
 
 	max_count - min_count
 }
+
+pub fn ans() -> Answer<usize, usize> {
+	let input = include_str!("./input.txt");
+	let polymer = Polymer::from_str(input).unwrap();
+	(14, (pt1(&polymer), pt2(&polymer))).into()
+}
 // end::setup[]
 
 // tag::pt1[]
@@ -150,9 +156,3 @@ fn pt2(polymer: &Polymer) -> usize {
 	get_ans(polymer, 40)
 }
 // end::pt2[]
-
-pub fn ans() -> Answer<usize, usize> {
-	let input = include_str!("./input.txt");
-	let polymer = Polymer::from_str(input).unwrap();
-	(pt1(&polymer), pt2(&polymer)).into()
-}

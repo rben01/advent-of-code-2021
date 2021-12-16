@@ -26,6 +26,10 @@ fn get_n_increasing_running_sum_of_depths(n: usize) -> Option<usize> {
 
 	Some(n_increasing)
 }
+
+pub fn ans() -> Answer<usize, usize> {
+	(1, (pt1(), pt2())).into()
+}
 // end::setup[]
 
 // tag::pt1[]
@@ -39,10 +43,3 @@ pub fn pt2() -> usize {
 	get_n_increasing_running_sum_of_depths(3).unwrap()
 }
 // end::pt2[]
-
-// tag::setup[]
-
-pub fn ans() -> Answer<usize, usize> {
-	(pt1(), pt2()).into()
-}
-// end::setup[]

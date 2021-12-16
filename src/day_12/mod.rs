@@ -116,6 +116,11 @@ fn get_cave() -> CaveSystem<'static> {
 	let cave = CaveSystem::from_input(s).unwrap();
 	cave
 }
+
+pub fn ans() -> Answer<usize, usize> {
+	let cave = get_cave();
+	(12, (pt1(&cave), pt2(&cave))).into()
+}
 // end::setup[]
 
 // tag::pt1[]
@@ -129,11 +134,3 @@ fn pt2(cave: &CaveSystem) -> usize {
 	cave.traverse(true)
 }
 // end::pt2[]
-
-// tag::setup[]
-
-pub fn ans() -> Answer<usize, usize> {
-	let cave = get_cave();
-	(pt1(&cave), pt2(&cave)).into()
-}
-// end::setup[]
