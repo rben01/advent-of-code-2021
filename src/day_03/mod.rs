@@ -2,9 +2,9 @@
 use crate::{to_decimal, Answer};
 use ndarray::prelude::*;
 
-fn get_input_mat() -> Option<ndarray::Array2<bool>> {
+fn read_input(input: &str) -> Option<ndarray::Array2<bool>> {
+	let mut lines = input.lines();
 	let mut bit_vec = Vec::new();
-	let mut lines = include_str!("./input.txt").lines();
 
 	let first_line = lines.next()?;
 	let line_length = first_line.len();
@@ -19,9 +19,13 @@ fn get_input_mat() -> Option<ndarray::Array2<bool>> {
 	Array2::from_shape_vec((n_lines, line_length), bit_vec).ok()
 }
 
-pub fn ans() -> Answer<usize, usize> {
-	let mat = get_input_mat().unwrap();
+fn ans_for_input(input: &str) -> Answer<usize, usize> {
+	let mat = read_input(input).unwrap();
 	(3, (pt1(&mat), pt2(&mat))).into()
+}
+
+pub fn ans() -> Answer<usize, usize> {
+	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
@@ -97,3 +101,15 @@ fn pt2(mat: &Array2<bool>) -> usize {
 	oxy_rate * co2_rate
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("sample_input.txt"), day: 3, ans: (198, 230));
+		test_input!(include_str!("input.txt"), day: 3, ans: (2743844, 6677951));
+	}
+}

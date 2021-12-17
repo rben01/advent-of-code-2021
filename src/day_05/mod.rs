@@ -12,10 +12,10 @@ struct EndpointPair<T: Integer>(Point<T>, Point<T>);
 
 type PointCounter<T> = Map<Point<T>, usize>;
 
-fn get_lines<T: Integer + FromStr>() -> Option<Vec<EndpointPair<T>>> {
+fn get_lines<T: Integer + FromStr>(input: &str) -> Option<Vec<EndpointPair<T>>> {
 	let line_re = Regex::new(r"(\d+),(\d+)\s*->\s*(\d+),(\d+)").ok()?;
-	let s = include_str!("./input.txt");
-	s.lines()
+	input
+		.lines()
 		.map(|line| {
 			let caps = line_re.captures(line)?;
 			let [x1, y1, x2, y2] = [1, 2, 3, 4].map(|i| caps.get(i)?.as_str().parse::<T>().ok());
@@ -36,9 +36,14 @@ fn get_ans<T>(counter: &PointCounter<T>) -> usize {
 		.sum()
 }
 
-pub fn ans() -> Answer<usize, usize> {
-	let endpoints = get_lines().unwrap();
+fn ans_for_input(input: &str) -> Answer<usize, usize> {
+	let endpoints = get_lines(input).unwrap();
 	(5, (pt1(&endpoints), pt2(&endpoints))).into()
+}
+
+pub fn ans() -> Answer<usize, usize> {
+	let input = include_str!("input.txt");
+	ans_for_input(input)
 }
 // end::setup[]
 
@@ -94,3 +99,15 @@ fn pt2(endpoints: &[EndpointPair<i32>]) -> usize {
 	get_ans(&all_counter)
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("sample_input.txt"), day: 5, ans: (5, 12));
+		test_input!(include_str!("input.txt"), day: 5, ans: (5576, 18144));
+	}
+}

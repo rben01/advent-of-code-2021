@@ -5,70 +5,23 @@ link_day:6[] {link-sep} link_input:6[]
 At a high level, this problem requires modifying a map from ints to ints in a controlled fashion.
 At a low level:
 
-. This map's keys are actually the integers from 0 to 8 (inclusive), so it can just be stored in a list-like data structure, such as a tuple.
-. The “controlled fashion” is merely shifting most values over, while occasionally adding to said values.
+. This map's keys are actually the integers from 0 to 8 (inclusive), so it can just be stored in an array.
+. The “controlled fashion” is merely shifting most values over.
+In one case we have to also add to said values.
 
 ***
 
-First things first, we need to read our input in.
+.{setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
 
-include_source::soln.jl[tag=common]
+.{part-title} 1
+--
+include_source::mod.rs[tag=pt1]
+--
 
-Then we create a `@generated` function that returns (the expression the evaluates to) the tuple containing the next generation.
-
-****
-A https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions[`@generated` function] is compiled anew for each tuple of argument types it receives, allowing the function's author to use type information — in particular _dependent_ type information — to build the function's body at compile time.
-****
-
-
-include_source::soln.jl[tag=tuple_soln]
-
-And then our answers are just the following:
-
-include_source::soln.jl[tag=ans]
-
-It's interesting to see what the `@generated` function actually gets turned into.
-We can see this using Julia's `@code_lowered` macro.
-As we can see, it's just creating a tuple with some simple indexing and one addition.
-
-[source,julia,indent=0]
-----
-julia> @code_lowered tick(ages)
-CodeInfo(
-    @ /Users/robert/Documents/CloudDocs/Documents/Coding/Projects/Advent of Code/2021/src/day_06/soln.jl:84 within `tick`
-   ┌ @ /Users/robert/Documents/CloudDocs/Documents/Coding/Projects/Advent of Code/2021/src/day_06/soln.jl within `macro expansion`
-1 ─│ %1  = Base.getindex(ages, 2)
-│  │ %2  = Base.getindex(ages, 3)
-│  │ %3  = Base.getindex(ages, 4)
-│  │ %4  = Base.getindex(ages, 5)
-│  │ %5  = Base.getindex(ages, 6)
-│  │ %6  = Base.getindex(ages, 7)
-│  │ %7  = Base.getindex(ages, 8)
-│  │ %8  = Base.getindex(ages, 1)
-│  │ %9  = %7 + %8
-│  │ %10 = Base.getindex(ages, 9)
-│  │ %11 = Base.getindex(ages, 1)
-│  │ %12 = Core.tuple(%1, %2, %3, %4, %5, %6, %9, %10, %11)
-└──│       return %12
-   └
-)
-----
-
-In other words, it's equivalent to this (which has an identical `@code_lowered` representation):
-
-[source,julia,indent=0,tabsize=3]
-----
-function tick(ages::NTuple{N}) where {N}
-	return (
-		ages[2],
-		ages[3],
-		ages[4],
-		ages[5],
-		ages[6],
-		ages[7],
-		ages[8] + ages[1],
-		ages[9],
-		ages[1],
-    )
-end
-----
+.{part-title} 2
+--
+include_source::mod.rs[tag=pt1]
+--

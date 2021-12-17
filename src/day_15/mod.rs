@@ -6,9 +6,8 @@ type Cost = u32;
 type Grid = Array2<Cost>;
 type Coords = (usize, usize);
 
-fn read_input() -> Option<Grid> {
-	let s = include_str!("./input.txt");
-	let mut lines = s.lines();
+fn read_input(input: &str) -> Option<Grid> {
+	let mut lines = input.lines();
 
 	let mut grid = vec![];
 
@@ -117,9 +116,13 @@ fn traversal_cost(entry_costs: &Grid) -> Cost {
 	}
 }
 
-pub fn ans() -> Answer<Cost, Cost> {
-	let grid = read_input().unwrap();
+fn ans_for_input(input: &str) -> Answer<Cost, Cost> {
+	let grid = read_input(input).unwrap();
 	(15, (pt1(&grid), pt2(&grid))).into()
+}
+
+pub fn ans() -> Answer<Cost, Cost> {
+	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
@@ -161,3 +164,15 @@ fn pt2(grid: &Grid) -> Cost {
 	traversal_cost(&grid)
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("sample_input.txt"), day: 15, ans: (40, 315));
+		test_input!(include_str!("input.txt"), day: 15, ans: (739, 3040));
+	}
+}

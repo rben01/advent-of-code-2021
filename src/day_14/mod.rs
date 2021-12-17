@@ -138,10 +138,13 @@ fn get_ans(polymer: &Polymer, n: usize) -> usize {
 	max_count - min_count
 }
 
-pub fn ans() -> Answer<usize, usize> {
-	let input = include_str!("./input.txt");
+fn ans_for_input(input: &str) -> Answer<usize, usize> {
 	let polymer = Polymer::from_str(input).unwrap();
 	(14, (pt1(&polymer), pt2(&polymer))).into()
+}
+
+pub fn ans() -> Answer<usize, usize> {
+	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
@@ -156,3 +159,15 @@ fn pt2(polymer: &Polymer) -> usize {
 	get_ans(polymer, 40)
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("sample_input.txt"), day: 14, ans: (1588, 2188189693529));
+		test_input!(include_str!("input.txt"), day: 14, ans: (2937, 3390034818249));
+	}
+}

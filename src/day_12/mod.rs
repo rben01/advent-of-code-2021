@@ -111,15 +111,18 @@ impl<'a> CaveSystem<'a> {
 	}
 }
 
-fn get_cave() -> CaveSystem<'static> {
-	let s = include_str!("./input.txt");
-	let cave = CaveSystem::from_input(s).unwrap();
+fn get_cave(input: &str) -> CaveSystem<'_> {
+	let cave = CaveSystem::from_input(input).unwrap();
 	cave
 }
 
-pub fn ans() -> Answer<usize, usize> {
-	let cave = get_cave();
+fn ans_for_input(input: &str) -> Answer<usize, usize> {
+	let cave = get_cave(input);
 	(12, (pt1(&cave), pt2(&cave))).into()
+}
+
+pub fn ans() -> Answer<usize, usize> {
+	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
@@ -134,3 +137,17 @@ fn pt2(cave: &CaveSystem) -> usize {
 	cave.traverse(true)
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("sample_input_1.txt"), day: 12, ans: (10, 36));
+		test_input!(include_str!("sample_input_2.txt"), day: 12, ans: (19, 103));
+		test_input!(include_str!("sample_input_3.txt"), day: 12, ans: (226, 3509));
+		test_input!(include_str!("input.txt"), day: 12, ans: (3738, 120506));
+	}
+}

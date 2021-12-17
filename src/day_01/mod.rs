@@ -2,11 +2,9 @@
 use crate::Answer;
 use std::collections::VecDeque;
 
-fn get_n_increasing_running_sum_of_depths(n: usize) -> Option<usize> {
+fn get_n_increasing_running_sum_of_depths(input: &str, n: usize) -> Option<usize> {
 	let mut depth_buf = VecDeque::with_capacity(n);
-	let mut depths = include_str!("./input.txt")
-		.lines()
-		.map(|line| line.parse::<i32>().unwrap());
+	let mut depths = input.lines().map(|line| line.parse::<i32>().unwrap());
 
 	depth_buf.extend(depths.by_ref().take(n));
 	if depth_buf.len() < n {
@@ -27,19 +25,35 @@ fn get_n_increasing_running_sum_of_depths(n: usize) -> Option<usize> {
 	Some(n_increasing)
 }
 
+fn ans_for_input(input: &str) -> Answer<usize, usize> {
+	(1, (pt1(input), pt2(input))).into()
+}
+
 pub fn ans() -> Answer<usize, usize> {
-	(1, (pt1(), pt2())).into()
+	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
 // tag::pt1[]
-pub fn pt1() -> usize {
-	get_n_increasing_running_sum_of_depths(1).unwrap()
+fn pt1(input: &str) -> usize {
+	get_n_increasing_running_sum_of_depths(input, 1).unwrap()
 }
 // end::pt1[]
 
 // tag::pt2[]
-pub fn pt2() -> usize {
-	get_n_increasing_running_sum_of_depths(3).unwrap()
+fn pt2(input: &str) -> usize {
+	get_n_increasing_running_sum_of_depths(input, 3).unwrap()
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("sample_input.txt"), day: 1, ans: (7, 5));
+		test_input!(include_str!("input.txt"), day: 1, ans: (1681, 1704));
+	}
+}

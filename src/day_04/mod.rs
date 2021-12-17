@@ -7,6 +7,7 @@ use num::Integer;
 
 use crate::Answer;
 
+#[derive(Debug)]
 struct BoardProgress {
 	rows: Vec<usize>,
 	cols: Vec<usize>,
@@ -34,6 +35,7 @@ impl BoardProgress {
 	}
 }
 
+#[derive(Debug)]
 struct Board<T: Integer> {
 	grid: Map<T, (usize, usize)>,
 	progress: BoardProgress,
@@ -85,9 +87,9 @@ struct Game<T: Integer> {
 	numbers: Vec<T>,
 }
 
-impl<T: Integer + Copy + FromStr> Game<T> {
+impl<T: Integer + Copy + FromStr + std::fmt::Debug> Game<T> {
 	fn from(s: &str) -> Option<Self> {
-		let mut lines = s.lines();
+		let mut lines = s.lines().chain(std::iter::once(""));
 		let nums = lines
 			.next()?
 			.split(',')
@@ -124,19 +126,23 @@ impl<T: Integer + Copy + FromStr> Game<T> {
 	}
 }
 
+fn ans_for_input(input: &str) -> Answer<i32, i32> {
+	let [game1, game2] = [0; 2].map(|_| Game::<i32>::from(input).unwrap());
+	(4, (pt1(game1), pt2(game2))).into()
+}
+
 pub fn ans() -> Answer<i32, i32> {
-	(4, (pt1(), pt2())).into()
+	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
 // tag::pt1[]
-fn pt1() -> i32 {
-	let mut game = Game::<i32>::from(include_str!("./input.txt")).unwrap();
-	for num in game.numbers.iter() {
+fn pt1(mut game: Game<i32>) -> i32 {
+	for &num in game.numbers.iter() {
 		for board in game.boards.iter_mut() {
-			board.play_number(*num);
+			board.play_number(num);
 			if board.has_won() {
-				return board.get_ans(*num);
+				return board.get_ans(num);
 			}
 		}
 	}
@@ -145,21 +151,20 @@ fn pt1() -> i32 {
 // end::pt1[]
 
 // tag::pt2[]
-fn pt2() -> i32 {
-	let mut game = Game::<i32>::from(include_str!("./input.txt")).unwrap();
+fn pt2(mut game: Game<i32>) -> i32 {
 	let mut ongoing_game_idxs = Set::from_iter(0..game.boards.len());
 
-	for num in game.numbers.iter() {
+	for &num in game.numbers.iter() {
 		for (board_idx, board) in game.boards.iter_mut().enumerate() {
 			let already_won = !ongoing_game_idxs.contains(&board_idx);
 			if already_won {
 				continue;
 			}
 
-			board.play_number(*num);
+			board.play_number(num);
 			if board.has_won() {
 				if ongoing_game_idxs.len() == 1 {
-					return board.get_ans(*num);
+					return board.get_ans(num);
 				}
 
 				ongoing_game_idxs.remove(&board_idx);
@@ -169,3 +174,15 @@ fn pt2() -> i32 {
 	unreachable!();
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("sample_input.txt"), day: 4, ans: (4512, 1924));
+		test_input!(include_str!("input.txt"), day: 4, ans: (87456, 15561));
+	}
+}

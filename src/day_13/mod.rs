@@ -78,9 +78,8 @@ impl<T: Integer + Copy> Paper<T> {
 	}
 }
 
-fn read_input<T: Integer + FromStr + Copy>() -> Option<(Paper<T>, Vec<Fold<T>>)> {
-	let s = include_str!("./input.txt");
-	let mut lines = s.lines();
+fn read_input<T: Integer + FromStr + Copy>(input: &str) -> Option<(Paper<T>, Vec<Fold<T>>)> {
+	let mut lines = input.lines();
 
 	let points = lines
 		.by_ref()
@@ -100,9 +99,13 @@ fn read_input<T: Integer + FromStr + Copy>() -> Option<(Paper<T>, Vec<Fold<T>>)>
 	Some((paper, folds))
 }
 
-pub fn ans() -> Answer<usize, String> {
-	let (paper, folds) = read_input::<i32>().unwrap();
+fn ans_for_input(input: &str) -> Answer<usize, String> {
+	let (paper, folds) = read_input::<i32>(input).unwrap();
 	(13, (pt1(&paper, &folds[0]), pt2(&paper, &folds))).into()
+}
+
+pub fn ans() -> Answer<usize, String> {
+	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
@@ -149,3 +152,31 @@ fn pt2<T: Integer + CheckedAdd + Clone + Copy>(paper: &Paper<T>, folds: &[Fold<T
 	ans.to_string()
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		let (paper, folds) = read_input::<i32>(include_str!("sample_input.txt")).unwrap();
+		assert_eq!(pt1(&paper, &folds[0]), 17);
+
+		test_input!(
+			include_str!("input.txt"),
+			day: 13,
+			ans: (
+				790,
+				concat!(
+					"███   ██  █  █ ████ ███  ████   ██  ██ \n",
+					"█  █ █  █ █  █    █ █  █ █       █ █  █\n",
+					"█  █ █    ████   █  ███  ███     █ █   \n",
+					"███  █ ██ █  █  █   █  █ █       █ █   \n",
+					"█    █  █ █  █ █    █  █ █    █  █ █  █\n",
+					"█     ███ █  █ ████ ███  █     ██   ██ \n"
+				).to_owned()
+			)
+		);
+	}
+}
