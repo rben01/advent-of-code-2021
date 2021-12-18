@@ -1,6 +1,8 @@
 use std::fmt::{Debug, Display};
-// tag::mods[]
 
+pub(crate) mod utils;
+
+// tag::mods[]
 macro_rules! include_days {
 	($($mod_name:ident:$ft_name:literal),* $(,)?) => {
 		$(#[cfg(feature = $ft_name)] pub mod $mod_name;)*
@@ -13,7 +15,7 @@ include_days!(
 	day_03:"day_03",
 	day_04:"day_04",
 	day_05:"day_05",
-	// day_06:"day_06",
+	day_06:"day_06",
 	// day_07:"day_07",
 	// day_08:"day_08",
 	// day_09:"day_09",
@@ -23,8 +25,8 @@ include_days!(
 	day_13:"day_13",
 	day_14:"day_14",
 	day_15:"day_15",
-	// day_16:"day_16",
-	// day_17:"day_17",
+	day_16:"day_16",
+	day_17:"day_17",
 	// day_18:"day_18",
 	// day_19:"day_19",
 	// day_20:"day_20",
@@ -36,8 +38,7 @@ include_days!(
 );
 
 // end::mods[]
-
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Answer<T1, T2> {
 	day: usize,
 	pt1: T1,
@@ -56,6 +57,3 @@ impl<T1, T2> From<(usize, (T1, T2))> for Answer<T1, T2> {
 		Self { day, pt1, pt2 }
 	}
 }
-
-mod utils;
-pub(crate) use utils::to_decimal;

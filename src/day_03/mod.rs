@@ -1,5 +1,6 @@
 // tag::setup[]
-use crate::{to_decimal, Answer};
+use crate::utils::to_decimal;
+use crate::Answer;
 use ndarray::prelude::*;
 
 fn read_input(input: &str) -> Option<ndarray::Array2<bool>> {

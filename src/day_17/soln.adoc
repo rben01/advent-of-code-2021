@@ -1,0 +1,109 @@
+= Trick Shot
+
+link_day:17[] {link-sep} link_input:17[]
+
+Holy crap.
+This problem was _hard_.
+We are asked to find the initial \(x\)- and \(y\)-velocities that will land a projectile, fired from the origin, in a given rectangular region \(R=[x_\mathrm{min}, x_\mathrm{max}]\times[y_\mathrm{min}, y_\mathrm{max}]\).
+In the \(x\)-direction, the projectile suffers from drag, so its \(x\)-velocity decreases by 1 each tick until it hits 0 (at which point it can't slow down anymore).
+In the \(y\)-direction, the projectile is affected by gravity, so its \(y\)-velocity decreases by each tick, forever.
+
+All numbers — time, positions, and velocities — must be (not-necessarily-positive) integers.
+(And, naturally, time must be positive.)
+This is an important and helpful constraint on the values we can use.
+
+The solution below does not use brute force; it does not, for instance, try all \(v_x\)s between 0 and \(R\)'s right edge, or all \(v_y\)s between \(-\mathrm{abs}(v_\mathrm{max})\) and \(\mathrm{abs}(v_\mathrm{max})\).
+All potential times, positions, and speeds are derived mathematically.
+It has no problem running on a target area of `x=1000000..1001000, y=-1000000..-1001000` (although this particular example requires being able to take the integer square root of large numbers, which I did not implement myself).
+
+***
+
+.{setup-title}
+--
+include_source::mod.rs[tag=setup_main]
+--
+
+.The Math
+Because \(x\) decreases by 1 each tick until it hits 0, and \(y\) decreases by 1 each tick forever, we have the following equations for the \(x\)- and \(y\)-coordinates at time \(t\) of a projectile fired with an initial velocity of \( (v_x, v_y)\).
+(Derivations are left to the reader, but a helpful fact is that \(1+2+\ldots+n = \frac{1}{2}n(n+1)\).)
+
+++++
+\[
+\begin{align*}
+x(t, v_x) &=
+\begin{cases}
+v_x t - \frac{1}{2}t(t-1)&t \le v_x\\
+\frac{1}{2}v_x(v_x+1)&t \ge v_x
+\end{cases}\\
+y(t, v_y)&=v_y t - \frac{1}{2}t(t-1)
+\end{align*}
+\]
+++++
+
+Note that even though the two definitions of \(x\) overlap at \(t=v_x\), they also coincide there, so it's not a problem.
+
+Now, we must find the values of \( (v_x,v_y)\) that land the projectile in \(R\).
+To do this, we simply find the values of \( (v_x,v_y)\) that will land the projectile precisely at a point \( (x,y)\) in R, for each \( (x,y)\in R\).
+And to do this, we find the \( (v_x,v_y)\) that will land the projectile at \( (x,y)\) precisely at time \(t\), for each positive \(t\).
+
+To find the velocities that will land the projectile precisely at \( (t,x,y)\), we solve the above equations for \(v_x\) and \(v_y\).
+Finding \(v_y\) is simple: \(v_y=\frac{2y+t(t-1)}{2t}\).
+For \(v_x\), it's a bit more complicated, as we have two options:
+\[
+v_x=\begin{cases}
+\frac{2x+t(t-1)}{2t}&t\le v_x\\
+\frac{-1\pm\sqrt{1+8x}}{2}&t\ge v_x
+\end{cases}
+\]
+
+And as we said above, we need everything to be an integer, so we can either have no pairs of velocities that work, one pair, or two pairs.
+
+include_source::mod.rs[tag=velo_finder]
+
+Awesome.
+We have the 0, 1, or 2 velocities that will land the projectile at \( (x, y)\) at time \(t\).
+But how to find the \(t\)s for which the projectile can even land at \( (x,y)\)?
+We cannot enumerate all \(t\)s, as there are infinitely many positive integers.
+Could we perhaps keep firing it with a larger and larger \(v_y\) and hope that it would continue to land in \(R\) at some point in its trajectory?
+The answer is no: there are only finitely many values of \(v_y\) for which there exists a time \(t\) such that the projectile has a vertical position of \(y\) at \(t\).
+Let's prove it, and let's find them.
+
+Solving the equation \(y=v_y t- \frac{1}{2}t(t-1)\) for \(t\), we find that:
+\[t=\frac{1}{2}\left((2v_y+1)\pm\sqrt{(2v_y+1)^2-8y}\right)\]
+First and foremost, for this to be an integer, \((2v_y+1)^2-8y\) must be a perfect square.
+Letting \( m^2 =(2v_y+1) ^ 2\) and \(n^2 = m^2 - 8y\), we have \(m^2 - n^2 = 8y\), which factors into \((m-n)(m+n)=8y\).
+Since everything must be an integer, we can use the factor pairs of \(8y\) to find \(m\) and \(n\).
+If \(8y=(m-n)(m+n)=k_1k_2\), then \(m=\frac{1}{2}(k_1+k_2)\).
+Hence, if \(2v_y+1=\frac{1}{2}(k_1+k_2)\), then \((2v_y+1)^2 - 8y\) will indeed be a perfect square.
+Of course, we also need \(\frac{1}{2}(k_1+k_2)\) to be an odd integer so that \(v_y\) will be an integer.
+Finally, we plug \(v_y\) into our equation for \(t\) and if we get an integer, we've got a match: if the projectile is fired with a \(y\)-velocity of \(v_y\), then it will hit the vertical position \(y\) precisely at \(t\).
+
+The astute reader will note that there _every_ projectile with \(v_y>0\) hits \(y=0\) on the way down.
+Therefore we exclude \(y=0\) from consideration altogether; a problem that included \(y=0\) in \(R\) would have infinitely many answers or be impossible to solve.
+
+include_source::mod.rs[tag=time_finder]
+
+We are nearly there!
+To find whether, and how, the projectile can reach the point \( (x,y)\), we find:
+
+. the set of pairs \((t, v_y)\) that give the projectile a vertical position of \(y\) at time \(t\), and
+. for each of these pairs, we check that the projectile can indeed reach \( (x,y)\) at time \(t\) (we know it can reach \(y\), but can it reach \(x\)?) and find the velocities \( (v_x,v_y)\) that will achieve that, if possible.
+
+And we simply do this for every \( (x,y)\in R\).
+
+include_source::mod.rs[tag=get_traj]
+
+We that we can get all the trajectories, the actual answers we're asked for are pretty simple.
+
+.{part-title} 1
+Part 1 asks us to find the maximum possible height that can be achieved by a projectile that reaches \(R\).
+For a given projectile, the time at which it reaches its apex can be found by setting the derivative of \(y\) equal to 0.
+Given \(y=v_y t-\frac{1}{2}t(t-1)\), we have \(\frac{\mathrm{d}y}{\mathrm{d}t}=\frac{1}{2}(2v_y-2t-1)=0\), which yields \(t=\frac{1}{2}(2v_y-1)\).
+(Technically \(2v_y-1\) might not be even, but if not, then we'll just end up rounding \(\frac{1}{2}(2v_y-1)\) down to the nearest integer.)
+
+include_source::mod.rs[tag=pt1]
+
+.{part-title} 2
+Part 2 asks us to simply count distinct initial velocities that land the projectile in \(R\).
+
+include_source::mod.rs[tag=pt2]

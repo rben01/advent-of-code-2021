@@ -51,9 +51,18 @@ For this reason, we tend to be pretty loosey-goosey about unwrapping the ``Optio
 For our purposes, the residual variants of a `Try` object at the boundary of our program are `unreachable!()`.)
 
 
-Commonly used code, in `src/lib.rs`, is below:
+Commonly used code, in `src/lib.rs` and `src/utils.rs`, is below:
 
+.link:/src/lib.rs[`lib.rs`^]
+--
 include_source::{src-dir}/lib.rs[tag=!mods]
+--
+
+.link:/src/utils.rs[`utils.rs`^]
+--
+include_source::{src-dir}/utils.rs[tag=code]
+--
+
 
 :sectnums:
 
@@ -86,3 +95,7 @@ include::{src-dir}/day_13/soln.adoc[leveloffset=+1]
 include::{src-dir}/day_14/soln.adoc[leveloffset=+1]
 
 include::{src-dir}/day_15/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_16/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_17/soln.adoc[leveloffset=+1]

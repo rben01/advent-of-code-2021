@@ -43,7 +43,7 @@
 				"panel": "shared"
 			},
 			"group": "test",
-			"label": "run --debug"
+			"label": "run (debug)"
 		},
 		{
 			"type": "process",
@@ -61,6 +61,39 @@
 			},
 			"group": "test",
 			"label": "run --release"
+		},
+		{
+			"type": "process",
+			"command": "cargo",
+			"args": [
+				"test",
+				"--features",
+				"day_17"
+			],
+			"problemMatcher": "$rustc",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"group": "test",
+			"label": "run test (debug)"
+		},
+		{
+			"type": "process",
+			"command": "cargo",
+			"args": [
+				"test",
+				"--release",
+				"--features",
+				"day_17"
+			],
+			"problemMatcher": "$rustc",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"group": "test",
+			"label": "run test --release"
 		},
 	]
 }
