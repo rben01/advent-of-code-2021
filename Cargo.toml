@@ -9,6 +9,9 @@
 	ndarray = "0.15.4"
 	num = "0.4.0"
 	regex = "1.5.4"
+	strum = "0.23.0"
+	strum_macros = "0.23.1"
+
 
 [features]
 	all_days = [
