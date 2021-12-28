@@ -5,6 +5,14 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"type": "lldb",
+			"request": "launch",
+			"name": "Launch Rust",
+			"program": "${workspaceFolder}/target/debug/advent_of_code_2021",
+			"args": [],
+			"cwd": "${workspaceFolder}"
+		},
+		{
 			"type": "julia",
 			"request": "launch",
 			"name": "Run active Julia file",

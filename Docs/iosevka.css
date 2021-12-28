@@ -1,42 +1,42 @@
 /* Proportional */
 @font-face {
 	font-family: "Iosevka Sans";
-	src: url("/Docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-thin.woff2");
+	src: url("/docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-thin.woff2");
 	font-style: normal;
 	font-weight: 100;
 	font-display: fallback;
 }
 @font-face {
 	font-family: "Iosevka Sans";
-	src: url("/Docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-thinitalic.woff2");
+	src: url("/docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-thinitalic.woff2");
 	font-style: italic;
 	font-weight: 100;
 	font-display: fallback;
 }
 @font-face {
 	font-family: "Iosevka Sans";
-	src: url("/Docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-regular.woff2");
+	src: url("/docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-regular.woff2");
 	font-style: normal;
 	font-weight: 400;
 	font-display: fallback;
 }
 @font-face {
 	font-family: "Iosevka Sans";
-	src: url("/Docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-italic.woff2");
+	src: url("/docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-italic.woff2");
 	font-style: italic;
 	font-weight: 400;
 	font-display: fallback;
 }
 @font-face {
 	font-family: "Iosevka Sans";
-	src: url("/Docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-bold.woff2");
+	src: url("/docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-bold.woff2");
 	font-style: normal;
 	font-weight: 700;
 	font-display: fallback;
 }
 @font-face {
 	font-family: "Iosevka Sans";
-	src: url("/Docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-bolditalic.woff2");
+	src: url("/docs/iosevka-prop-sans/iosevka-rltb-proportional-sans-bolditalic.woff2");
 	font-style: italic;
 	font-weight: 700;
 	font-display: fallback;
@@ -45,42 +45,42 @@
 /* Mono */
 @font-face {
 	font-family: "Iosevka Mono";
-	src: url("/Docs/iosevka-mono/iosevka-rltb-mono-thin.woff2");
+	src: url("/docs/iosevka-mono/iosevka-rltb-mono-thin.woff2");
 	font-style: normal;
 	font-weight: 100;
 	font-display: fallback;
 }
 @font-face {
 	font-family: "Iosevka Mono";
-	src: url("/Docs/iosevka-mono/iosevka-rltb-mono-thinitalic.woff2");
+	src: url("/docs/iosevka-mono/iosevka-rltb-mono-thinitalic.woff2");
 	font-style: italic;
 	font-weight: 100;
 	font-display: fallback;
 }
 @font-face {
 	font-family: "Iosevka Mono";
-	src: url("/Docs/iosevka-mono/iosevka-rltb-mono-regular.woff2");
+	src: url("/docs/iosevka-mono/iosevka-rltb-mono-regular.woff2");
 	font-style: normal;
 	font-weight: 400;
 	font-display: fallback;
 }
 @font-face {
 	font-family: "Iosevka Mono";
-	src: url("/Docs/iosevka-mono/iosevka-rltb-mono-italic.woff2");
+	src: url("/docs/iosevka-mono/iosevka-rltb-mono-italic.woff2");
 	font-style: italic;
 	font-weight: 400;
 	font-display: fallback;
 }
 @font-face {
 	font-family: "Iosevka Mono";
-	src: url("/Docs/iosevka-mono/iosevka-rltb-mono-bold.woff2");
+	src: url("/docs/iosevka-mono/iosevka-rltb-mono-bold.woff2");
 	font-style: normal;
 	font-weight: 700;
 	font-display: fallback;
 }
 @font-face {
 	font-family: "Iosevka Mono";
-	src: url("/Docs/iosevka-mono/iosevka-rltb-mono-bolditalic.woff2");
+	src: url("/docs/iosevka-mono/iosevka-rltb-mono-bolditalic.woff2");
 	font-style: italic;
 	font-weight: 700;
 	font-display: fallback;

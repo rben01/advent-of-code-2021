@@ -68,7 +68,7 @@
 			"args": [
 				"test",
 				"--features",
-				"day_17"
+				"all_days"
 			],
 			"problemMatcher": "$rustc",
 			"presentation": {
@@ -76,7 +76,7 @@
 				"panel": "shared"
 			},
 			"group": "test",
-			"label": "run test (debug)"
+			"label": "test (debug)"
 		},
 		{
 			"type": "process",
@@ -85,7 +85,7 @@
 				"test",
 				"--release",
 				"--features",
-				"day_17"
+				"all_days"
 			],
 			"problemMatcher": "$rustc",
 			"presentation": {
@@ -93,7 +93,23 @@
 				"panel": "shared"
 			},
 			"group": "test",
-			"label": "run test --release"
+			"label": "test --release"
+		},
+		{
+			"type": "process",
+			"command": "cargo",
+			"args": [
+				"test",
+				"--features",
+				"day_18"
+			],
+			"problemMatcher": "$rustc",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"group": "test",
+			"label": "test today's (debug)"
 		},
 	]
 }
