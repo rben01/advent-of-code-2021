@@ -29,8 +29,8 @@ struct Rect<T> {
 
 #[derive(Debug, Clone, Copy)]
 struct Trajectory {
-	t: Time,
-	pos: Pos<Num>,
+	_t: Time,
+	_pos: Pos<Num>,
 	velo: Velo<Num>,
 }
 
@@ -221,8 +221,8 @@ fn get_trajectories(rect: Rect<Num>) -> Vec<Trajectory> {
 					};
 					if velo.vy == vy && get_x(t, velo.vx) == x {
 						trajectories.push(Trajectory {
-							t,
-							pos: Pos { x, y },
+							_t: t,
+							_pos: Pos { x, y },
 							velo,
 						});
 					}
