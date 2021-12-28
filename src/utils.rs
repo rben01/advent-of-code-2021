@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 #[macro_export]
 macro_rules! test_input {
 	($input:expr, day: $day:expr, ans: ($pt1:expr, $pt2:expr)) => {

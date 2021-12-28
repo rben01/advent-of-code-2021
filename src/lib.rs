@@ -27,14 +27,14 @@ include_days!(
 	day_15:"day_15",
 	day_16:"day_16",
 	day_17:"day_17",
-	// day_18:"day_18",
-	// day_19:"day_19",
-	// day_20:"day_20",
-	// day_21:"day_21",
-	// day_22:"day_22",
+	day_18:"day_18",
+	day_19:"day_19",
+	day_20:"day_20",
+	day_21:"day_21",
+	day_22:"day_22",
 	// day_23:"day_23",
-	// day_24:"day_24",
-	// day_25:"day_25",
+	day_24:"day_24",
+	day_25:"day_25",
 );
 
 // end::mods[]
