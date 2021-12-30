@@ -2,7 +2,7 @@
 use crate::Answer;
 use std::fmt::{Display, Write};
 
-type Span = [isize; 2];
+type Span = [i32; 2];
 
 #[derive(Debug, Clone, Copy)]
 struct Cuboid {
@@ -13,10 +13,10 @@ struct Cuboid {
 
 impl Cuboid {
 	fn size(&self) -> usize {
-		fn width(span: &Span) -> usize {
-			(span[1] - span[0] + 1) as usize
+		fn width(span: Span) -> usize {
+			usize::try_from(span[1] - span[0] + 1).unwrap()
 		}
-		let Cuboid {
+		let &Cuboid {
 			x_range,
 			y_range,
 			z_range,
@@ -253,7 +253,7 @@ struct Grid {
 }
 
 impl Grid {
-	fn new_with_size(n: isize) -> Self {
+	fn new_with_size(n: i32) -> Self {
 		Grid {
 			on_cuboids: vec![],
 			bounds: Some(Cuboid {
@@ -284,7 +284,7 @@ impl Grid {
 			}
 			State::Off => {
 				let mut on_cuboids = vec![];
-				for my_cuboid in self.on_cuboids.iter() {
+				for my_cuboid in &self.on_cuboids {
 					on_cuboids.extend(my_cuboid.difference(&cuboid));
 				}
 				self.on_cuboids = on_cuboids;

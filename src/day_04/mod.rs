@@ -1,11 +1,10 @@
 // tag::setup[]
-use std::collections::{BTreeMap as Map, BTreeSet as Set};
-use std::str::FromStr;
-
-use num::integer::div_mod_floor;
-use num::Integer;
-
 use crate::Answer;
+use num::{integer::div_mod_floor, Integer};
+use std::{
+	collections::{BTreeMap as Map, BTreeSet as Set},
+	str::FromStr,
+};
 
 #[derive(Debug)]
 struct BoardProgress {
@@ -30,7 +29,7 @@ impl BoardProgress {
 		self.cols[col] -= 1;
 
 		if self.rows[row] == 0 || self.cols[col] == 0 {
-			self.has_won = true
+			self.has_won = true;
 		}
 	}
 }
@@ -111,7 +110,7 @@ impl<T: Integer + Copy + FromStr + std::fmt::Debug> Game<T> {
 			} else {
 				for num in line.split_whitespace().map(|s| s.parse::<T>().ok()) {
 					let num = num?;
-					this_board.push(num)
+					this_board.push(num);
 				}
 				if matches!(n_cols, None) {
 					n_cols = Some(this_board.len());
@@ -138,8 +137,8 @@ pub fn ans() -> Answer<i32, i32> {
 
 // tag::pt1[]
 fn pt1(mut game: Game<i32>) -> i32 {
-	for &num in game.numbers.iter() {
-		for board in game.boards.iter_mut() {
+	for &num in &game.numbers {
+		for board in &mut game.boards {
 			board.play_number(num);
 			if board.has_won() {
 				return board.get_ans(num);
@@ -152,9 +151,9 @@ fn pt1(mut game: Game<i32>) -> i32 {
 
 // tag::pt2[]
 fn pt2(mut game: Game<i32>) -> i32 {
-	let mut ongoing_game_idxs = Set::from_iter(0..game.boards.len());
+	let mut ongoing_game_idxs = (0..game.boards.len()).collect::<Set<_>>();
 
-	for &num in game.numbers.iter() {
+	for &num in &game.numbers {
 		for (board_idx, board) in game.boards.iter_mut().enumerate() {
 			let already_won = !ongoing_game_idxs.contains(&board_idx);
 			if already_won {

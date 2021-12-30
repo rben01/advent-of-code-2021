@@ -1,25 +1,10 @@
 use crate::Answer;
-use std::{
-	collections::{btree_map::Entry as MapEntry, BTreeMap as Map, BTreeSet as Set},
-	fmt::Write,
-};
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-enum Direction {
-	Right,
-	Down,
-}
+use std::{collections::BTreeSet as Set, fmt::Write};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 struct Point {
 	row: usize,
 	col: usize,
-}
-
-#[derive(Debug, Clone, Copy)]
-struct Cucumber {
-	loc: Point,
-	dir: Direction,
 }
 
 #[derive(Debug, Clone)]
@@ -91,11 +76,11 @@ impl SeaGarden {
 				row,
 				col: (col + 1) % self.width,
 			};
-			if !(self.rights.contains(&new_loc) || self.downs.contains(&new_loc)) {
+			if self.rights.contains(&new_loc) || self.downs.contains(&new_loc) {
+				new_rights.insert(*old_loc);
+			} else {
 				new_rights.insert(new_loc);
 				any_cucumbers_did_move = true;
-			} else {
-				new_rights.insert(*old_loc);
 			}
 		}
 
@@ -107,11 +92,11 @@ impl SeaGarden {
 				row: (row + 1) % self.height,
 				col,
 			};
-			if !(new_rights.contains(&new_loc) || self.downs.contains(&new_loc)) {
+			if new_rights.contains(&new_loc) || self.downs.contains(&new_loc) {
+				new_downs.insert(*old_loc);
+			} else {
 				new_downs.insert(new_loc);
 				any_cucumbers_did_move = true;
-			} else {
-				new_downs.insert(*old_loc);
 			}
 		}
 

@@ -104,7 +104,7 @@ fn traversal_cost(entry_costs: &Grid) -> Cost {
 
 					if net_cost_to_travel_to_nghbr_thru_here < net_travel_costs[nghbr_coords] {
 						net_travel_costs[nghbr_coords] = net_cost_to_travel_to_nghbr_thru_here;
-						did_modify = true
+						did_modify = true;
 					}
 				}
 			}
@@ -144,7 +144,7 @@ fn expand_grid(grid: &Grid, k: usize) -> Grid {
 				for inner_c in 0..n_cols {
 					let old_cost = grid[(inner_r, inner_c)];
 
-					let d_cost = (outer_r + outer_c) as Cost;
+					let d_cost = Cost::try_from(outer_r + outer_c).unwrap();
 					let new_cost = (old_cost + d_cost - 1) % 9 + 1;
 
 					let new_grid_r = outer_r * n_rows + inner_r;

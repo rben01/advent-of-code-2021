@@ -107,7 +107,7 @@ impl Swivel {
 		Self::new(Axis::PosZ, RotationCcw::Zero)
 	}
 
-	fn apply(&self, point: Triple) -> Triple {
+	fn apply(self, point: Triple) -> Triple {
 		use Axis::*;
 		use RotationCcw::*;
 
@@ -153,7 +153,7 @@ impl Translation {
 
 	fn manhattan_dist(&self) -> u32 {
 		let [x, y, z] = self.0;
-		(x.abs() + y.abs() + z.abs()) as u32
+		u32::try_from(x.abs() + y.abs() + z.abs()).unwrap()
 	}
 }
 
@@ -224,8 +224,8 @@ impl Scanner {
 				let swivel = Swivel::new(up_face, rotation);
 				let swiveled_other = other.applying(swivel);
 
-				for swiveled_other_beacon in swiveled_other.beacons.iter() {
-					for this_beacon in self.beacons.iter() {
+				for swiveled_other_beacon in &swiveled_other.beacons {
+					for this_beacon in &self.beacons {
 						let translation = Translation(
 							[0, 1, 2].map(|i| this_beacon[i] - swiveled_other_beacon[i]),
 						);
@@ -267,7 +267,7 @@ impl Scanner {
 		let (first, rest) = scanners.split_first().unwrap();
 		let first: &Scanner = first.borrow();
 		if rest.is_empty() {
-			return Some((vec![Transform::identity()], first.to_owned()));
+			return Some((vec![Transform::identity()], first.clone()));
 		}
 
 		rest.iter()
@@ -351,7 +351,7 @@ fn pt2<V: AsRef<[Translation]>>(translations: V) -> u32 {
 	let mut max_manh_dist = u32::MIN;
 	for (i, translation1) in translations.iter().enumerate() {
 		let [x1, y1, z1] = translation1.0;
-		for translation2 in translations.iter().skip(i + 1) {
+		for translation2 in translations.iter().skip(i) {
 			let [x2, y2, z2] = translation2.0;
 
 			let diff = Translation([x2 - x1, y2 - y1, z2 - z1]);

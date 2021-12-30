@@ -167,7 +167,7 @@ mod test {
 
 	#[test]
 	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 14, ans: (1588, 2188189693529));
-		test_input!(include_str!("input.txt"), day: 14, ans: (2937, 3390034818249));
+		test_input!(include_str!("sample_input.txt"), day: 14, ans: (1588, 2_188_189_693_529));
+		test_input!(include_str!("input.txt"), day: 14, ans: (2937, 3_390_034_818_249));
 	}
 }

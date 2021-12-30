@@ -1,6 +1,5 @@
 // tag::setup[]
-use crate::utils::to_decimal;
-use crate::Answer;
+use crate::{utils::to_decimal, Answer};
 use std::fmt::{Display, Write};
 
 type Number = i64;
@@ -12,7 +11,7 @@ impl Binary {
 		let mut binary = Vec::with_capacity(s.len() * 4);
 		for c in s.trim().chars() {
 			let n = c.to_digit(16)?;
-			let digits = [3usize, 2, 1, 0].map(|place| ((1 << place) & n) != 0);
+			let digits = [3, 2, 1, 0usize].map(|place| ((1 << place) & n) != 0);
 			binary.extend_from_slice(&digits);
 		}
 
@@ -23,10 +22,7 @@ impl Binary {
 impl Display for Binary {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		for &digit in &self.0 {
-			let c = match digit {
-				true => '1',
-				false => '0',
-			};
+			let c = if digit { '1' } else { '0' };
 			f.write_char(c)?;
 		}
 		Ok(())
@@ -101,7 +97,7 @@ impl Binary {
 						}
 					}
 
-					let value = to_decimal(bin_bits) as Number;
+					let value = i64::from(to_decimal(bin_bits));
 
 					n_bits_consumed = header_length + n_chunks * chunk_size;
 					packet = Packet {
@@ -115,19 +111,16 @@ impl Binary {
 					let n_bits_for_length;
 
 					let length_type = data_bits[0];
-					match length_type {
-						false => {
-							// length in bits
-							n_bits_for_length = 16;
-							let n_bits = to_decimal(&data_bits[1..n_bits_for_length]);
-							op_data_length = RemainingData::NBits(n_bits);
-						}
-						true => {
-							// length in packets
-							n_bits_for_length = 12;
-							let n_packets = to_decimal(&data_bits[1..n_bits_for_length]);
-							op_data_length = RemainingData::NPackets(n_packets);
-						}
+					if length_type {
+						// length in packets
+						n_bits_for_length = 12;
+						let n_packets = to_decimal(&data_bits[1..n_bits_for_length]) as usize;
+						op_data_length = RemainingData::NPackets(n_packets);
+					} else {
+						// length in bits
+						n_bits_for_length = 16;
+						let n_bits = to_decimal(&data_bits[1..n_bits_for_length]) as usize;
+						op_data_length = RemainingData::NBits(n_bits);
 					};
 
 					n_bits_consumed = header_length + n_bits_for_length;
@@ -138,7 +131,7 @@ impl Binary {
 					// of bits
 					let op_data_length = match op_data_length {
 						RemainingData::NBits(n) => RemainingData::NBits(n + n_bits_consumed),
-						rd => rd,
+						rd @ RemainingData::NPackets(_) => rd,
 					};
 
 					packet = Packet {
@@ -156,7 +149,7 @@ impl Binary {
 
 			cursor += n_bits_consumed;
 
-			for ps in stack.iter_mut() {
+			for ps in &mut stack {
 				if let RemainingData::NBits(n) = &mut ps.remaining {
 					if *n > 0 {
 						// The hack above is to counteract this subtraction; if we just pushed
@@ -185,7 +178,7 @@ enum PacketKind {
 
 #[derive(Debug)]
 struct Packet {
-	version_number: usize,
+	version_number: u32,
 	kind: PacketKind,
 	depth: usize,
 }
@@ -195,18 +188,18 @@ fn read_input(input: &str) -> Vec<Packet> {
 	b.as_packets()
 }
 
-fn ans_for_input(input: &str) -> Answer<usize, Number> {
+fn ans_for_input(input: &str) -> Answer<u32, Number> {
 	let p = read_input(input);
 	(16, (pt1(&p), pt2(&p).unwrap())).into()
 }
 
-pub fn ans() -> Answer<usize, Number> {
+pub fn ans() -> Answer<u32, Number> {
 	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
 // tag::pt1[]
-fn pt1(packets: &[Packet]) -> usize {
+fn pt1(packets: &[Packet]) -> u32 {
 	packets.iter().map(|packet| packet.version_number).sum()
 }
 // end::pt1[]
@@ -252,11 +245,11 @@ enum Comparitor {
 impl Comparitor {
 	fn apply(&self, x: Number, y: Number) -> Number {
 		use Comparitor::*;
-		(match self {
+		i64::from(match self {
 			Gt => x > y,
 			Lt => x < y,
 			Eq => x == y,
-		}) as Number
+		})
 	}
 }
 
@@ -266,8 +259,8 @@ enum Operation {
 	Compare(Comparitor),
 }
 
-impl From<usize> for Operation {
-	fn from(n: usize) -> Self {
+impl From<u32> for Operation {
+	fn from(n: u32) -> Self {
 		use Comparitor::*;
 		use Operation::*;
 		use Reducer::*;
@@ -346,7 +339,7 @@ mod test {
 	#[test]
 	fn test() {
 		#[track_caller]
-		fn test_pt1(in_str: &str, pt1_val: usize) {
+		fn test_pt1(in_str: &str, pt1_val: u32) {
 			test_input!(&read_input(in_str), pt1: pt1_val);
 		}
 

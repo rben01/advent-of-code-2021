@@ -14,16 +14,14 @@ macro_rules! test_input {
 }
 
 // tag::code[]
-pub(crate) fn to_decimal<V: AsRef<[bool]>>(binary_digits_msbf: V) -> usize {
+pub(crate) fn to_decimal<V: AsRef<[bool]>>(binary_digits_msbf: V) -> u32 {
 	let binary_digits_msbf = binary_digits_msbf.as_ref();
-	let n_digits = binary_digits_msbf.len() as u32;
-	if n_digits == 0 {
-		return 0;
-	}
 
-	(0..n_digits)
-		.zip(binary_digits_msbf.iter().rev())
-		.map(|(pow2, &is_on)| (is_on as usize) * 2usize.pow(pow2))
+	binary_digits_msbf
+		.iter()
+		.rev()
+		.enumerate()
+		.map(|(pow2, &is_on)| u32::from(is_on) * 2u32.pow(u32::try_from(pow2).unwrap()))
 		.reduce(|a, b| a + b)
 		.unwrap_or(0)
 }

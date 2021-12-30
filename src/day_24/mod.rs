@@ -113,7 +113,7 @@ impl Alu {
 			operation,
 			register,
 			operand,
-		} in block.instrs.iter()
+		} in &block.instrs
 		{
 			let value = match operand {
 				Number(n) => n,
@@ -211,14 +211,14 @@ fn get_valid_zs<V: AsRef<[InstrBlock]>>(blocks: V) -> Vec<Set<Digit>> {
 	}
 
 	let mut all_valid_zs_rtl = vec![Set::new(); n_digits];
-	let mut curr_zs = Set::from_iter(std::iter::once(0));
+	let mut curr_zs = std::iter::once(0).collect::<Set<_>>();
 
 	for (digit_idx, valid_zs) in all_valid_zs_rtl.iter_mut().enumerate().rev() {
 		valid_zs.extend(curr_zs.iter().copied());
 
 		let mut new_curr_zs = Set::new();
 		let prev_zs = &all_zs_ltr[digit_idx + 1];
-		for z in curr_zs.iter() {
+		for z in &curr_zs {
 			new_curr_zs.extend(prev_zs.get(z).unwrap().iter().copied());
 		}
 		curr_zs = new_curr_zs;
@@ -287,7 +287,7 @@ fn find_digits<DigitRange: Iterator<Item = Digit>>(
 			};
 		} else {
 			candidates.pop();
-			assert_ne!(candidates.len(), 0)
+			assert_ne!(candidates.len(), 0);
 		}
 	}
 

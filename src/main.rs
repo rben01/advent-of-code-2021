@@ -4,6 +4,8 @@ macro_rules! show_answers {
 			mod $day {
 				pub(super) use advent_of_code_2021::$day::ans;
 			}
+		)*
+      $(
 			println!("{}", $day::ans());
 		)*
 	};

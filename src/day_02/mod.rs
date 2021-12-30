@@ -54,7 +54,7 @@ fn pt1(directions: &Directions) -> Num {
 	use Direction::*;
 	let mut h = 0;
 	let mut v = 0;
-	for dir in directions.iter() {
+	for dir in directions {
 		match dir {
 			Forward(dist) => h += dist,
 			Up(dist) => v -= dist,
@@ -76,7 +76,7 @@ fn pt2(directions: &Directions) -> Num {
 		match dir {
 			Forward(dist) => {
 				h += dist;
-				v += aim * dist
+				v += aim * dist;
 			}
 			Up(dist) => aim -= dist,
 			Down(dist) => aim += dist,
@@ -95,6 +95,6 @@ mod test {
 	#[test]
 	fn test() {
 		test_input!(include_str!("sample_input.txt"), day: 2, ans: (150, 900));
-		test_input!(include_str!("input.txt"), day: 2, ans: (1459206, 1320534480));
+		test_input!(include_str!("input.txt"), day: 2, ans: (1_459_206, 1_320_534_480));
 	}
 }

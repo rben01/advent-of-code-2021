@@ -1,8 +1,7 @@
-use std::fmt::{Display, Write};
-
-use crate::utils::to_decimal;
-use crate::Answer;
+// tag::setup[]
+use crate::{utils::to_decimal, Answer};
 use ndarray::prelude::*;
+use std::fmt::{Display, Write};
 
 type Bit = bool;
 
@@ -13,6 +12,7 @@ struct Image {
 	algo: Vec<Bit>,
 }
 
+// tag::debugging[]
 impl Display for Image {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		writeln!(f, "outer: {}", self.surrounding)?;
@@ -26,7 +26,7 @@ impl Display for Image {
 		Ok(())
 	}
 }
-
+// end::debugging[]
 impl Image {
 	fn from_str(s: &str) -> Option<Self> {
 		let mut lines = s.lines();
@@ -63,10 +63,9 @@ impl Image {
 	}
 
 	fn tick(&mut self) {
-		let new_surrounding = if self.surrounding {
-			self.algo[to_decimal([true; 9])]
-		} else {
-			self.algo[to_decimal([false; 9])]
+		let new_surrounding = {
+			let index = usize::try_from(to_decimal([self.surrounding; 9])).unwrap();
+			self.algo[index]
 		};
 
 		let grown_mat =
@@ -85,23 +84,23 @@ impl Image {
 				let mut surrounding_pixels = vec![];
 				for dr in [-1, 0, 1] {
 					for dc in [-1, 0, 1] {
-						let r = r as i32 + dr;
-						let c = c as i32 + dc;
+						let r = i32::try_from(r).unwrap() + dr;
+						let c = i32::try_from(c).unwrap() + dc;
 
 						let bit = if r < 0
-							|| r >= (grown_mat.nrows() as i32)
-							|| c < 0 || c >= (grown_mat.ncols() as i32)
+							|| r >= i32::try_from(grown_mat.nrows()).unwrap()
+							|| c < 0 || c >= i32::try_from(grown_mat.ncols()).unwrap()
 						{
 							self.surrounding
 						} else {
-							grown_mat[[r as usize, c as usize]]
+							grown_mat[[r, c].map(|m| usize::try_from(m).unwrap())]
 						};
 						surrounding_pixels.push(bit);
 					}
 				}
 
-				let replacement = self.algo[to_decimal(surrounding_pixels)];
-				new_mat[[r, c]] = replacement
+				let replacement = self.algo[to_decimal(surrounding_pixels) as usize];
+				new_mat[[r, c]] = replacement;
 			}
 		}
 
@@ -111,7 +110,7 @@ impl Image {
 
 	fn tick_n_times(&mut self, n: usize) {
 		for _ in 0..n {
-			self.tick()
+			self.tick();
 		}
 	}
 }
@@ -125,15 +124,18 @@ fn ans_for_input(input: &str) -> Answer<usize, usize> {
 pub fn ans() -> Answer<usize, usize> {
 	ans_for_input(include_str!("input.txt"))
 }
-
+// end::setup[]
+// tag::pt1[]
 fn pt1(im: Image) -> usize {
 	let mut im = im;
 	im.tick_n_times(2);
-	im.mat.map(|&bit| bit as usize).sum()
+	im.mat.map(|&bit| usize::from(bit)).sum()
 }
-
+// end::pt1[]
+// tag::pt2[]
 fn pt2(im: Image) -> usize {
 	let mut im = im;
 	im.tick_n_times(50);
-	im.mat.map(|&bit| bit as usize).sum()
+	im.mat.map(|&bit| usize::from(bit)).sum()
 }
+//end::pt2[]

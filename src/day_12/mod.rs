@@ -148,6 +148,6 @@ mod test {
 		test_input!(include_str!("sample_input_1.txt"), day: 12, ans: (10, 36));
 		test_input!(include_str!("sample_input_2.txt"), day: 12, ans: (19, 103));
 		test_input!(include_str!("sample_input_3.txt"), day: 12, ans: (226, 3509));
-		test_input!(include_str!("input.txt"), day: 12, ans: (3738, 120506));
+		test_input!(include_str!("input.txt"), day: 12, ans: (3738, 120_506));
 	}
 }

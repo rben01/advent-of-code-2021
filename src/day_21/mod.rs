@@ -44,7 +44,7 @@ impl Player {
 
 	fn roll_deterministic_die(&mut self, board: &Board, die: &mut DeterministicDie) {
 		let move_dist = (0..3).map(|_| die.roll()).sum::<usize>();
-		self.roll_value(board, move_dist)
+		self.roll_value(board, move_dist);
 	}
 }
 
@@ -68,7 +68,7 @@ impl DeterministicDie {
 
 	fn roll(&mut self) -> usize {
 		if self.next > self.max {
-			self.next = self.min
+			self.next = self.min;
 		}
 		let ret = self.next;
 		self.next += 1;
@@ -102,7 +102,7 @@ fn pt1(mut players: Players, board: &Board, die: DeterministicDie) -> usize {
 	let mut loser = players[0];
 
 	'game: loop {
-		for player in players.iter_mut() {
+		for player in &mut players {
 			player.roll_deterministic_die(board, &mut die);
 
 			if player.score >= 1000 {

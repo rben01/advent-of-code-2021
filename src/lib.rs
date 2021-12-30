@@ -1,3 +1,12 @@
+#![warn(clippy::pedantic)]
+#![allow(
+	clippy::enum_glob_use,
+	clippy::missing_panics_doc,
+	clippy::must_use_candidate,
+	clippy::similar_names,
+	clippy::too_many_lines
+)]
+
 use std::fmt::{Debug, Display};
 
 pub(crate) mod utils;

@@ -1,6 +1,6 @@
-use std::fmt::{Debug, Display};
-
+// tag::setup[]
 use crate::Answer;
+use std::fmt::{Debug, Display};
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 struct Elem {
@@ -37,14 +37,13 @@ impl SnailNumOwned {
 						addends.push(Elem {
 							value: digit,
 							depth,
-						})
+						});
 					}
 					c_is_digit = true;
 				}
 				',' => {}
 				_ => {
-					println!("{:?}", c);
-					unreachable!()
+					panic!("Unexpected character {:?}", c);
 				}
 			}
 
@@ -75,16 +74,11 @@ impl SnailNumOwned {
 	}
 
 	fn reduce(&mut self) {
-		let mut did_reduce_ever = false;
-		loop {
-			let did_reduce_this_time = self.reduce_once();
-			did_reduce_ever = did_reduce_ever || did_reduce_this_time;
-			if !did_reduce_this_time {
-				break;
-			}
-		}
+		while self.reduce_once() {}
 	}
 
+	// Contains explode_first and split_first, which only operate on owned snail nums
+	// tag::explode[]
 	/// Explodes the first explode-able pair in the list. \
 	/// Returns the `Option` pair of `Option` indices of the elements to the left and right
 	/// (the ones being modified), in that order. `None` means there was no pair to explode;
@@ -129,10 +123,11 @@ impl SnailNumOwned {
 
 		Some((changed_l_idx, changed_r_idx))
 	}
-
-	// Splits the first splittable pair in the list. \
-	// Returns the index at which the split occurred, which is now the first element of the
-	// resulting pair
+	// end::explode[]
+	// tag::split[]
+	/// Splits the first splittable pair in the list. \
+	/// Returns the index at which the split occurred, which is now the first element of the
+	/// resulting pair
 	fn split_first(&mut self) -> Option<usize> {
 		let elems = &mut self.elems;
 
@@ -164,6 +159,7 @@ impl SnailNumOwned {
 
 		Some(split_idx)
 	}
+	// end::split[]
 }
 
 impl<'a> SnailNumBorrowed<'a> {
@@ -176,13 +172,16 @@ impl<'a> SnailNumBorrowed<'a> {
 }
 
 impl<E: AsRef<[Elem]>> SnailNum<E> {
+	// Contains add, as_pair, and magnitude
+	// tag::debugging[]
 	#[cfg(test)]
 	fn reduced(&self) -> SnailNumOwned {
 		let mut sn = SnailNumOwned::owning(self.elems.as_ref().to_owned());
 		sn.reduce();
 		sn
 	}
-
+	// end::debugging[]
+	// tag::add[]
 	fn add(&self, other: &Self) -> SnailNumOwned {
 		let elems = self
 			.elems
@@ -199,7 +198,8 @@ impl<E: AsRef<[Elem]>> SnailNum<E> {
 		ans.reduce();
 		ans
 	}
-
+	// end::add[]
+	// tag::pair[]
 	fn as_pair(&self) -> Result<(SnailNumBorrowed, SnailNumBorrowed), u32> {
 		let elems = self.elems.as_ref();
 		assert_ne!(elems.len(), 0, "{}", self.depth);
@@ -245,15 +245,18 @@ impl<E: AsRef<[Elem]>> SnailNum<E> {
 		}
 		unreachable!()
 	}
-
+	// end::pair[]
+	// tag::magnitude[]
 	fn magnitude(&self) -> u32 {
 		match self.as_pair() {
 			Ok((left, right)) => 3 * left.magnitude() + 2 * right.magnitude(),
 			Err(val) => val,
 		}
 	}
+	// end::magnitude[]
 }
 
+// tag::debugging[]
 impl<E: AsRef<[Elem]>> Display for SnailNum<E> {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		if self.elems.as_ref().is_empty() {
@@ -270,6 +273,7 @@ impl<E: AsRef<[Elem]>> Display for SnailNum<E> {
 	}
 }
 
+// end::debugging[]
 fn ans_for_input(input: &str) -> Answer<u32, u32> {
 	let snail_num = SnailNumOwned::from_str(input);
 	(18, (pt1(&snail_num), pt2(input))).into()
@@ -278,29 +282,34 @@ fn ans_for_input(input: &str) -> Answer<u32, u32> {
 pub fn ans() -> Answer<u32, u32> {
 	ans_for_input(include_str!("input.txt"))
 }
+// end::setup[]
 
+// tag::pt1[]
 fn pt1<E: AsRef<[Elem]>>(snail_num: &SnailNum<E>) -> u32 {
 	snail_num.magnitude()
 }
+// end::pt1[]
 
+// tag::pt2[]
 fn pt2(input: &str) -> u32 {
 	let mut max_mag = u32::MIN;
-	let lines = input.lines().collect::<Vec<_>>();
+	let snail_nums = input
+		.lines()
+		.map(SnailNumOwned::from_line)
+		.collect::<Vec<_>>();
 
-	for i in 0..lines.len() {
-		for j in (i + 1)..lines.len() {
-			let sn1 = SnailNumOwned::from_line(lines[i]);
-			let sn2 = SnailNumOwned::from_line(lines[j]);
+	for (i, sn1) in snail_nums.iter().enumerate() {
+		for sn2 in snail_nums.iter().skip(i) {
+			let mag1 = sn1.add(sn2).magnitude();
+			let mag2 = sn2.add(sn1).magnitude();
 
-			let mag_1 = sn1.add(&sn2).magnitude();
-			let mag_2 = sn2.add(&sn1).magnitude();
-
-			max_mag = max_mag.max(mag_1).max(mag_2);
+			max_mag = max_mag.max(mag1).max(mag2);
 		}
 	}
 
 	max_mag
 }
+// end::pt2[]
 
 #[cfg(test)]
 mod test {
@@ -316,20 +325,21 @@ mod test {
 		before: V,
 		action: F,
 		after: &str,
-		result: T,
+		result: &T,
 	) {
 		let mut snail_num = SnailNumOwned::from_line(input);
 
 		assert_eq!(
 			snail_num,
-			SnailNumOwned::owning(Vec::from_iter(
+			SnailNumOwned::owning(
 				before
 					.as_ref()
 					.iter()
 					.map(|&(value, depth)| Elem { value, depth })
-			))
+					.collect::<Vec<_>>()
+			)
 		);
-		assert_eq!(result, action(&mut snail_num));
+		assert_eq!(result, &action(&mut snail_num));
 		assert_eq!(snail_num, SnailNumOwned::from_line(after));
 	}
 
@@ -340,7 +350,7 @@ mod test {
 		indices: Option<(Option<usize>, Option<usize>)>,
 		after: &str,
 	) {
-		test_action(input, before, SnailNumOwned::explode_first, after, indices);
+		test_action(input, before, SnailNumOwned::explode_first, after, &indices);
 	}
 
 	#[track_caller]
@@ -350,7 +360,7 @@ mod test {
 		index: Option<usize>,
 		after: &str,
 	) {
-		test_action(input, before, SnailNumOwned::split_first, after, index);
+		test_action(input, before, SnailNumOwned::split_first, after, &index);
 	}
 
 	#[test]
@@ -392,7 +402,7 @@ mod test {
 			],
 			Some((Some(2), Some(4))),
 			"[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]",
-		)
+		);
 	}
 
 	#[test]
