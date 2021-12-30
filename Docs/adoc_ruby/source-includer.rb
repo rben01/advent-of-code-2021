@@ -21,6 +21,10 @@ class SourceIncluderMacro < Asciidoctor::Extensions::BlockMacroProcessor
 
     attr_comps = []
     attrs.each_pair { |k, v|
+      if k == "tag"
+        k = "tags"
+        v = %(#{v};!debugging)
+      end
       attr_comps.push(%(#{k}=#{v}))
     }
     attr_str = attr_comps.join(",")

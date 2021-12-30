@@ -16,12 +16,7 @@ In one case we have to also add to said values.
 include_source::mod.rs[tag=setup]
 --
 
-.{part-title} 1
+.{part-title}s 1 and 2
 --
-include_source::mod.rs[tag=pt1]
---
-
-.{part-title} 2
---
-include_source::mod.rs[tag=pt1]
+include_source::mod.rs[tags=pt1;pt2]
 --

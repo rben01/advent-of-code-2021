@@ -1,0 +1,28 @@
+= Trench Map
+
+link_day:20[] {link-sep} link_input:20[]
+
+This problem asks us to manipulate an infinitely large binary array, whose elements we'll refer to as pixels.
+Only a finite interior portion of the array has “actual” content, which we store in a 2D array.
+The infinite surrounding (exterior) area is either all-on or all-off, which we store in a single variable separate from the interior portion of the array.
+Transforming a pixel requires knowing the state of each of the eight pixels it is adjacent to.
+The rules are the same for each pixel, but how they are applied in practice depends on whether the pixel is interior or exterior.
+
+. If a given pixel is only adjacent to other interior pixels, we just look at look at those eight surrounding interior pixels.
+. If a pixel is adjacent to both interior and exterior pixels, then we look at both the array of interior pixels and the state of the exterior pixels.
+The exterior pixels that are adjacent to interior pixels become interior themselves as part of this update, as they no longer necessarily share their state with the rest of the monolithic exterior.
+Thus the interior portion grows each step.
+. All other pixels are exterior and are surrounded only by other exterior pixels; therefore they are all updated in the same manner, and so the exterior remains either all-on or all-off.
+
+***
+
+.{setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
+
+.{part-title}s 1 and 2
+Parts 1 and 2 are nearly identical; they both ask to count the number of “on” pixels in the image resulting after \(k\) updates, where {part-title} 1 has \(k=2\) and {part-title} 2 has \(k=50\).
+(Notably, if the exterior switches state every update, then the number of “on” pixels will be infinite after every odd-numbered update.)
+
+include_source::mod.rs[tags=pt1;pt2]

@@ -99,3 +99,9 @@ include::{src-dir}/day_15/soln.adoc[leveloffset=+1]
 include::{src-dir}/day_16/soln.adoc[leveloffset=+1]
 
 include::{src-dir}/day_17/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_18/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_19/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_20/soln.adoc[leveloffset=+1]

@@ -1,0 +1,50 @@
+= Beacon Scanner
+
+link_day:19[] {link-sep} link_input:19[]
+
+This problem asks us to essentially solve a 3D jigsaw puzzle; we are given “pieces” (scanners) and need to find how they fit together by looking at their “edges” (beacons).
+As in an ordinary puzzle, we might need to rotate pieces to get them to mesh.
+
+To solve this, we simply try every solution: we start with Scanner #1 and try to adjoin each other scanner to it.
+Once we find a scanner that works, we go back to step 1 and try to adjoin a new scanner to the two-scanner union, and when we've done that we try to adjoin a new scanner to the three-scanner union, etc.
+If at any point we can't fit a new scanner onto the existing scanners, we backtrack, removing scanners so that we can add them in a different way.
+We're done when all scanners have been adjoined.
+
+[NOTE]
+--
+Technically there is a wrinkle that this solution ignores: it is not sufficient for scanners to merely fit together, i.e., to have overlapping beacons; additionally, each of the scanners in an adjoined pair must not have any beacons in the shared region that the other scanner in the pair does not have.
+In other words, they must agree on _all_, not just _some_, of the beacons in the region where they intersect.
+We ignore this wrinkle altogether; thankfully the authors were kind enough to give us input where this doesn't matter.
+--
+
+Because this “puzzle” is three-dimensional, there are 24 ways to orient a piece with respect to another (six faces can be “up”, and then there are four ways to rotate about the up-axis).
+In the code, one of these 24 orientations is referred to as a `Swivel`.
+For each orientation, we find all translations that cause the pieces to fit together; these are ``Translation``s.
+(A `Swivel` and a `Translation` together form a `Transform`.)
+Then we rinse and repeat with the next piece.
+
+To actually do the math, we simply use matrix multiplication.
+As always, the matrix \(T\) that performs a given transformation is https://en.wikipedia.org/wiki/Matrix_(mathematics)#Relationship_to_linear_maps[the matrix whose columns are \(T(e_1), \ldots, T(e_n) \)^] where \(e_1,\ldots,e_n\) are the basis vectors.
+
+***
+
+The function that does the heavy lifting here is `Scanner::merge_all`, which simply starts with the first provided scanner and then repeatedly tries to form larger and larger unions by merging the other scanners with the existing union.
+It stops when it first successfully merges all scanners together.
+
+.{setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
+
+.{part-title} 1
+Part 1 asks us to simply count the distinct beacons after the scanners have all been merged.
+Below, `scanner` is obtained from `let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();`.
+
+include_source::mod.rs[tag=pt1]
+
+
+.{part-title} 2
+Part 2 asks us to find the maximum https://en.wikipedia.org/wiki/Taxicab_geometry[Manhattan distance^] between scanners.
+To do this, we have to track the transformation of each scanner in the successful merge; we then read the pairwise Manhattan distances from each scanner's transformation's translation.
+
+include_source::mod.rs[tag=pt2]

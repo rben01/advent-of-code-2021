@@ -1,0 +1,71 @@
+= Snailfish
+
+link_day:18[] {link-sep} link_input:18[]
+
+This problem asks us to parse a nested structure of pairs into a binary tree and then split or combine nodes according to a set of rules.
+Rather than store the tree as an actual tree, which would be easy but would suffer from poor cache locality, we store the nodes in a `Vec` and record the depth of each node.
+This makes traversing and manipulating the tree much easier than if they were stored in a “real” tree; the nodes to the left and right of index `i` are simply those at `i-1` and `i+1`, respectively (if they exist).
+The operations are performed as follows:
+
+Exploding::
+A pair is exploded by finding the first flat pair of depth at least four and storing the two values; the first is added to the node to the left and the second is added to the node to the right.
+The second element of the pair is then deleted.
++
+--
+include_source::mod.rs[tag=explode]
+--
+
+Splitting::
+An element is split by simply dividing it by 2 twice, rounding down the first time and up the second time, and replacing the element with those two values.
++
+--
+include_source::mod.rs[tag=split]
+--
+
+Adding::
+Two pairs are added by placing them in a containing pair.
+This is manifested as simply concatenating the two vectors and then incrementing all the depths.
+Notably, _addition is not associative_.
++
+--
+include_source::mod.rs[tag=add]
+--
+
+Finding Pairs in the Vector::
+The only somewhat tricky part is determining the tree structure from the vector of depths.
+A singleton is returned as an `Err` containing its value.
+A “flat” pair (a pair whose elements are both atomic) appears as two consecutive elements of the same depth.
+Non-flat pairs can be found by traversing the nodes from left to right, maintaining a stack of node depths, and, whenever the top two elements of the stack have the same depth \(d\), collapsing them into a single element with a depth of \(d-1\).
+When a pair with elements of depth 1 is found, we have split the tree into its two top-level pairs.
+If desired, we can then recurse on these to split the descendants into deeper pairs.
++
+--
+include_source::mod.rs[tag=pair]
+--
+
+Magnitude of a Pair::
+Self explanatory:
++
+--
+include_source::mod.rs[tag=magnitude]
+--
+
+***
+
+.{setup-title}
+Functions listed above are omitted here.
+--
+include_source::mod.rs[tags=setup;!*]
+--
+
+.{part-title} 1
+Part 1 simply asks to perform addition on the input numbers.
+--
+include_source::mod.rs[tag=pt1]
+--
+
+.{part-title} 2
+Part 2 asks to find the maximum pairwise sum of the input numbers.
+--
+include_source::mod.rs[tag=pt2]
+--
