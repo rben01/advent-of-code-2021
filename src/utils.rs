@@ -25,4 +25,12 @@ pub(crate) fn to_decimal<V: AsRef<[bool]>>(binary_digits_msbf: V) -> u32 {
 		.reduce(|a, b| a + b)
 		.unwrap_or(0)
 }
+
+pub(crate) fn abs_diff(a: usize, b: usize) -> usize {
+	if a > b {
+		a - b
+	} else {
+		b - a
+	}
+}
 // end::code[]
