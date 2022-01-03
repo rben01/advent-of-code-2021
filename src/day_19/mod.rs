@@ -351,7 +351,7 @@ fn pt2<V: AsRef<[Translation]>>(translations: V) -> u32 {
 	let mut max_manh_dist = u32::MIN;
 	for (i, translation1) in translations.iter().enumerate() {
 		let [x1, y1, z1] = translation1.0;
-		for translation2 in translations.iter().skip(i) {
+		for translation2 in translations.iter().skip(i + 1) {
 			let [x2, y2, z2] = translation2.0;
 
 			let diff = Translation([x2 - x1, y2 - y1, z2 - z1]);

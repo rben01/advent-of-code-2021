@@ -1,3 +1,4 @@
+#![feature(array_zip)]
 #![warn(clippy::pedantic)]
 #![allow(
 	clippy::enum_glob_use,
@@ -26,7 +27,7 @@ include_days!(
 	/* day_05:"day_05", */
 	/* day_06:"day_06", */
 	// day_07:"day_07",
-	// day_08:"day_08",
+	day_08:"day_08",
 	// day_09:"day_09",
 	// day_10:"day_10",
 	// day_11:"day_11",
@@ -41,7 +42,7 @@ include_days!(
 	/* day_20:"day_20", */
 	/* day_21:"day_21", */
 	/* day_22:"day_22", */
-	day_23:"day_23",
+	// day_23:"day_23",
 	/* day_24:"day_24", */
 	/* day_25:"day_25", */
 );
