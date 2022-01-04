@@ -15,9 +15,8 @@ macro_rules! test_input {
 
 // tag::code[]
 pub(crate) fn to_decimal<V: AsRef<[bool]>>(binary_digits_msbf: V) -> u32 {
-	let binary_digits_msbf = binary_digits_msbf.as_ref();
-
 	binary_digits_msbf
+		.as_ref()
 		.iter()
 		.rev()
 		.enumerate()
