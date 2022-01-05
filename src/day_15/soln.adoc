@@ -10,7 +10,7 @@ While this solution worked, it took an inordinate amount of time on the larger i
 I also didn't really feel like seeing if I could speed it up with a faster hasher.
 And I definitely didn't want to implement my own priority queue with a `BTreeMap` instead.)
 
-Despite being theoretically suboptimal, my second solution performed much faster — fast enough that its output appeared to print instantaneously. (Profiling revealed it took around half a second.)
+Despite being theoretically suboptimal, my second solution performed much faster.
 This new solution was simply to maintain a grid of tentative costs to reach each number on the grid.
 This grid of tentative costs was initially set to `u32::MAX`, except for the top left corner which was set to `0`.
 On each iteration, for each node \(P\) in the grid, we examine \(P\)’s four neighbors.

@@ -25,6 +25,17 @@ pub(crate) fn to_decimal<V: AsRef<[bool]>>(binary_digits_msbf: V) -> u32 {
 		.unwrap_or(0)
 }
 
+pub(crate) fn to_big_decimal<V: AsRef<[bool]>>(binary_digits_msbf: V) -> u64 {
+	binary_digits_msbf
+		.as_ref()
+		.iter()
+		.rev()
+		.enumerate()
+		.map(|(pow2, &is_on)| u64::from(is_on) * 2u64.pow(u32::try_from(pow2).unwrap()))
+		.reduce(|a, b| a + b)
+		.unwrap_or(0)
+}
+
 pub(crate) fn abs_diff(a: usize, b: usize) -> usize {
 	if a > b {
 		a - b

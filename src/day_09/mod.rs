@@ -145,3 +145,14 @@ fn pt2(hm: &Heightmap) -> usize {
 	basin_sizes.into_iter().take(3).product()
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 9, ans: (575, 1_019_700));
+	}
+}

@@ -3,8 +3,11 @@
 link_day:18[] {link-sep} link_input:18[]
 
 This problem asks us to parse a nested structure of pairs into a binary tree and then split or combine nodes according to a set of rules.
-Rather than store the tree as an actual tree, which would be easy but would suffer from poor cache locality, we store the nodes in a `Vec` and record the depth of each node.
+Rather than store the tree as an actual tree, which would be easy (maybe) but would suffer from poor cache locality, we store the nodes in a `Vec` and record the depth of each node.
 This makes traversing and manipulating the tree much easier than if they were stored in a “real” tree; the nodes to the left and right of index `i` are simply those at `i-1` and `i+1`, respectively (if they exist).
+
+include_source::mod.rs[tag=snail_num]
+
 The operations are performed as follows:
 
 Exploding::

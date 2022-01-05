@@ -152,6 +152,7 @@ pub fn ans() -> Answer<usize, usize> {
 fn pt1(polymer: &Polymer) -> usize {
 	get_ans(polymer, 10)
 }
+
 // end::pt1[]
 
 // tag::pt2[]

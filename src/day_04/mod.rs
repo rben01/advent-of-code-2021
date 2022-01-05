@@ -25,6 +25,10 @@ impl BoardProgress {
 	}
 
 	fn handle_entry(&mut self, row: usize, col: usize) {
+		if self.has_won {
+			return;
+		}
+
 		self.rows[row] -= 1;
 		self.cols[col] -= 1;
 
@@ -40,15 +44,15 @@ struct Board<T: Integer> {
 	progress: BoardProgress,
 }
 
-impl<T: Integer + Copy> Board<T> {
-	fn from(nums: &[T], n_cols: usize) -> Self {
+impl<T: Integer + std::iter::Sum + Copy> Board<T> {
+	fn new(nums: &[T], n_cols: usize) -> Self {
 		let n_rows = nums.len() / n_cols;
 		assert_eq!(n_rows * n_cols, nums.len());
 
 		let mut grid = Map::new();
-		for (i, x) in nums.iter().enumerate() {
+		for (i, &x) in nums.iter().enumerate() {
 			let (r, c) = div_mod_floor(i, n_cols);
-			grid.insert(*x, (r, c));
+			grid.insert(x, (r, c));
 		}
 		Self {
 			grid,
@@ -69,14 +73,7 @@ impl<T: Integer + Copy> Board<T> {
 	}
 
 	fn get_ans(&self, winning_num: T) -> T {
-		let unmarked_sum = {
-			let mut keys_iter = self.grid.keys();
-			let mut s = *keys_iter.next().unwrap();
-			for k in keys_iter {
-				s = s + *k;
-			}
-			s
-		};
+		let unmarked_sum = self.grid.keys().copied().sum::<T>();
 		winning_num * unmarked_sum
 	}
 }
@@ -86,8 +83,8 @@ struct Game<T: Integer> {
 	numbers: Vec<T>,
 }
 
-impl<T: Integer + Copy + FromStr + std::fmt::Debug> Game<T> {
-	fn from(s: &str) -> Option<Self> {
+impl<T: Integer + std::iter::Sum + Copy + FromStr + std::fmt::Debug> Game<T> {
+	fn from_str(s: &str) -> Option<Self> {
 		let mut lines = s.lines().chain(std::iter::once(""));
 		let nums = lines
 			.next()?
@@ -103,7 +100,7 @@ impl<T: Integer + Copy + FromStr + std::fmt::Debug> Game<T> {
 		for line in lines {
 			if line.is_empty() {
 				if !this_board.is_empty() {
-					let board = Board::from(this_board.as_slice(), n_cols.unwrap());
+					let board = Board::new(this_board.as_slice(), n_cols.unwrap());
 					boards.push(board);
 					this_board.clear();
 				}
@@ -126,7 +123,7 @@ impl<T: Integer + Copy + FromStr + std::fmt::Debug> Game<T> {
 }
 
 fn ans_for_input(input: &str) -> Answer<i32, i32> {
-	let [game1, game2] = [0; 2].map(|_| Game::<i32>::from(input).unwrap());
+	let [game1, game2] = [0; 2].map(|_| Game::from_str(input).unwrap());
 	(4, (pt1(game1), pt2(game2))).into()
 }
 

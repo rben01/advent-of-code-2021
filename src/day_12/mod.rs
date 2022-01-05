@@ -32,12 +32,12 @@ struct CaveSystem<'a> {
 }
 
 impl<'a> CaveSystem<'a> {
-	fn from_input(input: &'a str) -> Option<Self> {
+	fn from_str(input: &'a str) -> Option<Self> {
 		let mut edges = Map::new();
 		for line in input.lines() {
-			let mut split = line.split('-');
-			let left = split.next()?;
-			let right = split.next()?;
+			let mut splat = line.split('-');
+			let left = splat.next()?;
+			let right = splat.next()?;
 
 			for (orig, dest) in [(left, right), (right, left)] {
 				if orig != "end" && dest != "start" {
@@ -70,7 +70,7 @@ impl<'a> CaveSystem<'a> {
 
 			let this_dest_n_visits = cave_visit_counts.entry(next_cave.name).or_insert(0);
 
-			let is_small_cave = matches!(next_cave.kind, CaveKind::Small);
+			let is_small_cave = next_cave.kind == CaveKind::Small;
 			if is_small_cave
 				&& (*this_dest_n_visits >= 1
 					&& (!can_visit_one_small_cave_twice || has_visited_a_small_cave_twice))
@@ -89,6 +89,7 @@ impl<'a> CaveSystem<'a> {
 				has_visited_a_small_cave_twice || is_small_cave && n_visits >= 2,
 			);
 
+			// "un-visit" this cave for the next loop iteration
 			cave_visit_counts
 				.entry(next_cave.name)
 				.and_modify(|v| *v -= 1);
@@ -111,14 +112,9 @@ impl<'a> CaveSystem<'a> {
 	}
 }
 
-fn get_cave(input: &str) -> CaveSystem<'_> {
-	let cave = CaveSystem::from_input(input).unwrap();
-	cave
-}
-
 fn ans_for_input(input: &str) -> Answer<usize, usize> {
-	let cave = get_cave(input);
-	(12, (pt1(&cave), pt2(&cave))).into()
+	let cave_system = CaveSystem::from_str(input).unwrap();
+	(12, (pt1(&cave_system), pt2(&cave_system))).into()
 }
 
 pub fn ans() -> Answer<usize, usize> {
@@ -130,6 +126,7 @@ pub fn ans() -> Answer<usize, usize> {
 fn pt1(cave: &CaveSystem) -> usize {
 	cave.traverse(false)
 }
+
 // end::pt1[]
 
 // tag::pt2[]

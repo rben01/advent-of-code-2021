@@ -57,7 +57,7 @@ fn value_of_line_chosen_by_criterion(
 	let (n_rows, n_cols) = mat.dim();
 	let mut candidates = Array1::<_>::from_shape_simple_fn((n_rows,), || true);
 	for i in 0..n_cols {
-		let n_candidates_remaining = candidates.map(|c| if *c { 1usize } else { 0 }).sum();
+		let n_candidates_remaining = candidates.mapv(|c| if c { 1usize } else { 0 }).sum();
 
 		if n_candidates_remaining == 1 {
 			break;

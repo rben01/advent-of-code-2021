@@ -1,9 +1,6 @@
 use crate::Answer;
 
 // tag::setup[]
-type Num = i32;
-type Directions = Vec<Direction>;
-
 struct Position {
 	h: i32,
 	v: i32,
@@ -16,49 +13,61 @@ impl Position {
 }
 
 enum Direction {
-	Forward(Num),
-	Up(Num),
-	Down(Num),
+	Forward,
+	Up,
+	Down,
 }
 
-fn read_input(s: &str) -> Option<Directions> {
-	use Direction::*;
+impl Direction {
+	fn from_str(s: &str) -> Option<Self> {
+		use Direction::*;
+		Some(match s {
+			"forward" => Forward,
+			"up" => Up,
+			"down" => Down,
+			_ => return None,
+		})
+	}
+}
+
+struct Step {
+	direction: Direction,
+	dist: i32,
+}
+
+fn read_input(s: &str) -> Option<Vec<Step>> {
 	s.lines()
 		.map(|line| {
 			let mut tokens_iter = line.split_whitespace();
-			let dir = tokens_iter.next()?;
+			let direction = Direction::from_str(tokens_iter.next()?)?;
 			let dist = tokens_iter.next()?.parse().ok()?;
 
-			Some(match dir {
-				"forward" => Forward(dist),
-				"up" => Up(dist),
-				"down" => Down(dist),
-				_ => return None,
-			})
+			Some(Step { direction, dist })
 		})
 		.collect()
 }
 
-fn ans_for_input(input: &str) -> Answer<Num, Num> {
+fn ans_for_input(input: &str) -> Answer<i32, i32> {
 	let directions = read_input(input).unwrap();
-	(2, (pt1(&directions), pt2(&directions))).into()
+	(2, (pt1(directions.iter()), pt2(directions.iter()))).into()
 }
 
-pub fn ans() -> Answer<Num, Num> {
+pub fn ans() -> Answer<i32, i32> {
 	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
 // tag::pt1[]
-fn pt1(directions: &Directions) -> Num {
+fn pt1<T: std::ops::Deref<Target = Step>>(steps: impl Iterator<Item = T>) -> i32 {
 	use Direction::*;
 	let mut h = 0;
 	let mut v = 0;
-	for dir in directions {
-		match dir {
-			Forward(dist) => h += dist,
-			Up(dist) => v -= dist,
-			Down(dist) => v += dist,
+	for step in steps {
+		let Step { direction, dist } = &*step;
+		match direction {
+			Forward => h += dist,
+			Up => v -= dist,
+			Down => v += dist,
 		};
 	}
 
@@ -67,19 +76,21 @@ fn pt1(directions: &Directions) -> Num {
 // end::pt1[]
 
 // tag::pt2[]
-fn pt2(directions: &Directions) -> Num {
+fn pt2<T: std::borrow::Borrow<Step>>(steps: impl Iterator<Item = T>) -> i32 {
 	use Direction::*;
 	let mut h = 0;
 	let mut v = 0;
 	let mut aim = 0;
-	for dir in directions.iter() {
-		match dir {
-			Forward(dist) => {
+	for step in steps {
+		let Step { direction, dist } = step.borrow();
+		let dist = *dist;
+		match direction {
+			Forward => {
 				h += dist;
 				v += aim * dist;
 			}
-			Up(dist) => aim -= dist,
-			Down(dist) => aim += dist,
+			Up => aim -= dist,
+			Down => aim += dist,
 		};
 	}
 

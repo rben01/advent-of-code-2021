@@ -65,16 +65,15 @@ enum TokenizationErr {
 
 type ParseResult = Result<(), TokenizationErr>;
 
-fn parse_line<L: AsRef<[Token]>>(line: L) -> ParseResult {
+fn parse_line<T: std::borrow::Borrow<Token>>(line: impl Iterator<Item = T>) -> ParseResult {
 	use Orientation::*;
 
-	let line = line.as_ref();
 	let mut token_stack = Vec::new();
-	for &curr in line {
+	for curr in line {
+		let curr = *curr.borrow();
 		match token_stack.last() {
 			None => {
 				token_stack.push(curr);
-				continue;
 			}
 			Some(&prev) => {
 				if prev.orientation == Left && curr.orientation == Right {
@@ -112,8 +111,11 @@ fn read_input(input: &str) -> Option<Vec<Vec<Token>>> {
 
 fn ans_for_input(input: &str) -> Answer<usize, usize> {
 	let tokens = read_input(input).unwrap();
-	let parsed_lines = tokens.iter().map(parse_line).collect::<Vec<_>>();
-	(10, (pt1(&parsed_lines), pt2(&parsed_lines))).into()
+	let parsed_lines = tokens
+		.iter()
+		.map(|v| parse_line(v.iter()))
+		.collect::<Vec<_>>();
+	(10, (pt1(parsed_lines.iter()), pt2(parsed_lines.iter()))).into()
 }
 
 pub fn ans() -> Answer<usize, usize> {
@@ -122,33 +124,31 @@ pub fn ans() -> Answer<usize, usize> {
 // end::setup[]
 
 // tag::pt1[]
-fn pt1<V: AsRef<[ParseResult]>>(prs: V) -> usize {
+fn pt1<P: std::borrow::Borrow<ParseResult>>(prs: impl Iterator<Item = P>) -> usize {
 	use Brace::*;
-	prs.as_ref()
-		.iter()
-		.filter_map(|r| {
-			if let Err(TokenizationErr::Corrupted(t)) = r {
-				Some(match t.brace {
-					Paren => 3,
-					Square => 57,
-					Curly => 1197,
-					Angle => 25137,
-				})
-			} else {
-				None
-			}
-		})
-		.sum()
+	prs.filter_map(|r| {
+		let r = r.borrow();
+		if let Err(TokenizationErr::Corrupted(t)) = r {
+			Some(match t.brace {
+				Paren => 3,
+				Square => 57,
+				Curly => 1197,
+				Angle => 25137,
+			})
+		} else {
+			None
+		}
+	})
+	.sum()
 }
 // end::pt1[]
 
 // tag::pt2[]
-fn pt2<V: AsRef<[ParseResult]>>(prs: V) -> usize {
+fn pt2<P: std::borrow::Borrow<ParseResult>>(prs: impl Iterator<Item = P>) -> usize {
 	use Brace::*;
 	let mut scores = prs
-		.as_ref()
-		.iter()
 		.filter_map(|r| {
+			let r = r.borrow();
 			if let Err(TokenizationErr::Incomplete(tokens)) = r {
 				let mut score = 0_usize;
 				for t in tokens {
@@ -172,3 +172,14 @@ fn pt2<V: AsRef<[ParseResult]>>(prs: V) -> usize {
 	scores[scores.len() / 2]
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 10, ans: (167_379, 2_776_842_859));
+	}
+}

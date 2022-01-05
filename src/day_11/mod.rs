@@ -117,3 +117,14 @@ fn pt2(mut octopi: Octopi) -> usize {
 	n
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 11, ans: (1617, 258));
+	}
+}

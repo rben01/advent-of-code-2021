@@ -135,7 +135,7 @@ fn find_ts_and_vys_for_y(y: Num) -> Vec<(Time, Num)> {
 		for sign in [-1, 1] {
 			let k1 = sign * k1;
 			let k2 = eight_y / k1;
-			// k1 and k2 are now two signed integers that multiply to y
+			// k1 and k2 are now two signed integers that multiply to 8y
 
 			let two_m = k1 + k2;
 			if two_m % 2 != 0 {
@@ -174,7 +174,7 @@ fn find_ts_and_vys_for_y(y: Num) -> Vec<(Time, Num)> {
 fn ans_for_input(input: &str) -> Answer<Option<Num>, usize> {
 	let rect = read_input(input).unwrap();
 	let trajectories = get_trajectories(rect);
-	(17, (pt1(&trajectories), pt2(&trajectories))).into()
+	(17, (pt1(trajectories.iter()), pt2(trajectories.iter()))).into()
 }
 
 pub fn ans() -> Answer<Option<Num>, usize> {
@@ -236,10 +236,10 @@ fn get_trajectories(rect: Rect<Num>) -> Vec<Trajectory> {
 // end::get_traj[]
 
 // tag::pt1[]
-fn pt1(trajectories: &[Trajectory]) -> Option<Num> {
+fn pt1<T: std::borrow::Borrow<Trajectory>>(trajectories: impl Iterator<Item = T>) -> Option<Num> {
 	trajectories
-		.iter()
 		.map(|traj| {
+			let traj = *traj.borrow();
 			let vy = traj.velo.vy;
 			if vy < 0 {
 				return 0;
@@ -251,10 +251,12 @@ fn pt1(trajectories: &[Trajectory]) -> Option<Num> {
 // end::pt1[]
 
 // tag::pt2[]
-fn pt2(trajectories: &[Trajectory]) -> usize {
+fn pt2<T: std::borrow::Borrow<Trajectory>>(trajectories: impl Iterator<Item = T>) -> usize {
 	trajectories
-		.iter()
-		.map(|Trajectory { velo, .. }| (velo.vx, velo.vy))
+		.map(|traj| {
+			let Trajectory { velo, .. } = *traj.borrow();
+			(velo.vx, velo.vy)
+		})
 		.collect::<Set<_>>()
 		.len()
 }

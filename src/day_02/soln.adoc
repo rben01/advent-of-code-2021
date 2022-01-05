@@ -4,7 +4,6 @@ link_day:2[] {link-sep} link_input:2[]
 
 There isn't really anything too deep to go into here.
 You just have to update the current state correctly.
-Easy!
 
 ***
 

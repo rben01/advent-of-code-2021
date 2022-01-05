@@ -17,6 +17,7 @@ include_source::mod.rs[tag=setup]
 .{part-title} 1
 {part-title} 1 asks us, in effect, to find the number \(x\) that minimizes the mean absolute deviation, or the \(l_1\)-norm of the error.
 The number that does this is simply the median of the dataset.
+(In this problem, the median may be a half-integer, but the solution has to be an integer, so we can just round the median down.)
 
 Proof:
 If you are not at the median and move towards it, you are moving toward at least as many data points as you are moving away from, which at best decreases the mean absolute deviation and at worst leaves it unchanged.

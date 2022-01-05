@@ -3,7 +3,9 @@ use crate::Answer;
 use std::collections::{btree_map::Entry as MapEntry, BTreeMap as Map, BTreeSet as Set};
 
 const N_SEGMENTS: usize = 7;
+// end::setup[]
 
+// tag::digit[]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 struct Digit {
 	segments: [bool; N_SEGMENTS],
@@ -97,11 +99,12 @@ impl From<Digit> for usize {
 		}
 	}
 }
+// end::digit[]
 
-fn get_mapping_from_garbled_digits<V: AsRef<[Digit]>>(
-	garbled_digits: V,
+// tag::setup[]
+fn get_mapping_from_garbled_digits<D: std::borrow::Borrow<Digit>>(
+	garbled_digits: impl Iterator<Item = D>,
 ) -> Result<Map<Digit, Digit>, Map<Digit, Set<Digit>>> {
-	let garbled_digits = garbled_digits.as_ref();
 	let mut mappings = Map::new();
 
 	{
@@ -114,7 +117,8 @@ fn get_mapping_from_garbled_digits<V: AsRef<[Digit]>>(
 				.insert(digit);
 		}
 
-		for &gd in garbled_digits {
+		for gd in garbled_digits {
+			let gd = *gd.borrow();
 			let digits_w_same_n_segments = &grouped_by_n_on[&gd.n_on];
 			mappings.insert(gd, digits_w_same_n_segments.clone());
 		}
@@ -183,8 +187,6 @@ fn get_mapping_from_garbled_digits<V: AsRef<[Digit]>>(
 			new_mappings.remove(k);
 		}
 
-		// println!("{:?}", mappings);
-
 		if mappings.len() == N_SEGMENTS && mappings.values().all(|m| m.len() == 1) {
 			return Ok(mappings
 				.into_iter()
@@ -230,18 +232,15 @@ fn read_input(input: &str) -> Vec<(Vec<Digit>, Vec<Digit>)> {
 		.collect()
 }
 
-fn translate_line_to_digits(
-	idod: (impl AsRef<[Digit]>, impl AsRef<[Digit]>),
+fn translate_line_to_digits<D: std::borrow::Borrow<Digit>>(
+	idod: (impl Iterator<Item = D>, impl Iterator<Item = D>),
 ) -> Option<Vec<usize>> {
 	let (in_digits, out_digits) = idod;
-	let in_digits = in_digits.as_ref();
-	let out_digits = out_digits.as_ref();
 
 	let mapping = get_mapping_from_garbled_digits(in_digits).ok()?;
 	Some(
 		out_digits
-			.iter()
-			.map(|&d| apply_mapping_to_garbled_digit(&mapping, d))
+			.map(|d| apply_mapping_to_garbled_digit(&mapping, *d.borrow()))
 			.collect(),
 	)
 }
@@ -251,11 +250,10 @@ fn ans_for_input(input: &str) -> Answer<usize, usize> {
 
 	let output_digits = in_out_lines
 		.iter()
-		.map(|(in_d, out_d)| translate_line_to_digits((in_d, out_d)))
+		.map(|(in_d, out_d)| translate_line_to_digits((in_d.iter(), out_d.iter())))
 		.collect::<Option<Vec<_>>>()
 		.unwrap();
 	(8, (pt1(output_digits.iter()), pt2(output_digits.iter()))).into()
-	// (8, (0, 0)).into()
 }
 
 pub fn ans() -> Answer<usize, usize> {
@@ -290,3 +288,14 @@ fn pt2<Nums: AsRef<[usize]>>(out_digits: impl Iterator<Item = Nums>) -> usize {
 		.sum()
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 8, ans: (237, 1_009_098));
+	}
+}

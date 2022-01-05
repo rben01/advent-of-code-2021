@@ -37,7 +37,7 @@
 	--table-text-color: #222;
 	--table-stripe-bg-color: #f9f9f9;
 	--code-parent-bg-color: #eee;
-	--code-parent-border-color: #ddd;
+	--code-parent-border-color: rgb(189, 189, 189);
 	--pre-code-text-color: rgb(0, 0, 0);
 	--kbd-keyseq-text-color: rgb(167, 167, 167);
 	--kbd-text-shadow-color: rgb(255, 255, 255);
@@ -125,8 +125,8 @@
 		--table-head-foot-bg-color: rgb(22, 22, 22);
 		--table-text-color: #ccc;
 		--table-stripe-bg-color: #080808;
-		--code-parent-bg-color: rgb(44, 44, 44);
-		--code-parent-border-color: rgb(68, 68, 68);
+		--code-parent-bg-color: rgb(20, 20, 20);
+		--code-parent-border-color: rgb(65, 65, 65);
 		--pre-code-text-color: rgb(245, 245, 245);
 		--kbd-keyseq-text-color: rgb(0, 0, 0);
 		--kbd-text-shadow-color: rgb(214, 214, 214);
@@ -1815,6 +1815,7 @@ table.tableblock #preamble > .sectionbody > .paragraph:first-of-type p {
 	font-size: 0.95em;
 	color: var(--code-text-color);
 	background-color: var(--code-parent-bg-color);
+	border: 1px solid var(--code-parent-border-color);
 	border-radius: 5px;
 }
 

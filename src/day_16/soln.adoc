@@ -9,7 +9,7 @@ It consisted of roughly three parts:
 . ({part-title} 1) Parse this binary string into a tree of packets according to rules set out in the problem statement — “easy” in the sense that I wrote up an _almost_ correct solution in no time at all.
 Very very hard in the sense that it required precise bookkeeping and it took forever for me to get it all exactly correct.
 But from a theoretical standpoint it wasn't really that hard.
-. ({part-title} 2) Evaluate the packet tree as an expression tree (more or less like parsing S-expressions) — easy
+. ({part-title} 2) Evaluate the packet tree as an expression tree (more or less like parsing S-expressions) — easy.
 
 ***
 
@@ -22,23 +22,24 @@ There's a lot to unpack here, but roughly the algorithm is as follows:
 . Maintain a stack of parse states, which consist of:
 .. The depth in the parse tree
 .. The length of remaining data for this packet.
-Packets tell inform us how much data they expect; when there isn't any left, we head back up a level in the tree.
+Packets tell us how much data they expect; when there isn't any left, we head back up a level in the tree.
 So we have to track how much of their data we've consumed so far.
 This “amount of data” quantity comes in two flavors:
 +
 --
 ... Number of bits that the children comprise
-... Number of direct children (i.e., number of child packets)
+... Number of direct children, i.e., number of child packets
 --
 +
 One tricky bit is that packets share bits-remaining with their children.
 In other words, if a child consumes some bits from the input, so have all of its ancestors that count their data in bits.
 (Packets that are expecting a fixed number of child packets are unaffected when their descendants consume data.)
-In either case, if this packet has no more data remaining — 0 bits or 0 child packets — continue on to the next parse state on the stack.
-. Looking at the data beginning at the cursor, parse the stream into a packet.
+In either case, if the current packet has no more data remaining — 0 bits or 0 child packets — continue on to the next parse state on the stack.
+. Looking at the data beginning at the cursor, parse the stream into a single packet.
 . Advance the cursor the number of bits this packet consumed.
-. If this packet was an operator, increment the depth, as its children will follow.
+. If this packet was an operator, increment the depth, as its children will follow. Otherwise the depth remains unchanged.
 . Push a new parse state onto the stack, containing the incremented depth and the length of remaining data for this packet.
+. If this packet was the last of its parent's children, decrement the depth.
 
 --
 include_source::mod.rs[tag=setup]

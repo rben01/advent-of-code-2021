@@ -22,13 +22,9 @@ We don't actually maintain a stack in the code; we merely use the call stack.
 include_source::mod.rs[tag=setup]
 --
 
-.{part-title} 1
+.{part-title}s 1 and 2
 In {part-title} 1, we may only visit each small node at most once.
-
-include_source::mod.rs[tag=pt1]
-
-.{part-title} 2
 {part-title} 2 is slightly more relaxed; in addition to the paths visiting each small node at most once, valid paths now include those in which a single small node is visited a second time.
 But this wrinkle was already handled in the {setup-title} section; we switch the behavior with a single boolean argument.
 
-include_source::mod.rs[tag=pt2]
+include_source::mod.rs[tags=pt1;pt2]

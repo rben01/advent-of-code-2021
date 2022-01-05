@@ -2,14 +2,11 @@
 use crate::Answer;
 use num::Integer;
 use regex::Regex;
-use std::collections::BTreeMap as Map;
-use std::str::FromStr;
+use std::{collections::BTreeMap as Map, str::FromStr};
 
 #[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct Point<T>(T, T);
-
 struct EndpointPair<T: Integer>(Point<T>, Point<T>);
-
 type PointCounter<T> = Map<Point<T>, usize>;
 
 fn get_lines<T: Integer + FromStr>(input: &str) -> Option<Vec<EndpointPair<T>>> {

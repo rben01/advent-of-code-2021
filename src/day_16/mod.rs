@@ -1,5 +1,5 @@
 // tag::setup[]
-use crate::{utils::to_decimal, Answer};
+use crate::{utils::to_big_decimal, Answer};
 use std::fmt::{Display, Write};
 
 type Number = i64;
@@ -68,8 +68,8 @@ impl Binary {
 
 			let packet_bits = &orig_data[cursor..];
 
-			let version_number = to_decimal(&packet_bits[0..3]);
-			let kind_number = to_decimal(&packet_bits[3..6]);
+			let version_number = to_big_decimal(&packet_bits[0..3]);
+			let kind_number = to_big_decimal(&packet_bits[3..6]);
 			let data_bits = &packet_bits[header_length..];
 
 			let parent_packet_length = match remaining {
@@ -89,7 +89,7 @@ impl Binary {
 					let mut bin_bits = vec![];
 
 					let mut n_chunks = 0;
-					for chunk in data_bits.chunks_exact(5usize) {
+					for chunk in data_bits.chunks_exact(5) {
 						n_chunks += 1;
 						bin_bits.extend_from_slice(&chunk[1..]);
 						if !chunk[0] {
@@ -97,7 +97,7 @@ impl Binary {
 						}
 					}
 
-					let value = i64::from(to_decimal(bin_bits));
+					let value = i64::try_from(to_big_decimal(bin_bits)).unwrap();
 
 					n_bits_consumed = header_length + n_chunks * chunk_size;
 					packet = Packet {
@@ -114,12 +114,16 @@ impl Binary {
 					if length_type {
 						// length in packets
 						n_bits_for_length = 12;
-						let n_packets = to_decimal(&data_bits[1..n_bits_for_length]) as usize;
+						let n_packets =
+							usize::try_from(to_big_decimal(&data_bits[1..n_bits_for_length]))
+								.unwrap();
 						op_data_length = RemainingData::NPackets(n_packets);
 					} else {
 						// length in bits
 						n_bits_for_length = 16;
-						let n_bits = to_decimal(&data_bits[1..n_bits_for_length]) as usize;
+						let n_bits =
+							usize::try_from(to_big_decimal(&data_bits[1..n_bits_for_length]))
+								.unwrap();
 						op_data_length = RemainingData::NBits(n_bits);
 					};
 
@@ -178,7 +182,7 @@ enum PacketKind {
 
 #[derive(Debug)]
 struct Packet {
-	version_number: u32,
+	version_number: u64,
 	kind: PacketKind,
 	depth: usize,
 }
@@ -188,18 +192,18 @@ fn read_input(input: &str) -> Vec<Packet> {
 	b.as_packets()
 }
 
-fn ans_for_input(input: &str) -> Answer<u32, Number> {
+fn ans_for_input(input: &str) -> Answer<u64, Number> {
 	let p = read_input(input);
 	(16, (pt1(&p), pt2(&p).unwrap())).into()
 }
 
-pub fn ans() -> Answer<u32, Number> {
+pub fn ans() -> Answer<u64, Number> {
 	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
 // tag::pt1[]
-fn pt1(packets: &[Packet]) -> u32 {
+fn pt1(packets: &[Packet]) -> u64 {
 	packets.iter().map(|packet| packet.version_number).sum()
 }
 // end::pt1[]
@@ -259,8 +263,8 @@ enum Operation {
 	Compare(Comparitor),
 }
 
-impl From<u32> for Operation {
-	fn from(n: u32) -> Self {
+impl From<u64> for Operation {
+	fn from(n: u64) -> Self {
 		use Comparitor::*;
 		use Operation::*;
 		use Reducer::*;
@@ -339,7 +343,7 @@ mod test {
 	#[test]
 	fn test() {
 		#[track_caller]
-		fn test_pt1(in_str: &str, pt1_val: u32) {
+		fn test_pt1(in_str: &str, pt1_val: u64) {
 			test_input!(&read_input(in_str), pt1: pt1_val);
 		}
 

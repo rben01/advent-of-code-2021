@@ -253,58 +253,41 @@ impl Scanner {
 		candidates
 	}
 
-	fn merge_all<S: Borrow<Scanner>, V: AsRef<[S]>>(
-		scanners: V,
+	fn merge_all<S: Borrow<Scanner>>(
+		scanners: impl AsRef<[S]>,
 	) -> Option<(Vec<Transform>, Scanner)> {
-		struct MergedScanner {
-			index: usize,
-			merged: Scanner,
-			transform: Transform,
-		}
-
 		let scanners = scanners.as_ref();
 
 		let (first, rest) = scanners.split_first().unwrap();
-		let first: &Scanner = first.borrow();
+		let first = first.borrow();
 		if rest.is_empty() {
 			return Some((vec![Transform::identity()], first.clone()));
 		}
 
-		rest.iter()
-			.enumerate()
-			.flat_map(|(i, s)| {
-				let s = s.borrow();
-				first
-					.candidates_for_merge(s)
-					.iter()
-					.map(|(transform, transformed_scanner)| MergedScanner {
-						index: i,
-						merged: first.merged_with(transformed_scanner),
-						transform: *transform,
-					})
-					.collect::<Vec<_>>()
-			})
-			.find_map(
-				|MergedScanner {
-				     index,
-				     merged,
-				     transform,
-				 }| {
-					let new_scanners = std::iter::once(&merged)
-						.chain(rest.iter().enumerate().filter_map(|(j, s)| {
-							if index == j {
-								None
-							} else {
-								Some(s.borrow())
-							}
-						}))
-						.collect::<Vec<_>>();
+		for (i, s) in rest.iter().enumerate() {
+			let s = s.borrow();
 
-					Scanner::merge_all(new_scanners).map(|(transforms, ans)| {
-						(std::iter::once(transform).chain(transforms).collect(), ans)
-					})
-				},
-			)
+			for (transform, transformed_scanner) in first.candidates_for_merge(s) {
+				let merged_scanner = first.merged_with(&transformed_scanner);
+				let new_scanners = std::iter::once(&merged_scanner)
+					.chain(rest.iter().enumerate().filter_map(|(j, s)| {
+						if i == j {
+							None
+						} else {
+							Some(s.borrow())
+						}
+					}))
+					.collect::<Vec<_>>();
+
+				let merge_result = Scanner::merge_all(new_scanners);
+
+				if let Some((transforms, ans)) = merge_result {
+					return Some((std::iter::once(transform).chain(transforms).collect(), ans));
+				}
+			}
+		}
+
+		None
 	}
 }
 
@@ -330,12 +313,16 @@ fn read_input(s: &str) -> Option<Vec<Scanner>> {
 	Some(scanners)
 }
 
-pub fn ans() -> Answer<usize, u32> {
-	let scanners = read_input(include_str!("input.txt")).unwrap();
+fn ans_for_input(input: &str) -> Answer<usize, u32> {
+	let scanners = read_input(input).unwrap();
 	let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();
 	let translations = transforms.iter().map(|t| t.translation).collect::<Vec<_>>();
 
 	(19, (pt1(&scanner), pt2(&translations))).into()
+}
+
+pub fn ans() -> Answer<usize, u32> {
+	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
 
@@ -362,3 +349,18 @@ fn pt2<V: AsRef<[Translation]>>(translations: V) -> u32 {
 	max_manh_dist
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		assert!(
+			cfg!(not(debug_assertions)),
+			"Day 19 may not be tested in debug mode; it requires --release"
+		);
+		test_input!(include_str!("input.txt"), day: 19, ans: (385, 10707));
+	}
+}

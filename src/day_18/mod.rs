@@ -2,6 +2,7 @@
 use crate::Answer;
 use std::fmt::{Debug, Display};
 
+// tag::snail_num[]
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 struct Elem {
 	value: u32,
@@ -13,7 +14,7 @@ struct SnailNum<Elems: AsRef<[Elem]>> {
 	elems: Elems,
 	depth: usize,
 }
-
+// end::snail_num[]
 type SnailNumOwned = SnailNum<Vec<Elem>>;
 type SnailNumBorrowed<'a> = SnailNum<&'a [Elem]>;
 
@@ -112,7 +113,7 @@ impl SnailNumOwned {
 			None
 		};
 
-		(elems).remove(r_idx);
+		elems.remove(r_idx);
 
 		let changed_r_idx = if r_idx < elems.len() {
 			elems[r_idx].value += r_elem.value;
@@ -299,7 +300,7 @@ fn pt2(input: &str) -> u32 {
 		.collect::<Vec<_>>();
 
 	for (i, sn1) in snail_nums.iter().enumerate() {
-		for sn2 in snail_nums.iter().skip(i) {
+		for sn2 in snail_nums.iter().skip(i + 1) {
 			let mag1 = sn1.add(sn2).magnitude();
 			let mag2 = sn2.add(sn1).magnitude();
 

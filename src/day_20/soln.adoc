@@ -12,7 +12,8 @@ The rules are the same for each pixel, but how they are applied in practice depe
 . If a pixel is adjacent to both interior and exterior pixels, then we look at both the array of interior pixels and the state of the exterior pixels.
 The exterior pixels that are adjacent to interior pixels become interior themselves as part of this update, as they no longer necessarily share their state with the rest of the monolithic exterior.
 Thus the interior portion grows each step.
-. All other pixels are exterior and are surrounded only by other exterior pixels; therefore they are all updated in the same manner, and so the exterior remains either all-on or all-off.
+. All other pixels are exterior and are surrounded only by other exterior pixels; therefore they are all updated in the same manner.
+Since the exterior starts out as all-off, it remains either all-on or all-off for the duration of the problem.
 
 ***
 

@@ -79,28 +79,33 @@ impl Image {
 
 		let mut new_mat = Array2::from_shape_simple_fn(grown_mat.dim(), || false);
 
-		for r in 0..grown_mat.nrows() {
-			for c in 0..grown_mat.ncols() {
+		for center_row in 0..grown_mat.nrows() {
+			for center_col in 0..grown_mat.ncols() {
 				let mut surrounding_pixels = vec![];
-				for dr in [-1, 0, 1] {
-					for dc in [-1, 0, 1] {
-						let r = i32::try_from(r).unwrap() + dr;
-						let c = i32::try_from(c).unwrap() + dc;
+				let surrounding_rows = [
+					center_row.checked_sub(1),
+					Some(center_row),
+					(center_row + 1 < grown_mat.nrows()).then_some(center_row + 1),
+				];
+				let surrounding_cols = [
+					center_col.checked_sub(1),
+					Some(center_col),
+					(center_col + 1 < grown_mat.ncols()).then_some(center_col + 1),
+				];
 
-						let bit = if r < 0
-							|| r >= i32::try_from(grown_mat.nrows()).unwrap()
-							|| c < 0 || c >= i32::try_from(grown_mat.ncols()).unwrap()
-						{
-							self.surrounding
-						} else {
-							grown_mat[[r, c].map(|m| usize::try_from(m).unwrap())]
+				for row in surrounding_rows {
+					for col in surrounding_cols {
+						let bit = match [row, col] {
+							[Some(r), Some(c)] => grown_mat[[r, c]],
+							_ => self.surrounding,
 						};
 						surrounding_pixels.push(bit);
 					}
 				}
 
-				let replacement = self.algo[to_decimal(surrounding_pixels) as usize];
-				new_mat[[r, c]] = replacement;
+				let replacement =
+					self.algo[usize::try_from(to_decimal(surrounding_pixels)).unwrap()];
+				new_mat[[center_row, center_col]] = replacement;
 			}
 		}
 
@@ -139,3 +144,14 @@ fn pt2(im: Image) -> usize {
 	im.mat.map(|&bit| usize::from(bit)).sum()
 }
 //end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 20, ans: (5432, 16016));
+	}
+}

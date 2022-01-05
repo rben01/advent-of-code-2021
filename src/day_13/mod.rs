@@ -1,9 +1,7 @@
 // tag::setup[]
 use crate::Answer;
 use num::{CheckedAdd, Integer};
-use std::collections::BTreeSet as Set;
-use std::fmt::Display;
-use std::str::FromStr;
+use std::{collections::BTreeSet as Set, fmt::Display, str::FromStr};
 
 #[derive(Copy, Clone)]
 enum Fold<T> {
@@ -55,7 +53,7 @@ struct Paper<T: Integer> {
 }
 
 impl<T: Integer + Copy> Paper<T> {
-	fn from_dots<I: IntoIterator<Item = Point<T>>>(dots: I) -> Paper<T> {
+	fn from_dots(dots: impl IntoIterator<Item = Point<T>>) -> Paper<T> {
 		let dots = dots.into_iter().collect();
 		Self { dots }
 	}
@@ -69,9 +67,13 @@ impl<T: Integer + Copy> Paper<T> {
 		Paper::from_dots(dots)
 	}
 
-	fn do_folds(&self, folds: &[Fold<T>]) -> Paper<T> {
+	fn do_folds<F: std::borrow::Borrow<Fold<T>>>(
+		&self,
+		folds: impl Iterator<Item = F>,
+	) -> Paper<T> {
 		let mut paper = self.clone();
 		for fold in folds {
+			let fold = fold.borrow();
 			paper = paper.folded_across(fold);
 		}
 		paper
@@ -101,7 +103,7 @@ fn read_input<T: Integer + FromStr + Copy>(input: &str) -> Option<(Paper<T>, Vec
 
 fn ans_for_input(input: &str) -> Answer<usize, String> {
 	let (paper, folds) = read_input::<i32>(input).unwrap();
-	(13, (pt1(&paper, &folds[0]), pt2(&paper, &folds))).into()
+	(13, (pt1(&paper, &folds[0]), pt2(&paper, folds.iter()))).into()
 }
 
 pub fn ans() -> Answer<usize, String> {
@@ -146,7 +148,10 @@ impl<T: Integer + CheckedAdd + Clone + Copy> Display for Paper<T> {
 	}
 }
 
-fn pt2<T: Integer + CheckedAdd + Clone + Copy>(paper: &Paper<T>, folds: &[Fold<T>]) -> String {
+fn pt2<T: Integer + CheckedAdd + Clone + Copy, F: std::borrow::Borrow<Fold<T>>>(
+	paper: &Paper<T>,
+	folds: impl Iterator<Item = F>,
+) -> String {
 	let ans = paper.do_folds(folds);
 	println!("{}", ans);
 	ans.to_string()

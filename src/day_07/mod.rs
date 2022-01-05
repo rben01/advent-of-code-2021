@@ -21,37 +21,45 @@ pub fn ans() -> Answer<usize, usize> {
 fn pt1<V: AsRef<[usize]>>(nums: V) -> usize {
 	let mut nums = nums.as_ref().to_vec();
 	nums.sort_unstable();
-	let median = nums[nums.len() / 2];
+	let datum_below = nums[nums.len() / 2];
+	let datum_above = nums[1 + (nums.len() - 1) / 2];
+	let median = (datum_below + datum_above) / 2;
 	nums.iter().map(|&n| abs_diff(n, median)).sum()
 }
 // end::pt1[]
 // tag::pt2[]
 fn pt2<V: AsRef<[usize]>>(nums: V) -> usize {
+	fn cost(mean: usize, nums: &[usize]) -> usize {
+		nums.iter()
+			.map(|&n| {
+				let diff = abs_diff(n, mean);
+				diff * (diff + 1) / 2
+			})
+			.sum()
+	}
+
 	let nums = nums.as_ref();
 	let sum = nums.iter().sum::<usize>();
 	let len = nums.len();
 
 	let mean_rounded_down = sum / len;
-	let means = if sum % len == 0 {
-		[mean_rounded_down, mean_rounded_down]
+
+	if sum % len == 0 {
+		cost(mean_rounded_down, nums)
 	} else {
 		let mean_rounded_up = (sum - 1) / len + 1;
-		[mean_rounded_down, mean_rounded_up]
-	};
-
-	let lowest_cost = means
-		.map(|mean| {
-			nums.iter()
-				.map(|&n| {
-					let diff = abs_diff(n, mean);
-					diff * (diff + 1) / 2
-				})
-				.sum::<usize>()
-		})
-		.iter()
-		.min()
-		.copied()
-		.unwrap_or(usize::MAX);
-	lowest_cost
+		cost(mean_rounded_down, nums).min(cost(mean_rounded_up, nums))
+	}
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 7, ans: (328_187, 91_257_582));
+	}
+}

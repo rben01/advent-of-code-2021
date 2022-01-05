@@ -2,7 +2,7 @@
 	"code-runner.executorMap": {
 		"asciidoc": "asciidoctor --verbose --warnings --base-dir . --load-path docs -r adoc_ruby/syntax-highlighter -r adoc_ruby/aoc-day-link-inserter -r adoc_ruby/source_includer.rb ./Docs/advent_of_code_2021.adoc # ",
 	},
-	"liveServer.settings.wait": 2000,
+	"liveServer.settings.wait": 100000,
 	"rust-analyzer.cargo.features": [
 		"all_days"
 	],

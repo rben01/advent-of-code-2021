@@ -3,19 +3,21 @@
 link_day:10[] {link-sep} link_input:10[]
 
 Pretty basic.
-The only way to make this interesting was to try and make the code as DRY as possible and to embed as much information in Julia's limited type system as possible.
+Parsing is done with a token stack; when we see paired braces at the top of the stack, we pop them both.
+If we see mismatched braces, we immediately know we have a `Corrupted` token stream.
+If we make it to the end of the input without match-and-popping everything — i.e., if the stack isn't empty at the end — then we have an `Incomplete` token stream.
 
 .{setup-title}
 --
-include_source::soln.jl[tag=setup]
+include_source::mod.rs[tag=setup]
 --
 
 .{part-title} 1
 --
-include_source::soln.jl[tag=pt1]
+include_source::mod.rs[tag=pt1]
 --
 
 .{part-title} 2
 --
-include_source::soln.jl[tag=pt2]
+include_source::mod.rs[tag=pt2]
 --
