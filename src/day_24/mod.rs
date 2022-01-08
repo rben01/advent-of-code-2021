@@ -1,15 +1,16 @@
+// tag::setup[]
 use crate::Answer;
 use std::{
 	collections::{BTreeMap as Map, BTreeSet as Set},
 	ops::{Index, IndexMut},
 };
 
-type Digit = i32;
+type Num = i32;
 type Output = String;
 
 #[derive(Debug, Clone, Copy)]
 enum Operand {
-	Number(Digit),
+	Number(Num),
 	Reg(Register),
 }
 
@@ -82,11 +83,11 @@ impl Register {
 
 #[derive(Debug)]
 struct Alu {
-	registers: [Digit; 4],
+	registers: [Num; 4],
 }
 
 impl Index<Register> for Alu {
-	type Output = Digit;
+	type Output = Num;
 	fn index(&self, register: Register) -> &Self::Output {
 		&self.registers[register as usize]
 	}
@@ -103,7 +104,7 @@ impl Alu {
 		Self { registers: [0; 4] }
 	}
 
-	fn run_block(&mut self, block: &InstrBlock, input: Digit) {
+	fn run_block(&mut self, block: &InstrBlock, input: Num) {
 		use MathOp::*;
 		use Operand::*;
 
@@ -133,7 +134,7 @@ impl Alu {
 
 	fn from_running_block_on(
 		block: &InstrBlock,
-		input: Digit,
+		input: Num,
 		setup: impl FnOnce(&mut Self),
 	) -> Self {
 		let mut alu = Alu::new();
@@ -186,8 +187,10 @@ fn ans_for_input(input: &str) -> Answer<Output, Output> {
 pub fn ans() -> Answer<Output, Output> {
 	ans_for_input(include_str!("input.txt"))
 }
+// end::setup[]
 
-fn get_valid_zs<V: AsRef<[InstrBlock]>>(blocks: V) -> Vec<Set<Digit>> {
+// tag::algo[]
+fn get_valid_zs(blocks: impl AsRef<[InstrBlock]>) -> Vec<Set<Num>> {
 	let blocks = blocks.as_ref();
 	let n_digits = blocks.len();
 
@@ -206,8 +209,10 @@ fn get_valid_zs<V: AsRef<[InstrBlock]>>(blocks: V) -> Vec<Set<Digit>> {
 				curr_zs.entry(z).or_insert_with(Set::new).insert(prev_z);
 			}
 		}
-
+		// tag::debugging[]
+		#[cfg(debug_assertions)]
 		println!("{}: {:?}", digit_idx, curr_zs.len());
+		// end::debugging[]
 	}
 
 	let mut all_valid_zs_rtl = vec![Set::new(); n_digits];
@@ -227,18 +232,18 @@ fn get_valid_zs<V: AsRef<[InstrBlock]>>(blocks: V) -> Vec<Set<Digit>> {
 	all_valid_zs_rtl
 }
 
-fn find_digits<DigitRange: Iterator<Item = Digit>>(
+fn find_digits<DigitRange: Iterator<Item = Num>>(
 	blocks: impl AsRef<[InstrBlock]>,
-	valid_zs: impl AsRef<[Set<Digit>]>,
-	first_digit: Digit,
-	attempted_digit_range_ctor: impl Fn(Digit) -> DigitRange,
-	get_next_digit: impl Fn(Digit) -> Digit,
-	can_continue: impl Fn(Digit) -> bool,
+	valid_zs: impl AsRef<[Set<Num>]>,
+	first_digit: Num,
+	attempted_digit_range_ctor: impl Fn(Num) -> DigitRange,
+	get_next_digit: impl Fn(Num) -> Num,
+	can_continue: impl Fn(Num) -> bool,
 ) -> Output {
 	struct CandidateDigit {
-		z_init: Digit,
-		digit: Digit,
-		next_digit_attempted: Digit,
+		z_init: Num,
+		digit: Num,
+		next_digit_attempted: Num,
 	}
 
 	let blocks = blocks.as_ref();
@@ -298,8 +303,10 @@ fn find_digits<DigitRange: Iterator<Item = Digit>>(
 		.collect::<Vec<_>>()
 		.join("")
 }
+// end::algo[]
 
-fn pt1(blocks: impl AsRef<[InstrBlock]>, valid_zs: impl AsRef<[Set<Digit>]>) -> Output {
+// tag::pt1[]
+fn pt1(blocks: impl AsRef<[InstrBlock]>, valid_zs: impl AsRef<[Set<Num>]>) -> Output {
 	find_digits(
 		blocks,
 		valid_zs,
@@ -310,7 +317,9 @@ fn pt1(blocks: impl AsRef<[InstrBlock]>, valid_zs: impl AsRef<[Set<Digit>]>) -> 
 	)
 }
 
-fn pt2(blocks: impl AsRef<[InstrBlock]>, valid_zs: impl AsRef<[Set<Digit>]>) -> Output {
+// end::pt1[]
+// tag::pt2[]
+fn pt2(blocks: impl AsRef<[InstrBlock]>, valid_zs: impl AsRef<[Set<Num>]>) -> Output {
 	find_digits(
 		blocks,
 		valid_zs,
@@ -319,4 +328,20 @@ fn pt2(blocks: impl AsRef<[InstrBlock]>, valid_zs: impl AsRef<[Set<Digit>]>) -> 
 		|digit| digit + 1,
 		|digit| digit < 9,
 	)
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		assert!(
+			cfg!(not(debug_assertions)),
+			"Day 24 may not be tested in debug mode; it requires --release"
+		);
+		test_input!(include_str!("input.txt"), day: 24, ans: ("94992992796199".to_owned(), "11931881141161".to_owned()));
+	}
 }

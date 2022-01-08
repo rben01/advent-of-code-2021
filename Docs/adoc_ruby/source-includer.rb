@@ -21,7 +21,7 @@ class SourceIncluderMacro < Asciidoctor::Extensions::BlockMacroProcessor
 
     attr_comps = []
     attrs.each_pair { |k, v|
-      if k == "tag"
+      if k == "tag" || k == "tags"
         k = "tags"
         v = %(#{v};!debugging)
       end

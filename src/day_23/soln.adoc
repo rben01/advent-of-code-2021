@@ -1,0 +1,46 @@
+= Amphipod
+
+link_day:23[] {link-day} link_input:23[]
+
+We have to find the ways that agents (amphipods) can move from some initial on a grid to some final state given a number of movement constraints.
+Each agent has a different cost associated with movement.
+This is another classic graph exploration problem solvable with a priority queue; unfortunately a naive solution is computationally infeasible.
+The crux of solving this problem efficiently is realizing that there are many, many equivalent sequences of moves; rather than consider them all, we only consider those comprised of the fewest atomic moves in which, roughly speaking, a single amphipod moves as far as possible.
+
+Some examples of simplifications to the ruleset:
+
+. It makes no sense to consider an amphipod moving within its initial room unless that move takes it _out_ of the room; a disjoint sequence of moves inside the room can be reordered into a single move from the starting point to the room's doorway.
+. No amphipod should ever move deeper into its initial room; it should only ever move toward the doorway, and then from the doorway to some spot in the hallway.
+. The rules state that an amphipod can only its final side room when it is already possible to move into the last unoccupied square in that room. Therefore, when an amphipod currently in the hallway moves move from the hallway into its final side room, it should move as far into that side room as possible.
+
+Considering all simplifications and move reorderings, there are in fact only a handful of moves worth considering at each stage:
+
+. An amphipod at its starting point in some side room can move to somewhere in the hallway as long as that starting point isn't also its final destination.
+. As long as any amphipod can move to its final spot in its final side room, it _should_ move there on this move.
+In other words, no amphipod should move while another amphipod can move to its final destination, as this move would be a needless entry in the priority queue.
+(If two amphipods can both move to their final side rooms, pick one for this turn arbitrarily.)
+. An amphipod that is currently in its final position — as far to the back in its side room as it can go, with no other-kinded amphipods between it and the back of its room — should not move at all.
+
+This keeps the number of moves considered tiny, making the search for the cheapest path through the graph run very quickly.
+
+***
+
+.{setup-title}
+Most of the setup is just creating an array wrapper type that is indexable by amphipods.
+(Thanks to Rust's `const` generics, this type is statically sized.)
+This is achieved by simply assigning an integer from `0` to `N_AMPHIPODS-1` to each amphipod and using that as the index.
+Because the arrays are static, we get an additional performance boost compared to using a heap-allocated `Vec`.
+
+(Due to laziness, I created two separate copies of the input, rather than perform the modification to the input for {part-title} 2 as described in the problem statement.)
+
+include_source::mod.rs[tag=amphipods]
+
+.The Algorithm
+--
+include_source::mod.rs[tag=solve]
+--
+
+.{part-title}s 1 and 2
+--
+include_source::mod.rs[tags=pt1;pt2]
+--

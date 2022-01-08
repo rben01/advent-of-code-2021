@@ -1,0 +1,35 @@
+= Reactor Reboot
+
+link_day:22[] {link-sep} link_input:22[]
+
+This problem asks us to find the \(1\times1\times1\) cubes — “small cubes” — in 3D space that remain after sequentially turning on and turning off the small cubes contained in a sequence of upright 3D rectangular prisms with integer coordinates; we'll refer to these prisms as “boxes”.
+We record which small cubes remain after each operation as a list of boxes containing those cubes; the question is then how to record the boxes that result after performing the sequence of additions and subtractions between boxes.
+In other words, if at stage \(k\)  the “on” cubes are contained in boxes \(B_1,\ldots,B_n\), and we switch off the small cubes in \(B_{n+1}\), what set of boxes now contains the remaining “on” cubes?
+For simplicity, we'll refer to the process of turning on the small cubes in a box \(B\) as “adding” \(B\), and turning off the cubes in \(B\) as “subtracting” \(B\).
+
+To subtract a single box \(B_2\) from another box \(B_1\), we first note that we only need to subtract the intersection \(B_3\coloneqq B_1\cap B_2\) of the two boxes from \(B_1\).
+Then, to subtract \(B_3\) from \(B_1\), we note that each maximal set of parallel edges of \(B_3\) divides the corresponding axis of \(B_1\) into three (potentially empty) regions: the parts before, between, and after their endpoints.
+For instance, if \(B_3\) has edge \( ( (x_1,y,z) , (x_2,y,z) )\) with \(x_1<x_2\), then this edge divides \(B\) into three portions along the \(x\)-axis: the parts less than \(x_1\), between \(x_1\) and \(x_2\), and greater than \(x_2\).
+Since each of the three axes is split into three regions by the subtraction, \(B_3\) ultimately divides \(B_1\) into 27 smaller (but not necessarily “small”) boxes, exactly one of which is \(B_3\) itself.
+Hence \(B_1-B_2\) is just the list containing the other 26 boxes.
+
+To subtract a single cube from the list of cubes \(B_1,\ldots,B_n\), we simply subtract it from each \(B_i\) in turn, then collect all the resulting smaller boxes into a single list.
+Hence, to improve performance, after each subtraction, we (greedily) recombine the 26 smaller boxes into as few larger boxes as possible; otherwise the list of boxes to subtract from would grow without bound.
+To recombine boxes, we simply take two boxes that have a face in common and write them as the union, and repeat this until no two boxes share a face.
+(Fewer boxes could probably be obtained with some sort of dynamic programming algorithm; this wasn't deemed worth it.)
+
+***
+
+.{setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
+
+.{part-title}s 1 and 2
+
+{part-title}s 1 and 2 ask us to perform the same sequence of operations.
+In {part-title} 1 this sequence occurs is in a bounded space (presumably in a space small enough for it to have been feasible to store each small cube individually).
+In {part-title} 2 this sequence occurs in an unbounded space, which is where the savings that come from doing cube intersections become important.
+--
+include_source::mod.rs[tags=pt1;pt2]
+--

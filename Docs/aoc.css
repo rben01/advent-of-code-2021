@@ -36,8 +36,8 @@
 	--table-head-foot-bg-color: whitesmoke;
 	--table-text-color: #222;
 	--table-stripe-bg-color: #f9f9f9;
-	--code-parent-bg-color: #eee;
-	--code-parent-border-color: rgb(189, 189, 189);
+	--code-parent-bg-color: rgb(245, 245, 245);
+	--code-parent-border-color: rgb(207, 207, 207);
 	--pre-code-text-color: rgb(0, 0, 0);
 	--kbd-keyseq-text-color: rgb(167, 167, 167);
 	--kbd-text-shadow-color: rgb(255, 255, 255);

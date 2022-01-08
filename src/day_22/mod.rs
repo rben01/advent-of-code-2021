@@ -291,8 +291,6 @@ impl Grid {
 			}
 		};
 
-		// println!("{:?}", self.on_cuboids);
-
 		Some(())
 	}
 
@@ -341,6 +339,7 @@ fn pt1<R: std::borrow::Borrow<RebootStep>>(steps: impl Iterator<Item = R>) -> us
 
 	grid.n_on()
 }
+
 // end::pt1[]
 
 // tag::pt2[]
@@ -353,3 +352,14 @@ fn pt2<R: std::borrow::Borrow<RebootStep>>(steps: impl Iterator<Item = R>) -> us
 	grid.n_on()
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 22, ans: (607_657, 1_187_742_789_778_677));
+	}
+}

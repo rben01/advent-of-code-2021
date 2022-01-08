@@ -105,3 +105,20 @@ include::{src-dir}/day_18/soln.adoc[leveloffset=+1]
 include::{src-dir}/day_19/soln.adoc[leveloffset=+1]
 
 include::{src-dir}/day_20/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_21/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_22/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_23/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_24/soln.adoc[leveloffset=+1]
+
+include::{src-dir}/day_25/soln.adoc[leveloffset=+1]
+
+:!sectnums:
+
+== Conclusion
+
+This was a lot of work, but a lot of fun, and I learned a ton, both about algorithms in general and about Rust.
+Looking forward to next year's Advent of Code!

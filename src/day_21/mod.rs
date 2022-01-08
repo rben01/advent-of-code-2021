@@ -77,7 +77,7 @@ impl DeterministicDie {
 	}
 }
 
-fn ans_for_input(input: &str) -> Answer<usize, [usize; 2]> {
+fn ans_for_input(input: &str) -> Answer<usize, usize> {
 	let board = Board { size: 10 };
 	let players = read_input(input).unwrap();
 
@@ -91,7 +91,7 @@ fn ans_for_input(input: &str) -> Answer<usize, [usize; 2]> {
 		.into()
 }
 
-pub fn ans() -> Answer<usize, [usize; 2]> {
+pub fn ans() -> Answer<usize, usize> {
 	ans_for_input(include_str!("input.txt"))
 }
 // end::setup[]
@@ -99,7 +99,7 @@ pub fn ans() -> Answer<usize, [usize; 2]> {
 // tag::pt1[]
 fn pt1(mut players: Players, board: &Board, die: DeterministicDie) -> usize {
 	let mut die = die;
-	let mut loser = players[0];
+	let mut loser = players[1];
 
 	'game: loop {
 		for player in &mut players {
@@ -116,7 +116,7 @@ fn pt1(mut players: Players, board: &Board, die: DeterministicDie) -> usize {
 }
 // end::pt1[]
 
-// tag::pt1[]
+// tag::pt2[]
 #[derive(Debug)]
 struct Turn {
 	players: Players,
@@ -138,6 +138,7 @@ fn play_quantum_dice(
 		n_ways: 1,
 	}];
 
+	// Pairs of `(dice sum, # ways)`
 	let outcome_counts: [(usize, usize); 7] = {
 		let max_sum = die_n_faces * n_rolls_per_turn;
 		let mut counts = vec![0; max_sum + 1];
@@ -190,6 +191,19 @@ fn play_quantum_dice(
 	tally
 }
 
-fn pt2(players: Players) -> [usize; 2] {
-	play_quantum_dice(players, &Board { size: 10 }, 3, 3, 21)
+fn pt2(players: Players) -> usize {
+	let [p1_n_wins, p2_n_wins] = play_quantum_dice(players, &Board { size: 10 }, 3, 3, 21);
+	p1_n_wins.max(p2_n_wins)
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 21, ans: (757_770, 712_381_680_443_927));
+	}
 }

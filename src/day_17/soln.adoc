@@ -6,11 +6,11 @@ Holy crap.
 This problem was _hard_.
 
 [sidebar]
-====
+--
 After looking at link:https://www.reddit.com/r/adventofcode/[the subreddit^] it looks like most people just brute forced it.
 That's easy, but where's the fun in that?
 Where possible, we want to solve these problems in the most computationally efficient manner possible.
-====
+--
 
 We are asked to find the initial \(x\)- and \(y\)-velocities that will land a projectile, fired from the origin, in a given rectangular region \(R=[x_\mathrm{min}, x_\mathrm{max}]\times[y_\mathrm{min}, y_\mathrm{max}]\).
 In the \(x\)-direction, the projectile suffers from drag, so its \(x\)-velocity decreases by 1 each tick until it hits 0 (at which point it can't slow down anymore).

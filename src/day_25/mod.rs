@@ -1,3 +1,4 @@
+// tag::setup[]
 use crate::Answer;
 use std::{collections::BTreeSet as Set, fmt::Write};
 
@@ -117,17 +118,26 @@ impl SeaGarden {
 
 fn ans_for_input(input: &str) -> Answer<usize, usize> {
 	let mut garden = SeaGarden::from_str(input);
-	// println!("{}", garden);
-	// garden.tick();
-	// println!("{}", garden);
-	// println!("{}", garden);
-
 	(25, (pt1(&mut garden), 0)).into()
 }
 pub fn ans() -> Answer<usize, usize> {
 	ans_for_input(include_str!("input.txt"))
 }
 
+// end::setup[]
+// tag::pt1[]
 fn pt1(garden: &mut SeaGarden) -> usize {
 	garden.run_until_no_movement()
+}
+// end::pt1[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 25, ans: (557, 0));
+	}
 }

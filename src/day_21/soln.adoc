@@ -1,0 +1,32 @@
+= Dirac Dice
+
+link_day:21[] {link-sep} link_input:21[]
+
+This problem asks us to simulate a two-layer dice game.
+In this game, a move consists of rolling a die three times, adding up the rolled numbers, and then moving around the board based on the sum.
+In {part-title} 1 we merely need to simulate this game for a deterministic die; this is so simple it's not worth discussing.
+
+In {part-title} 2 we need to count how many times each player wins across _every possible sequence of die rolls_.
+(Thankfully, the die in {part-title} 2 only has three sides.)
+My first attempt at this actually went through every possible sequence.
+With a three-sided die, and games ranging in length from (say) 50 to 100 rolls, this was clearly computationally infeasible.
+
+To improve upon this, we note that while there are \(3^3=27\) ways to roll a three-sided die three times, there are only seven possible outcomes: the numbers 3 through 9.
+By precomputing the number of ways these sums can be rolled each turn, and then weighting each outcome by the number of ways it can be rolled, we cut down the base of the exponent by a factor of \(\frac{27}{7}\), bringing the problem well into the realm of what is computationally feasible.
+
+***
+
+.{setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
+
+.{part-title} 1
+--
+include_source::mod.rs[tag=pt1]
+--
+
+.{part-title} 2
+--
+include_source::mod.rs[tag=pt2]
+--

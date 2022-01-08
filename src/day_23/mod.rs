@@ -1,4 +1,4 @@
-// tag::setup[]
+// tag::amphipods[]
 use crate::{utils::abs_diff, Answer};
 use hashbrown::hash_map::DefaultHashBuilder;
 use ndarray::prelude::*;
@@ -282,6 +282,7 @@ impl<const N: usize> std::fmt::Display for InstantiatedBurrow<N> {
 struct Burrow {
 	tiles: Array2<Tile>,
 }
+// end::amphipods[]
 
 // tag::debugging[]
 impl std::fmt::Display for Burrow {
@@ -305,6 +306,7 @@ impl std::fmt::Display for Burrow {
 	}
 }
 // end::debugging[]
+// tag::solve[]
 impl Burrow {
 	fn solve<const N: usize>(&self, initial_locs: &AmphipodIndexed<Point, N>) -> Cost {
 		const N_KINDS: usize = AmphipodKind::n_kinds();
@@ -312,9 +314,8 @@ impl Burrow {
 		#[derive(Debug)]
 		struct Update {
 			amphipod: Amphipod,
-			new_loc: Point,
 			n_steps: usize,
-			is_done: bool,
+			new_state: SingleAmphipodState,
 		}
 
 		#[derive(Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Debug)]
@@ -352,8 +353,6 @@ impl Burrow {
 
 		pq.push(initial_state, Cost(0));
 
-		let mut n_in_correct_sideroom_by_kind = [0_usize; N_KINDS];
-		let mut siderooms_available_for_amphipods = [false; N_KINDS];
 		let mut updates = Vec::new();
 
 		while let Some((total_state, cost)) = pq.pop() {
@@ -371,23 +370,24 @@ impl Burrow {
 				.map(|(am, state)| (state.loc, am))
 				.collect::<Map<_, _>>();
 
-			for v in &mut n_in_correct_sideroom_by_kind {
-				*v = 0;
-			}
-			for (am, state) in total_state.iter_items() {
-				if tiles[state.loc] == Tile::SideRoom(am.kind) {
-					n_in_correct_sideroom_by_kind[am.kind as usize] += 1;
+			let n_in_correct_sideroom_by_kind = {
+				let mut arr = [0_usize; N_KINDS];
+				for (am, state) in total_state.iter_items() {
+					if tiles[state.loc] == Tile::SideRoom(am.kind) {
+						arr[am.kind as usize] += 1;
+					}
 				}
-			}
+				arr
+			};
 
-			for (i, col) in [3, 5, 7, 9_usize].into_iter().enumerate() {
-				siderooms_available_for_amphipods[i] =
+			let siderooms_available_for_amphipods =
+				[0, 1, 2, 3].zip([3, 5, 7, 9_usize]).map(|(i, col)| {
 					(hallway_row + 1..=sideroom_max_row).all(|row| {
 						amphipod_locs
 							.get(&[row, col])
 							.map_or(true, |am| am.kind as usize == i)
-					});
-			}
+					})
+				});
 
 			let update_that_moves_am_to_final_loc =
 				total_state.iter_items().find_map(|(am, &state)| {
@@ -408,9 +408,11 @@ impl Burrow {
 					if curr_loc[COL] == dest_col && curr_loc[ROW] >= sideroom_last_empty_row {
 						return Some(Update {
 							amphipod: am,
-							new_loc: curr_loc,
 							n_steps: 0,
-							is_done: true,
+							new_state: SingleAmphipodState {
+								loc: curr_loc,
+								is_done: true,
+							},
 						});
 					}
 
@@ -428,11 +430,9 @@ impl Burrow {
 					} else {
 						dest_col..=curr_col - 1
 					};
-					if curr_col != dest_col {
-						for col in col_range {
-							if amphipod_locs.contains_key(&[hallway_row, col]) {
-								return None;
-							}
+					for col in col_range {
+						if amphipod_locs.contains_key(&[hallway_row, col]) {
+							return None;
 						}
 					}
 
@@ -443,9 +443,11 @@ impl Burrow {
 
 					Some(Update {
 						amphipod: am,
-						new_loc,
 						n_steps,
-						is_done: true,
+						new_state: SingleAmphipodState {
+							loc: new_loc,
+							is_done: true,
+						},
 					})
 				});
 
@@ -460,38 +462,38 @@ impl Burrow {
 					let curr_loc = state.loc;
 					let curr_tile = tiles[curr_loc];
 
-					if curr_tile == Tile::Hallway {
+					if !(matches!(curr_tile, Tile::SideRoom(_))
+						&& (hallway_row..curr_loc[ROW])
+							.all(|row| !amphipod_locs.contains_key(&[row, curr_loc[COL]])))
+					{
 						continue;
 					}
 
-					if matches!(curr_tile, Tile::SideRoom(_))
-						&& (hallway_row..curr_loc[ROW])
-							.all(|row| !amphipod_locs.contains_key(&[row, curr_loc[COL]]))
-					{
-						let n_steps_to_hallway = curr_loc[ROW] - hallway_row;
+					let n_steps_to_hallway = curr_loc[ROW] - hallway_row;
 
-						for range in [
-							Box::new((0..curr_loc[COL]).rev()),
-							Box::new(curr_loc[COL] + 1..tiles.ncols()),
-						] as [Box<dyn Iterator<Item = usize>>; 2]
-						{
-							for col in range {
-								let new_loc = [hallway_row, col];
-								if amphipod_locs.contains_key(&new_loc)
-									|| tiles[new_loc] == Tile::Wall
-								{
-									break;
-								}
-								if tiles[new_loc] == Tile::Doorway {
-									continue;
-								}
-								updates.push(Update {
-									amphipod: am,
-									new_loc,
-									n_steps: n_steps_to_hallway + abs_diff(col, curr_loc[COL]),
-									is_done: false,
-								});
+					// Rust...
+					for range in [
+						&mut (0..curr_loc[COL]).rev(),
+						&mut (curr_loc[COL] + 1..tiles.ncols()),
+					] as [&mut dyn Iterator<Item = usize>; 2]
+					{
+						for col in range {
+							let new_loc = [hallway_row, col];
+							if amphipod_locs.contains_key(&new_loc) || tiles[new_loc] == Tile::Wall
+							{
+								break;
 							}
+							if tiles[new_loc] == Tile::Doorway {
+								continue;
+							}
+							updates.push(Update {
+								amphipod: am,
+								n_steps: n_steps_to_hallway + abs_diff(col, curr_loc[COL]),
+								new_state: SingleAmphipodState {
+									loc: new_loc,
+									is_done: false,
+								},
+							});
 						}
 					}
 				}
@@ -499,16 +501,12 @@ impl Burrow {
 
 			for &Update {
 				amphipod: am,
-				new_loc,
 				n_steps,
-				is_done,
+				new_state,
 			} in &updates
 			{
 				let mut new_total_state = total_state;
-				new_total_state[am] = SingleAmphipodState {
-					loc: new_loc,
-					is_done,
-				};
+				new_total_state[am] = new_state;
 
 				enqueue(
 					&mut seen,
@@ -532,25 +530,40 @@ impl Burrow {
 			);
 		}
 		// end::debugging[]
-		unreachable!();
+		panic!("Could not find a path to the finish line!");
 	}
 }
 
 pub fn ans() -> Answer<usize, usize> {
 	(23, (pt1(), pt2())).into()
 }
-// end::setup[]
+// end::solve[]
 
 // tag::pt1[]
 fn pt1() -> usize {
 	let b = InstantiatedBurrow::<8>::from_str(include_str!("input_1.txt")).unwrap();
 	b.burrow.solve(&b.amphipod_locs).0
 }
-// end::pt1[]
 
+// end::pt1[]
 // tag::pt2[]
 fn pt2() -> usize {
 	let b = InstantiatedBurrow::<16>::from_str(include_str!("input_2.txt")).unwrap();
 	b.burrow.solve(&b.amphipod_locs).0
 }
 // end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+
+	#[test]
+	fn test_pt1() {
+		assert_eq!(pt1(), 16157);
+	}
+
+	#[test]
+	fn test_pt2() {
+		assert_eq!(pt2(), 43481);
+	}
+}
