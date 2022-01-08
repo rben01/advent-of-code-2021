@@ -391,7 +391,7 @@ impl Burrow {
 
 			let update_that_moves_am_to_final_loc =
 				total_state.iter_items().find_map(|(am, &state)| {
-					if state.is_done {
+					if state.is_done || !siderooms_available_for_amphipods[am.kind as usize] {
 						return None;
 					}
 
@@ -400,10 +400,6 @@ impl Burrow {
 					let sideroom_last_empty_row =
 						sideroom_max_row - n_in_correct_sideroom_by_kind[am.kind as usize];
 					let new_loc = [sideroom_last_empty_row, dest_col];
-
-					if !siderooms_available_for_amphipods[am.kind as usize] {
-						return None;
-					}
 
 					if curr_loc[COL] == dest_col && curr_loc[ROW] >= sideroom_last_empty_row {
 						return Some(Update {
