@@ -7,6 +7,6 @@ class MyPygmentsAdapter < (Asciidoctor::SyntaxHighlighter.for "pygments")
 
   def docinfo(location, doc, opts)
     slash = opts[:self_closing_tag_slash]
-    %(<link rel="stylesheet" href="./docs/syntax-theme.css"#{slash}>)
+    %(<link rel="stylesheet" href="./syntax-theme.css"#{slash}>)
   end
 end
