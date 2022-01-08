@@ -1,12 +1,12 @@
-class MyPygmentsAdapter < (Asciidoctor::SyntaxHighlighter.for 'pygments')
-	register_for :pygments
+class MyPygmentsAdapter < (Asciidoctor::SyntaxHighlighter.for "pygments")
+  register_for :pygments
 
-	def write_stylesheet? doc
-		false
-	end
-
-	def docinfo location, doc, opts
-		slash = opts[:self_closing_tag_slash]
-		%(<link rel="stylesheet" href="/Docs/syntax-theme.css"#{slash}>)
-	end
+  def write_stylesheet?(doc)
+    false
   end
+
+  def docinfo(location, doc, opts)
+    slash = opts[:self_closing_tag_slash]
+    %(<link rel="stylesheet" href="./docs/syntax-theme.css"#{slash}>)
+  end
+end
