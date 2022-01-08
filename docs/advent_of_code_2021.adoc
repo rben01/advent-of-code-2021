@@ -1,5 +1,5 @@
 = Advent of Code 2021
-:docinfodir: .
+:docinfodir: ./docs
 :docinfo: shared
 :stylesheet: ./aoc.css
 :linkcss:
@@ -48,7 +48,7 @@ Rust is a very strict language and makes you explicitly handle all errors that m
 However, we can trust our inputs, taken straight from Advent of Code, to be correct and give unambiguous answers without errors.
 For this reason, we tend to be pretty loosey-goosey about unwrapping the ``Option``s and ``Result``s that the Rust compiler correctly points out we could theoretically encounter.
 (There wouldn't be any point to handling those cases gracefully; we're just trying to solve Advent of Code, not create general-purpose a submarine-squid-bingo-player that can function sensibly even when the squid gives us nonsensical input.
-For our purposes, the residual variants of a `Try` object at the boundary of our program are `unreachable!()`.)
+For our purposes, the residual variants of a `Try` object at the boundary of our program are `!` (Rust's bottom or “never” type).)
 
 
 Commonly used code, in `src/lib.rs` and `src/utils.rs`, is below:
