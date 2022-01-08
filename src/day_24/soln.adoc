@@ -63,14 +63,14 @@ The algorithm is as follows:
 .. Then keep only those pass:q[`z~12~`]s that led to _those_ pass:q[`z~13~`]s.
 .. Then keep only those pass:q[`z~11~`]s that to _those_ pass:q[`z~12~`]s.
 .. Repeat, going all the way back to find only those pass:q[`z~1~`]s that led to _those_ pass:q[`z~2~`]s.
-.. This produces a diamond-shaped tree, which starts out small at pass:q[`z~0~ = 0`], fans out in the middle, and then shrinks again as it approaches pass:q[`z~14~ = 0`].
+.. This produces a diamond-shaped graph, which starts out small at pass:q[`z~0~ = 0`], fans out in the middle, and then shrinks again as it approaches pass:q[`z~14~ = 0`].
 . Phase 3:
-.. Now that we have this tree, we're almost done.
-A 14-digit input that causes the `Z` register's final value to be `0` can be found by finding sequences of digits that take us all the way through the tree from left to right.
+.. Now that we have this graph, we're almost done.
+A 14-digit input that causes the `Z` register's final value to be `0` can be found by finding sequences of digits that take us all the way through the graph from left to right.
 ... So, if we've read in, say, 12345, and digit 6 does not lead to a permissible pass:q[`z~6~`] value, then we know that 123456 is not the first six digits of any acceptable input.
 
 The problem asks us specifically for the largest and smallest acceptable inputs.
-To find these, we simply do a DFS on this tree, preferentially walking along edges formed by the largest digits, but backtracking to a smaller digit where necessary.
+To find these, we simply do a DFS on this graph, preferentially walking along edges formed by the largest digits, but backtracking to a smaller digit where necessary.
 
 To reduce code duplication, this DFS algorithm takes function parameters that give it the next digit to look at or tell it when to backtrack (since, for instance, it will need to backtrack when hitting `d=1` when searching for the largest acceptable input but when `d=9` for the smallest acceptable input).
 

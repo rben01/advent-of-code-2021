@@ -6217,7 +6217,7 @@ The algorithm is as follows:</p>
 <p>Repeat, going all the way back to find only those <code>z<sub>1</sub></code>s that led to <em>those</em> <code>z<sub>2</sub></code>s.</p>
 </li>
 <li>
-<p>This produces a diamond-shaped tree, which starts out small at <code>z<sub>0</sub> = 0</code>, fans out in the middle, and then shrinks again as it approaches <code>z<sub>14</sub> = 0</code>.</p>
+<p>This produces a diamond-shaped graph, which starts out small at <code>z<sub>0</sub> = 0</code>, fans out in the middle, and then shrinks again as it approaches <code>z<sub>14</sub> = 0</code>.</p>
 </li>
 </ol>
 </div>
@@ -6227,8 +6227,8 @@ The algorithm is as follows:</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Now that we have this tree, we&#8217;re almost done.
-A 14-digit input that causes the <code>Z</code> register&#8217;s final value to be <code>0</code> can be found by finding sequences of digits that take us all the way through the tree from left to right.</p>
+<p>Now that we have this graph, we&#8217;re almost done.
+A 14-digit input that causes the <code>Z</code> register&#8217;s final value to be <code>0</code> can be found by finding sequences of digits that take us all the way through the graph from left to right.</p>
 <div class="olist lowerroman">
 <ol class="lowerroman" type="i">
 <li>
@@ -6244,7 +6244,7 @@ A 14-digit input that causes the <code>Z</code> register&#8217;s final value to 
 </div>
 <div class="paragraph">
 <p>The problem asks us specifically for the largest and smallest acceptable inputs.
-To find these, we simply do a DFS on this tree, preferentially walking along edges formed by the largest digits, but backtracking to a smaller digit where necessary.</p>
+To find these, we simply do a DFS on this graph, preferentially walking along edges formed by the largest digits, but backtracking to a smaller digit where necessary.</p>
 </div>
 <div class="paragraph">
 <p>To reduce code duplication, this DFS algorithm takes function parameters that give it the next digit to look at or tell it when to backtrack (since, for instance, it will need to backtrack when hitting <code>d=1</code> when searching for the largest acceptable input but when <code>d=9</code> for the smallest acceptable input).</p>
