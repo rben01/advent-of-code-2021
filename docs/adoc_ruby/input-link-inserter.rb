@@ -22,7 +22,7 @@ class InputLinkInserterMacro < Asciidoctor::Extensions::InlineMacroProcessor
 
     if is_integer? filepath
       n = "%02d" % filepath.to_i
-      filepath = "/src/day_#{n}/input.txt"
+      filepath = "../../src/day_#{n}/input.txt"
     elsif filepath.end_with? "/"
       filepath = "#{filepath}input.txt"
     end
