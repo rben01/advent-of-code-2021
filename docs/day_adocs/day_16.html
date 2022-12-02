@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Packet Decoder</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_packet_decoder">Packet Decoder</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/16" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 16 problem description</a> │ <a href="/src/day_16/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>Dear lord, this problem was brutal.
+It consisted of roughly three parts:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Parse a hex string into a binary string by parsing each hex character into a quartet — trivial</p>
+</li>
+<li>
+<p>(Part 1) Parse this binary string into a tree of packets according to rules set out in the problem statement — “easy” in the sense that I wrote up an <em>almost</em> correct solution in no time at all.
+Very very hard in the sense that it required precise bookkeeping and it took forever for me to get it all exactly correct.
+But from a theoretical standpoint it wasn&#8217;t really that hard.</p>
+</li>
+<li>
+<p>(Part 2) Evaluate the packet tree as an expression tree (more or less like parsing S-expressions) — easy.</p>
+</li>
+</ol>
+</div>
+<hr>
+<div class="paragraph">
+<div class="title">Setup</div>
+<p>The main function here is <code>Binary::as_packets</code>.
+There&#8217;s a lot to unpack here, but roughly the algorithm is as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Maintain a cursor into the original data</p>
+</li>
+<li>
+<p>Maintain a stack of parse states, which consist of:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The depth in the parse tree</p>
+</li>
+<li>
+<p>The length of remaining data for this packet.
+Packets tell us how much data they expect; when there isn&#8217;t any left, we head back up a level in the tree.
+So we have to track how much of their data we&#8217;ve consumed so far.
+This “amount of data” quantity comes in two flavors:</p>
+<div class="openblock">
+<div class="content">
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>Number of bits that the children comprise</p>
+</li>
+<li>
+<p>Number of direct children, i.e., number of child packets</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>One tricky bit is that packets share bits-remaining with their children.
+In other words, if a child consumes some bits from the input, so have all of its ancestors that count their data in bits.
+(Packets that are expecting a fixed number of child packets are unaffected when their descendants consume data.)
+In either case, if the current packet has no more data remaining — 0 bits or 0 child packets — continue on to the next parse state on the stack.</p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Looking at the data beginning at the cursor, parse the stream into a single packet.</p>
+</li>
+<li>
+<p>Advance the cursor the number of bits this packet consumed.</p>
+</li>
+<li>
+<p>If this packet was an operator, increment the depth, as its children will follow. Otherwise the depth remains unchanged.</p>
+</li>
+<li>
+<p>Push a new parse state onto the stack, containing the incremented depth and the length of remaining data for this packet.</p>
+</li>
+<li>
+<p>If this packet was the last of its parent&#8217;s children, decrement the depth.</p>
+</li>
+</ol>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::{utils::to_big_decimal, Answer};
+use std::fmt::{Display, Write};
+
+type Number = i64;
+
+struct Binary(Vec&lt;bool&gt;);
+
+impl Binary {
+	fn from_hex(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		let mut binary = Vec::with_capacity(s.len() * 4);
+		for c in s.trim().chars() {
+			let n = c.to_digit(16)?;
+			let digits = [3, 2, 1, 0usize].map(|place| ((1 &lt;&lt; place) &amp; n) != 0);
+			binary.extend_from_slice(&amp;digits);
+		}
+
+		Some(Self(binary))
+	}
+}
+
+impl Display for Binary {
+	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+		for &amp;digit in &amp;self.0 {
+			let c = if digit { '1' } else { '0' };
+			f.write_char(c)?;
+		}
+		Ok(())
+	}
+}
+
+impl Binary {
+	fn as_packets(&amp;self) -&gt; Vec&lt;Packet&gt; {
+		#[derive(Debug)]
+		enum RemainingData {
+			NBits(usize),
+			NPackets(usize),
+		}
+
+		impl RemainingData {
+			fn is_empty(&amp;self) -&gt; bool {
+				matches!(self, RemainingData::NBits(0) | RemainingData::NPackets(0))
+			}
+		}
+
+		#[derive(Debug)]
+		struct ParseState {
+			depth: usize,
+			remaining: RemainingData,
+		}
+
+		let mut packets = vec![];
+
+		let orig_data = &amp;self.0;
+		let header_length = 6;
+		let mut cursor = 0;
+		let mut stack = vec![ParseState {
+			depth: 0,
+			remaining: RemainingData::NPackets(1),
+		}];
+
+		while let Some(parse_state) = stack.pop() {
+			let ParseState { depth, remaining } = parse_state;
+
+			if remaining.is_empty() {
+				continue;
+			}
+
+			let packet_bits = &amp;orig_data[cursor..];
+
+			let version_number = to_big_decimal(&amp;packet_bits[0..3]);
+			let kind_number = to_big_decimal(&amp;packet_bits[3..6]);
+			let data_bits = &amp;packet_bits[header_length..];
+
+			let parent_packet_length = match remaining {
+				RemainingData::NBits(n) =&gt; RemainingData::NBits(n),
+				RemainingData::NPackets(n) =&gt; RemainingData::NPackets(n - 1),
+			};
+			stack.push(ParseState {
+				depth,
+				remaining: parent_packet_length,
+			});
+
+			let packet;
+			let n_bits_consumed;
+			match kind_number {
+				4 =&gt; {
+					let chunk_size = 5;
+					let mut bin_bits = vec![];
+
+					let mut n_chunks = 0;
+					for chunk in data_bits.chunks_exact(5) {
+						n_chunks += 1;
+						bin_bits.extend_from_slice(&amp;chunk[1..]);
+						if !chunk[0] {
+							break;
+						}
+					}
+
+					let value = i64::try_from(to_big_decimal(bin_bits)).unwrap();
+
+					n_bits_consumed = header_length + n_chunks * chunk_size;
+					packet = Packet {
+						version_number,
+						kind: PacketKind::Literal { value },
+						depth,
+					};
+				}
+				op =&gt; {
+					let op_data_length;
+					let n_bits_for_length;
+
+					let length_type = data_bits[0];
+					if length_type {
+						// length in packets
+						n_bits_for_length = 12;
+						let n_packets =
+							usize::try_from(to_big_decimal(&amp;data_bits[1..n_bits_for_length]))
+								.unwrap();
+						op_data_length = RemainingData::NPackets(n_packets);
+					} else {
+						// length in bits
+						n_bits_for_length = 16;
+						let n_bits =
+							usize::try_from(to_big_decimal(&amp;data_bits[1..n_bits_for_length]))
+								.unwrap();
+						op_data_length = RemainingData::NBits(n_bits);
+					};
+
+					n_bits_consumed = header_length + n_bits_for_length;
+					// A hack; we're going to subtract n_bits_consumed from this later
+					// despite the fact that in theory we shouldn't (because the newly added
+					// packet hasn't consumed any data yet), so we we pre-add n_bits_consumed
+					// here so that when we subtract it later we end up with the right number
+					// of bits
+					let op_data_length = match op_data_length {
+						RemainingData::NBits(n) =&gt; RemainingData::NBits(n + n_bits_consumed),
+						rd @ RemainingData::NPackets(_) =&gt; rd,
+					};
+
+					packet = Packet {
+						version_number,
+						kind: PacketKind::Operator { op: op.into() },
+						depth,
+					};
+
+					stack.push(ParseState {
+						depth: depth + 1,
+						remaining: op_data_length,
+					});
+				}
+			};
+
+			cursor += n_bits_consumed;
+
+			for ps in &amp;mut stack {
+				if let RemainingData::NBits(n) = &amp;mut ps.remaining {
+					if *n &gt; 0 {
+						// The hack above is to counteract this subtraction; if we just pushed
+						// a RemainingData::NumBits, we won't actually have consumed any of
+						// its input yet
+						//
+						// If our code has no bugs, and the input is trustworthy, this will
+						// never underflow.
+						*n -= n_bits_consumed;
+					}
+				}
+			}
+
+			packets.push(packet);
+		}
+
+		packets
+	}
+}
+
+#[derive(Debug)]
+enum PacketKind {
+	Literal { value: Number },
+	Operator { op: Operation }, // Defined in pt2
+}
+
+#[derive(Debug)]
+struct Packet {
+	version_number: u64,
+	kind: PacketKind,
+	depth: usize,
+}
+
+fn read_input(input: &amp;str) -&gt; Vec&lt;Packet&gt; {
+	let b = Binary::from_hex(input).unwrap();
+	b.as_packets()
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;u64, Number&gt; {
+	let p = read_input(input);
+	(16, (pt1(&amp;p), pt2(&amp;p).unwrap())).into()
+}
+
+pub fn ans() -&gt; Answer&lt;u64, Number&gt; {
+	ans_for_input(include_str!("input.txt"))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 1</div>
+<p>Part 1 just asks us to compute some summary data of all the packets in the parse tree.
+As long as we have the right packets (regardless of their depths) we&#8217;ll get the right answer.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1(packets: &amp;[Packet]) -&gt; u64 {
+	packets.iter().map(|packet| packet.version_number).sum()
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 2</div>
+<p>Part 2 asks us to actually evaluate the packet tree as a tree of an expressions, akin to S-expressions.
+While this wasn&#8217;t hard, one challenge was to implement it without code duplication.
+The way I achieved this was to split the operators into two families, <code>Reducer</code>s (<code>+</code>, <code>*</code>, <code>min</code>, and <code>max</code>) and <code>Operators</code>s (<code>≤</code>, <code>==</code>, <code>≥</code>) which essentially comprise their own interfaces that specify how they should be applied to values in the stack.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">#[derive(Debug)]
+enum Reducer {
+	Sum,
+	Product,
+	Min,
+	Max,
+}
+
+impl Reducer {
+	fn identity(&amp;self) -&gt; Number {
+		use Reducer::*;
+		match self {
+			Sum =&gt; 0,
+			Product =&gt; 1,
+			Min =&gt; Number::MAX,
+			Max =&gt; Number::MIN,
+		}
+	}
+
+	fn combine(&amp;self, x: Number, y: Number) -&gt; Number {
+		use Reducer::*;
+		match self {
+			Sum =&gt; x + y,
+			Product =&gt; x * y,
+			Min =&gt; x.min(y),
+			Max =&gt; x.max(y),
+		}
+	}
+}
+
+#[derive(Debug)]
+enum Comparitor {
+	Gt,
+	Lt,
+	Eq,
+}
+
+impl Comparitor {
+	fn apply(&amp;self, x: Number, y: Number) -&gt; Number {
+		use Comparitor::*;
+		i64::from(match self {
+			Gt =&gt; x &gt; y,
+			Lt =&gt; x &lt; y,
+			Eq =&gt; x == y,
+		})
+	}
+}
+
+#[derive(Debug)]
+enum Operation {
+	Reduce(Reducer),
+	Compare(Comparitor),
+}
+
+impl From&lt;u64&gt; for Operation {
+	fn from(n: u64) -&gt; Self {
+		use Comparitor::*;
+		use Operation::*;
+		use Reducer::*;
+		match n {
+			0 =&gt; Reduce(Sum),
+			1 =&gt; Reduce(Product),
+			2 =&gt; Reduce(Min),
+			3 =&gt; Reduce(Max),
+			5 =&gt; Compare(Gt),
+			6 =&gt; Compare(Lt),
+			7 =&gt; Compare(Eq),
+			_ =&gt; unreachable!(),
+		}
+	}
+}
+
+fn pt2(packets: &amp;[Packet]) -&gt; Option&lt;Number&gt; {
+	struct Arg {
+		depth: usize,
+		value: Number,
+	}
+	let mut arg_stack = vec![];
+
+	for Packet {
+		kind: packet_kind,
+		depth: packet_depth,
+		..
+	} in packets.iter().rev()
+	{
+		let packet_depth = *packet_depth;
+
+		match packet_kind {
+			&amp;PacketKind::Literal { value } =&gt; arg_stack.push(Arg {
+				depth: packet_depth,
+				value,
+			}),
+			PacketKind::Operator { op } =&gt; {
+				use Operation::*;
+				let value = match op {
+					Reduce(reducer) =&gt; {
+						let mut result = reducer.identity();
+						while let Some(arg @ Arg { depth, value }) = arg_stack.pop() {
+							if depth &lt;= packet_depth {
+								arg_stack.push(arg); // oops, went too far
+								break;
+							}
+							result = reducer.combine(result, value);
+						}
+						result
+					}
+					Compare(comparitor) =&gt; {
+						let Arg { value: first, .. } = arg_stack.pop()?;
+						let Arg { value: second, .. } = arg_stack.pop()?;
+
+						comparitor.apply(first, second)
+					}
+				};
+
+				arg_stack.push(Arg {
+					depth: packet_depth,
+					value,
+				});
+			}
+		}
+	}
+
+	Some(arg_stack.first()?.value)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

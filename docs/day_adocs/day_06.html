@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Lanternfish</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_lanternfish">Lanternfish</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/6" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 6 problem description</a> │ <a href="/src/day_06/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>At a high level, this problem requires modifying a map from ints to ints in a controlled fashion.
+At a low level:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>This map&#8217;s keys are actually the integers from 0 to 8 (inclusive), so it can just be stored in an array.</p>
+</li>
+<li>
+<p>The “controlled fashion” is merely shifting most values over.
+In one case we have to also add to said values.</p>
+</li>
+</ol>
+</div>
+<hr>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::Answer;
+
+const N_TIMERS: usize = 9;
+type Timers = [usize; N_TIMERS];
+
+fn read_input(input: &amp;str) -&gt; Option&lt;Timers&gt; {
+	let mut timers = [0; N_TIMERS];
+
+	let nums = input
+		.trim()
+		.split(',')
+		.map(|s| s.parse().ok())
+		.collect::&lt;Option&lt;Vec&lt;usize&gt;&gt;&gt;()?;
+
+	for num in nums {
+		timers[num] += 1;
+	}
+
+	Some(timers)
+}
+
+fn tick_in_place(timers: &amp;mut Timers) {
+	let initial = timers[0];
+	for i in 0..(N_TIMERS - 1) {
+		timers[i] = timers[i + 1];
+	}
+	timers[8] = initial;
+	timers[6] += initial;
+}
+
+// [usize; 9] implements Copy
+fn tick(n_times: usize, timers: &amp;Timers) -&gt; Timers {
+	let mut timers = *timers;
+	for _ in 0..n_times {
+		tick_in_place(&amp;mut timers);
+	}
+	timers
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
+	let timers = read_input(input).unwrap();
+	(6, (pt1(&amp;timers), pt2(&amp;timers))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
+	ans_for_input(include_str!("sample_input.txt"))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Parts 1 and 2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1(timers: &amp;Timers) -&gt; usize {
+	tick(80, timers).iter().sum()
+}
+fn pt2(timers: &amp;Timers) -&gt; usize {
+	tick(256, timers).iter().sum()
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

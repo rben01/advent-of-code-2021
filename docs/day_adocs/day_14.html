@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Extended Polymerization</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_extended_polymerization">Extended Polymerization</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/14" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 14 problem description</a> │ <a href="/src/day_14/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>This problem asks us to perform a sequence of transformations to a starting string and then compute the counts of characters in the resulting string.
+Specifically, we are given a map from pairs of characters to single characters.
+Each generation, each pair of characters in the original string is to have its entry in this map (if it exists) inserted between the two characters.
+This runs on a specified starting string for a specified number of generations, producing a final string.</p>
+</div>
+<div class="paragraph">
+<p>My initial attempt involved actually building the string at each stage.
+Unfortunately, because the string approximately doubles in length in each step, it&#8217;s computationally infeasible to generate the string the requested 40 generations out, nor would we be able to store it in memory (2<sup>40</sup> is around one trillion).</p>
+</div>
+<div class="paragraph">
+<p>The right way to do this problem is to maintain a tally of counts of each pair <code>(c1, c2)</code> of characters in the string.
+Each generation, we run through the pairs, and if the mapping contains a character <code>c3</code> to insert, then we remove key <code>(c1, c2)</code> and assign its tally to keys <code>(c1, c3)</code> and <code>(c3, c2)</code>.
+This doesn&#8217;t tell us what the resulting string is, but thankfully the problem doesn&#8217;t ask us about the string per se; it only asks for character counts within the string.</p>
+</div>
+<div class="paragraph">
+<p>To count the number of times a character <code>c</code> appears in the string, we simply note that it is counted twice, once for each pair it is the first character of and once for each pair it is the second character of.
+So we just add up the number of times we see it in a pair and then divide by 2, right?
+Wrong!
+The first (respectively, last) character of the string is actually only counted once because it is only the first (respectively, second) character of <em>one</em> pair of characters, not two.
+The way we model this is maintain a tally not just of character counts, but of the positions of those characters.
+Our tally now assigns counts to triples <code>(c1, c2, pos0)</code> where <code>pos0</code> is one of “start”, “middle”, and “end”.
+When we insert <code>c3</code> between <code>c1</code> and <code>c2</code>, we obtain <code>(c1, c3, pos1)</code> and <code>(c3, c2, pos2)</code>, where:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>pos1</code> is either “start” or “middle”; it is “start” if and only if <code>pos0</code> was “start”, and</p>
+</li>
+<li>
+<p><code>pos2</code> is either “end” or “middle”; it is “end” if and only if <code>pos0</code> was “end”.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Now, only the characters occurring in the “middle” are double-counted, so the number of times a character appears in the final string is the number of times it occurred in a character pair in the “start” or “end” positions, plus half the number of times it occurred in a “middle” character pair.
+To make the counting easier when working with integers and floored division, we double the “start” and “end” character counts, add them to the “middle” character counts, and then halve everything at the end.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>As you might have guessed, my first attempt at this problem did not keep track of pairs’ positions and so was plagued by an off-by-one error which only arose for specific inputs.
+(I believe it had to do with whether the final string started and ended with the same character, but I didn&#8217;t bother generating test cases to check this.)
+My first submission was too large, so I subtracted 1 from it and re-submitted and got it correct.
+This was the first problem of this year&#8217;s Advent of Code that I thought it was feasible for someone to arrive at the right answer with buggy code and some guesswork.</p>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::Answer;
+use std::collections::BTreeMap as Map;
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+enum Position {
+	Start,
+	Middle,
+	End,
+}
+
+#[derive(Debug)]
+struct Polymer {
+	template: String,
+	mapping: Map&lt;(char, char), char&gt;,
+}
+
+impl Polymer {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		let mut lines = s.lines();
+		let template = lines.next()?.to_owned();
+		lines.next()?;
+
+		let mut mapping = Map::new();
+		for line in lines {
+			let mut splat = line.split(" -&gt; ");
+
+			let mut outer_chars = splat.next()?.chars();
+			let left = outer_chars.next()?;
+			let right = outer_chars.next()?;
+
+			let inner = splat.next()?.chars().next()?;
+			mapping.insert((left, right), inner);
+		}
+
+		Some(Polymer { template, mapping })
+	}
+
+	fn get_initial_char_pair_counts(&amp;self) -&gt; Map&lt;(char, char, Position), usize&gt; {
+		use Position::*;
+
+		let mut ans = Map::new();
+
+		// Iterate over adjacent pairs of chars. The last index iterated is `n_pairs - 1`
+		// with `n_pairs == self.template.len() - 1`
+		for (i, (c1, c2)) in self
+			.template
+			.chars()
+			.zip(self.template.chars().skip(1))
+			.enumerate()
+		{
+			let position = if i == 0 {
+				Start
+			} else if i == self.template.len() - 2 {
+				End
+			} else {
+				Middle
+			};
+
+			*ans.entry((c1, c2, position)).or_default() += 1;
+		}
+		ans
+	}
+
+	fn apply_n_times(&amp;self, n: usize) -&gt; Map&lt;(char, char, Position), usize&gt; {
+		use Position::*;
+
+		let mut pair_counts = self.get_initial_char_pair_counts();
+
+		for _ in 0..n {
+			let pair_counts_vec = pair_counts
+				.iter()
+				.filter_map(|(&amp;k, &amp;v)| if v &gt; 0 { Some((k, v)) } else { None })
+				.collect::&lt;Vec&lt;_&gt;&gt;();
+
+			for (key, count) in pair_counts_vec {
+				let (c1, c2, position) = key;
+				if let Some(&amp;c) = self.mapping.get(&amp;(c1, c2)) {
+					let first_pos = match position {
+						Start =&gt; Start,
+						_ =&gt; Middle,
+					};
+					let second_pos = match position {
+						End =&gt; End,
+						_ =&gt; Middle,
+					};
+
+					*pair_counts.entry((c1, c, first_pos)).or_default() += count;
+					*pair_counts.entry((c, c2, second_pos)).or_default() += count;
+
+					*pair_counts.get_mut(&amp;key).unwrap() -= count;
+				}
+			}
+		}
+
+		pair_counts
+	}
+}
+
+fn get_ans(polymer: &amp;Polymer, n: usize) -&gt; usize {
+	use Position::*;
+
+	let char_pair_counts = polymer.apply_n_times(n);
+	let char_counts = {
+		let mut char_counts_2x = Map::new();
+		for ((c1, c2, position), count) in char_pair_counts {
+			let c1_multiplier = match position {
+				Start =&gt; 2,
+				_ =&gt; 1,
+			};
+			let c2_multiplier = match position {
+				End =&gt; 2,
+				_ =&gt; 1,
+			};
+
+			for (c, mult) in [(c1, c1_multiplier), (c2, c2_multiplier)] {
+				*char_counts_2x.entry(c).or_insert(0) += mult * count;
+			}
+		}
+
+		char_counts_2x
+			.into_iter()
+			.map(|(k, v)| (k, v / 2))
+			.collect::&lt;Map&lt;_, _&gt;&gt;()
+	};
+
+	let mut max_count = 0;
+	let mut min_count = usize::MAX;
+	for &amp;count in char_counts.values() {
+		if count &lt; min_count {
+			min_count = count;
+		}
+		if count &gt; max_count {
+			max_count = count;
+		}
+	}
+
+	max_count - min_count
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
+	let polymer = Polymer::from_str(input).unwrap();
+	(14, (pt1(&amp;polymer), pt2(&amp;polymer))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Parts 1 and 2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1(polymer: &amp;Polymer) -&gt; usize {
+	get_ans(polymer, 10)
+}
+
+fn pt2(polymer: &amp;Polymer) -&gt; usize {
+	get_ans(polymer, 40)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

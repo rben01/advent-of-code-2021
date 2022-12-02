@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Reactor Reboot</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_reactor_reboot">Reactor Reboot</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/22" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 22 problem description</a> │ <a href="/src/day_22/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>This problem asks us to find the \(1\times1\times1\) cubes — “small cubes” — in 3D space that remain after sequentially turning on and turning off the small cubes contained in a sequence of upright 3D rectangular prisms with integer coordinates; we&#8217;ll refer to these prisms as “boxes”.
+We record which small cubes remain after each operation as a list of boxes containing those cubes; the question is then how to record the boxes that result after performing the sequence of additions and subtractions between boxes.
+In other words, if at stage \(k\)  the “on” cubes are contained in boxes \(B_1,\ldots,B_n\), and we switch off the small cubes in \(B_{n+1}\), what set of boxes now contains the remaining “on” cubes?
+For simplicity, we&#8217;ll refer to the process of turning on the small cubes in a box \(B\) as “adding” \(B\), and turning off the cubes in \(B\) as “subtracting” \(B\).</p>
+</div>
+<div class="paragraph">
+<p>To subtract a single box \(B_2\) from another box \(B_1\), we first note that we only need to subtract the intersection \(B_3\coloneqq B_1\cap B_2\) of the two boxes from \(B_1\).
+Then, to subtract \(B_3\) from \(B_1\), we note that each maximal set of parallel edges of \(B_3\) divides the corresponding axis of \(B_1\) into three (potentially empty) regions: the parts before, between, and after their endpoints.
+For instance, if \(B_3\) has edge \( ( (x_1,y,z) , (x_2,y,z) )\) with \(x_1&lt;x_2\), then this edge divides \(B\) into three portions along the \(x\)-axis: the parts less than \(x_1\), between \(x_1\) and \(x_2\), and greater than \(x_2\).
+Since each of the three axes is split into three regions by the subtraction, \(B_3\) ultimately divides \(B_1\) into 27 smaller (but not necessarily “small”) boxes, exactly one of which is \(B_3\) itself.
+Hence \(B_1-B_2\) is just the list containing the other 26 boxes.</p>
+</div>
+<div class="paragraph">
+<p>To subtract a single cube from the list of cubes \(B_1,\ldots,B_n\), we simply subtract it from each \(B_i\) in turn, then collect all the resulting smaller boxes into a single list.
+Hence, to improve performance, after each subtraction, we (greedily) recombine the 26 smaller boxes into as few larger boxes as possible; otherwise the list of boxes to subtract from would grow without bound.
+To recombine boxes, we simply take two boxes that have a face in common and write them as the union, and repeat this until no two boxes share a face.
+(Fewer boxes could probably be obtained with some sort of dynamic programming algorithm; this wasn&#8217;t deemed worth it.)</p>
+</div>
+<hr>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::Answer;
+use std::fmt::{Display, Write};
+
+type Span = [i32; 2];
+
+#[derive(Debug, Clone, Copy)]
+struct Cuboid {
+	x_range: Span,
+	y_range: Span,
+	z_range: Span,
+}
+
+impl Cuboid {
+	fn size(&amp;self) -&gt; usize {
+		fn width(span: Span) -&gt; usize {
+			usize::try_from(span[1] - span[0] + 1).unwrap()
+		}
+		let &amp;Cuboid {
+			x_range,
+			y_range,
+			z_range,
+		} = self;
+
+		width(x_range) * width(y_range) * width(z_range)
+	}
+}
+
+impl Cuboid {
+	fn intersection(&amp;self, other: &amp;Self) -&gt; Option&lt;Self&gt; {
+		fn span_intersection(span1: Span, span2: Span) -&gt; Option&lt;Span&gt; {
+			let lower = span1[0].max(span2[0]);
+			let upper = span1[1].min(span2[1]);
+			if upper &lt; lower {
+				None
+			} else {
+				Some([lower, upper])
+			}
+		}
+
+		Some(Self {
+			x_range: span_intersection(self.x_range, other.x_range)?,
+			y_range: span_intersection(self.y_range, other.y_range)?,
+			z_range: span_intersection(self.z_range, other.z_range)?,
+		})
+	}
+
+	/// `other` divides `self` into 3^3 = 27 (potentially empty) sub-cuboids. Of the 26
+	/// that aren't `other`, we keep the nonempty ones. Once we've found them, we merge
+	/// them into as large cuboids as possible.
+	fn difference(&amp;self, other: &amp;Self) -&gt; Vec&lt;Self&gt; {
+		fn get_spans(my_span: Span, intersection_span: Span) -&gt; [Option&lt;Span&gt;; 3] {
+			let span1 = if my_span[0] == intersection_span[0] {
+				None
+			} else {
+				Some([my_span[0], intersection_span[0] - 1])
+			};
+
+			let span2 = Some(intersection_span);
+
+			let span3 = if intersection_span[1] == my_span[1] {
+				None
+			} else {
+				Some([intersection_span[1] + 1, my_span[1]])
+			};
+
+			[span1, span2, span3]
+		}
+
+		let intersection = match self.intersection(other) {
+			Some(c) =&gt; c,
+			None =&gt; return vec![*self],
+		};
+
+		let x_ranges = get_spans(self.x_range, intersection.x_range);
+		let y_ranges = get_spans(self.y_range, intersection.y_range);
+		let z_ranges = get_spans(self.z_range, intersection.z_range);
+
+		let mut on_cuboids = Vec::&lt;Self&gt;::new();
+		for &amp;x_range in x_ranges.iter().flatten() {
+			for &amp;y_range in y_ranges.iter().flatten() {
+				for &amp;z_range in z_ranges.iter().flatten() {
+					if x_range != intersection.x_range
+						|| y_range != intersection.y_range
+						|| z_range != intersection.z_range
+					{
+						on_cuboids.push(Cuboid {
+							x_range,
+							y_range,
+							z_range,
+						});
+					}
+				}
+			}
+		}
+
+		// Iteratively merge the split-up cuboids together, where possible. For instance,
+		// if the middle of a cuboid was removed, there are 26 small cuboids created, but they
+		// can be merged into six larger cuboids. This is done by looking for abutting
+		// cuboids with the same dimensions along their respective abutting faces and
+		// combining them into one cuboid.
+		'merge: loop {
+			for (
+				i,
+				&amp;c1 @ Cuboid {
+					x_range,
+					y_range,
+					z_range,
+				},
+			) in on_cuboids.iter().enumerate()
+			{
+				for (j, &amp;c2) in on_cuboids.iter().enumerate().skip(i + 1) {
+					let mut cs = [c1, c2];
+					let mut merged_cuboid = None;
+					if y_range == c2.y_range &amp;&amp; z_range == c2.z_range {
+						cs.sort_by_key(|c| c.x_range);
+						if cs[0].x_range[1] == cs[1].x_range[0] - 1 {
+							merged_cuboid = Some(Cuboid {
+								x_range: [cs[0].x_range[0], cs[1].x_range[1]],
+								y_range,
+								z_range,
+							});
+						}
+					} else if x_range == c2.x_range &amp;&amp; z_range == c2.z_range {
+						cs.sort_by_key(|c| c.y_range);
+						if cs[0].y_range[1] == cs[1].y_range[0] - 1 {
+							merged_cuboid = Some(Cuboid {
+								x_range,
+								y_range: [cs[0].y_range[0], cs[1].y_range[1]],
+								z_range,
+							});
+						}
+					} else if x_range == c2.x_range &amp;&amp; y_range == c2.y_range {
+						cs.sort_by_key(|c| c.z_range);
+						if cs[0].z_range[1] == cs[1].z_range[0] - 1 {
+							merged_cuboid = Some(Cuboid {
+								x_range,
+								y_range,
+								z_range: [cs[0].z_range[0], cs[1].z_range[1]],
+							});
+						}
+					}
+
+					if let Some(merged_cuboid) = merged_cuboid {
+						on_cuboids.swap_remove(j);
+						on_cuboids.swap_remove(i);
+						on_cuboids.push(merged_cuboid);
+						continue 'merge;
+					}
+				}
+			}
+
+			break;
+		}
+
+		on_cuboids
+	}
+}
+
+impl Cuboid {
+	fn from_coords_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		let mut coords = s.split(',');
+
+		let mut comps = (0..3).filter_map(|_| {
+			coords
+				.next()?
+				.split('=')
+				.nth_back(0)?
+				.split('.')
+				.filter_map(|splat| splat.parse().ok())
+				.collect::&lt;Vec&lt;_&gt;&gt;()
+				.try_into()
+				.ok()
+		});
+
+		let x_range = comps.next()?;
+		let y_range = comps.next()?;
+		let z_range = comps.next()?;
+
+		Some(Self {
+			x_range,
+			y_range,
+			z_range,
+		})
+	}
+}
+
+#[derive(Debug, Clone, Copy)]
+enum State {
+	On,
+	Off,
+}
+
+impl State {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		Some(match s {
+			"on" =&gt; Self::On,
+			"off" =&gt; Self::Off,
+			_ =&gt; return None,
+		})
+	}
+}
+
+#[derive(Debug, Clone, Copy)]
+struct RebootStep {
+	state: State,
+	cuboid: Cuboid,
+}
+
+impl RebootStep {
+	fn from_line(line: &amp;str) -&gt; Option&lt;Self&gt; {
+		let mut str_comps = line.split_ascii_whitespace();
+		let state = State::from_str(str_comps.next()?)?;
+		let cuboid = Cuboid::from_coords_str(str_comps.next()?)?;
+		Some(Self { state, cuboid })
+	}
+}
+
+#[derive(Debug)]
+struct Grid {
+	on_cuboids: Vec&lt;Cuboid&gt;,
+	bounds: Option&lt;Cuboid&gt;,
+}
+
+impl Grid {
+	fn new_with_size(n: i32) -&gt; Self {
+		Grid {
+			on_cuboids: vec![],
+			bounds: Some(Cuboid {
+				x_range: [-n, n],
+				y_range: [-n, n],
+				z_range: [-n, n],
+			}),
+		}
+	}
+
+	fn new_unbounded() -&gt; Self {
+		Grid {
+			on_cuboids: vec![],
+			bounds: None,
+		}
+	}
+
+	fn apply_step(&amp;mut self, RebootStep { state, cuboid }: &amp;RebootStep) -&gt; Option&lt;()&gt; {
+		let cuboid = if let Some(bounds) = self.bounds {
+			cuboid.intersection(&amp;bounds)?
+		} else {
+			*cuboid
+		};
+
+		match state {
+			State::On =&gt; {
+				self.on_cuboids.push(cuboid);
+			}
+			State::Off =&gt; {
+				let mut on_cuboids = vec![];
+				for my_cuboid in &amp;self.on_cuboids {
+					on_cuboids.extend(my_cuboid.difference(&amp;cuboid));
+				}
+				self.on_cuboids = on_cuboids;
+			}
+		};
+
+		Some(())
+	}
+
+	fn n_on(&amp;self) -&gt; usize {
+		let mut nonintersecting_cuboids = vec![];
+		for (i, &amp;c1) in self.on_cuboids.iter().enumerate() {
+			let mut pieces = vec![c1];
+			for &amp;c2 in self.on_cuboids.iter().skip(i + 1) {
+				pieces = pieces
+					.into_iter()
+					.flat_map(|piece| piece.difference(&amp;c2))
+					.collect();
+			}
+			nonintersecting_cuboids.extend(pieces);
+		}
+
+		nonintersecting_cuboids
+			.iter()
+			.fold(0, |accum, cuboid| accum + cuboid.size())
+	}
+}
+
+fn read_input(input: &amp;str) -&gt; Option&lt;Vec&lt;RebootStep&gt;&gt; {
+	input
+		.lines()
+		.map(RebootStep::from_line)
+		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
+	let steps = read_input(input).unwrap();
+	(22, (pt1(steps.iter()), pt2(steps.iter()))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Parts 1 and 2</div>
+<p>Parts 1 and 2 ask us to perform the same sequence of operations.
+In Part 1 this sequence occurs is in a bounded space (presumably in a space small enough for it to have been feasible to store each small cube individually).
+In Part 2 this sequence occurs in an unbounded space, which is where the savings that come from doing cube intersections become important.</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: impl Iterator&lt;Item = R&gt;) -&gt; usize {
+	let mut grid = Grid::new_with_size(50);
+	for step in steps {
+		grid.apply_step(step.borrow());
+	}
+
+	grid.n_on()
+}
+
+fn pt2&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: impl Iterator&lt;Item = R&gt;) -&gt; usize {
+	let mut grid = Grid::new_unbounded();
+	for step in steps {
+		grid.apply_step(step.borrow());
+	}
+
+	grid.n_on()
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

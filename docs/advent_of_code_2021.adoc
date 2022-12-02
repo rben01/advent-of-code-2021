@@ -1,27 +1,12 @@
 = Advent of Code 2021
-:docinfodir: ./docs
-:docinfo: shared
-:stylesheet: ./aoc.css
-:linkcss:
-:nofooter:
+include::./docs/shared.adoc[]
 :toc: left
-:toc-title: Challenges
+:toc-title: Contents
 :toclevels: 1
-:sectnums:
+:!sectnums:
 :sectnumlevels: 1
 :sectanchors:
-:source-highlighter: pygments
-:pygments-style: default
-:pygments-linenums-mode: table
 :src-dir: src
-:icons: font
-:link-sep: │
-:click-to-reveal: Click to reveal answer
-:caution-caption:
-:soln-description-title: Description of Solution
-:setup-title: Setup
-:part-title: Part
-:hide-uri-scheme:
 
 [.lead]
 This doc has my solutions for the https://adventofcode.com/2021[2021 Advent of Code^].
@@ -41,7 +26,6 @@ This document has the solutions out in the open!
 Don't read it if you're still working on Advent of Code.
 ====
 
-:!sectnums:
 
 == Setup
 Rust is a very strict language and makes you explicitly handle all errors that might arise (as opposed to, say,  exceptions implicitly being thrown on error, as Python does).
@@ -64,59 +48,34 @@ include_source::{src-dir}/utils.rs[tag=code]
 --
 
 
-:sectnums:
+== Problems and Solutions
 
-include::{src-dir}/day_01/soln.adoc[leveloffset=+1]
+. link:day_adocs/day_01.html[Day 1]
+. link:day_adocs/day_02.html[Day 2]
+. link:day_adocs/day_03.html[Day 3]
+. link:day_adocs/day_04.html[Day 4]
+. link:day_adocs/day_05.html[Day 5]
+. link:day_adocs/day_06.html[Day 6]
+. link:day_adocs/day_07.html[Day 7]
+. link:day_adocs/day_08.html[Day 8]
+. link:day_adocs/day_09.html[Day 9]
+. link:day_adocs/day_10.html[Day 10]
+. link:day_adocs/day_11.html[Day 11]
+. link:day_adocs/day_12.html[Day 12]
+. link:day_adocs/day_13.html[Day 13]
+. link:day_adocs/day_14.html[Day 14]
+. link:day_adocs/day_15.html[Day 15]
+. link:day_adocs/day_16.html[Day 16]
+. link:day_adocs/day_17.html[Day 17]
+. link:day_adocs/day_18.html[Day 18]
+. link:day_adocs/day_19.html[Day 19]
+. link:day_adocs/day_20.html[Day 20]
+. link:day_adocs/day_21.html[Day 21]
+. link:day_adocs/day_22.html[Day 22]
+. link:day_adocs/day_23.html[Day 23]
+. link:day_adocs/day_24.html[Day 24]
+. link:day_adocs/day_25.html[Day 25]
 
-include::{src-dir}/day_02/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_03/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_04/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_05/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_06/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_07/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_08/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_09/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_10/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_11/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_12/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_13/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_14/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_15/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_16/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_17/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_18/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_19/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_20/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_21/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_22/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_23/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_24/soln.adoc[leveloffset=+1]
-
-include::{src-dir}/day_25/soln.adoc[leveloffset=+1]
-
-:!sectnums:
 
 == Conclusion
 

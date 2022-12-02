@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Dirac Dice</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_dirac_dice">Dirac Dice</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/21" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 21 problem description</a> │ <a href="/src/day_21/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>This problem asks us to simulate a two-layer dice game.
+In this game, a move consists of rolling a die three times, adding up the rolled numbers, and then moving around the board based on the sum.
+In Part 1 we merely need to simulate this game for a deterministic die; this is so simple it&#8217;s not worth discussing.</p>
+</div>
+<div class="paragraph">
+<p>In Part 2 we need to count how many times each player wins across <em>every possible sequence of die rolls</em>.
+(Thankfully, the die in Part 2 only has three sides.)
+My first attempt at this actually went through every possible sequence.
+With a three-sided die, and games ranging in length from (say) 50 to 100 rolls, this was clearly computationally infeasible.</p>
+</div>
+<div class="paragraph">
+<p>To improve upon this, we note that while there are \(3^3=27\) ways to roll a three-sided die three times, there are only seven possible outcomes: the numbers 3 through 9.
+By precomputing the number of ways these sums can be rolled each turn, and then weighting each outcome by the number of ways it can be rolled, we cut down the base of the exponent by a factor of \(\frac{27}{7}\), bringing the problem well into the realm of what is computationally feasible.</p>
+</div>
+<hr>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::Answer;
+
+type Players = [Player; 2];
+
+fn read_input(s: &amp;str) -&gt; Option&lt;Players&gt; {
+	s.lines()
+		.map(|line| {
+			line.split(':')
+				.nth_back(0)?
+				.trim()
+				.parse()
+				.ok()
+				.map(Player::new)
+		})
+		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?
+		.try_into()
+		.ok()
+}
+
+struct Board {
+	size: usize,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Player {
+	score: usize,
+	position: usize,
+}
+
+impl Player {
+	fn new(pos: usize) -&gt; Self {
+		Self {
+			score: 0,
+			position: pos,
+		}
+	}
+
+	fn roll_value(&amp;mut self, board: &amp;Board, value: usize) {
+		let new_pos = ((self.position + value - 1) % board.size) + 1;
+		self.position = new_pos;
+		self.score += new_pos;
+	}
+
+	fn roll_deterministic_die(&amp;mut self, board: &amp;Board, die: &amp;mut DeterministicDie) {
+		let move_dist = (0..3).map(|_| die.roll()).sum::&lt;usize&gt;();
+		self.roll_value(board, move_dist);
+	}
+}
+
+#[derive(Clone, Copy)]
+struct DeterministicDie {
+	next: usize,
+	min: usize,
+	max: usize,
+	n_rolls: usize,
+}
+
+impl DeterministicDie {
+	fn new(min: usize, max: usize) -&gt; Self {
+		Self {
+			next: 1,
+			min,
+			max,
+			n_rolls: 0,
+		}
+	}
+
+	fn roll(&amp;mut self) -&gt; usize {
+		if self.next &gt; self.max {
+			self.next = self.min;
+		}
+		let ret = self.next;
+		self.next += 1;
+		self.n_rolls += 1;
+		ret
+	}
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
+	let board = Board { size: 10 };
+	let players = read_input(input).unwrap();
+
+	(
+		21,
+		(
+			pt1(players, &amp;board, DeterministicDie::new(1, 10)),
+			pt2(players),
+		),
+	)
+		.into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Part 1</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1(mut players: Players, board: &amp;Board, die: DeterministicDie) -&gt; usize {
+	let mut die = die;
+	let mut loser = players[1];
+
+	'game: loop {
+		for player in &amp;mut players {
+			player.roll_deterministic_die(board, &amp;mut die);
+
+			if player.score &gt;= 1000 {
+				break 'game;
+			}
+			loser = *player;
+		}
+	}
+
+	die.n_rolls * loser.score
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Part 2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">#[derive(Debug)]
+struct Turn {
+	players: Players,
+	is_p0s_turn: bool,
+	n_ways: usize,
+}
+
+fn play_quantum_dice(
+	players: Players,
+	board: &amp;Board,
+	die_n_faces: usize,
+	n_rolls_per_turn: usize,
+	win_threshold: usize,
+) -&gt; [usize; 2] {
+	let mut tally = [0; 2];
+	let mut turn_stack = vec![Turn {
+		players,
+		is_p0s_turn: true,
+		n_ways: 1,
+	}];
+
+	// Pairs of `(dice sum, # ways)`
+	let outcome_counts: [(usize, usize); 7] = {
+		let max_sum = die_n_faces * n_rolls_per_turn;
+		let mut counts = vec![0; max_sum + 1];
+
+		for r1 in 1..=die_n_faces {
+			for r2 in 1..=die_n_faces {
+				for r3 in 1..=die_n_faces {
+					counts[r1 + r2 + r3] += 1;
+				}
+			}
+		}
+
+		counts
+			.iter()
+			.enumerate()
+			.filter_map(|(i, &amp;c)| if c &gt; 0 { Some((i, c)) } else { None })
+			.collect::&lt;Vec&lt;_&gt;&gt;()
+			.try_into()
+			.unwrap()
+	};
+
+	while let Some(Turn {
+		players,
+		is_p0s_turn,
+		n_ways: n_ways_to_have_gotten_here,
+	}) = turn_stack.pop()
+	{
+		let player_index = if is_p0s_turn { 0 } else { 1 };
+
+		for (roll_value, n_ways_to_roll_this) in outcome_counts {
+			let n_ways_to_get_here = n_ways_to_have_gotten_here * n_ways_to_roll_this;
+
+			let mut player = players[player_index];
+			player.roll_value(board, roll_value);
+
+			if player.score &gt;= win_threshold {
+				tally[player_index] += n_ways_to_get_here;
+			} else {
+				let mut players = players;
+				players[player_index] = player;
+				turn_stack.push(Turn {
+					players,
+					is_p0s_turn: !is_p0s_turn,
+					n_ways: n_ways_to_get_here,
+				});
+			}
+		}
+	}
+
+	tally
+}
+
+fn pt2(players: Players) -&gt; usize {
+	let [p1_n_wins, p2_n_wins] = play_quantum_dice(players, &amp;Board { size: 10 }, 3, 3, 21);
+	p1_n_wins.max(p2_n_wins)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

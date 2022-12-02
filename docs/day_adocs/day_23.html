@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Amphipod</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_amphipod">Amphipod</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/23" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 23 problem description</a> {link-day} <a href="/src/day_23/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>We have to find the ways that agents (amphipods) can move from some initial on a grid to some final state given a number of movement constraints.
+Each agent has a different cost associated with movement.
+This is another classic graph exploration problem solvable with a priority queue; unfortunately a naive solution is computationally infeasible.
+The crux of solving this problem efficiently is realizing that there are many, many equivalent sequences of moves; rather than consider them all, we only consider those comprised of the fewest atomic moves in which, roughly speaking, a single amphipod moves as far as possible.</p>
+</div>
+<div class="paragraph">
+<p>Some examples of simplifications to the ruleset:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>It makes no sense to consider an amphipod moving within its initial room unless that move takes it <em>out</em> of the room; a disjoint sequence of moves inside the room can be reordered into a single move from the starting point to the room&#8217;s doorway.</p>
+</li>
+<li>
+<p>No amphipod should ever move deeper into its initial room; it should only ever move toward the doorway, and then from the doorway to some spot in the hallway.</p>
+</li>
+<li>
+<p>The rules state that an amphipod can only its final side room when it is already possible to move into the last unoccupied square in that room. Therefore, when an amphipod currently in the hallway moves move from the hallway into its final side room, it should move as far into that side room as possible.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Considering all simplifications and move reorderings, there are in fact only a handful of moves worth considering at each stage:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>An amphipod at its starting point in some side room can move to somewhere in the hallway as long as that starting point isn&#8217;t also its final destination.</p>
+</li>
+<li>
+<p>As long as any amphipod can move to its final spot in its final side room, it <em>should</em> move there on this move.
+In other words, no amphipod should move while another amphipod can move to its final destination, as this move would be a needless entry in the priority queue.
+(If two amphipods can both move to their final side rooms, pick one for this turn arbitrarily.)</p>
+</li>
+<li>
+<p>An amphipod that is currently in its final position — as far to the back in its side room as it can go, with no other-kinded amphipods between it and the back of its room — should not move at all.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This keeps the number of moves considered tiny, making the search for the cheapest path through the graph run very quickly.</p>
+</div>
+<hr>
+<div class="paragraph">
+<div class="title">Setup</div>
+<p>Most of the setup is just creating an array wrapper type that is indexable by amphipods.
+(Thanks to Rust&#8217;s <code>const</code> generics, this type is statically sized.)
+This is achieved by simply assigning an integer from <code>0</code> to <code>N_AMPHIPODS-1</code> to each amphipod and using that as the index.
+Because the arrays are static, we get an additional performance boost compared to using a heap-allocated <code>Vec</code>.</p>
+</div>
+<div class="paragraph">
+<p>(Due to laziness, I created two separate copies of the input, rather than perform the modification to the input for Part 2 as described in the problem statement.)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::{utils::abs_diff, Answer};
+use hashbrown::hash_map::DefaultHashBuilder;
+use ndarray::prelude::*;
+use priority_queue::PriorityQueue;
+use std::{
+	collections::{BTreeMap as Map, BTreeSet},
+	fmt::Write,
+};
+
+type Point = [usize; 2];
+const ROW: usize = 0;
+const COL: usize = 1;
+
+#[derive(Eq, PartialEq, Debug)]
+struct Cost(usize);
+
+impl std::cmp::Ord for Cost {
+	fn cmp(&amp;self, other: &amp;Self) -&gt; std::cmp::Ordering {
+		std::cmp::Reverse(self.0).cmp(&amp;std::cmp::Reverse(other.0))
+	}
+}
+
+impl std::cmp::PartialOrd for Cost {
+	fn partial_cmp(&amp;self, other: &amp;Self) -&gt; Option&lt;std::cmp::Ordering&gt; {
+		Some(self.cmp(other))
+	}
+}
+
+#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
+#[repr(usize)]
+enum AmphipodKind {
+	A = 0,
+	B,
+	C,
+	D,
+}
+
+impl AmphipodKind {
+	const fn n_kinds() -&gt; usize {
+		4
+	}
+
+	const fn from_usize(n: usize) -&gt; Self {
+		use AmphipodKind::*;
+		match n {
+			0 =&gt; A,
+			1 =&gt; B,
+			2 =&gt; C,
+			3 =&gt; D,
+			_ =&gt; panic!("Cannot construct an AmphipodKind from n &gt;= 4"),
+		}
+	}
+
+	const fn from_char(c: char) -&gt; Self {
+		use AmphipodKind::*;
+		match c {
+			'A' =&gt; A,
+			'B' =&gt; B,
+			'C' =&gt; C,
+			'D' =&gt; D,
+			_ =&gt; panic!("Cannot construct an AmphipodKind from c not in [A, B, C, D]"),
+		}
+	}
+
+	const fn for_col(col: usize) -&gt; Option&lt;Self&gt; {
+		use AmphipodKind::*;
+		Some(match col {
+			3 =&gt; A,
+			5 =&gt; B,
+			7 =&gt; C,
+			9 =&gt; D,
+			_ =&gt; return None,
+		})
+	}
+
+	const fn dest_col(self) -&gt; usize {
+		use AmphipodKind::*;
+		match self {
+			A =&gt; 3,
+			B =&gt; 5,
+			C =&gt; 7,
+			D =&gt; 9,
+		}
+	}
+
+	fn energy(self) -&gt; usize {
+		use AmphipodKind::*;
+		match self {
+			A =&gt; 1,
+			B =&gt; 10,
+			C =&gt; 100,
+			D =&gt; 1000,
+		}
+	}
+}
+
+#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+struct Amphipod {
+	kind: AmphipodKind,
+	index: usize,
+}
+
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord)]
+struct AmphipodIndexed&lt;T, const N: usize&gt;([T; N]);
+
+impl&lt;T, const N: usize&gt; AmphipodIndexed&lt;T, N&gt; {
+	const fn n_amphipods_per_kind() -&gt; usize {
+		N / AmphipodKind::n_kinds()
+	}
+
+	const fn index_for(am: Amphipod) -&gt; usize {
+		Self::n_amphipods_per_kind() * (am.kind as usize) + am.index
+	}
+
+	fn iter_items(&amp;self) -&gt; impl Iterator&lt;Item = (Amphipod, &amp;T)&gt; {
+		self.0.iter().enumerate().map(|(i, x)| {
+			(
+				Amphipod {
+					kind: AmphipodKind::from_usize(i / Self::n_amphipods_per_kind()),
+					index: i % Self::n_amphipods_per_kind(),
+				},
+				x,
+			)
+		})
+	}
+}
+
+impl&lt;T, const N: usize&gt; std::ops::Index&lt;Amphipod&gt; for AmphipodIndexed&lt;T, N&gt; {
+	type Output = T;
+
+	fn index(&amp;self, am: Amphipod) -&gt; &amp;Self::Output {
+		&amp;self.0[Self::index_for(am)]
+	}
+}
+
+impl&lt;T, const N: usize&gt; std::ops::IndexMut&lt;Amphipod&gt; for AmphipodIndexed&lt;T, N&gt; {
+	fn index_mut(&amp;mut self, am: Amphipod) -&gt; &amp;mut Self::Output {
+		&amp;mut self.0[Self::index_for(am)]
+	}
+}
+
+#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+enum Tile {
+	Wall,
+	Hallway,
+	Doorway,
+	SideRoom(AmphipodKind),
+}
+
+#[derive(Debug)]
+struct InstantiatedBurrow&lt;const N: usize&gt; {
+	burrow: Burrow,
+	amphipod_locs: AmphipodIndexed&lt;Point, N&gt;,
+}
+
+impl&lt;const N: usize&gt; InstantiatedBurrow&lt;N&gt; {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use Tile::*;
+
+		let mut width = 0_usize;
+		let mut height = 0_usize;
+
+		let mut tiles_map = Map::new();
+		let mut amphipod_locs_map = Map::new();
+		let mut amphipod_kind_counts = [0_usize; 4];
+
+		for (row, line) in s.lines().enumerate() {
+			height += 1;
+			for (col, c) in line.chars().enumerate() {
+				if row == 0 {
+					width += 1;
+				}
+				let tile = match c {
+					'#' | ' ' =&gt; Wall,
+					'.' =&gt; Hallway,
+					'A' | 'B' | 'C' | 'D' =&gt; {
+						let amphipod_kind = AmphipodKind::from_char(c);
+
+						amphipod_locs_map.insert(
+							Amphipod {
+								kind: amphipod_kind,
+								index: amphipod_kind_counts[amphipod_kind as usize],
+							},
+							[row, col],
+						);
+
+						amphipod_kind_counts[amphipod_kind as usize] += 1;
+
+						SideRoom(AmphipodKind::for_col(col)?)
+					}
+					_ =&gt; return None,
+				};
+
+				tiles_map.insert((row, col), tile);
+			}
+		}
+
+		let mut tiles = Array2::from_shape_fn((height, width), |(row, col)| {
+			*tiles_map.get(&amp;(row, col)).unwrap_or(&amp;Wall)
+		});
+
+		for row in 0..tiles.nrows() {
+			for col in 0..tiles.ncols() {
+				if matches!(tiles[[row, col]], Hallway)
+					&amp;&amp; matches!(tiles[[row + 1, col]], SideRoom(_))
+				{
+					tiles[[row, col]] = Doorway;
+				}
+			}
+		}
+
+		let amphipod_locs = {
+			let mut locs = AmphipodIndexed(
+				vec![[usize::MAX; 2]; amphipod_locs_map.len()]
+					.try_into()
+					.unwrap(),
+			);
+			for (&amp;am, &amp;loc) in &amp;amphipod_locs_map {
+				locs[am] = loc;
+			}
+			locs
+		};
+
+		Some(Self {
+			burrow: Burrow { tiles },
+			amphipod_locs,
+		})
+	}
+}
+
+#[derive(Debug)]
+struct Burrow {
+	tiles: Array2&lt;Tile&gt;,
+}</code></pre>
+</div>
+</div>
+<div class="openblock">
+<div class="title">The Algorithm</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">impl Burrow {
+	fn solve&lt;const N: usize&gt;(&amp;self, initial_locs: &amp;AmphipodIndexed&lt;Point, N&gt;) -&gt; Cost {
+		const N_KINDS: usize = AmphipodKind::n_kinds();
+
+		#[derive(Debug)]
+		struct Update {
+			amphipod: Amphipod,
+			n_steps: usize,
+			new_state: SingleAmphipodState,
+		}
+
+		#[derive(Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Debug)]
+		struct SingleAmphipodState {
+			loc: Point,
+			is_done: bool,
+		}
+		type AllAmphipodStates&lt;const N: usize&gt; = AmphipodIndexed&lt;SingleAmphipodState, N&gt;;
+
+		fn enqueue&lt;H: std::hash::BuildHasher + Default, const N: usize&gt;(
+			seen: &amp;mut BTreeSet&lt;AllAmphipodStates&lt;N&gt;&gt;,
+			pq: &amp;mut PriorityQueue&lt;AllAmphipodStates&lt;N&gt;, Cost, H&gt;,
+			state: AllAmphipodStates&lt;N&gt;,
+			cost: Cost,
+		) {
+			if seen.contains(&amp;state) {
+				return;
+			}
+			seen.insert(state);
+			pq.push_increase(state, cost);
+		}
+
+		let hallway_row = 1;
+		let sideroom_max_row = self.tiles.nrows() - 2;
+
+		let mut pq = PriorityQueue::&lt;_, _, DefaultHashBuilder&gt;::with_default_hasher();
+		let mut seen = BTreeSet::new();
+
+		let tiles = &amp;self.tiles;
+
+		let initial_state = AmphipodIndexed(initial_locs.0.map(|loc| SingleAmphipodState {
+			loc,
+			is_done: false,
+		}));
+
+		pq.push(initial_state, Cost(0));
+
+		let mut updates = Vec::new();
+
+		while let Some((total_state, cost)) = pq.pop() {
+			updates.clear();
+
+			if total_state
+				.iter_items()
+				.all(|(am, state)| tiles[state.loc] == Tile::SideRoom(am.kind))
+			{
+				return cost;
+			}
+
+			let amphipod_locs = total_state
+				.iter_items()
+				.map(|(am, state)| (state.loc, am))
+				.collect::&lt;Map&lt;_, _&gt;&gt;();
+
+			let n_in_correct_sideroom_by_kind = {
+				let mut arr = [0_usize; N_KINDS];
+				for (am, state) in total_state.iter_items() {
+					if tiles[state.loc] == Tile::SideRoom(am.kind) {
+						arr[am.kind as usize] += 1;
+					}
+				}
+				arr
+			};
+
+			let siderooms_available_for_amphipods =
+				[0, 1, 2, 3].zip([3, 5, 7, 9_usize]).map(|(i, col)| {
+					(hallway_row + 1..=sideroom_max_row).all(|row| {
+						amphipod_locs
+							.get(&amp;[row, col])
+							.map_or(true, |am| am.kind as usize == i)
+					})
+				});
+
+			let update_that_moves_am_to_final_loc =
+				total_state.iter_items().find_map(|(am, &amp;state)| {
+					if state.is_done || !siderooms_available_for_amphipods[am.kind as usize] {
+						return None;
+					}
+
+					let curr_loc = state.loc;
+					let dest_col = am.kind.dest_col();
+					let sideroom_last_empty_row =
+						sideroom_max_row - n_in_correct_sideroom_by_kind[am.kind as usize];
+					let new_loc = [sideroom_last_empty_row, dest_col];
+
+					if curr_loc[COL] == dest_col &amp;&amp; curr_loc[ROW] &gt;= sideroom_last_empty_row {
+						return Some(Update {
+							amphipod: am,
+							n_steps: 0,
+							new_state: SingleAmphipodState {
+								loc: curr_loc,
+								is_done: true,
+							},
+						});
+					}
+
+					let [curr_row, curr_col] = curr_loc;
+
+					for row in hallway_row..curr_row {
+						if amphipod_locs.contains_key(&amp;[row, curr_col]) {
+							return None;
+						}
+					}
+
+					#[allow(clippy::range_minus_one)]
+					let col_range = if curr_col &lt; dest_col {
+						curr_col + 1..=dest_col
+					} else {
+						dest_col..=curr_col - 1
+					};
+					for col in col_range {
+						if amphipod_locs.contains_key(&amp;[hallway_row, col]) {
+							return None;
+						}
+					}
+
+					let n_steps_up = curr_row - hallway_row;
+					let n_steps_sideways = abs_diff(curr_col, dest_col);
+					let n_steps_down = sideroom_last_empty_row - hallway_row;
+					let n_steps = n_steps_up + n_steps_sideways + n_steps_down;
+
+					Some(Update {
+						amphipod: am,
+						n_steps,
+						new_state: SingleAmphipodState {
+							loc: new_loc,
+							is_done: true,
+						},
+					})
+				});
+
+			if let Some(update) = update_that_moves_am_to_final_loc {
+				updates.push(update);
+			} else {
+				for (am, &amp;state) in total_state.iter_items() {
+					if state.is_done {
+						continue;
+					}
+
+					let curr_loc = state.loc;
+					let curr_tile = tiles[curr_loc];
+
+					if !(matches!(curr_tile, Tile::SideRoom(_))
+						&amp;&amp; (hallway_row..curr_loc[ROW])
+							.all(|row| !amphipod_locs.contains_key(&amp;[row, curr_loc[COL]])))
+					{
+						continue;
+					}
+
+					let n_steps_to_hallway = curr_loc[ROW] - hallway_row;
+
+					// Rust...
+					for range in [
+						&amp;mut (0..curr_loc[COL]).rev(),
+						&amp;mut (curr_loc[COL] + 1..tiles.ncols()),
+					] as [&amp;mut dyn Iterator&lt;Item = usize&gt;; 2]
+					{
+						for col in range {
+							let new_loc = [hallway_row, col];
+							if amphipod_locs.contains_key(&amp;new_loc) || tiles[new_loc] == Tile::Wall
+							{
+								break;
+							}
+							if tiles[new_loc] == Tile::Doorway {
+								continue;
+							}
+							updates.push(Update {
+								amphipod: am,
+								n_steps: n_steps_to_hallway + abs_diff(col, curr_loc[COL]),
+								new_state: SingleAmphipodState {
+									loc: new_loc,
+									is_done: false,
+								},
+							});
+						}
+					}
+				}
+			}
+
+			for &amp;Update {
+				amphipod: am,
+				n_steps,
+				new_state,
+			} in &amp;updates
+			{
+				let mut new_total_state = total_state;
+				new_total_state[am] = new_state;
+
+				enqueue(
+					&amp;mut seen,
+					&amp;mut pq,
+					new_total_state,
+					Cost(cost.0 + n_steps * am.kind.energy()),
+				);
+			}
+		}
+
+		panic!("Could not find a path to the finish line!");
+	}
+}
+
+pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
+	(23, (pt1(), pt2())).into()
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Parts 1 and 2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1() -&gt; usize {
+	let b = InstantiatedBurrow::&lt;8&gt;::from_str(include_str!("input_1.txt")).unwrap();
+	b.burrow.solve(&amp;b.amphipod_locs).0
+}
+
+fn pt2() -&gt; usize {
+	let b = InstantiatedBurrow::&lt;16&gt;::from_str(include_str!("input_2.txt")).unwrap();
+	b.burrow.solve(&amp;b.amphipod_locs).0
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

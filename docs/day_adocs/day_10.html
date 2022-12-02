@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Syntax Scoring</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_syntax_scoring">Syntax Scoring</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/10" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 10 problem description</a> │ <a href="/src/day_10/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>Pretty basic.
+Parsing is done with a token stack; when we see paired braces at the top of the stack, we pop them both.
+If we see mismatched braces, we immediately know we have a <code>Corrupted</code> token stream.
+If we make it to the end of the input without match-and-popping everything — i.e., if the stack isn&#8217;t empty at the end — then we have an <code>Incomplete</code> token stream.</p>
+</div>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::Answer;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum Brace {
+	Paren,
+	Square,
+	Curly,
+	Angle,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum Orientation {
+	Left,
+	Right,
+}
+
+impl Orientation {
+	fn flip(self) -&gt; Self {
+		use Orientation::*;
+		match self {
+			Left =&gt; Right,
+			Right =&gt; Left,
+		}
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct Token {
+	brace: Brace,
+	orientation: Orientation,
+}
+
+impl Token {
+	fn from_char(c: char) -&gt; Option&lt;Self&gt; {
+		use Brace::*;
+		use Orientation::*;
+
+		let (orientation, brace) = match c {
+			'(' =&gt; (Left, Paren),
+			')' =&gt; (Right, Paren),
+			'[' =&gt; (Left, Square),
+			']' =&gt; (Right, Square),
+			'{' =&gt; (Left, Curly),
+			'}' =&gt; (Right, Curly),
+			'&lt;' =&gt; (Left, Angle),
+			'&gt;' =&gt; (Right, Angle),
+			_ =&gt; return None,
+		};
+
+		Some(Self { brace, orientation })
+	}
+	fn flip(self) -&gt; Self {
+		Self {
+			orientation: self.orientation.flip(),
+			..self
+		}
+	}
+}
+
+enum TokenizationErr {
+	Corrupted(Token),
+	Incomplete(Vec&lt;Token&gt;),
+}
+
+type ParseResult = Result&lt;(), TokenizationErr&gt;;
+
+fn parse_line&lt;T: std::borrow::Borrow&lt;Token&gt;&gt;(line: impl Iterator&lt;Item = T&gt;) -&gt; ParseResult {
+	use Orientation::*;
+
+	let mut token_stack = Vec::new();
+	for curr in line {
+		let curr = *curr.borrow();
+		match token_stack.last() {
+			None =&gt; {
+				token_stack.push(curr);
+			}
+			Some(&amp;prev) =&gt; {
+				if prev.orientation == Left &amp;&amp; curr.orientation == Right {
+					if prev.brace != curr.brace {
+						return Err(TokenizationErr::Corrupted(curr));
+					}
+					token_stack.pop();
+				} else {
+					token_stack.push(curr);
+				}
+			}
+		}
+	}
+
+	if !token_stack.is_empty() {
+		return Err(TokenizationErr::Incomplete(
+			token_stack.iter().rev().map(|t| t.flip()).collect(),
+		));
+	}
+
+	Ok(())
+}
+
+fn read_input(input: &amp;str) -&gt; Option&lt;Vec&lt;Vec&lt;Token&gt;&gt;&gt; {
+	input
+		.lines()
+		.map(|line| {
+			line.trim()
+				.chars()
+				.map(Token::from_char)
+				.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
+		})
+		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
+	let tokens = read_input(input).unwrap();
+	let parsed_lines = tokens
+		.iter()
+		.map(|v| parse_line(v.iter()))
+		.collect::&lt;Vec&lt;_&gt;&gt;();
+	(10, (pt1(parsed_lines.iter()), pt2(parsed_lines.iter()))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Part 1</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1&lt;P: std::borrow::Borrow&lt;ParseResult&gt;&gt;(prs: impl Iterator&lt;Item = P&gt;) -&gt; usize {
+	use Brace::*;
+	prs.filter_map(|r| {
+		let r = r.borrow();
+		if let Err(TokenizationErr::Corrupted(t)) = r {
+			Some(match t.brace {
+				Paren =&gt; 3,
+				Square =&gt; 57,
+				Curly =&gt; 1197,
+				Angle =&gt; 25137,
+			})
+		} else {
+			None
+		}
+	})
+	.sum()
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Part 2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt2&lt;P: std::borrow::Borrow&lt;ParseResult&gt;&gt;(prs: impl Iterator&lt;Item = P&gt;) -&gt; usize {
+	use Brace::*;
+	let mut scores = prs
+		.filter_map(|r| {
+			let r = r.borrow();
+			if let Err(TokenizationErr::Incomplete(tokens)) = r {
+				let mut score = 0_usize;
+				for t in tokens {
+					score *= 5;
+					let token_score = match t.brace {
+						Paren =&gt; 1,
+						Square =&gt; 2,
+						Curly =&gt; 3,
+						Angle =&gt; 4,
+					};
+					score += token_score;
+				}
+				Some(score)
+			} else {
+				None
+			}
+		})
+		.collect::&lt;Vec&lt;_&gt;&gt;();
+
+	scores.sort_unstable();
+	scores[scores.len() / 2]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

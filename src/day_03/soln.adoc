@@ -8,7 +8,7 @@ This challenge mostly just requires filtering arrays and counting elements satis
 
 .{setup-title}
 The first thing we do is read the input file into a `ndarray::Array2<bool>` of size `(n_rows, n_cols)`, where a `true` value corresponds to a `1` character in the input, and a `false` to a `0`.
-We also created a function that converts a binary vector, most significant digit first, to a (decimal) number (see the <<Setup>> section above).
+We also created a function that converts a binary vector, most significant digit first, to a (decimal) number (see the link:../advent_of_code_2021.html#_setup[Setup] section).
 For example, given `10011`, we compute `[1, 0, 0, 1, 1] .* [16, 8, 4, 2, 1] = [16, 0, 0, 2, 1]`, whose sum is 19.
 (This is just how link:https://en.wikipedia.org/wiki/Positional_notation#Mathematics[positional notation^] works.)
 

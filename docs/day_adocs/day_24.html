@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Arithmetic Logic Unit</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_arithmetic_logic_unit">Arithmetic Logic Unit</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/24" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 24 problem description</a> │ <a href="/src/day_24/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>This problem asks us to do two things:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Implement a simple processor, with four registers <code>W</code>, <code>X</code>, <code>Y</code>, and <code>Z</code> all initialized to <code>0</code>, that accepts a program to run.</p>
+</li>
+<li>
+<p>Find the inputs to this program that will lead to the processor&#8217;s <code>Z</code> register containing <code>0</code> when its input has been entirely consumed, which we&#8217;ll refer to as “acceptable inputs”.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The specific program that this problem gives us reads in 14 digits of input, so it looks something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">read 1<sup>st</sup> digit of input into W register
+&lt;several instructions manipulating register contents&gt;
+read 2<sup>nd</sup> digit of input into W register
+&lt;several instructions manipulating register contents&gt;
+read 3<sup>rd</sup> digit of input into W register
+&lt;several instructions manipulating register contents&gt;
+&#8230;&#8203;
+read 14<sup>th</sup> digit of input into W register
+&lt;several instructions manipulating register contents&gt;
+
+check if register Z is 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We will refer to the list of instructions from one <code>read</code> instruction up to, but excluding, the next <code>read</code> instruction — such as the instructions contained in lines 1 and 2 of the above text — as an “instruction block”.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Note that while the inputs to the program are digits in the range [1, 9], the registers can contain arbitrary integers.
+For instance the program could read <code>8</code> into <code>W</code>, copy <code>W</code> to <code>X</code>, read <code>9</code> into <code>W</code>, multiply <code>W</code> and <code>X</code>, and write the result to <code>Z</code>; then <code>Z</code> would have a value of <code>72</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<hr>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::Answer;
+use std::{
+	collections::{BTreeMap as Map, BTreeSet as Set},
+	ops::{Index, IndexMut},
+};
+
+type Num = i32;
+type Output = String;
+
+#[derive(Debug, Clone, Copy)]
+enum Operand {
+	Number(Num),
+	Reg(Register),
+}
+
+impl Operand {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use Operand::*;
+		Some(match s.parse().ok() {
+			Some(val) =&gt; Number(val),
+			None =&gt; Reg(Register::from_str(s)?),
+		})
+	}
+}
+
+#[derive(Debug, Clone, Copy)]
+enum MathOp {
+	Add,
+	Mul,
+	Div,
+	Mod,
+	Eql,
+}
+
+impl MathOp {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use MathOp::*;
+		Some(match s {
+			"add" =&gt; Add,
+			"mul" =&gt; Mul,
+			"div" =&gt; Div,
+			"mod" =&gt; Mod,
+			"eql" =&gt; Eql,
+			_ =&gt; return None,
+		})
+	}
+}
+
+#[derive(Debug, Clone)]
+struct MathInstr {
+	operation: MathOp,
+	register: Register,
+	operand: Operand,
+}
+
+#[derive(Debug)]
+struct InstrBlock {
+	in_reg: Register,
+	instrs: Vec&lt;MathInstr&gt;,
+}
+
+#[derive(Debug, Clone, Copy)]
+enum Register {
+	W = 0,
+	X,
+	Y,
+	Z,
+}
+
+impl Register {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use Register::*;
+		Some(match s {
+			"w" =&gt; W,
+			"x" =&gt; X,
+			"y" =&gt; Y,
+			"z" =&gt; Z,
+			_ =&gt; return None,
+		})
+	}
+}
+
+#[derive(Debug)]
+struct Alu {
+	registers: [Num; 4],
+}
+
+impl Index&lt;Register&gt; for Alu {
+	type Output = Num;
+	fn index(&amp;self, register: Register) -&gt; &amp;Self::Output {
+		&amp;self.registers[register as usize]
+	}
+}
+
+impl IndexMut&lt;Register&gt; for Alu {
+	fn index_mut(&amp;mut self, register: Register) -&gt; &amp;mut Self::Output {
+		&amp;mut self.registers[register as usize]
+	}
+}
+
+impl Alu {
+	fn new() -&gt; Self {
+		Self { registers: [0; 4] }
+	}
+
+	fn run_block(&amp;mut self, block: &amp;InstrBlock, input: Num) {
+		use MathOp::*;
+		use Operand::*;
+
+		self[block.in_reg] = input;
+
+		for &amp;MathInstr {
+			operation,
+			register,
+			operand,
+		} in &amp;block.instrs
+		{
+			let value = match operand {
+				Number(n) =&gt; n,
+				Reg(register) =&gt; self[register],
+			};
+
+			let r = &amp;mut self[register];
+			match operation {
+				Add =&gt; *r += value,
+				Mul =&gt; *r *= value,
+				Div =&gt; *r /= value,
+				Mod =&gt; *r %= value,
+				Eql =&gt; *r = if r == &amp;value { 1 } else { 0 },
+			}
+		}
+	}
+
+	fn from_running_block_on(
+		block: &amp;InstrBlock,
+		input: Num,
+		setup: impl FnOnce(&amp;mut Self),
+	) -&gt; Self {
+		let mut alu = Alu::new();
+		setup(&amp;mut alu);
+		alu.run_block(block, input);
+		alu
+	}
+}
+
+fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;InstrBlock&gt;&gt; {
+	let mut blocks = vec![];
+	let mut curr_in_reg = None;
+	let mut curr_instrs = vec![];
+
+	// Dummy input line at the end that tells the last block it's done
+	for line in s.lines().chain(std::iter::once("inp x")) {
+		let mut splat = line.split_ascii_whitespace();
+		let instr_str = splat.next()?;
+		if instr_str == "inp" {
+			if let Some(r) = curr_in_reg {
+				blocks.push(InstrBlock {
+					in_reg: r,
+					instrs: curr_instrs.clone(),
+				});
+			}
+
+			curr_in_reg = Some(Register::from_str(splat.next()?)?);
+			curr_instrs.clear();
+		} else {
+			let operation = MathOp::from_str(instr_str)?;
+			let register = Register::from_str(splat.next()?)?;
+			let operand = Operand::from_str(splat.next()?)?;
+			curr_instrs.push(MathInstr {
+				operation,
+				register,
+				operand,
+			});
+		}
+	}
+
+	Some(blocks)
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Output, Output&gt; {
+	let blocks = read_input(input).unwrap();
+	let valid_zs = get_valid_zs(&amp;blocks);
+	(24, (pt1(&amp;blocks, &amp;valid_zs), pt2(&amp;blocks, &amp;valid_zs))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;Output, Output&gt; {
+	ans_for_input(include_str!("input.txt"))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">The Algorithm</div>
+<p>A naive solution that ran the program on every every possibility from 10<sup>14</sup> to 10<sup>15</sup>−1 would need to check 9×10<sup>14</sup> possibilities, which would be computationally infeasible.
+(Trust me, I tried.
+Did not get very far before searching for a better way.)</p>
+</div>
+<div class="paragraph">
+<p>Instead, we use the fact that the set of register values achievable by instruction block <code>k</code> is actually quite small (compared to 9×10<sup>14</sup>).
+The algorithm is as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Before reading any input, the <code>Z</code> register has an initial value of <code>z<sub>0</sub> = 0</code>.</p>
+</li>
+<li>
+<p>Phase 1:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>We find the set of values <code>z<sub>1</sub></code> of the <code>Z</code> register after instruction block 1 reads in a digit.</p>
+</li>
+<li>
+<p>For each <code>z<sub>1</sub></code>, we find the set of values <code>z<sub>2</sub></code> of the <code>Z</code> register after instruction block 2 reads in a digit, and record for each <code>z<sub>2</sub></code> which values of <code>z<sub>1</sub></code> led to it.</p>
+</li>
+<li>
+<p>For each <code>z<sub>2</sub></code>, we find the set of values <code>z<sub>3</sub></code> of the <code>Z</code> register after instruction block 3 reads in a digit, and record for each <code>z<sub>3</sub></code> which values of <code>z<sub>2</sub></code> led to it.</p>
+</li>
+<li>
+<p>This continues until we reach the end, at which point we will have a massive number of <code>z<sub>14</sub></code>s linked to their preceding <code>z<sub>13</sub></code>s, each of which is linked to its preceding <code>z<sub>12</sub></code>s, each of which is linked to its preceding <code>z<sub>11</sub></code>s, etc., going all the way back to the <code>z<sub>1</sub></code>s, which point to <code>z<sub>0</sub> = 0</code>.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Phase 2:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>But we know we&#8217;re only concerned with inputs that lead to a final value of <code>z<sub>14</sub> = 0</code>.</p>
+</li>
+<li>
+<p>So keep only those <code>z<sub>13</sub></code>s that led to <code>z<sub>14</sub> = 0</code>.</p>
+</li>
+<li>
+<p>Then keep only those <code>z<sub>12</sub></code>s that led to <em>those</em> <code>z<sub>13</sub></code>s.</p>
+</li>
+<li>
+<p>Then keep only those <code>z<sub>11</sub></code>s that to <em>those</em> <code>z<sub>12</sub></code>s.</p>
+</li>
+<li>
+<p>Repeat, going all the way back to find only those <code>z<sub>1</sub></code>s that led to <em>those</em> <code>z<sub>2</sub></code>s.</p>
+</li>
+<li>
+<p>This produces a diamond-shaped graph, which starts out small at <code>z<sub>0</sub> = 0</code>, fans out in the middle, and then shrinks again as it approaches <code>z<sub>14</sub> = 0</code>.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Phase 3:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Now that we have this graph, we&#8217;re almost done.
+A 14-digit input that causes the <code>Z</code> register&#8217;s final value to be <code>0</code> can be found by finding sequences of digits that take us all the way through the graph from left to right.</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>So, if we&#8217;ve read in, say, 12345, and digit 6 does not lead to a permissible <code>z<sub>6</sub></code> value, then we know that 123456 is not the first six digits of any acceptable input.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The problem asks us specifically for the largest and smallest acceptable inputs.
+To find these, we simply do a DFS on this graph, preferentially walking along edges formed by the largest digits, but backtracking to a smaller digit where necessary.</p>
+</div>
+<div class="paragraph">
+<p>To reduce code duplication, this DFS algorithm takes function parameters that give it the next digit to look at or tell it when to backtrack (since, for instance, it will need to backtrack when hitting <code>d=1</code> when searching for the largest acceptable input but when <code>d=9</code> for the smallest acceptable input).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn get_valid_zs(blocks: impl AsRef&lt;[InstrBlock]&gt;) -&gt; Vec&lt;Set&lt;Num&gt;&gt; {
+	let blocks = blocks.as_ref();
+	let n_digits = blocks.len();
+
+	let mut all_zs_ltr = vec![Map::new(); n_digits + 1];
+	all_zs_ltr.first_mut().unwrap().insert(0, Set::new());
+
+	for (digit_idx, block) in blocks.iter().enumerate() {
+		let (all_prev_zs, all_next_zs) = all_zs_ltr.split_at_mut(digit_idx + 1);
+		let prev_zs = &amp;all_prev_zs[all_prev_zs.len() - 1];
+		let curr_zs = &amp;mut all_next_zs[0];
+
+		for &amp;prev_z in prev_zs.keys() {
+			for digit in 1..=9 {
+				let z = Alu::from_running_block_on(block, digit, |alu| alu[Register::Z] = prev_z)
+					[Register::Z];
+				curr_zs.entry(z).or_insert_with(Set::new).insert(prev_z);
+			}
+		}
+	}
+
+	let mut all_valid_zs_rtl = vec![Set::new(); n_digits];
+	let mut curr_zs = std::iter::once(0).collect::&lt;Set&lt;_&gt;&gt;();
+
+	for (digit_idx, valid_zs) in all_valid_zs_rtl.iter_mut().enumerate().rev() {
+		valid_zs.extend(curr_zs.iter().copied());
+
+		let mut new_curr_zs = Set::new();
+		let prev_zs = &amp;all_zs_ltr[digit_idx + 1];
+		for z in &amp;curr_zs {
+			new_curr_zs.extend(prev_zs.get(z).unwrap().iter().copied());
+		}
+		curr_zs = new_curr_zs;
+	}
+
+	all_valid_zs_rtl
+}
+
+fn find_digits&lt;DigitRange: Iterator&lt;Item = Num&gt;&gt;(
+	blocks: impl AsRef&lt;[InstrBlock]&gt;,
+	valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;,
+	first_digit: Num,
+	attempted_digit_range_ctor: impl Fn(Num) -&gt; DigitRange,
+	get_next_digit: impl Fn(Num) -&gt; Num,
+	can_continue: impl Fn(Num) -&gt; bool,
+) -&gt; Output {
+	struct CandidateDigit {
+		z_init: Num,
+		digit: Num,
+		next_digit_attempted: Num,
+	}
+
+	let blocks = blocks.as_ref();
+	let valid_zs = valid_zs.as_ref();
+
+	let n_digits = blocks.len();
+
+	let mut candidates = vec![CandidateDigit {
+		z_init: 0,
+		digit: 0,
+		next_digit_attempted: first_digit,
+	}];
+
+	'find_digits: while candidates.len() &lt;= n_digits {
+		let digit_idx = candidates.len() - 1;
+		let block = &amp;blocks[digit_idx];
+
+		let CandidateDigit {
+			z_init,
+			digit,
+			next_digit_attempted,
+		} = candidates[digit_idx];
+
+		for attempted_digit in attempted_digit_range_ctor(next_digit_attempted) {
+			let z =
+				Alu::from_running_block_on(block, attempted_digit, |alu| alu[Register::Z] = z_init)
+					[Register::Z];
+
+			if valid_zs[digit_idx].contains(&amp;z) {
+				candidates[digit_idx].next_digit_attempted = get_next_digit(attempted_digit);
+				candidates.push(CandidateDigit {
+					z_init: z,
+					digit: attempted_digit,
+					next_digit_attempted: first_digit,
+				});
+				continue 'find_digits;
+			}
+		}
+
+		// Could not find a digit that worked; need to backtrack
+		if can_continue(digit) {
+			candidates[digit_idx] = CandidateDigit {
+				z_init,
+				digit: get_next_digit(digit),
+				next_digit_attempted: first_digit,
+			};
+		} else {
+			candidates.pop();
+			assert_ne!(candidates.len(), 0);
+		}
+	}
+
+	candidates
+		.iter()
+		.skip(1)
+		.map(|c| c.digit.to_string())
+		.collect::&lt;Vec&lt;_&gt;&gt;()
+		.join("")
+}</code></pre>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Parts 1 and 2</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1(blocks: impl AsRef&lt;[InstrBlock]&gt;, valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;) -&gt; Output {
+	find_digits(
+		blocks,
+		valid_zs,
+		9,
+		|digit| (1..=digit).rev(),
+		|digit| digit - 1,
+		|digit| digit &gt; 1,
+	)
+}
+
+fn pt2(blocks: impl AsRef&lt;[InstrBlock]&gt;, valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;) -&gt; Output {
+	find_digits(
+		blocks,
+		valid_zs,
+		1,
+		|digit| digit..=9,
+		|digit| digit + 1,
+		|digit| digit &lt; 9,
+	)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Binary Diagnostic</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_binary_diagnostic">Binary Diagnostic</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/3" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 3 problem description</a> │ <a href="/src/day_03/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>This challenge mostly just requires filtering arrays and counting elements satisfying a condition.</p>
+</div>
+<hr>
+<div class="paragraph">
+<div class="title">Setup</div>
+<p>The first thing we do is read the input file into a <code>ndarray::Array2&lt;bool&gt;</code> of size <code>(n_rows, n_cols)</code>, where a <code>true</code> value corresponds to a <code>1</code> character in the input, and a <code>false</code> to a <code>0</code>.
+We also created a function that converts a binary vector, most significant digit first, to a (decimal) number (see the <a href="../advent_of_code_2021.html#_setup">Setup</a> section).
+For example, given <code>10011</code>, we compute <code>[1, 0, 0, 1, 1] .* [16, 8, 4, 2, 1] = [16, 0, 0, 2, 1]</code>, whose sum is 19.
+(This is just how <a href="https://en.wikipedia.org/wiki/Positional_notation#Mathematics" target="_blank" rel="noopener">positional notation</a> works.)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::{utils::to_decimal, Answer};
+use ndarray::prelude::*;
+
+fn read_input(input: &amp;str) -&gt; Option&lt;ndarray::Array2&lt;bool&gt;&gt; {
+	let mut lines = input.lines();
+	let mut bit_vec = Vec::new();
+
+	let first_line = lines.next()?;
+	let line_length = first_line.len();
+
+	for line in std::iter::once(first_line).chain(lines) {
+		for c in line.bytes() {
+			bit_vec.push(c == b'1');
+		}
+	}
+
+	let n_lines = bit_vec.len() / line_length;
+	Array2::from_shape_vec((n_lines, line_length), bit_vec).ok()
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;u32, u32&gt; {
+	let mat = read_input(input).unwrap();
+	(3, (pt1(&amp;mat), pt2(&amp;mat))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;u32, u32&gt; {
+	ans_for_input(include_str!("input.txt"))
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 1</div>
+<p>We are asked to find two numbers, <code>gamma_rate</code> (\(\gamma\)) and <code>epsilon_rate</code> (\(\varepsilon\)).
+\(\gamma\) is the value of the binary number whose \(k\)<sup>th</sup> digit is the most common digit in column \(k\) of the array of values.
+\(\varepsilon\) is computed using the same idea, but with the least common digit instead.
+(It is assumed that there will be no ties.)</p>
+</div>
+<div class="paragraph">
+<p>Since there are only two digits to choose from, the most common digit and the least common digit in each column will be opposites, and so \(\gamma + \varepsilon = \text{all 1s} = 2^{\text{\texttt{line\textunderscore{}width}}}-1\).
+In other words we don&#8217;t need to compute \(\varepsilon\) “the long way”; once we have \(\gamma\), we immediately have \(\varepsilon\).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1(mat: &amp;Array2&lt;bool&gt;) -&gt; u32 {
+	let (n_rows, n_cols) = mat.dim();
+
+	let n_ones = mat.map(|x| usize::from(*x)).sum_axis(Axis(0));
+	let n_zeros = n_ones.map(|n| n_rows - n);
+
+	let col_has_more_ones_than_zeros = ndarray::Zip::from(&amp;n_ones)
+		.and(&amp;n_zeros)
+		.map_collect(|n_o, n_z| n_o &gt; n_z)
+		.into_shape((n_cols,))
+		.unwrap();
+
+	let gamma_rate = to_decimal(col_has_more_ones_than_zeros.to_vec());
+	let epsilon_rate = (2u32.pow(u32::try_from(n_cols).unwrap()) - 1) - gamma_rate;
+
+	gamma_rate * epsilon_rate
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 2</div>
+<p>We are asked to find two new numbers, the oxygen scrubber rating <code>oxy_rate</code> and the CO2 scrubber rating <code>co2_rate</code>.
+The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Initialize the list of candidate values to the full list of rows in <code>elems</code> as defined above.</p>
+</li>
+<li>
+<p>With \(k\) ranging from the leftmost column index in <code>elems</code> to the rightmost column index (most significant digit to least):</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Successively narrow down the list of candidates by keeping only those remaining candidates whose \(k\)<sup>th</sup> digit is the most common \(k\)<sup>th</sup> digit of the remaining candidates, with a tie between 0 and 1 going to 1.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For instance, when \(k=5\), then keep only the remaining candidates whose 5<sup>th</sup> digit is the most common 5<sup>th</sup> digit (0 or 1, ties going to 1) of all remaining candidates at that stage.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Stop when only one candidate remains.
+(This is guaranteed to happen as long as the rows are all distinct.)</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The procedure for <code>co2_rate</code> is the same, except that the list of candidates is filtered down according to the <em>least</em> common digit in each position, with ties going to 0.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn value_of_line_chosen_by_criterion(
+	mat: &amp;Array2&lt;bool&gt;,
+	cmp_predicate: impl Fn(usize, usize) -&gt; bool,
+) -&gt; u32 {
+	let (n_rows, n_cols) = mat.dim();
+	let mut candidates = Array1::&lt;_&gt;::from_shape_simple_fn((n_rows,), || true);
+	for i in 0..n_cols {
+		let n_candidates_remaining = candidates.mapv(|c| if c { 1usize } else { 0 }).sum();
+
+		if n_candidates_remaining == 1 {
+			break;
+		}
+
+		let column = mat.index_axis(Axis(1), i);
+		let digit_sum = column
+			.iter()
+			.enumerate()
+			.filter_map(|(i, &amp;x)| {
+				if candidates[[i]] {
+					Some(usize::from(x))
+				} else {
+					None
+				}
+			})
+			.sum::&lt;usize&gt;();
+
+		let most_common_digit = cmp_predicate(2 * digit_sum, n_candidates_remaining);
+
+		candidates = ndarray::Zip::from(&amp;candidates)
+			.and(&amp;column)
+			.map_collect(|&amp;candidate, &amp;digit| candidate &amp;&amp; digit == most_common_digit);
+	}
+
+	let index = candidates
+		.into_iter()
+		.enumerate()
+		.find_map(|(i, x)| if x { Some(i) } else { None })
+		.unwrap();
+	let line = mat.index_axis(Axis(0), index);
+
+	to_decimal(line.to_vec())
+}
+
+fn pt2(mat: &amp;Array2&lt;bool&gt;) -&gt; u32 {
+	let [oxy_rate, co2_rate] =
+		[|x, y| x &gt;= y, |x, y| x &lt; y].map(|op| value_of_line_chosen_by_criterion(mat, op));
+
+	oxy_rate * co2_rate
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

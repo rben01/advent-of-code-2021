@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Beacon Scanner</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_beacon_scanner">Beacon Scanner</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/19" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 19 problem description</a> │ <a href="/src/day_19/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>This problem asks us to essentially solve a 3D jigsaw puzzle; we are given “pieces” (scanners) and need to find how they fit together by looking at their “edges” (beacons).
+As in an ordinary puzzle, we might need to rotate pieces to get them to mesh.</p>
+</div>
+<div class="paragraph">
+<p>To solve this, we simply try every solution: we start with Scanner #1 and try to adjoin each other scanner to it.
+Once we find a scanner that works, we go back to step 1 and try to adjoin a new scanner to the two-scanner union, and when we&#8217;ve done that we try to adjoin a new scanner to the three-scanner union, etc.
+If at any point we can&#8217;t fit a new scanner onto the existing scanners, we backtrack, removing scanners so that we can add them in a different way.
+We&#8217;re done when all scanners have been adjoined.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Technically there is a wrinkle that this solution ignores: it is not sufficient for scanners to merely fit together, i.e., to have overlapping beacons; additionally, each of the scanners in an adjoined pair must not have any beacons in the shared region that the other scanner in the pair does not have.
+In other words, they must agree on <em>all</em>, not just <em>some</em>, of the beacons in the region where they intersect.
+We ignore this wrinkle altogether; thankfully the authors were kind enough to give us input where this doesn&#8217;t matter.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Because this “puzzle” is three-dimensional, there are 24 ways to orient a piece with respect to another (six faces can be “up”, and then there are four ways to rotate about the up-axis).
+In the code, one of these 24 orientations is referred to as a <code>Swivel</code>.
+For each orientation, we find all translations that cause the pieces to fit together; these are <code>Translation</code>s.
+(A <code>Swivel</code> and a <code>Translation</code> together form a <code>Transform</code>.)
+Then we rinse and repeat with the next piece.</p>
+</div>
+<div class="paragraph">
+<p>To actually do the math, we simply use matrix multiplication.
+As always, the matrix \(T\) that performs a given transformation is <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)#Relationship_to_linear_maps" target="_blank" rel="noopener">the matrix whose columns are \(T(e_1), \ldots, T(e_n) \)</a> where \(e_1,\ldots,e_n\) are the basis vectors.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p>The function that does the heavy lifting here is <code>Scanner::merge_all</code>, which simply starts with the first provided scanner and then repeatedly tries to form larger and larger unions by merging the other scanners with the existing union.
+It stops when it first successfully merges all scanners together.</p>
+</div>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::Answer;
+use std::{borrow::Borrow, collections::BTreeSet};
+use strum::IntoEnumIterator;
+use strum_macros::EnumIter;
+
+type Triple = [i32; 3];
+
+#[derive(Debug, Clone, Copy)]
+struct Matrix3([i32; 9]);
+
+impl Matrix3 {
+	fn from_cols(x: impl Into&lt;Triple&gt;, y: impl Into&lt;Triple&gt;, z: impl Into&lt;Triple&gt;) -&gt; Self {
+		let x = x.into();
+		let y = y.into();
+		let z = z.into();
+		Self([x[0], y[0], z[0], x[1], y[1], z[1], x[2], y[2], z[2]])
+	}
+
+	fn row(&amp;self, i: usize) -&gt; Triple {
+		[0, 1, 2].map(|j| self.0[3 * i + j])
+	}
+
+	fn col(&amp;self, i: usize) -&gt; Triple {
+		[0, 1, 2].map(|j| self.0[i + 3 * j])
+	}
+
+	fn mat_mul(&amp;self, other: Self) -&gt; Self {
+		let mut entries = [0; 9];
+		let mut i = 0;
+		for r in 0..3 {
+			let self_row = self.row(r);
+			for c in 0..3 {
+				let other_col = other.col(c);
+				entries[i] = (0..3).map(|i| self_row[i] * other_col[i]).sum();
+				i += 1;
+			}
+		}
+		Self(entries)
+	}
+
+	fn mul_vec(&amp;self, col: Triple) -&gt; Triple {
+		let mut entries = [0; 3];
+		for (r, elem) in entries.iter_mut().enumerate() {
+			let self_row = self.row(r);
+			*elem = (0..3).map(|i| self_row[i] * col[i]).sum();
+		}
+		entries
+	}
+}
+
+impl std::ops::Index&lt;[usize; 2]&gt; for Matrix3 {
+	type Output = i32;
+	fn index(&amp;self, index: [usize; 2]) -&gt; &amp;Self::Output {
+		let [row, col] = index;
+		&amp;self.0[3 * row + col]
+	}
+}
+
+#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
+enum Axis {
+	PosX,
+	NegX,
+	PosY,
+	NegY,
+	PosZ,
+	NegZ,
+}
+
+impl From&lt;Axis&gt; for Triple {
+	fn from(axis: Axis) -&gt; Self {
+		use Axis::*;
+		match axis {
+			PosX =&gt; [1, 0, 0],
+			NegX =&gt; [-1, 0, 0],
+			PosY =&gt; [0, 1, 0],
+			NegY =&gt; [0, -1, 0],
+			PosZ =&gt; [0, 0, 1],
+			NegZ =&gt; [0, 0, -1],
+		}
+	}
+}
+
+#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
+enum RotationCcw {
+	Zero,
+	Quarter,
+	Half,
+	ThreeQuarters,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Swivel {
+	up_face: Axis,
+	rotation_about_up: RotationCcw,
+}
+
+impl Swivel {
+	fn new(up_face: Axis, rotation_about_up: RotationCcw) -&gt; Self {
+		Self {
+			up_face,
+			rotation_about_up,
+		}
+	}
+
+	fn identity() -&gt; Self {
+		Self::new(Axis::PosZ, RotationCcw::Zero)
+	}
+
+	fn apply(self, point: Triple) -&gt; Triple {
+		use Axis::*;
+		use RotationCcw::*;
+
+		let mat_to_bring_face_to_up = match self.up_face {
+			PosX =&gt; Matrix3::from_cols(PosZ, PosY, NegX),
+			NegX =&gt; Matrix3::from_cols(NegZ, PosY, PosX),
+			PosY =&gt; Matrix3::from_cols(PosX, PosZ, NegY),
+			NegY =&gt; Matrix3::from_cols(PosX, NegZ, PosY),
+			PosZ =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+			NegZ =&gt; {
+				// We have a couple options; we pick the one that rotates about the y axis
+				// because it's easier to actually rotate my hand that way
+				Matrix3::from_cols(NegX, PosY, NegZ)
+			}
+		};
+
+		let mat_to_rotate_about_up = match self.rotation_about_up {
+			Zero =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+			Quarter =&gt; Matrix3::from_cols(PosY, NegX, PosZ),
+			Half =&gt; Matrix3::from_cols(NegX, NegY, PosZ),
+			ThreeQuarters =&gt; Matrix3::from_cols(NegY, PosX, PosZ),
+		};
+
+		mat_to_bring_face_to_up
+			.mat_mul(mat_to_rotate_about_up)
+			.mul_vec(point)
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Translation(Triple);
+
+impl Translation {
+	fn identity() -&gt; Self {
+		Self([0, 0, 0])
+	}
+
+	fn apply(&amp;self, point: Triple) -&gt; Triple {
+		let [x, y, z] = point;
+		let [tx, ty, tz] = self.0;
+		[x + tx, y + ty, z + tz]
+	}
+
+	fn manhattan_dist(&amp;self) -&gt; u32 {
+		let [x, y, z] = self.0;
+		u32::try_from(x.abs() + y.abs() + z.abs()).unwrap()
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Transform {
+	swivel: Swivel,
+	translation: Translation,
+}
+
+impl From&lt;Swivel&gt; for Transform {
+	fn from(swivel: Swivel) -&gt; Self {
+		Self {
+			swivel,
+			translation: Translation([0, 0, 0]),
+		}
+	}
+}
+
+impl From&lt;Translation&gt; for Transform {
+	fn from(translation: Translation) -&gt; Self {
+		Self {
+			swivel: Swivel::new(Axis::PosZ, RotationCcw::Zero),
+			translation,
+		}
+	}
+}
+
+impl Transform {
+	fn identity() -&gt; Self {
+		Self {
+			swivel: Swivel::identity(),
+			translation: Translation::identity(),
+		}
+	}
+
+	fn apply(&amp;self, point: Triple) -&gt; Triple {
+		self.translation.apply(self.swivel.apply(point))
+	}
+}
+
+#[derive(Debug, Clone)]
+struct Scanner {
+	beacons: BTreeSet&lt;Triple&gt;,
+}
+
+impl Scanner {
+	fn new(beacons: BTreeSet&lt;Triple&gt;) -&gt; Self {
+		Self { beacons }
+	}
+
+	fn merged_with(&amp;self, other: &amp;Self) -&gt; Self {
+		Self {
+			beacons: self.beacons.union(&amp;other.beacons).copied().collect(),
+		}
+	}
+
+	fn applying&lt;T: Into&lt;Transform&gt; + Copy&gt;(&amp;self, transform: T) -&gt; Self {
+		let transform = transform.into();
+		Scanner::new(self.beacons.iter().map(|&amp;p| transform.apply(p)).collect())
+	}
+
+	fn candidates_for_merge(&amp;self, other: &amp;Scanner) -&gt; Vec&lt;(Transform, Scanner)&gt; {
+		let mut transforms = BTreeSet::new();
+		let mut candidates = vec![];
+
+		for up_face in Axis::iter() {
+			for rotation in RotationCcw::iter() {
+				let swivel = Swivel::new(up_face, rotation);
+				let swiveled_other = other.applying(swivel);
+
+				for swiveled_other_beacon in &amp;swiveled_other.beacons {
+					for this_beacon in &amp;self.beacons {
+						let translation = Translation(
+							[0, 1, 2].map(|i| this_beacon[i] - swiveled_other_beacon[i]),
+						);
+						let transformed_other = swiveled_other.applying(translation);
+
+						if self
+							.beacons
+							.intersection(&amp;transformed_other.beacons)
+							.count() &gt;= 12
+						{
+							let transform = Transform {
+								swivel,
+								translation,
+							};
+							let wasnt_present = transforms.insert(transform);
+							if wasnt_present {
+								candidates.push((transform, transformed_other));
+							}
+						}
+					}
+				}
+			}
+		}
+
+		candidates
+	}
+
+	fn merge_all&lt;S: Borrow&lt;Scanner&gt;&gt;(
+		scanners: impl AsRef&lt;[S]&gt;,
+	) -&gt; Option&lt;(Vec&lt;Transform&gt;, Scanner)&gt; {
+		let scanners = scanners.as_ref();
+
+		let (first, rest) = scanners.split_first().unwrap();
+		let first = first.borrow();
+		if rest.is_empty() {
+			return Some((vec![Transform::identity()], first.clone()));
+		}
+
+		for (i, s) in rest.iter().enumerate() {
+			let s = s.borrow();
+
+			for (transform, transformed_scanner) in first.candidates_for_merge(s) {
+				let merged_scanner = first.merged_with(&amp;transformed_scanner);
+				let new_scanners = std::iter::once(&amp;merged_scanner)
+					.chain(rest.iter().enumerate().filter_map(|(j, s)| {
+						if i == j {
+							None
+						} else {
+							Some(s.borrow())
+						}
+					}))
+					.collect::&lt;Vec&lt;_&gt;&gt;();
+
+				let merge_result = Scanner::merge_all(new_scanners);
+
+				if let Some((transforms, ans)) = merge_result {
+					return Some((std::iter::once(transform).chain(transforms).collect(), ans));
+				}
+			}
+		}
+
+		None
+	}
+}
+
+fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;Scanner&gt;&gt; {
+	let mut scanners = vec![];
+	let mut this_scanner_beacons = BTreeSet::new();
+	for line in s.lines().chain(std::iter::once("")) {
+		if line.starts_with("---") {
+			continue;
+		}
+
+		if line.is_empty() {
+			scanners.push(Scanner::new(this_scanner_beacons.clone()));
+			this_scanner_beacons.clear();
+		} else {
+			let mut comps = line.split(',');
+			let [x, y, z] = [0; 3].map(|_| comps.next()?.parse().ok());
+			let [x, y, z] = [x?, y?, z?];
+			this_scanner_beacons.insert([x, y, z]);
+		}
+	}
+
+	Some(scanners)
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, u32&gt; {
+	let scanners = read_input(input).unwrap();
+	let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();
+	let translations = transforms.iter().map(|t| t.translation).collect::&lt;Vec&lt;_&gt;&gt;();
+
+	(19, (pt1(&amp;scanner), pt2(&amp;translations))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, u32&gt; {
+	ans_for_input(include_str!("input.txt"))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 1</div>
+<p>Part 1 asks us to simply count the distinct beacons after the scanners have all been merged.
+Below, <code>scanner</code> is obtained from <code>let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1(scanner: &amp;Scanner) -&gt; usize {
+	scanner.beacons.len()
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 2</div>
+<p>Part 2 asks us to find the maximum <a href="https://en.wikipedia.org/wiki/Taxicab_geometry" target="_blank" rel="noopener">Manhattan distance</a> between scanners.
+To do this, we have to track the transformation of each scanner in the successful merge; we then read the pairwise Manhattan distances from each scanner&#8217;s transformation&#8217;s translation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt2&lt;V: AsRef&lt;[Translation]&gt;&gt;(translations: V) -&gt; u32 {
+	let translations = translations.as_ref();
+	let mut max_manh_dist = u32::MIN;
+	for (i, translation1) in translations.iter().enumerate() {
+		let [x1, y1, z1] = translation1.0;
+		for translation2 in translations.iter().skip(i + 1) {
+			let [x2, y2, z2] = translation2.0;
+
+			let diff = Translation([x2 - x1, y2 - y1, z2 - z1]);
+			max_manh_dist = max_manh_dist.max(diff.manhattan_dist());
+		}
+	}
+
+	max_manh_dist
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>The Treachery of Whales</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_the_treachery_of_whales">The Treachery of Whales</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/7" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 7 problem description</a> │ <a href="/src/day_07/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>This problem asks us, in effect, to find the number that minimizes the sum of particular measures of error.
+(Since the number of points is fixed, we will use “sum” and “mean” of the errors interchangeably, as they merely differ by a constant factor, the number of points.)
+A naive solution would iterate through all possibilities, but knowledge of statistics offers us a shortcut.
+In both parts, we aim to minimize an <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm" target="_blank" rel="noopener">\(l_p\)-norm</a>.</p>
+</div>
+<hr>
+<div class="paragraph">
+<div class="title">Setup</div>
+<p>Reading in the input:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::{utils::abs_diff, Answer};
+
+fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;usize&gt;&gt; {
+	s.trim()
+		.split(',')
+		.map(|n| n.parse().ok())
+		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
+	let nums = read_input(input).unwrap();
+	(7, (pt1(&amp;nums), pt2(&amp;nums))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 1</div>
+<p>Part 1 asks us, in effect, to find the number \(x\) that minimizes the mean absolute deviation, or the \(l_1\)-norm of the error.
+The number that does this is simply the median of the dataset.
+(In this problem, the median may be a half-integer, but the solution has to be an integer, so we can just round the median down.)</p>
+</div>
+<div class="paragraph">
+<p>Proof:
+If you are not at the median and move towards it, you are moving toward at least as many data points as you are moving away from, which at best decreases the mean absolute deviation and at worst leaves it unchanged.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1&lt;V: AsRef&lt;[usize]&gt;&gt;(nums: V) -&gt; usize {
+	let mut nums = nums.as_ref().to_vec();
+	nums.sort_unstable();
+	let datum_below = nums[nums.len() / 2];
+	let datum_above = nums[1 + (nums.len() - 1) / 2];
+	let median = (datum_below + datum_above) / 2;
+	nums.iter().map(|&amp;n| abs_diff(n, median)).sum()
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Part 2</div>
+<p>In Part 2, the cost associated with a distance of \(n\) is \(\sum_{k=1}^n k = \frac{n(n+1)}{2}\).
+Since \(n\) is an integer, \(n^2\ge n\), and so \(n^2+n\) is “not relatively penalized more than” \(n^2\) would be, which means the mean of the \(\frac{n(n+1)}{2}\) will be minimized whenever the mean of \(n^2\) is minimized.
+(It would be a problem if \(n\) exceeded \(n^2\), as then it might dominate in the sum and we&#8217;d no longer be looking to minimize the mean of the \(n^2\).)
+This is the <a href="https://en.wikipedia.org/wiki/Mean_squared_error" target="_blank" rel="noopener">mean squared error</a> (MSE, or \(l_2\)-norm of the error), and it is a <a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_theorem" target="_blank" rel="noopener">well-known fact of statistics</a> that the MSE is minimized by the arithmetic mean of the data.</p>
+</div>
+<div class="paragraph">
+<p>The only catch is that the arithmetic mean need not be an integer, but the solution to the problem must be.
+Naturally we simply try the two integers on either side of the arithmetic mean (which will both be the arithmetic mean itself if it&#8217;s an integer) and pick whichever of the two leads to a smaller error.
+This works because the error is concave up, i.e., a local minimum is the global minimum.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt2&lt;V: AsRef&lt;[usize]&gt;&gt;(nums: V) -&gt; usize {
+	fn cost(mean: usize, nums: &amp;[usize]) -&gt; usize {
+		nums.iter()
+			.map(|&amp;n| {
+				let diff = abs_diff(n, mean);
+				diff * (diff + 1) / 2
+			})
+			.sum()
+	}
+
+	let nums = nums.as_ref();
+	let sum = nums.iter().sum::&lt;usize&gt;();
+	let len = nums.len();
+
+	let mean_rounded_down = sum / len;
+
+	if sum % len == 0 {
+		cost(mean_rounded_down, nums)
+	} else {
+		let mean_rounded_up = (sum - 1) / len + 1;
+		cost(mean_rounded_down, nums).min(cost(mean_rounded_up, nums))
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

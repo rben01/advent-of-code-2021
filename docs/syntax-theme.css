@@ -6,7 +6,7 @@
 	--syntax-comment-fg-color: #4c8181;
 	--syntax-line-highlight-bg-color: #ffffc0;
 	--syntax-line-highlight-fg-color: #000;
-	--syntax-keyword-fg-color: #cc32d1;
+	--syntax-keyword-fg-color: #b90cbf;
 	--syntax-operator-fg-color: #24292e;
 	--syntax-hashbang-fg-color: #59656e;
 	--syntax-preprocessor-fg-color: #bc7a00;
@@ -21,7 +21,7 @@
 	--syntax-literal_string-fg-color: #07852d;
 	--syntax-name_attribute-fg-color: #7d9029;
 	--syntax-name_builtin-fg-color: #008000;
-	--syntax-name_class-fg-color: #0000ff;
+	--syntax-name_class-fg-color: #0351f9;
 	--syntax-name_constant-fg-color: #880000;
 	--syntax-name_decorator-fg-color: #aa22ff;
 	--syntax-name_entity-fg-color: #999999;
@@ -36,7 +36,7 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--syntax-bg-color: #292929;
+		--syntax-bg-color: #1b1b1b;
 		--syntax-linenum-border-color: #505050;
 		--syntax-error-fg-color: #ff3838;
 		--syntax-comment-fg-color: #7e9191;
@@ -57,7 +57,7 @@
 		--syntax-literal_string-fg-color: #4fe27b;
 		--syntax-name_attribute-fg-color: #abc440;
 		--syntax-name_builtin-fg-color: #20ca97;
-		--syntax-name_class-fg-color: #7688eb;
+		--syntax-name_class-fg-color: #76a5eb;
 		--syntax-name_constant-fg-color: #c54545;
 		--syntax-name_decorator-fg-color: #c362ff;
 		--syntax-name_entity-fg-color: #bdbdbd;
@@ -81,7 +81,7 @@
 }
 
 pre {
-	line-height: 125%;
+	line-height: 120%;
 }
 td.linenos .normal {
 	color: inherit;
@@ -107,15 +107,18 @@ span.linenos.special {
 	padding-left: 5px;
 	padding-right: 5px;
 }
-pre.pygments .hll {
+pre.pygments .hll /* not supported by highlightjs */ {
 	background-color: var(--syntax-line-highlight-bg-color);
 }
-pre.pygments {
-	background: var(--pygments-bg-color);
+pre.pygments,
+pre.highlightjs,
+code.hljs {
+	background: var(--syntax-bg-color);
 }
 /* Comment */
-pre.pygments .tok-c {
-	color: var(--pygments-comment-color);
+pre.pygments .tok-c,
+pre.highlightjs .hljs-comment {
+	color: var(--syntax-comment-fg-color);
 	font-style: italic;
 }
 /* Error */
@@ -123,26 +126,31 @@ pre.pygments .tok-err {
 	border: 1px solid var(--syntax-error-border-color);
 }
 /* Keyword */
-pre.pygments .tok-k {
+pre.pygments .tok-k,
+pre.highlightjs .hljs-keyword {
 	color: var(--syntax-keyword-fg-color);
-	font-weight: bold;
+	font-weight: normal;
 }
 /* Operator */
-pre.pygments .tok-o {
+pre.pygments .tok-o,
+pre.highlightjs .hljs-operator {
 	color: var(--syntax-operator-fg-color);
 }
 /* Comment.Hashbang */
-pre.pygments .tok-ch {
+pre.pygments .tok-ch,
+pre.highlightjs .hljs-comment {
 	color: var(--syntax-hashbang-fg-color);
 	font-style: italic;
 }
 /* Comment.Multiline */
-pre.pygments .tok-cm {
+pre.pygments .tok-cm,
+pre.highlightjs .hljs-comment {
 	color: var(--syntax-comment-fg-color);
 	font-style: italic;
 }
 /* Comment.Preproc */
-pre.pygments .tok-cp {
+pre.pygments .tok-cp,
+pre.highlightjs .hljs-meta {
 	color: var(--syntax-preprocessor-fg-color);
 }
 /* Comment.PreprocFile */
@@ -151,12 +159,14 @@ pre.pygments .tok-cpf {
 	font-style: italic;
 }
 /* Comment.Single */
-pre.pygments .tok-c1 {
+pre.pygments .tok-c1,
+pre.highlightjs .hljs-comment {
 	color: var(--syntax-comment-fg-color);
 	font-style: italic;
 }
 /* Comment.Special */
-pre.pygments .tok-cs {
+pre.pygments .tok-cs,
+pre.highlightjs .hljs-comment {
 	color: var(--syntax-comment-fg-color);
 	font-style: italic;
 }
@@ -232,28 +242,34 @@ pre.pygments .tok-kt {
 	color: var(--syntax-keyword_type-fg-color);
 }
 /* Literal.Number */
-pre.pygments .tok-m {
+pre.pygments .tok-m,
+pre.highlightjs .hljs-number {
 	color: var(--syntax-literal_number-fg-color);
 }
 /* Literal.String */
-pre.pygments .tok-s {
+pre.pygments .tok-s,
+pre.highlightjs .hljs-string {
 	color: var(--syntax-literal_string-fg-color);
 }
 /* Name.Attribute */
-pre.pygments .tok-na {
+pre.pygments .tok-na,
+pre.highlightjs .hljs-property {
 	color: var(--syntax-name_attribute-fg-color);
 }
 /* Name.Builtin */
-pre.pygments .tok-nb {
+pre.pygments .tok-nb,
+pre.highlightjs .hljs-property {
 	color: var(--syntax-name_builtin-fg-color);
 }
 /* Name.Class */
-pre.pygments .tok-nc {
+pre.pygments .tok-nc,
+pre.highlightjs .hljs-title.class_ {
 	color: var(--syntax-name_class-fg-color);
 	font-weight: bold;
 }
 /* Name.Constant */
-pre.pygments .tok-no {
+pre.pygments .tok-no,
+pre.highlightjs .hljs-variable.constant_ {
 	color: var(--syntax-name_constant-fg-color);
 }
 /* Name.Decorator */
@@ -271,7 +287,9 @@ pre.pygments .tok-ne {
 	font-weight: bold;
 }
 /* Name.Function */
-pre.pygments .tok-nf {
+pre.pygments .tok-nf,
+pre.highlightjs .hljs-title,
+pre.highlightjs .hljs-title.function_ {
 	color: var(--syntax-name_function-fg-color);
 }
 /* Name.Label */
@@ -289,7 +307,8 @@ pre.pygments .tok-nt {
 	font-weight: bold;
 }
 /* Name.Variable */
-pre.pygments .tok-nv {
+pre.pygments .tok-nv,
+pre.highlightjs .hljs-variable {
 	color: var(--syntax-name_variable-fg-color);
 }
 /* Operator.Word */
@@ -338,7 +357,8 @@ pre.pygments .tok-dl {
 	color: var(--syntax-literal_string-fg-color);
 }
 /* Literal.String.Doc */
-pre.pygments .tok-sd {
+pre.pygments .tok-sd,
+pre.highlightjs .hljs-doctag {
 	color: var(--syntax-literal_string-fg-color);
 	font-style: italic;
 }
@@ -356,7 +376,8 @@ pre.pygments .tok-sh {
 	color: var(--syntax-literal_string-fg-color);
 }
 /* Literal.String.Interpol */
-pre.pygments .tok-si {
+pre.pygments .tok-si,
+pre.highlightjs .hljs-subst {
 	color: var(--syntax-string_literal_special-fg-color);
 	font-weight: bold;
 }
@@ -365,7 +386,8 @@ pre.pygments .tok-sx {
 	color: var(--syntax-string_literal_other-fg-color);
 }
 /* Literal.String.Regex */
-pre.pygments .tok-sr {
+pre.pygments .tok-sr,
+pre.highlightjs .hljs-regexp {
 	color: var(--syntax-string_literal_special-fg-color);
 }
 /* Literal.String.Single */
@@ -373,11 +395,14 @@ pre.pygments .tok-s1 {
 	color: var(--syntax-literal_string-fg-color);
 }
 /* Literal.String.Symbol */
-pre.pygments .tok-ss {
+pre.pygments .tok-ss,
+pre.highlightjs .hljs-symbol,
+pre.highlightjs .hljs-literal {
 	color: var(--syntax-name_variable-fg-color);
 }
 /* Name.Builtin.Pseudo */
-pre.pygments .tok-bp {
+pre.pygments .tok-bp,
+pre.highlightjs .hljs-built_in {
 	color: var(--syntax-name_builtin-fg-color);
 }
 /* Name.Function.Magic */

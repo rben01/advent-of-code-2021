@@ -1,13 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
-@import url("./iosevka.css");
+@import url("/syntax-theme.css");
 
 /* Variables */
 
 :root {
-	--font-family: "Iosevka Sans", "Helvetica Neue", "Helvetica", sans-serif;
+	--font-family: "IBM Plex Sans", "Helvetica Neue", "Helvetica", sans-serif;
 	--header-font: var(--font-family);
-	--mono-font-family: "Iosevka Mono", monospace;
-	--mono-font-size: 0.95em;
+	--mono-font-family: "Source Code Pro", monospace;
+	--mono-font-size: 0.9em;
 	--bold-font-weight: bold;
 	--default-bg-color: white;
 	--default-text-color: black;
@@ -1577,8 +1576,25 @@ h6 > a.link:hover {
 	margin-bottom: 1.25em;
 }
 
-:is(.admonitionblock
-		td.content, .exampleblock, .imageblock, .videoblock, .listingblock, .literalblock, .openblock, .paragraph, .quoteblock, .sidebarblock, .tableblock, .verseblock, .dlist, .olist, .ulist, .qlist, .hdlist)
+:is(
+		.admonitionblock td.content,
+		.exampleblock,
+		.imageblock,
+		.videoblock,
+		.listingblock,
+		.literalblock,
+		.openblock,
+		.paragraph,
+		.quoteblock,
+		.sidebarblock,
+		.tableblock,
+		.verseblock,
+		.dlist,
+		.olist,
+		.ulist,
+		.qlist,
+		.hdlist
+	)
 	> .title {
 	text-align: left;
 	font-weight: var(--bold-font-weight);
@@ -2575,8 +2591,8 @@ span.icon > [class*=" icon-"] {
 }
 
 body {
-	max-width: 1200px;
-	margin: auto clamp(1vw, calc(15vw - 100px), 120px);
+	max-width: 1000px;
+	margin: auto auto;
 }
 
 @media screen and (min-width: 1280px) {

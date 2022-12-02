@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.17">
+<title>Trench Map</title>
+<link rel="stylesheet" href="./../aoc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+	rel="preconnect"
+	href="https://fonts.gstatic.com"
+	crossorigin
+/><link
+	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet"
+/>
+
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
+	integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw"
+	crossorigin="anonymous"
+/>
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js"
+	integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH"
+	crossorigin="anonymous"
+></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script
+	defer
+	src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js"
+	integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"
+></script>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../advent_of_code_2021.html#_problems_and_solutions"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a></p>
+</div>
+<div class="sect1">
+<h2 id="_trench_map">Trench Map</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/20" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day 20 problem description</a> │ <a href="/src/day_20/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>This problem asks us to manipulate an infinitely large binary array, whose elements we&#8217;ll refer to as pixels.
+Only a finite interior portion of the array has “actual” content, which we store in a 2D array.
+The infinite surrounding (exterior) area is either all-on or all-off, which we store in a single variable separate from the interior portion of the array.
+Transforming a pixel requires knowing the state of each of the eight pixels it is adjacent to.
+The rules are the same for each pixel, but how they are applied in practice depends on whether the pixel is interior or exterior.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If a given pixel is only adjacent to other interior pixels, we just look at look at those eight surrounding interior pixels.</p>
+</li>
+<li>
+<p>If a pixel is adjacent to both interior and exterior pixels, then we look at both the array of interior pixels and the state of the exterior pixels.
+The exterior pixels that are adjacent to interior pixels become interior themselves as part of this update, as they no longer necessarily share their state with the rest of the monolithic exterior.
+Thus the interior portion grows each step.</p>
+</li>
+<li>
+<p>All other pixels are exterior and are surrounded only by other exterior pixels; therefore they are all updated in the same manner.
+Since the exterior starts out as all-off, it remains either all-on or all-off for the duration of the problem.</p>
+</li>
+</ol>
+</div>
+<hr>
+<div class="openblock">
+<div class="title">Setup</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::{utils::to_decimal, Answer};
+use ndarray::prelude::*;
+use std::fmt::{Display, Write};
+
+type Bit = bool;
+
+#[derive(Debug, Clone)]
+struct Image {
+	mat: Array2&lt;Bit&gt;,
+	surrounding: Bit,
+	algo: Vec&lt;Bit&gt;,
+}
+
+impl Image {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		let mut lines = s.lines();
+		let algo = lines
+			.next()?
+			.chars()
+			.map(|c| match c {
+				'#' =&gt; true,
+				'.' =&gt; false,
+				_ =&gt; unreachable!(),
+			})
+			.collect();
+
+		let data = lines
+			.flat_map(|line| {
+				line.trim().chars().map(|c| match c {
+					'#' =&gt; true,
+					'.' =&gt; false,
+					_ =&gt; unreachable!(),
+				})
+			})
+			.collect::&lt;Vec&lt;_&gt;&gt;();
+
+		let n_cols = s.lines().nth_back(0)?.trim().len();
+		let n_rows = data.len() / n_cols;
+
+		assert_eq!(n_rows * n_cols, data.len());
+
+		Some(Self {
+			mat: Array2::from_shape_vec((n_rows, n_cols), data).unwrap(),
+			surrounding: false,
+			algo,
+		})
+	}
+
+	fn tick(&amp;mut self) {
+		let new_surrounding = {
+			let index = usize::try_from(to_decimal([self.surrounding; 9])).unwrap();
+			self.algo[index]
+		};
+
+		let grown_mat =
+			Array2::from_shape_fn((self.mat.nrows() + 2, self.mat.ncols() + 2), |(r, c)| {
+				if r &lt; 1 || r &gt; self.mat.nrows() || c &lt; 1 || c &gt; self.mat.ncols() {
+					self.surrounding
+				} else {
+					self.mat[[r - 1, c - 1]]
+				}
+			});
+
+		let mut new_mat = Array2::from_shape_simple_fn(grown_mat.dim(), || false);
+
+		for center_row in 0..grown_mat.nrows() {
+			for center_col in 0..grown_mat.ncols() {
+				let mut surrounding_pixels = vec![];
+				let surrounding_rows = [
+					center_row.checked_sub(1),
+					Some(center_row),
+					(center_row + 1 &lt; grown_mat.nrows()).then_some(center_row + 1),
+				];
+				let surrounding_cols = [
+					center_col.checked_sub(1),
+					Some(center_col),
+					(center_col + 1 &lt; grown_mat.ncols()).then_some(center_col + 1),
+				];
+
+				for row in surrounding_rows {
+					for col in surrounding_cols {
+						let bit = match [row, col] {
+							[Some(r), Some(c)] =&gt; grown_mat[[r, c]],
+							_ =&gt; self.surrounding,
+						};
+						surrounding_pixels.push(bit);
+					}
+				}
+
+				let replacement =
+					self.algo[usize::try_from(to_decimal(surrounding_pixels)).unwrap()];
+				new_mat[[center_row, center_col]] = replacement;
+			}
+		}
+
+		self.mat = new_mat;
+		self.surrounding = new_surrounding;
+	}
+
+	fn tick_n_times(&amp;mut self, n: usize) {
+		for _ in 0..n {
+			self.tick();
+		}
+	}
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
+	let im1 = Image::from_str(input).unwrap();
+	let im2 = im1.clone();
+	(20, (pt1(im1), pt2(im2))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Parts 1 and 2</div>
+<p>Parts 1 and 2 are nearly identical; they both ask to count the number of “on” pixels in the image resulting after \(k\) updates, where Part 1 has \(k=2\) and Part 2 has \(k=50\).
+(Notably, if the exterior switches state every update, then the number of “on” pixels will be infinite after every odd-numbered update.)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1(im: Image) -&gt; usize {
+	let mut im = im;
+	im.tick_n_times(2);
+	im.mat.map(|&amp;bit| usize::from(bit)).sum()
+}
+fn pt2(im: Image) -&gt; usize {
+	let mut im = im;
+	im.tick_n_times(50);
+	im.mat.map(|&amp;bit| usize::from(bit)).sum()
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/languages/swift.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>
