@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -79,8 +79,10 @@ It is a precondition that no dot will lie <em>on</em> a fold.</p>
 <div class="paragraph">
 <p>For a fold over the horizontal line \(y=b\), simply exchange \(x\) with \(y\) and \(a\) with \(b\).</p>
 </div>
+<hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="paragraph">
-<div class="title">Setup</div>
 <p>The input comes in as a list of dots <code>x,y</code> followed by a list of folds.</p>
 </div>
 <div class="listingblock">
@@ -197,8 +199,10 @@ pub fn ans() -&gt; Answer&lt;usize, String&gt; {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_1">Part 1</h3>
 <div class="paragraph">
-<div class="title">Part 1</div>
 <p>Part 1 has us perform a single fold. (Just one? No fun!)</p>
 </div>
 <div class="listingblock">
@@ -208,8 +212,10 @@ pub fn ans() -&gt; Answer&lt;usize, String&gt; {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_2">Part 2</h3>
 <div class="paragraph">
-<div class="title">Part 2</div>
 <p>Part 2 has us perform all of the folds, and then <em>read the resulting arrangement of dots as a password containing eight capital capital letters</em>.</p>
 </div>
 <div class="listingblock">
@@ -267,6 +273,7 @@ Here was my output: <code>PGHZBFJC</code>.</p>
 ███  █ ██ █  █  █   █  █ █       █ █
 █    █  █ █  █ █    █  █ █    █  █ █  █
 █     ███ █  █ ████ ███  █     ██   ██</code></pre>
+</div>
 </div>
 </div>
 </div>

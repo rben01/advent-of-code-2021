@@ -6,7 +6,7 @@ This challenge requires iterating the integer points between two other points on
 
 ***
 
-.{setup-title}
+== {setup-title}
 First, we read the input into a list of lines of the form \(\((x_1, y_1), (x_2, y_2))\).
 We also define the helpful `range_between(a, b)` function, which returns the (nonempty!) range of integers between `a` and `b`, inclusive.
 The range is ascending if and only if `a < b`.
@@ -14,14 +14,14 @@ The range is ascending if and only if `a < b`.
 
 include_source::mod.rs[tag=setup]
 
-.{part-title} 1
+== {part-title} 1
 Part 1 asks us to count how many times each point belongs to some horizontal or vertical line.
 These are lines \(\((x_1, y_1), (x_2, y_2))\) for which \(x_1 = x_2\) or \(y_1 = y_2\).
 Such a line's points are the Cartesian “product” of the ranges `range_between(x1, x2)` and `range_between(y1, y2)` (“product” in quotes because one of those ranges has length 1, so it's not much of a product).
 
 include_source::mod.rs[tag=pt1]
 
-.{part-title} 2
+== {part-title} 2
 Part 2 asks us to count how many times each point belongs to either a horizontal line, a vertical line, or a \(45^\circ\) diagonal line (whose slope must be \(\pm1\)).
 We already found the points on horizontal and vertical lines in {part-title} 1.
 Diagonal lines are lines \(\((x_1, y_1), (x_2, y_2))\) whose points \( (x_k,y_k)\) satisfy \(|x_k-x_1|=|y_k-y_1|\) with \(x_k\) between \(x_1\) and \(x_2\) and \(y_k\) between \(y_k\) and \(y_2\) (inclusive).

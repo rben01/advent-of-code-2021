@@ -19,17 +19,17 @@ We repeat this process until no modifications are made to any tentative cost, at
 
 ***
 
-.{setup-title}
+== {setup-title}
 --
 include_source::mod.rs[tag=setup]
 --
 
-.{part-title} 1
+== {part-title} 1
 --
 include_source::mod.rs[tag=pt1]
 --
 
-.{part-title} 2
+== {part-title} 2
 {part-title} 2 asked us not just to traverse the grid, but to construct a larger grid to use as our input, which was formed by concatenating modified copies of {part-title} 1's input.
 This falls under “boring array manipulation”, so I won't discuss it further.
 

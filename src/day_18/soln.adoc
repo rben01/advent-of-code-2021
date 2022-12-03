@@ -55,19 +55,19 @@ include_source::mod.rs[tag=magnitude]
 
 ***
 
-.{setup-title}
+== {setup-title}
 Functions listed above are omitted here.
 --
 include_source::mod.rs[tags=setup;!*]
 --
 
-.{part-title} 1
+== {part-title} 1
 Part 1 simply asks to perform addition on the input numbers.
 --
 include_source::mod.rs[tag=pt1]
 --
 
-.{part-title} 2
+== {part-title} 2
 Part 2 asks to find the maximum pairwise sum of the input numbers.
 --
 include_source::mod.rs[tag=pt2]

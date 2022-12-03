@@ -36,7 +36,7 @@ For instance the program could read `8` into `W`, copy `W` to `X`, read `9` into
 
 ***
 
-.{setup-title}
+== {setup-title}
 
 --
 include_source::mod.rs[tag=setup]
@@ -76,7 +76,7 @@ To reduce code duplication, this DFS algorithm takes function parameters that gi
 
 include_source::mod.rs[tag=algo]
 
-.{part-title}s 1 and 2
+== {part-title}s 1 and 2
 --
 include_source::mod.rs[tags=pt1;pt2]
 --

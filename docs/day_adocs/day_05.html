@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -49,8 +49,8 @@
 <div id="content">
 <div class="paragraph">
 <p><a href="../advent_of_code_2021.html#_problems_and_solutions" class="header-nav-link first"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a>
-<a href="././day_4.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 4)</a>
-<a href="././day_6.html" class="header-nav-link">Next (Day 6) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
+<a href="././day_04.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 4)</a>
+<a href="././day_06.html" class="header-nav-link">Next (Day 6) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
 </div>
 <div class="sect1">
 <h2 id="_day_5_hydrothermal_venture">Day 5: Hydrothermal Venture</h2>
@@ -62,8 +62,9 @@
 <p>This challenge requires iterating the integer points between two other points on the plane.</p>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="paragraph">
-<div class="title">Setup</div>
 <p>First, we read the input into a list of lines of the form \(((x_1, y_1), (x_2, y_2))\).
 We also define the helpful <code>range_between(a, b)</code> function, which returns the (nonempty!) range of integers between <code>a</code> and <code>b</code>, inclusive.
 The range is ascending if and only if <code>a &lt; b</code>.
@@ -116,8 +117,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_1">Part 1</h3>
 <div class="paragraph">
-<div class="title">Part 1</div>
 <p>Part 1 asks us to count how many times each point belongs to some horizontal or vertical line.
 These are lines \(((x_1, y_1), (x_2, y_2))\) for which \(x_1 = x_2\) or \(y_1 = y_2\).
 Such a line&#8217;s points are the Cartesian “product” of the ranges <code>range_between(x1, x2)</code> and <code>range_between(y1, y2)</code> (“product” in quotes because one of those ranges has length 1, so it&#8217;s not much of a product).</p>
@@ -144,8 +147,10 @@ fn pt1(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; usize {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_2">Part 2</h3>
 <div class="paragraph">
-<div class="title">Part 2</div>
 <p>Part 2 asks us to count how many times each point belongs to either a horizontal line, a vertical line, or a \(45^\circ\) diagonal line (whose slope must be \(\pm1\)).
 We already found the points on horizontal and vertical lines in Part 1.
 Diagonal lines are lines \(((x_1, y_1), (x_2, y_2))\) whose points \( (x_k,y_k)\) satisfy \(|x_k-x_1|=|y_k-y_1|\) with \(x_k\) between \(x_1\) and \(x_2\) and \(y_k\) between \(y_k\) and \(y_2\) (inclusive).
@@ -182,6 +187,7 @@ fn pt2(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; usize {
 	};
 	get_ans(&amp;all_counter)
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

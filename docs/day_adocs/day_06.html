@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -49,8 +49,8 @@
 <div id="content">
 <div class="paragraph">
 <p><a href="../advent_of_code_2021.html#_problems_and_solutions" class="header-nav-link first"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a>
-<a href="././day_5.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 5)</a>
-<a href="././day_7.html" class="header-nav-link">Next (Day 7) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
+<a href="././day_05.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 5)</a>
+<a href="././day_07.html" class="header-nav-link">Next (Day 7) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
 </div>
 <div class="sect1">
 <h2 id="_day_6_lanternfish">Day 6: Lanternfish</h2>
@@ -74,8 +74,9 @@ In one case we have to also add to said values.</p>
 </ol>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="openblock">
-<div class="title">Setup</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -130,8 +131,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_parts_1_and_2">Parts 1 and 2</h3>
 <div class="openblock">
-<div class="title">Parts 1 and 2</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -141,6 +144,7 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 fn pt2(timers: &amp;Timers) -&gt; usize {
 	tick(256, timers).iter().sum()
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

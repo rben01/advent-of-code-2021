@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -96,12 +96,13 @@ Then we rinse and repeat with the next piece.</p>
 As always, the matrix \(T\) that performs a given transformation is <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)#Relationship_to_linear_maps" target="_blank" rel="noopener">the matrix whose columns are \(T(e_1), \ldots, T(e_n) \)</a> where \(e_1,\ldots,e_n\) are the basis vectors.</p>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="paragraph">
 <p>The function that does the heavy lifting here is <code>Scanner::merge_all</code>, which simply starts with the first provided scanner and then repeatedly tries to form larger and larger unions by merging the other scanners with the existing union.
 It stops when it first successfully merges all scanners together.</p>
 </div>
 <div class="openblock">
-<div class="title">Setup</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -434,8 +435,10 @@ pub fn ans() -&gt; Answer&lt;usize, u32&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_1">Part 1</h3>
 <div class="paragraph">
-<div class="title">Part 1</div>
 <p>Part 1 asks us to simply count the distinct beacons after the scanners have all been merged.
 Below, <code>scanner</code> is obtained from <code>let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();</code>.</p>
 </div>
@@ -446,8 +449,10 @@ Below, <code>scanner</code> is obtained from <code>let (transforms, scanner) = S
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_2">Part 2</h3>
 <div class="paragraph">
-<div class="title">Part 2</div>
 <p>Part 2 asks us to find the maximum <a href="https://en.wikipedia.org/wiki/Taxicab_geometry" target="_blank" rel="noopener">Manhattan distance</a> between scanners.
 To do this, we have to track the transformation of each scanner in the successful merge; we then read the pairwise Manhattan distances from each scanner&#8217;s transformation&#8217;s translation.</p>
 </div>
@@ -468,6 +473,7 @@ To do this, we have to track the transformation of each scanner in the successfu
 
 	max_manh_dist
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

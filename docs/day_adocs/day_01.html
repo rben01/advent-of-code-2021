@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -49,7 +49,7 @@
 <div id="content">
 <div class="paragraph">
 <p><a href="../advent_of_code_2021.html#_problems_and_solutions" class="header-nav-link first"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a>
-<a href="././day_2.html" class="header-nav-link">Next (Day 2) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
+<a href="././day_02.html" class="header-nav-link">Next (Day 2) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
 </div>
 <div class="sect1">
 <h2 id="_day_1_sonar_sweep">Day 1: Sonar Sweep</h2>
@@ -68,8 +68,9 @@ Since the “interior” components of the current and previous running sums are
 If the current depth is greater, then so is the current running sum.</p>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="openblock">
-<div class="title">Setup</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -110,8 +111,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_parts_1_and_2">Parts 1 and 2</h3>
 <div class="openblock">
-<div class="title">Parts 1 and 2</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -121,6 +124,7 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 fn pt2(input: &amp;str) -&gt; usize {
 	get_n_increasing_running_sum_of_depths(input, 3).unwrap()
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

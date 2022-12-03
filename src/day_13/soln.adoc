@@ -13,17 +13,19 @@ When the page is reflected over the vertical line \(x=a\), one of two things wil
 
 For a fold over the horizontal line \(y=b\), simply exchange \(x\) with \(y\) and \(a\) with \(b\).
 
-.{setup-title}
+***
+
+== {setup-title}
 The input comes in as a list of dots `x,y` followed by a list of folds.
 
 include_source::mod.rs[tag=setup]
 
-.{part-title} 1
+== {part-title} 1
 {part-title} 1 has us perform a single fold. (Just one? No fun!)
 
 include_source::mod.rs[tag=pt1]
 
-.{part-title} 2
+== {part-title} 2
 {part-title} 2 has us perform all of the folds, and then _read the resulting arrangement of dots as a password containing eight capital capital letters_.
 
 include_source::mod.rs[tag=pt2]

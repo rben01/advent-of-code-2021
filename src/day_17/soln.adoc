@@ -26,7 +26,7 @@ It has no problem running on a target area of `x=1000000..1001000, y=-1000000..-
 
 ***
 
-.{setup-title}
+== {setup-title}
 --
 include_source::mod.rs[tag=setup_main]
 --
@@ -103,13 +103,13 @@ include_source::mod.rs[tag=get_traj]
 
 Once we get all the trajectories, the actual answers we're asked for are pretty simple.
 
-.{part-title} 1
+== {part-title} 1
 Part 1 asks us to find the maximum possible height that can be achieved by a projectile that reaches \(R\).
 As we said above, a projectile with initial \(y\)-velocity \(v_y\) reaches an apex of \(\frac{1}{2}v_y(v_y+1)\).
 
 include_source::mod.rs[tag=pt1]
 
-.{part-title} 2
+== {part-title} 2
 Part 2 asks us to simply count distinct initial velocities that land the projectile in \(R\).
 
 include_source::mod.rs[tag=pt2]

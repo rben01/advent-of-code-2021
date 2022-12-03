@@ -6,4 +6,7 @@
 	"rust-analyzer.cargo.features": [
 		"all_days"
 	],
+	"cSpell.words": [
+		"loosey"
+	],
 }

@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -49,8 +49,8 @@
 <div id="content">
 <div class="paragraph">
 <p><a href="../advent_of_code_2021.html#_problems_and_solutions" class="header-nav-link first"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a>
-<a href="././day_6.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 6)</a>
-<a href="././day_8.html" class="header-nav-link">Next (Day 8) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
+<a href="././day_06.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 6)</a>
+<a href="././day_08.html" class="header-nav-link">Next (Day 8) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
 </div>
 <div class="sect1">
 <h2 id="_day_7_the_treachery_of_whales">Day 7: The Treachery of Whales</h2>
@@ -65,8 +65,9 @@ A naive solution would iterate through all possibilities, but knowledge of stati
 In both parts, we aim to minimize an <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm" target="_blank" rel="noopener">\(l_p\)-norm</a>.</p>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="paragraph">
-<div class="title">Setup</div>
 <p>Reading in the input:</p>
 </div>
 <div class="listingblock">
@@ -90,8 +91,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_1">Part 1</h3>
 <div class="paragraph">
-<div class="title">Part 1</div>
 <p>Part 1 asks us, in effect, to find the number \(x\) that minimizes the mean absolute deviation, or the \(l_1\)-norm of the error.
 The number that does this is simply the median of the dataset.
 (In this problem, the median may be a half-integer, but the solution has to be an integer, so we can just round the median down.)</p>
@@ -112,8 +115,10 @@ If you are not at the median and move towards it, you are moving toward at least
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_2">Part 2</h3>
 <div class="paragraph">
-<div class="title">Part 2</div>
 <p>In Part 2, the cost associated with a distance of \(n\) is \(\sum_{k=1}^n k = \frac{n(n+1)}{2}\).
 Since \(n\) is an integer, \(n^2\ge n\), and so \(n^2+n\) is “not relatively penalized more than” \(n^2\) would be, which means the mean of the \(\frac{n(n+1)}{2}\) will be minimized whenever the mean of \(n^2\) is minimized.
 (It would be a problem if \(n\) exceeded \(n^2\), as then it might dominate in the sum and we&#8217;d no longer be looking to minimize the mean of the \(n^2\).)
@@ -149,6 +154,7 @@ This works because the error is concave up, i.e., a local minimum is the global 
 		cost(mean_rounded_down, nums).min(cost(mean_rounded_up, nums))
 	}
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

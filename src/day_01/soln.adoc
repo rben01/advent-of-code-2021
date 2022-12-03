@@ -12,12 +12,12 @@ If the current depth is greater, then so is the current running sum.
 
 ***
 
-.{setup-title}
+== {setup-title}
 --
 include_source::mod.rs[tag=setup]
 --
 
-.{part-title}s 1 and 2
+== {part-title}s 1 and 2
 --
 include_source::mod.rs[tags=pt1;pt2]
 --

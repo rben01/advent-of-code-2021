@@ -7,17 +7,17 @@ You just have to update the current state correctly.
 
 ***
 
-.{setup-title}
+== {setup-title}
 --
 include_source::mod.rs[tag=setup]
 --
 
-.{part-title} 1
+== {part-title} 1
 --
 include_source::mod.rs[tag=pt1]
 --
 
-.{part-title} 2
+== {part-title} 2
 --
 include_source::mod.rs[tag=pt2]
 --

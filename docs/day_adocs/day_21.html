@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -74,8 +74,9 @@ With a three-sided die, and games ranging in length from (say) 50 to 100 rolls, 
 By precomputing the number of ways these sums can be rolled each turn, and then weighting each outcome by the number of ways it can be rolled, we cut down the base of the exponent by a factor of \(\frac{27}{7}\), bringing the problem well into the realm of what is computationally feasible.</p>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="openblock">
-<div class="title">Setup</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -178,8 +179,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_1">Part 1</h3>
 <div class="openblock">
-<div class="title">Part 1</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -204,8 +207,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_2">Part 2</h3>
 <div class="openblock">
-<div class="title">Part 2</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -287,6 +292,7 @@ fn pt2(players: Players) -&gt; usize {
 	let [p1_n_wins, p2_n_wins] = play_quantum_dice(players, &amp;Board { size: 10 }, 3, 3, 21);
 	p1_n_wins.max(p2_n_wins)
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

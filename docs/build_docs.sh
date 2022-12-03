@@ -3,7 +3,7 @@
 asciidoctor --verbose --warnings --base-dir . --load-path docs -r adoc_ruby/aoc-day-link-inserter -r adoc_ruby/source-includer -r adoc_ruby/input-link-inserter ./docs/advent_of_code_2021.adoc
 
 soln_adoc() {
-	printf "./src/day_%s/soln.adoc" "$(printf '%02d' "$1")"
+	printf "./src/day_$1/soln.adoc"
 }
 
 for i in $(seq 1 25); do
@@ -17,11 +17,14 @@ for i in $(seq 1 25); do
 	prev_i="$((i - 1))"
 	next_i="$((i + 1))"
 
-	prev_soln_path="$(soln_adoc "$prev_i")"
-	next_soln_path="$(soln_adoc "$next_i")"
+	prev_i02="$(printf "%02d" "$prev_i")"
+	next_i02="$(printf "%02d" "$next_i")"
 
-	prev_html_path="$(printf "./day_%s" "$prev_i").html"
-	next_html_path="$(printf "./day_%s" "$next_i").html"
+	prev_soln_path="$(soln_adoc "$prev_i02")"
+	next_soln_path="$(soln_adoc "$next_i02")"
+
+	prev_html_path="$(printf "./day_%s" "$prev_i02").html"
+	next_html_path="$(printf "./day_%s" "$next_i02").html"
 
 	{
 		echo "include::./docs/shared.adoc[]"

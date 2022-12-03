@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -49,7 +49,7 @@
 <div id="content">
 <div class="paragraph">
 <p><a href="../advent_of_code_2021.html#_problems_and_solutions" class="header-nav-link first"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a>
-<a href="././day_9.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 9)</a>
+<a href="././day_09.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 9)</a>
 <a href="././day_11.html" class="header-nav-link">Next (Day 11) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
 </div>
 <div class="sect1">
@@ -64,8 +64,10 @@ Parsing is done with a token stack; when we see paired braces at the top of the 
 If we see mismatched braces, we immediately know we have a <code>Corrupted</code> token stream.
 If we make it to the end of the input without match-and-popping everything — i.e., if the stack isn&#8217;t empty at the end — then we have an <code>Incomplete</code> token stream.</p>
 </div>
+<hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="openblock">
-<div class="title">Setup</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -195,8 +197,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_1">Part 1</h3>
 <div class="openblock">
-<div class="title">Part 1</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -221,8 +225,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_2">Part 2</h3>
 <div class="openblock">
-<div class="title">Part 2</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -253,6 +259,7 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 	scores.sort_unstable();
 	scores[scores.len() / 2]
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

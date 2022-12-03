@@ -20,19 +20,19 @@ The row and column indices have the same meaning as the Cartesian coordinates in
 
 ***
 
-.{setup-title}
+== {setup-title}
 Reading the input text into a game (numbers and boards) is in `read_input_into_game`, whose (not particularly interesting) implementation should serve as its docs.
 `get_answer_from_final_game_state` is just used to prove to Advent of Code that we actually got the solution.
 
 
 include_source::mod.rs[tag=setup]
 
-.{part-title} 1
+== {part-title} 1
 We simply draw numbers until a board has won, then get the answer.
 
 include_source::mod.rs[tag=pt1]
 
-.{part-title} 2
+== {part-title} 2
 This time, we keep track of all of the boards that haven't won yet.
 When the last un-won boards wins, we use it to compute the answer.
 

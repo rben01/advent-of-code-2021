@@ -28,22 +28,24 @@ As always, the matrix \(T\) that performs a given transformation is https://en.w
 
 ***
 
+== {setup-title}
+
 The function that does the heavy lifting here is `Scanner::merge_all`, which simply starts with the first provided scanner and then repeatedly tries to form larger and larger unions by merging the other scanners with the existing union.
 It stops when it first successfully merges all scanners together.
 
-.{setup-title}
+
 --
 include_source::mod.rs[tag=setup]
 --
 
-.{part-title} 1
+== {part-title} 1
 Part 1 asks us to simply count the distinct beacons after the scanners have all been merged.
 Below, `scanner` is obtained from `let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();`.
 
 include_source::mod.rs[tag=pt1]
 
 
-.{part-title} 2
+== {part-title} 2
 Part 2 asks us to find the maximum https://en.wikipedia.org/wiki/Taxicab_geometry[Manhattan distance^] between scanners.
 To do this, we have to track the transformation of each scanner in the successful merge; we then read the pairwise Manhattan distances from each scanner's transformation's translation.
 

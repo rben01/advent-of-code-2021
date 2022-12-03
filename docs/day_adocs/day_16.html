@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -78,8 +78,9 @@ But from a theoretical standpoint it wasn&#8217;t really that hard.</p>
 </ol>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="paragraph">
-<div class="title">Setup</div>
 <p>The main function here is <code>Binary::as_packets</code>.
 There&#8217;s a lot to unpack here, but roughly the algorithm is as follows:</p>
 </div>
@@ -350,8 +351,10 @@ pub fn ans() -&gt; Answer&lt;u64, Number&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_1">Part 1</h3>
 <div class="paragraph">
-<div class="title">Part 1</div>
 <p>Part 1 just asks us to compute some summary data of all the packets in the parse tree.
 As long as we have the right packets (regardless of their depths) we&#8217;ll get the right answer.</p>
 </div>
@@ -362,8 +365,10 @@ As long as we have the right packets (regardless of their depths) we&#8217;ll ge
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_2">Part 2</h3>
 <div class="paragraph">
-<div class="title">Part 2</div>
 <p>Part 2 asks us to actually evaluate the packet tree as a tree of an expressions, akin to S-expressions.
 While this wasn&#8217;t hard, one challenge was to implement it without code duplication.
 The way I achieved this was to split the operators into two families, <code>Reducer</code>s (<code>+</code>, <code>*</code>, <code>min</code>, and <code>max</code>) and <code>Operators</code>s (<code>≤</code>, <code>==</code>, <code>≥</code>) which essentially comprise their own interfaces that specify how they should be applied to values in the stack.</p>
@@ -494,6 +499,7 @@ fn pt2(packets: &amp;[Packet]) -&gt; Option&lt;Number&gt; {
 
 	Some(arg_stack.first()?.value)
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -104,176 +104,29 @@ To make the counting easier when working with integers and floored division, we 
 My first submission was too large, so I subtracted 1 from it and re-submitted and got it correct.
 This was the first problem of this year&#8217;s Advent of Code that I thought it was feasible for someone to arrive at the right answer with buggy code and some guesswork.</p>
 </div>
-</div>
+<hr>
+<div class="paragraph">
+<p>== Setup</p>
 </div>
 <div class="openblock">
-<div class="title">Setup</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">use crate::Answer;
-use std::collections::BTreeMap as Map;
-
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-enum Position {
-	Start,
-	Middle,
-	End,
-}
-
-#[derive(Debug)]
-struct Polymer {
-	template: String,
-	mapping: Map&lt;(char, char), char&gt;,
-}
-
-impl Polymer {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut lines = s.lines();
-		let template = lines.next()?.to_owned();
-		lines.next()?;
-
-		let mut mapping = Map::new();
-		for line in lines {
-			let mut splat = line.split(" -&gt; ");
-
-			let mut outer_chars = splat.next()?.chars();
-			let left = outer_chars.next()?;
-			let right = outer_chars.next()?;
-
-			let inner = splat.next()?.chars().next()?;
-			mapping.insert((left, right), inner);
-		}
-
-		Some(Polymer { template, mapping })
-	}
-
-	fn get_initial_char_pair_counts(&amp;self) -&gt; Map&lt;(char, char, Position), usize&gt; {
-		use Position::*;
-
-		let mut ans = Map::new();
-
-		// Iterate over adjacent pairs of chars. The last index iterated is `n_pairs - 1`
-		// with `n_pairs == self.template.len() - 1`
-		for (i, (c1, c2)) in self
-			.template
-			.chars()
-			.zip(self.template.chars().skip(1))
-			.enumerate()
-		{
-			let position = if i == 0 {
-				Start
-			} else if i == self.template.len() - 2 {
-				End
-			} else {
-				Middle
-			};
-
-			*ans.entry((c1, c2, position)).or_default() += 1;
-		}
-		ans
-	}
-
-	fn apply_n_times(&amp;self, n: usize) -&gt; Map&lt;(char, char, Position), usize&gt; {
-		use Position::*;
-
-		let mut pair_counts = self.get_initial_char_pair_counts();
-
-		for _ in 0..n {
-			let pair_counts_vec = pair_counts
-				.iter()
-				.filter_map(|(&amp;k, &amp;v)| if v &gt; 0 { Some((k, v)) } else { None })
-				.collect::&lt;Vec&lt;_&gt;&gt;();
-
-			for (key, count) in pair_counts_vec {
-				let (c1, c2, position) = key;
-				if let Some(&amp;c) = self.mapping.get(&amp;(c1, c2)) {
-					let first_pos = match position {
-						Start =&gt; Start,
-						_ =&gt; Middle,
-					};
-					let second_pos = match position {
-						End =&gt; End,
-						_ =&gt; Middle,
-					};
-
-					*pair_counts.entry((c1, c, first_pos)).or_default() += count;
-					*pair_counts.entry((c, c2, second_pos)).or_default() += count;
-
-					*pair_counts.get_mut(&amp;key).unwrap() -= count;
-				}
-			}
-		}
-
-		pair_counts
-	}
-}
-
-fn get_ans(polymer: &amp;Polymer, n: usize) -&gt; usize {
-	use Position::*;
-
-	let char_pair_counts = polymer.apply_n_times(n);
-	let char_counts = {
-		let mut char_counts_2x = Map::new();
-		for ((c1, c2, position), count) in char_pair_counts {
-			let c1_multiplier = match position {
-				Start =&gt; 2,
-				_ =&gt; 1,
-			};
-			let c2_multiplier = match position {
-				End =&gt; 2,
-				_ =&gt; 1,
-			};
-
-			for (c, mult) in [(c1, c1_multiplier), (c2, c2_multiplier)] {
-				*char_counts_2x.entry(c).or_insert(0) += mult * count;
-			}
-		}
-
-		char_counts_2x
-			.into_iter()
-			.map(|(k, v)| (k, v / 2))
-			.collect::&lt;Map&lt;_, _&gt;&gt;()
-	};
-
-	let mut max_count = 0;
-	let mut min_count = usize::MAX;
-	for &amp;count in char_counts.values() {
-		if count &lt; min_count {
-			min_count = count;
-		}
-		if count &gt; max_count {
-			max_count = count;
-		}
-	}
-
-	max_count - min_count
-}
-
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let polymer = Polymer::from_str(input).unwrap();
-	(14, (pt1(&amp;polymer), pt2(&amp;polymer))).into()
-}
-
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">Unresolved directive in day_14.adoc - include::/Users/robert/Documents/CloudDocs/Documents/Coding/Projects/Advent of Code/2021/mod.rs[tags=setup;!debugging]</code></pre>
 </div>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>== Parts 1 and 2</p>
 </div>
 <div class="openblock">
-<div class="title">Parts 1 and 2</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">fn pt1(polymer: &amp;Polymer) -&gt; usize {
-	get_ans(polymer, 10)
-}
-
-fn pt2(polymer: &amp;Polymer) -&gt; usize {
-	get_ans(polymer, 40)
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">Unresolved directive in day_14.adoc - include::/Users/robert/Documents/CloudDocs/Documents/Coding/Projects/Advent of Code/2021/mod.rs[tags=pt1;pt2;!debugging]</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>

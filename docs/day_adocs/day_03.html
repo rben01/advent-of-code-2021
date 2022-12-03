@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -49,8 +49,8 @@
 <div id="content">
 <div class="paragraph">
 <p><a href="../advent_of_code_2021.html#_problems_and_solutions" class="header-nav-link first"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a>
-<a href="././day_2.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 2)</a>
-<a href="././day_4.html" class="header-nav-link">Next (Day 4) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
+<a href="././day_02.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 2)</a>
+<a href="././day_04.html" class="header-nav-link">Next (Day 4) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
 </div>
 <div class="sect1">
 <h2 id="_day_3_binary_diagnostic">Day 3: Binary Diagnostic</h2>
@@ -62,8 +62,9 @@
 <p>This challenge mostly just requires filtering arrays and counting elements satisfying a condition.</p>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="paragraph">
-<div class="title">Setup</div>
 <p>The first thing we do is read the input file into a <code>ndarray::Array2&lt;bool&gt;</code> of size <code>(n_rows, n_cols)</code>, where a <code>true</code> value corresponds to a <code>1</code> character in the input, and a <code>false</code> to a <code>0</code>.
 We also created a function that converts a binary vector, most significant digit first, to a (decimal) number (see the <a href="../advent_of_code_2021.html#_setup">Setup</a> section).
 For example, given <code>10011</code>, we compute <code>[1, 0, 0, 1, 1] .* [16, 8, 4, 2, 1] = [16, 0, 0, 2, 1]</code>, whose sum is 19.
@@ -101,8 +102,10 @@ pub fn ans() -&gt; Answer&lt;u32, u32&gt; {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_1">Part 1</h3>
 <div class="paragraph">
-<div class="title">Part 1</div>
 <p>We are asked to find two numbers, <code>gamma_rate</code> (\(\gamma\)) and <code>epsilon_rate</code> (\(\varepsilon\)).
 \(\gamma\) is the value of the binary number whose \(k\)<sup>th</sup> digit is the most common digit in column \(k\) of the array of values.
 \(\varepsilon\) is computed using the same idea, but with the least common digit instead.
@@ -133,8 +136,10 @@ In other words we don&#8217;t need to compute \(\varepsilon\) “the long way”
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_2">Part 2</h3>
 <div class="paragraph">
-<div class="title">Part 2</div>
 <p>We are asked to find two new numbers, the oxygen scrubber rating <code>oxy_rate</code> and the CO2 scrubber rating <code>co2_rate</code>.
 The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
 </div>
@@ -220,6 +225,7 @@ fn pt2(mat: &amp;Array2&lt;bool&gt;) -&gt; u32 {
 
 	oxy_rate * co2_rate
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

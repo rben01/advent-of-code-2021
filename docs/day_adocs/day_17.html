@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -87,8 +87,9 @@ All potential times, positions, and speeds are derived mathematically.
 It has no problem running on a target area of <code>x=1000000..1001000, y=-1000000..-1001000</code> (although this particular target area requires being able to take the integer square root of large numbers, which I did not implement myself).</p>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="openblock">
-<div class="title">Setup</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -397,8 +398,10 @@ fn get_trajectories(rect: Rect&lt;Num&gt;) -&gt; Vec&lt;Trajectory&gt; {
 <div class="paragraph">
 <p>Once we get all the trajectories, the actual answers we&#8217;re asked for are pretty simple.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_1">Part 1</h3>
 <div class="paragraph">
-<div class="title">Part 1</div>
 <p>Part 1 asks us to find the maximum possible height that can be achieved by a projectile that reaches \(R\).
 As we said above, a projectile with initial \(y\)-velocity \(v_y\) reaches an apex of \(\frac{1}{2}v_y(v_y+1)\).</p>
 </div>
@@ -418,8 +421,10 @@ As we said above, a projectile with initial \(y\)-velocity \(v_y\) reaches an ap
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_2">Part 2</h3>
 <div class="paragraph">
-<div class="title">Part 2</div>
 <p>Part 2 asks us to simply count distinct initial velocities that land the projectile in \(R\).</p>
 </div>
 <div class="listingblock">
@@ -433,6 +438,7 @@ As we said above, a projectile with initial \(y\)-velocity \(v_y\) reaches an ap
 		.collect::&lt;Set&lt;_&gt;&gt;()
 		.len()
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

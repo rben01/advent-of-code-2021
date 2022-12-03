@@ -2,7 +2,7 @@ include::./docs/shared.adoc[]
 :stylesheet: ../aoc.css
 
 link:../advent_of_code_2021.html#_problems_and_solutions[pass:n[icon:list-ol[\] Back to Home],role="header-nav-link first"]
-link:././day_2.html[pass:n[icon:chevron-left[\] Previous (Day 2)],role=header-nav-link]
-link:././day_4.html[pass:n[Next (Day 4) icon:chevron-right[\]],role=header-nav-link]
+link:././day_02.html[pass:n[icon:chevron-left[\] Previous (Day 2)],role=header-nav-link]
+link:././day_04.html[pass:n[Next (Day 4) icon:chevron-right[\]],role=header-nav-link]
 
 include::{src-dir}/day_03/soln.adoc[leveloffset=+1]

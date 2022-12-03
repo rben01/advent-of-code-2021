@@ -13,7 +13,7 @@ But from a theoretical standpoint it wasn't really that hard.
 
 ***
 
-.{setup-title}
+== {setup-title}
 
 The main function here is `Binary::as_packets`.
 There's a lot to unpack here, but roughly the algorithm is as follows:
@@ -45,13 +45,13 @@ In either case, if the current packet has no more data remaining — 0 bits or 0
 include_source::mod.rs[tag=setup]
 --
 
-.{part-title} 1
+== {part-title} 1
 {part-title} 1 just asks us to compute some summary data of all the packets in the parse tree.
 As long as we have the right packets (regardless of their depths) we'll get the right answer.
 
 include_source::mod.rs[tag=pt1]
 
-.{part-title} 2
+== {part-title} 2
 {part-title} 2 asks us to actually evaluate the packet tree as a tree of an expressions, akin to S-expressions.
 While this wasn't hard, one challenge was to implement it without code duplication.
 The way I achieved this was to split the operators into two families, ``Reducer``s (`+`, `*`, `min`, and `max`) and ``Operators``s (`≤`, `==`, `≥`) which essentially comprise their own interfaces that specify how they should be applied to values in the stack.

@@ -20,12 +20,12 @@ To recombine boxes, we simply take two boxes that have a face in common and writ
 
 ***
 
-.{setup-title}
+== {setup-title}
 --
 include_source::mod.rs[tag=setup]
 --
 
-.{part-title}s 1 and 2
+== {part-title}s 1 and 2
 
 {part-title}s 1 and 2 ask us to perform the same sequence of operations.
 In {part-title} 1 this sequence occurs is in a bounded space (presumably in a space small enough for it to have been feasible to store each small cube individually).

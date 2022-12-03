@@ -6,7 +6,7 @@ This challenge mostly just requires filtering arrays and counting elements satis
 
 ***
 
-.{setup-title}
+== {setup-title}
 The first thing we do is read the input file into a `ndarray::Array2<bool>` of size `(n_rows, n_cols)`, where a `true` value corresponds to a `1` character in the input, and a `false` to a `0`.
 We also created a function that converts a binary vector, most significant digit first, to a (decimal) number (see the link:../advent_of_code_2021.html#_setup[Setup] section).
 For example, given `10011`, we compute `[1, 0, 0, 1, 1] .* [16, 8, 4, 2, 1] = [16, 0, 0, 2, 1]`, whose sum is 19.
@@ -14,7 +14,7 @@ For example, given `10011`, we compute `[1, 0, 0, 1, 1] .* [16, 8, 4, 2, 1] = [1
 
 include_source::mod.rs[tag=setup]
 
-.{part-title} 1
+== {part-title} 1
 
 We are asked to find two numbers, `gamma_rate` (\(\gamma\)) and `epsilon_rate` (\(\varepsilon\)).
 \(\gamma\) is the value of the binary number whose \(k\)^th^ digit is the most common digit in column \(k\) of the array of values.
@@ -26,7 +26,7 @@ In other words we don't need to compute \(\varepsilon\) “the long way”; once
 
 include_source::mod.rs[tag=pt1]
 
-.{part-title} 2
+== {part-title} 2
 
 We are asked to find two new numbers, the oxygen scrubber rating `oxy_rate` and the CO2 scrubber rating `co2_rate`.
 The procedure to find the `oxy_rate` is as follows: +

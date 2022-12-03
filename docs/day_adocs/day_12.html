@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -74,8 +74,9 @@ We maintain a stack representing the current path; we push onto the stack from t
 We don&#8217;t actually maintain a stack in the code; we merely use the call stack.</p>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="openblock">
-<div class="title">Setup</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -204,8 +205,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_parts_1_and_2">Parts 1 and 2</h3>
 <div class="paragraph">
-<div class="title">Parts 1 and 2</div>
 <p>In Part 1, we may only visit each small node at most once.
 Part 2 is slightly more relaxed; in addition to the paths visiting each small node at most once, valid paths now include those in which a single small node is visited a second time.
 But this wrinkle was already handled in the Setup section; we switch the behavior with a single boolean argument.</p>
@@ -219,6 +222,7 @@ But this wrinkle was already handled in the Setup section; we switch the behavio
 fn pt2(cave: &amp;CaveSystem) -&gt; usize {
 	cave.traverse(true)
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

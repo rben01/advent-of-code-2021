@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -102,8 +102,9 @@ In other words, no amphipod should move while another amphipod can move to its f
 <p>This keeps the number of moves considered tiny, making the search for the cheapest path through the graph run very quickly.</p>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="paragraph">
-<div class="title">Setup</div>
 <p>Most of the setup is just creating an array wrapper type that is indexable by amphipods.
 (Thanks to Rust&#8217;s <code>const</code> generics, this type is statically sized.)
 This is achieved by simply assigning an integer from <code>0</code> to <code>N_AMPHIPODS-1</code> to each amphipod and using that as the index.
@@ -572,8 +573,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_parts_1_and_2">Parts 1 and 2</h3>
 <div class="openblock">
-<div class="title">Parts 1 and 2</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -586,6 +589,7 @@ fn pt2() -&gt; usize {
 	let b = InstantiatedBurrow::&lt;16&gt;::from_str(include_str!("input_2.txt")).unwrap();
 	b.burrow.solve(&amp;b.amphipod_locs).0
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

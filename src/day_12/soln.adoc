@@ -17,12 +17,12 @@ We don't actually maintain a stack in the code; we merely use the call stack.
 
 ***
 
-.{setup-title}
+== {setup-title}
 --
 include_source::mod.rs[tag=setup]
 --
 
-.{part-title}s 1 and 2
+== {part-title}s 1 and 2
 In {part-title} 1, we may only visit each small node at most once.
 {part-title} 2 is slightly more relaxed; in addition to the paths visiting each small node at most once, valid paths now include those in which a single small node is visited a second time.
 But this wrinkle was already handled in the {setup-title} section; we switch the behavior with a single boolean argument.

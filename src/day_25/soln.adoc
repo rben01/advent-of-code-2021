@@ -7,7 +7,7 @@ Not interesting!
 
 ***
 
-.{setup-title} and {part-title} 1 (there was no {part-title} 2)
+== {setup-title} and {part-title} 1 (there was no {part-title} 2)
 --
 include_source::mod.rs[tags=setup;pt1]
 --

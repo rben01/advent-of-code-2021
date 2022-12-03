@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -49,8 +49,8 @@
 <div id="content">
 <div class="paragraph">
 <p><a href="../advent_of_code_2021.html#_problems_and_solutions" class="header-nav-link first"><span class="icon"><i class="fa fa-list-ol"></i></span> Back to Home</a>
-<a href="././day_3.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 3)</a>
-<a href="././day_5.html" class="header-nav-link">Next (Day 5) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
+<a href="././day_03.html" class="header-nav-link"><span class="icon"><i class="fa fa-chevron-left"></i></span> Previous (Day 3)</a>
+<a href="././day_05.html" class="header-nav-link">Next (Day 5) <span class="icon"><i class="fa fa-chevron-right"></i></span></a></p>
 </div>
 <div class="sect1">
 <h2 id="_day_4_giant_squid">Day 4: Giant Squid</h2>
@@ -86,8 +86,9 @@ If one of those counts hit zero, then every number in that row/column has been d
 </ol>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="paragraph">
-<div class="title">Setup</div>
 <p>Reading the input text into a game (numbers and boards) is in <code>read_input_into_game</code>, whose (not particularly interesting) implementation should serve as its docs.
 <code>get_answer_from_final_game_state</code> is just used to prove to Advent of Code that we actually got the solution.</p>
 </div>
@@ -226,8 +227,10 @@ pub fn ans() -&gt; Answer&lt;i32, i32&gt; {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_1">Part 1</h3>
 <div class="paragraph">
-<div class="title">Part 1</div>
 <p>We simply draw numbers until a board has won, then get the answer.</p>
 </div>
 <div class="listingblock">
@@ -245,8 +248,10 @@ pub fn ans() -&gt; Answer&lt;i32, i32&gt; {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_part_2">Part 2</h3>
 <div class="paragraph">
-<div class="title">Part 2</div>
 <p>This time, we keep track of all of the boards that haven&#8217;t won yet.
 When the last un-won boards wins, we use it to compute the answer.</p>
 </div>
@@ -274,6 +279,7 @@ When the last un-won boards wins, we use it to compute the answer.</p>
 	}
 	unreachable!();
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

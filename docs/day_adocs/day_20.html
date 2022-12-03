@@ -15,7 +15,7 @@
 	href="https://fonts.gstatic.com"
 	crossorigin
 /><link
-	href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
 	rel="stylesheet"
 />
 
@@ -82,8 +82,9 @@ Since the exterior starts out as all-off, it remains either all-on or all-off fo
 </ol>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_setup">Setup</h3>
 <div class="openblock">
-<div class="title">Setup</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -206,8 +207,10 @@ pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_parts_1_and_2">Parts 1 and 2</h3>
 <div class="paragraph">
-<div class="title">Parts 1 and 2</div>
 <p>Parts 1 and 2 are nearly identical; they both ask to count the number of “on” pixels in the image resulting after \(k\) updates, where Part 1 has \(k=2\) and Part 2 has \(k=50\).
 (Notably, if the exterior switches state every update, then the number of “on” pixels will be infinite after every odd-numbered update.)</p>
 </div>
@@ -223,6 +226,7 @@ fn pt2(im: Image) -&gt; usize {
 	im.tick_n_times(50);
 	im.mat.map(|&amp;bit| usize::from(bit)).sum()
 }</code></pre>
+</div>
 </div>
 </div>
 </div>

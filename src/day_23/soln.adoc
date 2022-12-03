@@ -25,7 +25,7 @@ This keeps the number of moves considered tiny, making the search for the cheape
 
 ***
 
-.{setup-title}
+== {setup-title}
 Most of the setup is just creating an array wrapper type that is indexable by amphipods.
 (Thanks to Rust's `const` generics, this type is statically sized.)
 This is achieved by simply assigning an integer from `0` to `N_AMPHIPODS-1` to each amphipod and using that as the index.
@@ -40,7 +40,7 @@ include_source::mod.rs[tag=amphipods]
 include_source::mod.rs[tag=solve]
 --
 
-.{part-title}s 1 and 2
+== {part-title}s 1 and 2
 --
 include_source::mod.rs[tags=pt1;pt2]
 --
