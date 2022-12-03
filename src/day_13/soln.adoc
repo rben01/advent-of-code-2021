@@ -1,4 +1,4 @@
-= Transparent Origami
+= Day 13: Transparent Origami
 
 link_day:13[] │ link_input:13[]
 

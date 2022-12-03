@@ -1,4 +1,4 @@
-= Lanternfish
+= Day 6: Lanternfish
 
 link_day:6[] {link-sep} link_input:6[]
 

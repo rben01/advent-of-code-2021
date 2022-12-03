@@ -729,6 +729,13 @@ br {
 	font-size: 20%;
 }
 
+.header-nav-link {
+	margin: auto 1em;
+}
+.header-nav-link.first {
+	margin-left: 0;
+}
+
 .hdlist1 {
 	font-size: 21px;
 }

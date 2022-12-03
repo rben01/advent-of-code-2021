@@ -1,4 +1,4 @@
-= Syntax Scoring
+= Day 10: Syntax Scoring
 
 link_day:10[] {link-sep} link_input:10[]
 

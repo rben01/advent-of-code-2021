@@ -1,4 +1,4 @@
-= Binary Diagnostic
+= Day 3: Binary Diagnostic
 
 link_day:3[] {link-sep} link_input:3[]
 

@@ -1,4 +1,4 @@
-= Snailfish
+= Day 18: Snailfish
 
 link_day:18[] {link-sep} link_input:18[]
 

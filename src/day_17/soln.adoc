@@ -1,4 +1,4 @@
-= Trick Shot
+= Day 17: Trick Shot
 
 link_day:17[] {link-sep} link_input:17[]
 

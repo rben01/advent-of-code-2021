@@ -1,4 +1,4 @@
-= Trench Map
+= Day 20: Trench Map
 
 link_day:20[] {link-sep} link_input:20[]
 

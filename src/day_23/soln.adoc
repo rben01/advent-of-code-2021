@@ -1,4 +1,4 @@
-= Amphipod
+= Day 23: Amphipod
 
 link_day:23[] {link-day} link_input:23[]
 

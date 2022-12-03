@@ -1,4 +1,4 @@
-= Sonar Sweep
+= Day 1: Sonar Sweep
 
 link_day:1[] {link-sep} link_input:1[]
 

@@ -1,4 +1,4 @@
-= Passage Pathing
+= Day 12: Passage Pathing
 
 link_day:12[] | link_input:12[]
 

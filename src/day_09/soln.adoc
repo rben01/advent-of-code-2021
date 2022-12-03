@@ -1,4 +1,4 @@
-= Smoke Basin
+= Day 9: Smoke Basin
 
 link_day:9[] {link-sep} link_input:9[]
 

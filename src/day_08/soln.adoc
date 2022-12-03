@@ -1,4 +1,4 @@
-= Seven Segment Search
+= Day 8: Seven Segment Search
 
 link_day:8[] {link-sep} link_input:8[]
 

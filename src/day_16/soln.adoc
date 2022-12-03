@@ -1,4 +1,4 @@
-= Packet Decoder
+= Day 16: Packet Decoder
 
 link_day:16[] {link-sep} link_input:16[]
 

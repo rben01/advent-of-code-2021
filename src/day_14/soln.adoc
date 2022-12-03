@@ -1,4 +1,4 @@
-= Extended Polymerization
+= Day 14: Extended Polymerization
 
 link_day:14[] {link-sep} link_input:14[]
 

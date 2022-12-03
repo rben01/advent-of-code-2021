@@ -1,4 +1,4 @@
-= Reactor Reboot
+= Day 22: Reactor Reboot
 
 link_day:22[] {link-sep} link_input:22[]
 

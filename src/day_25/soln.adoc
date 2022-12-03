@@ -1,4 +1,4 @@
-= Sea Cucumber
+= Day 25: Sea Cucumber
 
 link_day:25[] {link-sep} link_input:25[]
 

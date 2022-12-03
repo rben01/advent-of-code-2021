@@ -1,4 +1,4 @@
-= Giant Squid
+= Day 4: Giant Squid
 
 link_day:4[] {link-sep} link_input:4[]
 

@@ -1,4 +1,4 @@
-= Beacon Scanner
+= Day 19: Beacon Scanner
 
 link_day:19[] {link-sep} link_input:19[]
 
