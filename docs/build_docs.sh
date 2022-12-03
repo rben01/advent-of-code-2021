@@ -19,11 +19,9 @@ for i in $(seq 1 25); do
 
 	prev_soln_path="$(soln_adoc "$prev_i")"
 	next_soln_path="$(soln_adoc "$next_i")"
-	echo "$prev_soln_path" "$next_soln_path" "$([ -f "$next_soln_path" ] && echo 1 || echo 0)"
 
 	prev_html_path="$(printf "./day_%s" "$prev_i").html"
 	next_html_path="$(printf "./day_%s" "$next_i").html"
-	echo "$prev_html_path" "$next_html_path" "$([ -f "$next_soln_path" ] && echo 1 || echo 0)"
 
 	{
 		echo "include::./docs/shared.adoc[]"

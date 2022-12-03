@@ -37,12 +37,12 @@ For our purposes, the residual variants of a `Try` object at the boundary of our
 
 Commonly used code, in `src/lib.rs` and `src/utils.rs`, is below:
 
-.link:/src/lib.rs[`lib.rs`^]
+.link:../{src-dir}/lib.rs[`lib.rs`^]
 --
 include_source::{src-dir}/lib.rs[tag=!mods]
 --
 
-.link:/src/utils.rs[`utils.rs`^]
+.link:../{src-dir}/utils.rs[`utils.rs`^]
 --
 include_source::{src-dir}/utils.rs[tag=code]
 --
