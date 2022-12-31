@@ -3,9 +3,9 @@
 /* Variables */
 
 :root {
-	--font-family: "Source Serif Pro", "Helvetica Neue", "Helvetica", sans-serif;
-	--header-font: "Source Sans Pro", var(--font-family);
-	--mono-font-family: "Source Code Pro", monospace;
+	--font-family: "Iosevka RLTB Sans Web", "Helvetica Neue", "Helvetica", sans-serif;
+	--header-font: "Iosevka RLTB Sans Web", var(--font-family);
+	--mono-font-family: "Iosevka RLTB Mono", monospace;
 	--mono-font-size: 0.9em;
 	--bold-font-weight: bold;
 	--default-bg-color: white;

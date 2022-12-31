@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
-# asciidoctor --verbose --warnings --base-dir . --load-path ./docs -r adoc_ruby/syntax-highlighter -r adoc_ruby/aoc-day-link-inserter -r adoc_ruby/source-includer -r adoc_ruby/input-link-inserter docs/day_adocs/day_03.adoc
-asciidoctor --verbose --warnings --base-dir . --load-path docs -r adoc_ruby/aoc-day-link-inserter -r adoc_ruby/source-includer -r adoc_ruby/input-link-inserter ./docs/advent_of_code_2021.adoc
 
 soln_adoc() {
-	printf "./src/day_$1/soln.adoc"
+	printf "./src/day_%s/soln.adoc" "$1"
 }
 
 for i in $(seq 1 25); do
@@ -40,7 +38,4 @@ for i in $(seq 1 25); do
 done
 asciidoctor --verbose --warnings --base-dir . --load-path . -r docs/adoc_ruby/aoc-day-link-inserter -r docs/adoc_ruby/source-includer -r docs/adoc_ruby/input-link-inserter docs/day_adocs/*.adoc
 
-# for f in docs/day_adocs/*.adoc; do
-# 	echo "$f"
-# 	asciidoctor --verbose --warnings --base-dir . --load-path ./docs -r adoc_ruby/syntax-highlighter -r adoc_ruby/aoc-day-link-inserter -r adoc_ruby/source-includer -r adoc_ruby/input-link-inserter "$f"
-# done
+asciidoctor --verbose --warnings --base-dir . --load-path docs -r adoc_ruby/aoc-day-link-inserter -r adoc_ruby/source-includer -r adoc_ruby/input-link-inserter ./docs/advent_of_code_2021.adoc

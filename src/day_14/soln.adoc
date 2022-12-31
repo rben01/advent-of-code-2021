@@ -34,6 +34,7 @@ As you might have guessed, my first attempt at this problem did not keep track o
 (I believe it had to do with whether the final string started and ended with the same character, but I didn't bother generating test cases to check this.)
 My first submission was too large, so I subtracted 1 from it and re-submitted and got it correct.
 This was the first problem of this year's Advent of Code that I thought it was feasible for someone to arrive at the right answer with buggy code and some guesswork.
+****
 
 ***
 
