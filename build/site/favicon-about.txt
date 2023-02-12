@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Nova Script
+- Font Author: Copyright (c) 2011, wmk69 (wmk69@o2.pl) with Reserved Font Names 'NovaScript' and 'Nova Script'
+- Font Source: http://fonts.gstatic.com/s/novascript/v15/7Au7p_IpkSWSTWaFWkumvmQNEl0O0kEx.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL)

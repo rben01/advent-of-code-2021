@@ -1,0 +1,16 @@
+{
+	"name": "rltb-advent-of-code-2021",
+	"description": "My solutions to the 2021 Advent of Code",
+	"repository": {
+		"url": "github:rben01/advent_of_code_2021",
+		"type": "git"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"antora": "^3.1.2",
+		"@antora/lunr-extension": "^1.0.0-alpha.8"
+	},
+	"scripts": {
+		"build": "npx antora --clean antora-playbook.yml"
+	}
+}
