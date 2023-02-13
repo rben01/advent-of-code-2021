@@ -1,0 +1,30 @@
+= Day 12: Passage Pathing
+
+link_day:12[] | link_input:12[]
+
+Finally, a problem that isn't just about array manipulation.
+This problem asks us to count the number of paths from the origin node of an undirected graph to the destination node, with constraints on how many times we may visit certain nodes, but no constraints on how many times we may use an edge.
+(Note that the problem has us exploring an underwater cave system, so the source code below refers to nodes as “caves”.)
+Nodes are classified as either “big” or “small”, depending on the case of their name in the input.
+A big node can be visited arbitrarily many times, whereas a small node can only be visited a limited number of times.
+(If two big nodes were adjacent, then there would be infinitely many paths through the graph since because we could just bounce back and forth between them forever.)
+
+First, we must build the graph.
+We ingest the list of edges into a dictionary mapping each node to the set of nodes reachable from it.
+After doing this we traverse the graph.
+We maintain a stack representing the current path; we push onto the stack from the choices in the current node's entry in the dictionary, and when we've exhausted all of the edges available from the current node, we pop the current node.
+We don't actually maintain a stack in the code; we merely use the call stack.
+
+***
+
+== {setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
+
+== {part-title}s 1 and 2
+In {part-title} 1, we may only visit each small node at most once.
+{part-title} 2 is slightly more relaxed; in addition to the paths visiting each small node at most once, valid paths now include those in which a single small node is visited a second time.
+But this wrinkle was already handled in the {setup-title} section; we switch the behavior with a single boolean argument.
+
+include_source::mod.rs[tags=pt1;pt2]

@@ -1,0 +1,2615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+<meta name="viewport"
+	content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Day 17: Trick Shot :: Advent of Code 2021</title>
+        <link rel="prev" href="../day_16/soln">
+        <link rel="next" href="../day_18/soln">
+    <meta name="generator" content="Antora 3.1.2">
+<link rel="stylesheet" href="../../_/css/site.css" />
+<link rel="stylesheet" href="../../_/css/code-syntax-highlight.css" />
+<link rel="stylesheet" href="https://use.typekit.net/fnd4xvj.css" />
+<link rel="stylesheet" href="https://iosevka-rltb.pages.dev/dist/iosevka-rltb-mono/iosevka-rltb-mono-cloudflare.css">
+<meta name="theme-color" content="#0970c4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0967b4" media="(prefers-color-scheme: dark)">
+<script>var uiRootPath = '../../_';</script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+		integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+	<!-- The loading of KaTeX is deferred to speed up page rendering -->
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+		integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4"
+		crossorigin="anonymous"></script>
+	<!-- To automatically render math in text elements, include the auto-render extension: -->
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+		integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+		onload="renderMathInElement(document.body);"></script>
+<link rel="icon" type="image/x-icon" href="../../favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+</head>
+
+<body class="article">
+  <header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">Advent of Code 2021</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable open-left">
+          <span class="navbar-link">Links</span>
+          <div class="navbar-dropdown">
+            <a class="navbar-item navbar-external-link" href="https://github.com/rben01" target="_blank">
+              <div class="site-logo github-logo github-repo-logo"></div><span class="site-url">/&nbsp;rben01</span>
+            </a>
+          </div>
+        </div>
+          <div class="navbar-item search hide-for-print">
+            <div id="search-field" class="field">
+              <input id="search-input" type="text" placeholder="Search this site">
+            </div>
+          </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<svg xmlns="http://www.w3.org/2000/svg" id="icon-mask-container" width="0" height="0">
+	<defs>
+		<clipPath id="icon-github" clipPathUnits="objectBoundingBox">
+			<path transform="scale(0.0102040816)" fill-rule="evenodd" clip-rule="evenodd"
+				d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z">
+			</path>
+		</clipPath>
+		<clipPath id="icon-menu-clippath" clipPathUnits="objectBoundingBox">
+			<circle cx=".1" cy=".1575" r=".06"></circle>
+			<path d="M.325 .1175h.65 v.08h-.65z"></path>
+			<circle cx=".25" cy=".4775" r=".06"></circle>
+			<path d="M.475 .4375h.5 v.08h-.5z"></path>
+			<circle cx=".25" cy=".7975" r=".06"></circle>
+			<path d="M.475 .7575h.5 v.08h-.5z"></path>
+		</clipPath>
+		<clipPath id="icon-external-link" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.0017) translate(-256 -256)"
+				d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z" />
+		</clipPath>
+		<clipPath id="icon-star" clipPathUnits="objectBoundingBox">
+			<path transform="translate(0 0.075) scale(0.001736)"
+				d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+		</clipPath>
+	</defs>
+	<symbol viewBox="0 0 100 100" id="icon-back" class="svg-icon-template">
+		<path
+			d="m 50.000978,9.89975 -40.1010516,40.10025 40.1010516,40.10025 5.6556,-5.65551 -30.434757,-30.44194 h 64.878253 v -8.0056 H 25.221821 l 30.434757,-30.44001 z" />
+	</symbol>
+	<symbol viewBox="0 0 30 30" id="icon-caret" class="svg-icon-template">
+		<path d="m 10.18745,2.9998 14.0001,12.0002 -14.0001,12.0001 z" stroke-width="2" stroke-linecap="round"
+			stroke-linejoin="round" />
+	</symbol>
+	<symbol viewBox="0 0 30 30" id="icon-chevron">
+		<path
+			d="M 3.6699219,6.5898438 1.4550781,8.6152344 15,23.374272 28.544922,8.6152344 26.330078,6.5898438 15,18.759498 Z" />
+	</symbol>
+	<symbol viewBox="0 0 16 16" id="icon-clipboard">
+		<path fill-rule="evenodd"
+			d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z" />
+	</symbol>
+	<symbol viewBox="0 0 1 1" id="icon-home-filled" class="svg-icon-template icon-home">
+		<path
+			d="M.5002 .10747572875253811 L.10042786437626905 .4662178643762691 l.02671524585077328 .029770717813528465 l.06725688977295768 -.060354082044552726 v.44845 h.25506 v-.25166 H.5505 v.25166 h.25506 v-.44845 l.06725688977295768 .060354082044552726 l.02671524585077328 -.029770717813528465 l-.154812135623731 -.13892322952293115 V.1 h-.12657 V.21371495268001076 z" />
+	</symbol>
+	<symbol viewBox="0 0 1 1" id="icon-home-outline" class="svg-icon-template icon-home">
+		<path
+			d="M.5002 .10747572875253811 L.10042786437626905 .4662178643762691 l.02671524585077328 .029770717813528465 l.06725688977295768 -.060354082044552726 v.44845 h.25506 v-.25166 H.5505 v.25166 h.25506 v-.44845 l.06725688977295768 .060354082044552726 l.02671524585077328 -.029770717813528465 l-.154812135623731 -.13892322952293115 V.1 h-.12657 V.21371495268001076 z v.0565685424949238 L.65815 .30578331524901864 V.14 H.70472 V.2910051322295775 L.65815 .2492147727540948 v.0565685424949238 L.76556 .40216945463621206 V.8440845001452447 h-.17166 v-.25166 H.40946 v.25166 h-.17166 V.40216945463621206 L.5002 .16404427124746193 z " />
+	</symbol>
+	<symbol viewBox="0 0 1 1" id="icon-menu">
+		<circle cx=".1" cy=".1575" r=".06"></circle>
+		<path d="M.325 .1175h.65 v.08h-.65z"></path>
+		<circle cx=".25" cy=".4775" r=".06"></circle>
+		<path d="M.475 .4375h.5 v.08h-.5z"></path>
+		<circle cx=".25" cy=".7975" r=".06"></circle>
+		<path d="M.475 .7575h.5 v.08h-.5z"></path>
+	</symbol>
+</svg>
+  <div class="body">
+	<div class="nav-container"  data-component="ROOT"
+  data-version="" >
+  <aside class="nav">
+    <div class="panels">
+      <div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">Navigation</span>
+    <span class="nav-explore-expander">
+      <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" viewBox="0 0 1 1">
+        <title>Discloure chevron</title>
+        <use href="#icon-chevron"></use>
+      </svg>
+    </span>
+  </div>
+  <ul class="components">
+      <li
+        class="component is-current">
+          <a class="title" href="../../">Solutions</a>
+            <ul class="nav-list">
+      <li class="nav-item is-active"
+        data-depth="0">
+        <span
+          class="nav-item-expander clickable">
+        </span>
+          <ul class="nav-list">
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_01/soln">Day 1: Sonar Sweep</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_02/soln">Day 2: Dive!</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_03/soln">Day 3: Binary Diagnostic</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_04/soln">Day 4: Giant Squid</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_05/soln">Day 5: Hydrothermal Venture</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_06/soln">Day 6: Lanternfish</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_07/soln">Day 7: The Treachery of Whales</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_08/soln">Day 8: Seven Segment Search</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_09/soln">Day 9: Smoke Basin</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_10/soln">Day 10: Syntax Scoring</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_11/soln">Day 11: Dumbo Octopus</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_12/soln">Day 12: Passage Pathing</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_13/soln">Day 13: Transparent Origami</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_14/soln">Day 14: Extended Polymerization</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_15/soln">Day 15: Chiton</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_16/soln">Day 16: Packet Decoder</a>
+        </span>
+              </li>
+      <li class="nav-item is-active is-current-page"
+        data-depth="1">
+        <span
+          class="nav-item-expander final-depth">
+              <span class="nav-text">Day 17: Trick Shot</span>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_18/soln">Day 18: Snailfish</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_19/soln">Day 19: Beacon Scanner</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_20/soln">Day 20: Trench Map</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_21/soln">Day 21: Dirac Dice</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_22/soln">Day 22: Reactor Reboot</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_23/soln">Day 23: Amphipod</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_24/soln">Day 24: Arithmetic Logic Unit</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_25/soln">Day 25: Sea Cucumber</a>
+        </span>
+              </li>
+  </ul>
+      </li>
+  </ul>
+      </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+	<main class="article">
+  <div class="toolbar" role="navigation">
+  <button class="nav-toggle">
+	<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1">
+		<title>Show or hide menu</title>
+		<use class="icon-menu" href="#icon-menu"></use>
+		<use class="icon-back" href="#icon-back"></use>
+	</svg>
+</button>
+    <a href="../../" class="home-link" title="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon icon-home" viewBox="0 0 1 1">
+        <title>Home</title>
+        <use class="icon-home icon-home-filled" href="#icon-home-filled"></use>
+        <use class="icon-home icon-home-outline" href="#icon-home-outline"></use>
+      </svg>
+    </a>
+  <nav class="breadcrumbs" aria-label="breadcrumbs">
+    <ul>
+      <li>&#47;</li> 
+          <li>
+              <a href="../../">Solutions</a>
+
+          </li>
+        <li>&#47;</li>
+        <li><span>Day 17: Trick Shot</span></li>
+    </ul>
+</nav>
+  </div>
+  <div class="content">
+      <aside class="toc sidebar" data-title="Contents"
+  data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+      <article class="doc">
+	<div class="title-container">
+			<h1 class="page">Day 17: Trick Shot</h1>
+	</div>
+	<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/17" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day #17 problem description</a> │ <a href="/_attachments/src/day_17/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>Holy crap.
+This problem was <em>hard</em>.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>After looking at <a href="https://www.reddit.com/r/adventofcode/" target="_blank" rel="noopener">the subreddit</a> it looks like most people just brute forced it.
+That&#8217;s easy, but where&#8217;s the fun in that?
+Where possible, we want to solve these problems in the most computationally efficient manner possible.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>We are asked to find the initial <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>- and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>-velocities that will land a projectile, fired from the origin, in a given rectangular region <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mo stretchy="false">[</mo><msub><mi>x</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></msub><mo separator="true">,</mo><msub><mi>x</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">x</mi></mrow></msub><mo stretchy="false">]</mo><mo>×</mo><mo stretchy="false">[</mo><msub><mi>y</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></msub><mo separator="true">,</mo><msub><mi>y</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">x</mi></mrow></msub><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">R=[x_\mathrm{min}, x_\mathrm{max}]\times[y_\mathrm{min}, y_\mathrm{max}]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">min</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">max</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">min</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">max</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span>.
+In the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>-direction, the projectile suffers from drag, so its <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>-velocity decreases by 1 each tick until it hits 0 (at which point it can&#8217;t slow down anymore).
+In the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>-direction, the projectile is affected by gravity (but no drag (?)), so its <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>-velocity decreases by each tick, forever.</p>
+</div>
+<div class="paragraph">
+<p>All numbers — time, positions, and velocities — must be (not-necessarily-positive) integers.
+(And, naturally, time must be positive.)
+This is an important and helpful constraint on the values we can use.</p>
+</div>
+<div class="paragraph">
+<p>The solution below does not use brute force; it does not, for instance, try all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">v_x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>s between 0 and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>'s right edge, or all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">v_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>s between <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">b</mi><mi mathvariant="normal">s</mi></mrow><mo stretchy="false">(</mo><msub><mi>v</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">x</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">-\mathrm{abs}(v_\mathrm{max})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord"><span class="mord mathrm">abs</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">max</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">b</mi><mi mathvariant="normal">s</mi></mrow><mo stretchy="false">(</mo><msub><mi>v</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">x</mi></mrow></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{abs}(v_\mathrm{max})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">abs</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">max</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.
+All potential times, positions, and speeds are derived mathematically.
+It has no problem running on a target area of <code>x=1000000..1001000, y=-1000000..-1001000</code> (although this particular target area requires being able to take the integer square root of large numbers, which I did not implement myself).</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setup"><a class="anchor" href="#_setup"></a>Setup</h2>
+<div class="sectionbody">
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use num::integer::Roots;
+use std::collections::BTreeSet as Set;
+
+// tag::setup_main[]
+type Time = i64;
+type Num = i64;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Pos&lt;T&gt; {
+	x: T,
+	y: T,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Velo&lt;T&gt; {
+	vx: T,
+	vy: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Rect&lt;T&gt; {
+	x_min: T,
+	x_max: T,
+	y_min: T,
+	y_max: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Trajectory {
+	_t: Time,
+	_pos: Pos&lt;Num&gt;,
+	velo: Velo&lt;Num&gt;,
+}
+
+fn read_input(input: &amp;str) -&gt; Option&lt;Rect&lt;Num&gt;&gt; {
+	let re = {
+		regex::Regex::new(r"target area:\s*x=([\d-]+)\.\.([\d-]+),\s*y=([\d-]+)\.\.([\d-]+)")
+			.ok()?
+	};
+
+	let caps = re.captures(input.trim())?;
+	let [x1, x2, y1, y2] = // force line break :/
+		[1, 2, 3, 4].map(|i| caps.get(i).and_then(|m| m.as_str().parse().ok()));
+
+	let [x1, x2, y1, y2] = [x1?, x2?, y1?, y2?];
+
+	let [x_min, x_max] = if x1 &lt; x2 { [x1, x2] } else { [x2, x1] };
+	let [y_min, y_max] = if y1 &lt; y2 { [y1, y2] } else { [y2, y1] };
+
+	Some(Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	})
+}
+
+fn sqrt(n: Num) -&gt; Option&lt;Num&gt; {
+	let sqrt = Roots::sqrt(&amp;n);
+	if sqrt * sqrt == n {
+		Some(sqrt)
+	} else {
+		None
+	}
+}
+
+// end::setup_main[]
+
+// tag::velo_finder[]
+fn find_velocities(t: Time, position: Pos&lt;Num&gt;) -&gt; [Option&lt;Velo&lt;Num&gt;&gt;; 2] {
+	if t == 0 {
+		return [Some(Velo { vx: 0, vy: 0 }), None];
+	}
+
+	let Pos { x, y } = position;
+
+	let vy_numer = 2 * y + t * (t - 1);
+	let vy_denom = 2 * t;
+	let vy = if vy_numer % vy_denom == 0 {
+		vy_numer / vy_denom
+	} else {
+		return [None, None];
+	};
+
+	let vx1 = {
+		let vx_numer = 2 * x + t * (t - 1);
+		let vx_denom = 2 * t;
+		let vx = vx_numer / vx_denom;
+		if vx_numer % vx_denom == 0 &amp;&amp; vx &gt;= t {
+			Some(vx)
+		} else {
+			None
+		}
+	};
+
+	let vx2 = {
+		let discriminant = 1 + 8 * x;
+		sqrt(discriminant).and_then(|sqrt_disc| {
+			let vx_numer = sqrt_disc - 1;
+			let vx_denom = 2;
+			let vx = vx_numer / vx_denom;
+			if vx_numer % vx_denom == 0 &amp;&amp; vx &lt;= t {
+				Some(vx)
+			} else {
+				None
+			}
+		})
+	};
+
+	[vx1, vx2].map(|opt_vx| opt_vx.map(|vx| Velo { vx, vy }))
+}
+// end::velo_finder[]
+
+// tag::time_finder[]
+fn find_ts_and_vys_for_y(y: Num) -&gt; Vec&lt;(Time, Num)&gt; {
+	assert_ne!(y, 0);
+
+	let mut ans = vec![];
+
+	// Need to find all integer (t, vy) that satisfy y = vy * t - t*(t-1)/2 with t &gt; 0
+	//
+	// Step one: (2*vy + 1)^2 - 8*y = must be square
+	//
+	// In other words there must exist integral m and n such that m^2 - n^2 = 8y (with
+	// 2*vy + 1 = m). m^2 - n^2 = (m-n)*(m+n), and so...
+	let eight_y = 8 * y;
+	let abs_eight_y = eight_y.abs();
+	for k1 in 1..=Roots::sqrt(&amp;abs_eight_y) {
+		if abs_eight_y % k1 != 0 {
+			continue;
+		}
+
+		for sign in [-1, 1] {
+			let k1 = sign * k1;
+			let k2 = eight_y / k1;
+			// k1 and k2 are now two signed integers that multiply to 8y
+
+			let two_m = k1 + k2;
+			if two_m % 2 != 0 {
+				continue;
+			}
+
+			let m = two_m / 2;
+
+			// Now, m was 2*vy + 1, and so...
+			if (m - 1) % 2 != 0 {
+				continue;
+			}
+			let vy = (m - 1) / 2;
+			let discriminant = m * m - eight_y;
+			if discriminant &lt; 0 {
+				continue;
+			}
+
+			let sqrt_disc = sqrt(discriminant).unwrap();
+
+			for pm in [-1, 1] {
+				let t_numer = 2 * vy + 1 + pm * sqrt_disc;
+				if t_numer &lt;= 0 || t_numer % 2 != 0 {
+					continue;
+				}
+				let t = t_numer / 2;
+				ans.push((t, vy));
+			}
+		}
+	}
+
+	ans
+}
+// end::time_finder[]
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	let rect = read_input(input).unwrap();
+	let trajectories = get_trajectories(rect);
+	(17, (pt1(trajectories.iter()), pt2(trajectories.iter()))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::get_traj[]
+fn get_x(t: Time, vx: Num) -&gt; Num {
+	if t &lt;= vx {
+		vx * t - t * (t - 1) / 2
+	} else {
+		vx * (vx + 1) / 2
+	}
+}
+
+fn get_trajectories(rect: Rect&lt;Num&gt;) -&gt; Vec&lt;Trajectory&gt; {
+	let Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	} = rect;
+
+	let mut trajectories = vec![];
+
+	for y in y_min..=y_max {
+		if y == 0 {
+			// If any vx works, then there will be infinitely many choices for vy because it
+			// retraces its ascent on its descent. And if no vx works, then it's moot
+			continue;
+		}
+
+		let ts_and_vys = find_ts_and_vys_for_y(y);
+
+		for (t, vy) in ts_and_vys {
+			for x in x_min..=x_max {
+				let velocities = find_velocities(t, Pos { x, y });
+
+				for velo in velocities {
+					let velo = match velo {
+						Some(v) =&gt; v,
+						None =&gt; continue,
+					};
+					if velo.vy == vy &amp;&amp; get_x(t, velo.vx) == x {
+						trajectories.push(Trajectory {
+							_t: t,
+							_pos: Pos { x, y },
+							velo,
+						});
+					}
+				}
+			}
+		}
+	}
+
+	trajectories
+}
+// end::get_traj[]
+
+// tag::pt1[]
+fn pt1&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; Option&lt;Num&gt; {
+	trajectories
+		.map(|traj| {
+			let traj = *traj.borrow();
+			let vy = traj.velo.vy;
+			if vy &lt; 0 {
+				return 0;
+			}
+			vy * (vy + 1) / 2
+		})
+		.max()
+}
+// end::pt1[]
+
+// tag::pt2[]
+fn pt2&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; usize {
+	trajectories
+		.map(|traj| {
+			let Trajectory { velo, .. } = *traj.borrow();
+			(velo.vx, velo.vy)
+		})
+		.collect::&lt;Set&lt;_&gt;&gt;()
+		.len()
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test_velocity_finder() {
+		for (t, x, y) in [
+			(1, 7, 2),
+			(2, 13, 3),
+			(3, 18, 3),
+			(4, 22, 2),
+			(5, 25, 0),
+			(6, 27, -3),
+			(7, 28, -7),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 7, vy: 2 }
+			);
+		}
+
+		for (t, x, y) in [
+			(1, 6, 3),
+			(2, 11, 5),
+			(3, 15, 6),
+			(4, 18, 6),
+			(5, 20, 5),
+			(6, 21, 3),
+			(7, 21, 0),
+			(8, 21, -4),
+			(9, 21, -9),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 6, vy: 3 }
+			);
+		}
+
+		test_input!("target area: x=20..30, y=-10..-5", day: 17, ans: (Some(45), 112));
+		test_input!("target area: x=34..35, y=-8..-6", day: 17, ans: (Some(3), 9));
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">The Math</div>
+<p>Because <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> decreases by 1 each tick until it hits 0, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> decreases by 1 each tick forever, we have the following equations for the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>- and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>-coordinates at time <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span> of a projectile fired with an initial velocity of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>v</mi><mi>x</mi></msub><mo separator="true">,</mo><msub><mi>v</mi><mi>y</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(v_x, v_y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.
+(Derivations are left to the reader, but a helpful fact is that <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>+</mo><mn>2</mn><mo>+</mo><mo>…</mo><mo>+</mo><mi>n</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>n</mi><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">1+2+\ldots+n = \frac{1}{2}n(n+1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal">n</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>.)</p>
+</div>
+\[
+\begin{align*}
+x(t, v_x) &=
+\begin{cases}
+v_x t - \frac{1}{2}t(t-1)&t \le v_x\\
+\frac{1}{2}v_x(v_x+1)&t \ge v_x
+\end{cases}\\
+y(t, v_y)&=v_y t - \frac{1}{2}t(t-1)
+\end{align*}
+\]
+<div class="paragraph">
+<p>Note that even though the two definitions of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> overlap at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><msub><mi>v</mi><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">t=v_x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, they also coincide there, so it&#8217;s not a problem.</p>
+</div>
+<div class="paragraph">
+<p>Now, we must find the values of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>v</mi><mi>x</mi></msub><mo separator="true">,</mo><msub><mi>v</mi><mi>y</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(v_x,v_y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> that land the projectile in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>.
+To do this, we simply find the values of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>v</mi><mi>x</mi></msub><mo separator="true">,</mo><msub><mi>v</mi><mi>y</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(v_x,v_y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> that will land the projectile precisely at a point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x,y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span> in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>, for each <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>∈</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">(x,y)\in R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>.
+And to do this, we find the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>v</mi><mi>x</mi></msub><mo separator="true">,</mo><msub><mi>v</mi><mi>y</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(v_x,v_y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> that will land the projectile at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x,y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span> precisely at time <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>, for each positive <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>.</p>
+</div>
+<div class="paragraph">
+<p>To find the velocities that will land the projectile precisely at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>t</mi><mo separator="true">,</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(t,x,y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span>, we solve the above equations for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">v_x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">v_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>.
+Finding <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">v_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> is simple: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mi>y</mi><mo>+</mo><mi>t</mi><mo stretchy="false">(</mo><mi>t</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mrow><mn>2</mn><mi>t</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">v_y=\frac{2y+t(t-1)}{2t}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.355em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight">t</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight">t</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>.
+For <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">v_x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, it&#8217;s a bit more complicated, as we have two options:
+\[
+v_x=\begin{cases}
+\frac{2x+t(t-1)}{2t}&amp;t\le v_x\\
+\frac{-1\pm\sqrt{1+8x}}{2}&amp;t\ge v_x
+\end{cases}
+\]</p>
+</div>
+<div class="paragraph">
+<p>And as we said above, we need everything to be an integer, so we can either have no pairs of velocities that work, one pair, or two pairs.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use num::integer::Roots;
+use std::collections::BTreeSet as Set;
+
+// tag::setup_main[]
+type Time = i64;
+type Num = i64;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Pos&lt;T&gt; {
+	x: T,
+	y: T,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Velo&lt;T&gt; {
+	vx: T,
+	vy: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Rect&lt;T&gt; {
+	x_min: T,
+	x_max: T,
+	y_min: T,
+	y_max: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Trajectory {
+	_t: Time,
+	_pos: Pos&lt;Num&gt;,
+	velo: Velo&lt;Num&gt;,
+}
+
+fn read_input(input: &amp;str) -&gt; Option&lt;Rect&lt;Num&gt;&gt; {
+	let re = {
+		regex::Regex::new(r"target area:\s*x=([\d-]+)\.\.([\d-]+),\s*y=([\d-]+)\.\.([\d-]+)")
+			.ok()?
+	};
+
+	let caps = re.captures(input.trim())?;
+	let [x1, x2, y1, y2] = // force line break :/
+		[1, 2, 3, 4].map(|i| caps.get(i).and_then(|m| m.as_str().parse().ok()));
+
+	let [x1, x2, y1, y2] = [x1?, x2?, y1?, y2?];
+
+	let [x_min, x_max] = if x1 &lt; x2 { [x1, x2] } else { [x2, x1] };
+	let [y_min, y_max] = if y1 &lt; y2 { [y1, y2] } else { [y2, y1] };
+
+	Some(Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	})
+}
+
+fn sqrt(n: Num) -&gt; Option&lt;Num&gt; {
+	let sqrt = Roots::sqrt(&amp;n);
+	if sqrt * sqrt == n {
+		Some(sqrt)
+	} else {
+		None
+	}
+}
+
+// end::setup_main[]
+
+// tag::velo_finder[]
+fn find_velocities(t: Time, position: Pos&lt;Num&gt;) -&gt; [Option&lt;Velo&lt;Num&gt;&gt;; 2] {
+	if t == 0 {
+		return [Some(Velo { vx: 0, vy: 0 }), None];
+	}
+
+	let Pos { x, y } = position;
+
+	let vy_numer = 2 * y + t * (t - 1);
+	let vy_denom = 2 * t;
+	let vy = if vy_numer % vy_denom == 0 {
+		vy_numer / vy_denom
+	} else {
+		return [None, None];
+	};
+
+	let vx1 = {
+		let vx_numer = 2 * x + t * (t - 1);
+		let vx_denom = 2 * t;
+		let vx = vx_numer / vx_denom;
+		if vx_numer % vx_denom == 0 &amp;&amp; vx &gt;= t {
+			Some(vx)
+		} else {
+			None
+		}
+	};
+
+	let vx2 = {
+		let discriminant = 1 + 8 * x;
+		sqrt(discriminant).and_then(|sqrt_disc| {
+			let vx_numer = sqrt_disc - 1;
+			let vx_denom = 2;
+			let vx = vx_numer / vx_denom;
+			if vx_numer % vx_denom == 0 &amp;&amp; vx &lt;= t {
+				Some(vx)
+			} else {
+				None
+			}
+		})
+	};
+
+	[vx1, vx2].map(|opt_vx| opt_vx.map(|vx| Velo { vx, vy }))
+}
+// end::velo_finder[]
+
+// tag::time_finder[]
+fn find_ts_and_vys_for_y(y: Num) -&gt; Vec&lt;(Time, Num)&gt; {
+	assert_ne!(y, 0);
+
+	let mut ans = vec![];
+
+	// Need to find all integer (t, vy) that satisfy y = vy * t - t*(t-1)/2 with t &gt; 0
+	//
+	// Step one: (2*vy + 1)^2 - 8*y = must be square
+	//
+	// In other words there must exist integral m and n such that m^2 - n^2 = 8y (with
+	// 2*vy + 1 = m). m^2 - n^2 = (m-n)*(m+n), and so...
+	let eight_y = 8 * y;
+	let abs_eight_y = eight_y.abs();
+	for k1 in 1..=Roots::sqrt(&amp;abs_eight_y) {
+		if abs_eight_y % k1 != 0 {
+			continue;
+		}
+
+		for sign in [-1, 1] {
+			let k1 = sign * k1;
+			let k2 = eight_y / k1;
+			// k1 and k2 are now two signed integers that multiply to 8y
+
+			let two_m = k1 + k2;
+			if two_m % 2 != 0 {
+				continue;
+			}
+
+			let m = two_m / 2;
+
+			// Now, m was 2*vy + 1, and so...
+			if (m - 1) % 2 != 0 {
+				continue;
+			}
+			let vy = (m - 1) / 2;
+			let discriminant = m * m - eight_y;
+			if discriminant &lt; 0 {
+				continue;
+			}
+
+			let sqrt_disc = sqrt(discriminant).unwrap();
+
+			for pm in [-1, 1] {
+				let t_numer = 2 * vy + 1 + pm * sqrt_disc;
+				if t_numer &lt;= 0 || t_numer % 2 != 0 {
+					continue;
+				}
+				let t = t_numer / 2;
+				ans.push((t, vy));
+			}
+		}
+	}
+
+	ans
+}
+// end::time_finder[]
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	let rect = read_input(input).unwrap();
+	let trajectories = get_trajectories(rect);
+	(17, (pt1(trajectories.iter()), pt2(trajectories.iter()))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::get_traj[]
+fn get_x(t: Time, vx: Num) -&gt; Num {
+	if t &lt;= vx {
+		vx * t - t * (t - 1) / 2
+	} else {
+		vx * (vx + 1) / 2
+	}
+}
+
+fn get_trajectories(rect: Rect&lt;Num&gt;) -&gt; Vec&lt;Trajectory&gt; {
+	let Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	} = rect;
+
+	let mut trajectories = vec![];
+
+	for y in y_min..=y_max {
+		if y == 0 {
+			// If any vx works, then there will be infinitely many choices for vy because it
+			// retraces its ascent on its descent. And if no vx works, then it's moot
+			continue;
+		}
+
+		let ts_and_vys = find_ts_and_vys_for_y(y);
+
+		for (t, vy) in ts_and_vys {
+			for x in x_min..=x_max {
+				let velocities = find_velocities(t, Pos { x, y });
+
+				for velo in velocities {
+					let velo = match velo {
+						Some(v) =&gt; v,
+						None =&gt; continue,
+					};
+					if velo.vy == vy &amp;&amp; get_x(t, velo.vx) == x {
+						trajectories.push(Trajectory {
+							_t: t,
+							_pos: Pos { x, y },
+							velo,
+						});
+					}
+				}
+			}
+		}
+	}
+
+	trajectories
+}
+// end::get_traj[]
+
+// tag::pt1[]
+fn pt1&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; Option&lt;Num&gt; {
+	trajectories
+		.map(|traj| {
+			let traj = *traj.borrow();
+			let vy = traj.velo.vy;
+			if vy &lt; 0 {
+				return 0;
+			}
+			vy * (vy + 1) / 2
+		})
+		.max()
+}
+// end::pt1[]
+
+// tag::pt2[]
+fn pt2&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; usize {
+	trajectories
+		.map(|traj| {
+			let Trajectory { velo, .. } = *traj.borrow();
+			(velo.vx, velo.vy)
+		})
+		.collect::&lt;Set&lt;_&gt;&gt;()
+		.len()
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test_velocity_finder() {
+		for (t, x, y) in [
+			(1, 7, 2),
+			(2, 13, 3),
+			(3, 18, 3),
+			(4, 22, 2),
+			(5, 25, 0),
+			(6, 27, -3),
+			(7, 28, -7),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 7, vy: 2 }
+			);
+		}
+
+		for (t, x, y) in [
+			(1, 6, 3),
+			(2, 11, 5),
+			(3, 15, 6),
+			(4, 18, 6),
+			(5, 20, 5),
+			(6, 21, 3),
+			(7, 21, 0),
+			(8, 21, -4),
+			(9, 21, -9),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 6, vy: 3 }
+			);
+		}
+
+		test_input!("target area: x=20..30, y=-10..-5", day: 17, ans: (Some(45), 112));
+		test_input!("target area: x=34..35, y=-8..-6", day: 17, ans: (Some(3), 9));
+	}
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Awesome.
+We have the 0, 1, or 2 velocities that will land the projectile at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x, y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span> at time <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>.
+But how to find the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>s for which the projectile can even land at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x,y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span>?
+We cannot enumerate all <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>s, as there are infinitely many positive integers.
+Could we perhaps keep firing it with a larger and larger <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">v_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> and hope that it would continue to land in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span> at some point in its trajectory?
+The answer is no: there are only finitely many values of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">v_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> for which there exists a time <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span> such that the projectile has a vertical position of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>.
+Let&#8217;s prove it, and let&#8217;s find them.</p>
+</div>
+<div class="paragraph">
+<p>Solving the equation <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><msub><mi>v</mi><mi>y</mi></msub><mi>t</mi><mo>−</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>t</mi><mo stretchy="false">(</mo><mi>t</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">y=v_y t- \frac{1}{2}t(t-1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9012em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal">t</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span> for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>, we find that:
+\[t=\frac{1}{2}\left((2v_y+1)\pm\sqrt{(2v_y+1)^2-8y}\right)\]
+First and foremost, for this to be an integer, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>2</mn><msub><mi>v</mi><mi>y</mi></msub><mo>+</mo><mn>1</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>−</mo><mn>8</mn><mi>y</mi></mrow><annotation encoding="application/x-tex">(2v_y+1)^2-8y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">8</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> must be a perfect square.
+Letting <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>m</mi><mn>2</mn></msup><mo>=</mo><mo stretchy="false">(</mo><mn>2</mn><msub><mi>v</mi><mi>y</mi></msub><mo>+</mo><mn>1</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">m^2 =(2v_y+1) ^ 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup><mo>=</mo><msup><mi>m</mi><mn>2</mn></msup><mo>−</mo><mn>8</mn><mi>y</mi></mrow><annotation encoding="application/x-tex">n^2 = m^2 - 8y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">8</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>, we have <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>m</mi><mn>2</mn></msup><mo>−</mo><msup><mi>n</mi><mn>2</mn></msup><mo>=</mo><mn>8</mn><mi>y</mi></mrow><annotation encoding="application/x-tex">m^2 - n^2 = 8y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">8</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>, which factors into <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>m</mi><mo>−</mo><mi>n</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><mo stretchy="false">)</mo><mo>=</mo><mn>8</mn><mi>y</mi></mrow><annotation encoding="application/x-tex">(m-n)(m+n)=8y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">8</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>.
+Since everything must be an integer, we can use the factor pairs of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>y</mi></mrow><annotation encoding="application/x-tex">8y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">8</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> to find <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>.
+If <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>y</mi><mo>=</mo><mo stretchy="false">(</mo><mi>m</mi><mo>−</mo><mi>n</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi>k</mi><mn>1</mn></msub><msub><mi>k</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">8y=(m-n)(m+n)=k_1k_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">8</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, then <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">m=\frac{1}{2}(k_1+k_2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.
+Hence, if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><msub><mi>v</mi><mi>y</mi></msub><mo>+</mo><mn>1</mn><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">2v_y+1=\frac{1}{2}(k_1+k_2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9305em;vertical-align:-0.2861em;"></span><span class="mord">2</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, then <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>2</mn><msub><mi>v</mi><mi>y</mi></msub><mo>+</mo><mn>1</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>−</mo><mn>8</mn><mi>y</mi></mrow><annotation encoding="application/x-tex">(2v_y+1)^2 - 8y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">8</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> will indeed be a perfect square.
+Of course, we also need <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac><mo stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo>+</mo><msub><mi>k</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\frac{1}{2}(k_1+k_2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> to be an odd integer so that <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">v_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> will be an integer.
+Finally, we plug <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">v_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> into our equation for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span> and if we get an integer, we&#8217;ve got a match: if the projectile is fired with a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>-velocity of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">v_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>, then it will hit the vertical position <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> precisely at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>.</p>
+</div>
+<div class="paragraph">
+<p>The astute reader will note that there <em>every</em> projectile with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">v_y&gt;0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8252em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> hits <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">y=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> on the way down.
+Therefore we exclude <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">y=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> from consideration altogether; a problem that included <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">y=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span> would have infinitely many answers or be impossible to solve.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use num::integer::Roots;
+use std::collections::BTreeSet as Set;
+
+// tag::setup_main[]
+type Time = i64;
+type Num = i64;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Pos&lt;T&gt; {
+	x: T,
+	y: T,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Velo&lt;T&gt; {
+	vx: T,
+	vy: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Rect&lt;T&gt; {
+	x_min: T,
+	x_max: T,
+	y_min: T,
+	y_max: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Trajectory {
+	_t: Time,
+	_pos: Pos&lt;Num&gt;,
+	velo: Velo&lt;Num&gt;,
+}
+
+fn read_input(input: &amp;str) -&gt; Option&lt;Rect&lt;Num&gt;&gt; {
+	let re = {
+		regex::Regex::new(r"target area:\s*x=([\d-]+)\.\.([\d-]+),\s*y=([\d-]+)\.\.([\d-]+)")
+			.ok()?
+	};
+
+	let caps = re.captures(input.trim())?;
+	let [x1, x2, y1, y2] = // force line break :/
+		[1, 2, 3, 4].map(|i| caps.get(i).and_then(|m| m.as_str().parse().ok()));
+
+	let [x1, x2, y1, y2] = [x1?, x2?, y1?, y2?];
+
+	let [x_min, x_max] = if x1 &lt; x2 { [x1, x2] } else { [x2, x1] };
+	let [y_min, y_max] = if y1 &lt; y2 { [y1, y2] } else { [y2, y1] };
+
+	Some(Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	})
+}
+
+fn sqrt(n: Num) -&gt; Option&lt;Num&gt; {
+	let sqrt = Roots::sqrt(&amp;n);
+	if sqrt * sqrt == n {
+		Some(sqrt)
+	} else {
+		None
+	}
+}
+
+// end::setup_main[]
+
+// tag::velo_finder[]
+fn find_velocities(t: Time, position: Pos&lt;Num&gt;) -&gt; [Option&lt;Velo&lt;Num&gt;&gt;; 2] {
+	if t == 0 {
+		return [Some(Velo { vx: 0, vy: 0 }), None];
+	}
+
+	let Pos { x, y } = position;
+
+	let vy_numer = 2 * y + t * (t - 1);
+	let vy_denom = 2 * t;
+	let vy = if vy_numer % vy_denom == 0 {
+		vy_numer / vy_denom
+	} else {
+		return [None, None];
+	};
+
+	let vx1 = {
+		let vx_numer = 2 * x + t * (t - 1);
+		let vx_denom = 2 * t;
+		let vx = vx_numer / vx_denom;
+		if vx_numer % vx_denom == 0 &amp;&amp; vx &gt;= t {
+			Some(vx)
+		} else {
+			None
+		}
+	};
+
+	let vx2 = {
+		let discriminant = 1 + 8 * x;
+		sqrt(discriminant).and_then(|sqrt_disc| {
+			let vx_numer = sqrt_disc - 1;
+			let vx_denom = 2;
+			let vx = vx_numer / vx_denom;
+			if vx_numer % vx_denom == 0 &amp;&amp; vx &lt;= t {
+				Some(vx)
+			} else {
+				None
+			}
+		})
+	};
+
+	[vx1, vx2].map(|opt_vx| opt_vx.map(|vx| Velo { vx, vy }))
+}
+// end::velo_finder[]
+
+// tag::time_finder[]
+fn find_ts_and_vys_for_y(y: Num) -&gt; Vec&lt;(Time, Num)&gt; {
+	assert_ne!(y, 0);
+
+	let mut ans = vec![];
+
+	// Need to find all integer (t, vy) that satisfy y = vy * t - t*(t-1)/2 with t &gt; 0
+	//
+	// Step one: (2*vy + 1)^2 - 8*y = must be square
+	//
+	// In other words there must exist integral m and n such that m^2 - n^2 = 8y (with
+	// 2*vy + 1 = m). m^2 - n^2 = (m-n)*(m+n), and so...
+	let eight_y = 8 * y;
+	let abs_eight_y = eight_y.abs();
+	for k1 in 1..=Roots::sqrt(&amp;abs_eight_y) {
+		if abs_eight_y % k1 != 0 {
+			continue;
+		}
+
+		for sign in [-1, 1] {
+			let k1 = sign * k1;
+			let k2 = eight_y / k1;
+			// k1 and k2 are now two signed integers that multiply to 8y
+
+			let two_m = k1 + k2;
+			if two_m % 2 != 0 {
+				continue;
+			}
+
+			let m = two_m / 2;
+
+			// Now, m was 2*vy + 1, and so...
+			if (m - 1) % 2 != 0 {
+				continue;
+			}
+			let vy = (m - 1) / 2;
+			let discriminant = m * m - eight_y;
+			if discriminant &lt; 0 {
+				continue;
+			}
+
+			let sqrt_disc = sqrt(discriminant).unwrap();
+
+			for pm in [-1, 1] {
+				let t_numer = 2 * vy + 1 + pm * sqrt_disc;
+				if t_numer &lt;= 0 || t_numer % 2 != 0 {
+					continue;
+				}
+				let t = t_numer / 2;
+				ans.push((t, vy));
+			}
+		}
+	}
+
+	ans
+}
+// end::time_finder[]
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	let rect = read_input(input).unwrap();
+	let trajectories = get_trajectories(rect);
+	(17, (pt1(trajectories.iter()), pt2(trajectories.iter()))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::get_traj[]
+fn get_x(t: Time, vx: Num) -&gt; Num {
+	if t &lt;= vx {
+		vx * t - t * (t - 1) / 2
+	} else {
+		vx * (vx + 1) / 2
+	}
+}
+
+fn get_trajectories(rect: Rect&lt;Num&gt;) -&gt; Vec&lt;Trajectory&gt; {
+	let Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	} = rect;
+
+	let mut trajectories = vec![];
+
+	for y in y_min..=y_max {
+		if y == 0 {
+			// If any vx works, then there will be infinitely many choices for vy because it
+			// retraces its ascent on its descent. And if no vx works, then it's moot
+			continue;
+		}
+
+		let ts_and_vys = find_ts_and_vys_for_y(y);
+
+		for (t, vy) in ts_and_vys {
+			for x in x_min..=x_max {
+				let velocities = find_velocities(t, Pos { x, y });
+
+				for velo in velocities {
+					let velo = match velo {
+						Some(v) =&gt; v,
+						None =&gt; continue,
+					};
+					if velo.vy == vy &amp;&amp; get_x(t, velo.vx) == x {
+						trajectories.push(Trajectory {
+							_t: t,
+							_pos: Pos { x, y },
+							velo,
+						});
+					}
+				}
+			}
+		}
+	}
+
+	trajectories
+}
+// end::get_traj[]
+
+// tag::pt1[]
+fn pt1&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; Option&lt;Num&gt; {
+	trajectories
+		.map(|traj| {
+			let traj = *traj.borrow();
+			let vy = traj.velo.vy;
+			if vy &lt; 0 {
+				return 0;
+			}
+			vy * (vy + 1) / 2
+		})
+		.max()
+}
+// end::pt1[]
+
+// tag::pt2[]
+fn pt2&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; usize {
+	trajectories
+		.map(|traj| {
+			let Trajectory { velo, .. } = *traj.borrow();
+			(velo.vx, velo.vy)
+		})
+		.collect::&lt;Set&lt;_&gt;&gt;()
+		.len()
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test_velocity_finder() {
+		for (t, x, y) in [
+			(1, 7, 2),
+			(2, 13, 3),
+			(3, 18, 3),
+			(4, 22, 2),
+			(5, 25, 0),
+			(6, 27, -3),
+			(7, 28, -7),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 7, vy: 2 }
+			);
+		}
+
+		for (t, x, y) in [
+			(1, 6, 3),
+			(2, 11, 5),
+			(3, 15, 6),
+			(4, 18, 6),
+			(5, 20, 5),
+			(6, 21, 3),
+			(7, 21, 0),
+			(8, 21, -4),
+			(9, 21, -9),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 6, vy: 3 }
+			);
+		}
+
+		test_input!("target area: x=20..30, y=-10..-5", day: 17, ans: (Some(45), 112));
+		test_input!("target area: x=34..35, y=-8..-6", day: 17, ans: (Some(3), 9));
+	}
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We are nearly there!
+To find whether, and how, the projectile can reach the point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x,y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span>, we find:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>the set of pairs <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>t</mi><mo separator="true">,</mo><msub><mi>v</mi><mi>y</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(t, v_y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> that give the projectile a vertical position of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> at time <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span>, and</p>
+</li>
+<li>
+<p>for each of these pairs, we check that the projectile can indeed reach <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x,y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span> at time <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span> (we know it can reach <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>, but can it reach <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>?) and find the velocities <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>v</mi><mi>x</mi></msub><mo separator="true">,</mo><msub><mi>v</mi><mi>y</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(v_x,v_y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> that will achieve that, if possible.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>And we simply do this for every <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>∈</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">(x,y)\in R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use num::integer::Roots;
+use std::collections::BTreeSet as Set;
+
+// tag::setup_main[]
+type Time = i64;
+type Num = i64;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Pos&lt;T&gt; {
+	x: T,
+	y: T,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Velo&lt;T&gt; {
+	vx: T,
+	vy: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Rect&lt;T&gt; {
+	x_min: T,
+	x_max: T,
+	y_min: T,
+	y_max: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Trajectory {
+	_t: Time,
+	_pos: Pos&lt;Num&gt;,
+	velo: Velo&lt;Num&gt;,
+}
+
+fn read_input(input: &amp;str) -&gt; Option&lt;Rect&lt;Num&gt;&gt; {
+	let re = {
+		regex::Regex::new(r"target area:\s*x=([\d-]+)\.\.([\d-]+),\s*y=([\d-]+)\.\.([\d-]+)")
+			.ok()?
+	};
+
+	let caps = re.captures(input.trim())?;
+	let [x1, x2, y1, y2] = // force line break :/
+		[1, 2, 3, 4].map(|i| caps.get(i).and_then(|m| m.as_str().parse().ok()));
+
+	let [x1, x2, y1, y2] = [x1?, x2?, y1?, y2?];
+
+	let [x_min, x_max] = if x1 &lt; x2 { [x1, x2] } else { [x2, x1] };
+	let [y_min, y_max] = if y1 &lt; y2 { [y1, y2] } else { [y2, y1] };
+
+	Some(Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	})
+}
+
+fn sqrt(n: Num) -&gt; Option&lt;Num&gt; {
+	let sqrt = Roots::sqrt(&amp;n);
+	if sqrt * sqrt == n {
+		Some(sqrt)
+	} else {
+		None
+	}
+}
+
+// end::setup_main[]
+
+// tag::velo_finder[]
+fn find_velocities(t: Time, position: Pos&lt;Num&gt;) -&gt; [Option&lt;Velo&lt;Num&gt;&gt;; 2] {
+	if t == 0 {
+		return [Some(Velo { vx: 0, vy: 0 }), None];
+	}
+
+	let Pos { x, y } = position;
+
+	let vy_numer = 2 * y + t * (t - 1);
+	let vy_denom = 2 * t;
+	let vy = if vy_numer % vy_denom == 0 {
+		vy_numer / vy_denom
+	} else {
+		return [None, None];
+	};
+
+	let vx1 = {
+		let vx_numer = 2 * x + t * (t - 1);
+		let vx_denom = 2 * t;
+		let vx = vx_numer / vx_denom;
+		if vx_numer % vx_denom == 0 &amp;&amp; vx &gt;= t {
+			Some(vx)
+		} else {
+			None
+		}
+	};
+
+	let vx2 = {
+		let discriminant = 1 + 8 * x;
+		sqrt(discriminant).and_then(|sqrt_disc| {
+			let vx_numer = sqrt_disc - 1;
+			let vx_denom = 2;
+			let vx = vx_numer / vx_denom;
+			if vx_numer % vx_denom == 0 &amp;&amp; vx &lt;= t {
+				Some(vx)
+			} else {
+				None
+			}
+		})
+	};
+
+	[vx1, vx2].map(|opt_vx| opt_vx.map(|vx| Velo { vx, vy }))
+}
+// end::velo_finder[]
+
+// tag::time_finder[]
+fn find_ts_and_vys_for_y(y: Num) -&gt; Vec&lt;(Time, Num)&gt; {
+	assert_ne!(y, 0);
+
+	let mut ans = vec![];
+
+	// Need to find all integer (t, vy) that satisfy y = vy * t - t*(t-1)/2 with t &gt; 0
+	//
+	// Step one: (2*vy + 1)^2 - 8*y = must be square
+	//
+	// In other words there must exist integral m and n such that m^2 - n^2 = 8y (with
+	// 2*vy + 1 = m). m^2 - n^2 = (m-n)*(m+n), and so...
+	let eight_y = 8 * y;
+	let abs_eight_y = eight_y.abs();
+	for k1 in 1..=Roots::sqrt(&amp;abs_eight_y) {
+		if abs_eight_y % k1 != 0 {
+			continue;
+		}
+
+		for sign in [-1, 1] {
+			let k1 = sign * k1;
+			let k2 = eight_y / k1;
+			// k1 and k2 are now two signed integers that multiply to 8y
+
+			let two_m = k1 + k2;
+			if two_m % 2 != 0 {
+				continue;
+			}
+
+			let m = two_m / 2;
+
+			// Now, m was 2*vy + 1, and so...
+			if (m - 1) % 2 != 0 {
+				continue;
+			}
+			let vy = (m - 1) / 2;
+			let discriminant = m * m - eight_y;
+			if discriminant &lt; 0 {
+				continue;
+			}
+
+			let sqrt_disc = sqrt(discriminant).unwrap();
+
+			for pm in [-1, 1] {
+				let t_numer = 2 * vy + 1 + pm * sqrt_disc;
+				if t_numer &lt;= 0 || t_numer % 2 != 0 {
+					continue;
+				}
+				let t = t_numer / 2;
+				ans.push((t, vy));
+			}
+		}
+	}
+
+	ans
+}
+// end::time_finder[]
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	let rect = read_input(input).unwrap();
+	let trajectories = get_trajectories(rect);
+	(17, (pt1(trajectories.iter()), pt2(trajectories.iter()))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::get_traj[]
+fn get_x(t: Time, vx: Num) -&gt; Num {
+	if t &lt;= vx {
+		vx * t - t * (t - 1) / 2
+	} else {
+		vx * (vx + 1) / 2
+	}
+}
+
+fn get_trajectories(rect: Rect&lt;Num&gt;) -&gt; Vec&lt;Trajectory&gt; {
+	let Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	} = rect;
+
+	let mut trajectories = vec![];
+
+	for y in y_min..=y_max {
+		if y == 0 {
+			// If any vx works, then there will be infinitely many choices for vy because it
+			// retraces its ascent on its descent. And if no vx works, then it's moot
+			continue;
+		}
+
+		let ts_and_vys = find_ts_and_vys_for_y(y);
+
+		for (t, vy) in ts_and_vys {
+			for x in x_min..=x_max {
+				let velocities = find_velocities(t, Pos { x, y });
+
+				for velo in velocities {
+					let velo = match velo {
+						Some(v) =&gt; v,
+						None =&gt; continue,
+					};
+					if velo.vy == vy &amp;&amp; get_x(t, velo.vx) == x {
+						trajectories.push(Trajectory {
+							_t: t,
+							_pos: Pos { x, y },
+							velo,
+						});
+					}
+				}
+			}
+		}
+	}
+
+	trajectories
+}
+// end::get_traj[]
+
+// tag::pt1[]
+fn pt1&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; Option&lt;Num&gt; {
+	trajectories
+		.map(|traj| {
+			let traj = *traj.borrow();
+			let vy = traj.velo.vy;
+			if vy &lt; 0 {
+				return 0;
+			}
+			vy * (vy + 1) / 2
+		})
+		.max()
+}
+// end::pt1[]
+
+// tag::pt2[]
+fn pt2&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; usize {
+	trajectories
+		.map(|traj| {
+			let Trajectory { velo, .. } = *traj.borrow();
+			(velo.vx, velo.vy)
+		})
+		.collect::&lt;Set&lt;_&gt;&gt;()
+		.len()
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test_velocity_finder() {
+		for (t, x, y) in [
+			(1, 7, 2),
+			(2, 13, 3),
+			(3, 18, 3),
+			(4, 22, 2),
+			(5, 25, 0),
+			(6, 27, -3),
+			(7, 28, -7),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 7, vy: 2 }
+			);
+		}
+
+		for (t, x, y) in [
+			(1, 6, 3),
+			(2, 11, 5),
+			(3, 15, 6),
+			(4, 18, 6),
+			(5, 20, 5),
+			(6, 21, 3),
+			(7, 21, 0),
+			(8, 21, -4),
+			(9, 21, -9),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 6, vy: 3 }
+			);
+		}
+
+		test_input!("target area: x=20..30, y=-10..-5", day: 17, ans: (Some(45), 112));
+		test_input!("target area: x=34..35, y=-8..-6", day: 17, ans: (Some(3), 9));
+	}
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once we get all the trajectories, the actual answers we&#8217;re asked for are pretty simple.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_1"><a class="anchor" href="#_part_1"></a>Part 1</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Part 1 asks us to find the maximum possible height that can be achieved by a projectile that reaches <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>.
+As we said above, a projectile with initial <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>-velocity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">v_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> reaches an apex of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac><msub><mi>v</mi><mi>y</mi></msub><mo stretchy="false">(</mo><msub><mi>v</mi><mi>y</mi></msub><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\frac{1}{2}v_y(v_y+1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use num::integer::Roots;
+use std::collections::BTreeSet as Set;
+
+// tag::setup_main[]
+type Time = i64;
+type Num = i64;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Pos&lt;T&gt; {
+	x: T,
+	y: T,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Velo&lt;T&gt; {
+	vx: T,
+	vy: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Rect&lt;T&gt; {
+	x_min: T,
+	x_max: T,
+	y_min: T,
+	y_max: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Trajectory {
+	_t: Time,
+	_pos: Pos&lt;Num&gt;,
+	velo: Velo&lt;Num&gt;,
+}
+
+fn read_input(input: &amp;str) -&gt; Option&lt;Rect&lt;Num&gt;&gt; {
+	let re = {
+		regex::Regex::new(r"target area:\s*x=([\d-]+)\.\.([\d-]+),\s*y=([\d-]+)\.\.([\d-]+)")
+			.ok()?
+	};
+
+	let caps = re.captures(input.trim())?;
+	let [x1, x2, y1, y2] = // force line break :/
+		[1, 2, 3, 4].map(|i| caps.get(i).and_then(|m| m.as_str().parse().ok()));
+
+	let [x1, x2, y1, y2] = [x1?, x2?, y1?, y2?];
+
+	let [x_min, x_max] = if x1 &lt; x2 { [x1, x2] } else { [x2, x1] };
+	let [y_min, y_max] = if y1 &lt; y2 { [y1, y2] } else { [y2, y1] };
+
+	Some(Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	})
+}
+
+fn sqrt(n: Num) -&gt; Option&lt;Num&gt; {
+	let sqrt = Roots::sqrt(&amp;n);
+	if sqrt * sqrt == n {
+		Some(sqrt)
+	} else {
+		None
+	}
+}
+
+// end::setup_main[]
+
+// tag::velo_finder[]
+fn find_velocities(t: Time, position: Pos&lt;Num&gt;) -&gt; [Option&lt;Velo&lt;Num&gt;&gt;; 2] {
+	if t == 0 {
+		return [Some(Velo { vx: 0, vy: 0 }), None];
+	}
+
+	let Pos { x, y } = position;
+
+	let vy_numer = 2 * y + t * (t - 1);
+	let vy_denom = 2 * t;
+	let vy = if vy_numer % vy_denom == 0 {
+		vy_numer / vy_denom
+	} else {
+		return [None, None];
+	};
+
+	let vx1 = {
+		let vx_numer = 2 * x + t * (t - 1);
+		let vx_denom = 2 * t;
+		let vx = vx_numer / vx_denom;
+		if vx_numer % vx_denom == 0 &amp;&amp; vx &gt;= t {
+			Some(vx)
+		} else {
+			None
+		}
+	};
+
+	let vx2 = {
+		let discriminant = 1 + 8 * x;
+		sqrt(discriminant).and_then(|sqrt_disc| {
+			let vx_numer = sqrt_disc - 1;
+			let vx_denom = 2;
+			let vx = vx_numer / vx_denom;
+			if vx_numer % vx_denom == 0 &amp;&amp; vx &lt;= t {
+				Some(vx)
+			} else {
+				None
+			}
+		})
+	};
+
+	[vx1, vx2].map(|opt_vx| opt_vx.map(|vx| Velo { vx, vy }))
+}
+// end::velo_finder[]
+
+// tag::time_finder[]
+fn find_ts_and_vys_for_y(y: Num) -&gt; Vec&lt;(Time, Num)&gt; {
+	assert_ne!(y, 0);
+
+	let mut ans = vec![];
+
+	// Need to find all integer (t, vy) that satisfy y = vy * t - t*(t-1)/2 with t &gt; 0
+	//
+	// Step one: (2*vy + 1)^2 - 8*y = must be square
+	//
+	// In other words there must exist integral m and n such that m^2 - n^2 = 8y (with
+	// 2*vy + 1 = m). m^2 - n^2 = (m-n)*(m+n), and so...
+	let eight_y = 8 * y;
+	let abs_eight_y = eight_y.abs();
+	for k1 in 1..=Roots::sqrt(&amp;abs_eight_y) {
+		if abs_eight_y % k1 != 0 {
+			continue;
+		}
+
+		for sign in [-1, 1] {
+			let k1 = sign * k1;
+			let k2 = eight_y / k1;
+			// k1 and k2 are now two signed integers that multiply to 8y
+
+			let two_m = k1 + k2;
+			if two_m % 2 != 0 {
+				continue;
+			}
+
+			let m = two_m / 2;
+
+			// Now, m was 2*vy + 1, and so...
+			if (m - 1) % 2 != 0 {
+				continue;
+			}
+			let vy = (m - 1) / 2;
+			let discriminant = m * m - eight_y;
+			if discriminant &lt; 0 {
+				continue;
+			}
+
+			let sqrt_disc = sqrt(discriminant).unwrap();
+
+			for pm in [-1, 1] {
+				let t_numer = 2 * vy + 1 + pm * sqrt_disc;
+				if t_numer &lt;= 0 || t_numer % 2 != 0 {
+					continue;
+				}
+				let t = t_numer / 2;
+				ans.push((t, vy));
+			}
+		}
+	}
+
+	ans
+}
+// end::time_finder[]
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	let rect = read_input(input).unwrap();
+	let trajectories = get_trajectories(rect);
+	(17, (pt1(trajectories.iter()), pt2(trajectories.iter()))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::get_traj[]
+fn get_x(t: Time, vx: Num) -&gt; Num {
+	if t &lt;= vx {
+		vx * t - t * (t - 1) / 2
+	} else {
+		vx * (vx + 1) / 2
+	}
+}
+
+fn get_trajectories(rect: Rect&lt;Num&gt;) -&gt; Vec&lt;Trajectory&gt; {
+	let Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	} = rect;
+
+	let mut trajectories = vec![];
+
+	for y in y_min..=y_max {
+		if y == 0 {
+			// If any vx works, then there will be infinitely many choices for vy because it
+			// retraces its ascent on its descent. And if no vx works, then it's moot
+			continue;
+		}
+
+		let ts_and_vys = find_ts_and_vys_for_y(y);
+
+		for (t, vy) in ts_and_vys {
+			for x in x_min..=x_max {
+				let velocities = find_velocities(t, Pos { x, y });
+
+				for velo in velocities {
+					let velo = match velo {
+						Some(v) =&gt; v,
+						None =&gt; continue,
+					};
+					if velo.vy == vy &amp;&amp; get_x(t, velo.vx) == x {
+						trajectories.push(Trajectory {
+							_t: t,
+							_pos: Pos { x, y },
+							velo,
+						});
+					}
+				}
+			}
+		}
+	}
+
+	trajectories
+}
+// end::get_traj[]
+
+// tag::pt1[]
+fn pt1&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; Option&lt;Num&gt; {
+	trajectories
+		.map(|traj| {
+			let traj = *traj.borrow();
+			let vy = traj.velo.vy;
+			if vy &lt; 0 {
+				return 0;
+			}
+			vy * (vy + 1) / 2
+		})
+		.max()
+}
+// end::pt1[]
+
+// tag::pt2[]
+fn pt2&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; usize {
+	trajectories
+		.map(|traj| {
+			let Trajectory { velo, .. } = *traj.borrow();
+			(velo.vx, velo.vy)
+		})
+		.collect::&lt;Set&lt;_&gt;&gt;()
+		.len()
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test_velocity_finder() {
+		for (t, x, y) in [
+			(1, 7, 2),
+			(2, 13, 3),
+			(3, 18, 3),
+			(4, 22, 2),
+			(5, 25, 0),
+			(6, 27, -3),
+			(7, 28, -7),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 7, vy: 2 }
+			);
+		}
+
+		for (t, x, y) in [
+			(1, 6, 3),
+			(2, 11, 5),
+			(3, 15, 6),
+			(4, 18, 6),
+			(5, 20, 5),
+			(6, 21, 3),
+			(7, 21, 0),
+			(8, 21, -4),
+			(9, 21, -9),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 6, vy: 3 }
+			);
+		}
+
+		test_input!("target area: x=20..30, y=-10..-5", day: 17, ans: (Some(45), 112));
+		test_input!("target area: x=34..35, y=-8..-6", day: 17, ans: (Some(3), 9));
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_2"><a class="anchor" href="#_part_2"></a>Part 2</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Part 2 asks us to simply count distinct initial velocities that land the projectile in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use num::integer::Roots;
+use std::collections::BTreeSet as Set;
+
+// tag::setup_main[]
+type Time = i64;
+type Num = i64;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Pos&lt;T&gt; {
+	x: T,
+	y: T,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct Velo&lt;T&gt; {
+	vx: T,
+	vy: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Rect&lt;T&gt; {
+	x_min: T,
+	x_max: T,
+	y_min: T,
+	y_max: T,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct Trajectory {
+	_t: Time,
+	_pos: Pos&lt;Num&gt;,
+	velo: Velo&lt;Num&gt;,
+}
+
+fn read_input(input: &amp;str) -&gt; Option&lt;Rect&lt;Num&gt;&gt; {
+	let re = {
+		regex::Regex::new(r"target area:\s*x=([\d-]+)\.\.([\d-]+),\s*y=([\d-]+)\.\.([\d-]+)")
+			.ok()?
+	};
+
+	let caps = re.captures(input.trim())?;
+	let [x1, x2, y1, y2] = // force line break :/
+		[1, 2, 3, 4].map(|i| caps.get(i).and_then(|m| m.as_str().parse().ok()));
+
+	let [x1, x2, y1, y2] = [x1?, x2?, y1?, y2?];
+
+	let [x_min, x_max] = if x1 &lt; x2 { [x1, x2] } else { [x2, x1] };
+	let [y_min, y_max] = if y1 &lt; y2 { [y1, y2] } else { [y2, y1] };
+
+	Some(Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	})
+}
+
+fn sqrt(n: Num) -&gt; Option&lt;Num&gt; {
+	let sqrt = Roots::sqrt(&amp;n);
+	if sqrt * sqrt == n {
+		Some(sqrt)
+	} else {
+		None
+	}
+}
+
+// end::setup_main[]
+
+// tag::velo_finder[]
+fn find_velocities(t: Time, position: Pos&lt;Num&gt;) -&gt; [Option&lt;Velo&lt;Num&gt;&gt;; 2] {
+	if t == 0 {
+		return [Some(Velo { vx: 0, vy: 0 }), None];
+	}
+
+	let Pos { x, y } = position;
+
+	let vy_numer = 2 * y + t * (t - 1);
+	let vy_denom = 2 * t;
+	let vy = if vy_numer % vy_denom == 0 {
+		vy_numer / vy_denom
+	} else {
+		return [None, None];
+	};
+
+	let vx1 = {
+		let vx_numer = 2 * x + t * (t - 1);
+		let vx_denom = 2 * t;
+		let vx = vx_numer / vx_denom;
+		if vx_numer % vx_denom == 0 &amp;&amp; vx &gt;= t {
+			Some(vx)
+		} else {
+			None
+		}
+	};
+
+	let vx2 = {
+		let discriminant = 1 + 8 * x;
+		sqrt(discriminant).and_then(|sqrt_disc| {
+			let vx_numer = sqrt_disc - 1;
+			let vx_denom = 2;
+			let vx = vx_numer / vx_denom;
+			if vx_numer % vx_denom == 0 &amp;&amp; vx &lt;= t {
+				Some(vx)
+			} else {
+				None
+			}
+		})
+	};
+
+	[vx1, vx2].map(|opt_vx| opt_vx.map(|vx| Velo { vx, vy }))
+}
+// end::velo_finder[]
+
+// tag::time_finder[]
+fn find_ts_and_vys_for_y(y: Num) -&gt; Vec&lt;(Time, Num)&gt; {
+	assert_ne!(y, 0);
+
+	let mut ans = vec![];
+
+	// Need to find all integer (t, vy) that satisfy y = vy * t - t*(t-1)/2 with t &gt; 0
+	//
+	// Step one: (2*vy + 1)^2 - 8*y = must be square
+	//
+	// In other words there must exist integral m and n such that m^2 - n^2 = 8y (with
+	// 2*vy + 1 = m). m^2 - n^2 = (m-n)*(m+n), and so...
+	let eight_y = 8 * y;
+	let abs_eight_y = eight_y.abs();
+	for k1 in 1..=Roots::sqrt(&amp;abs_eight_y) {
+		if abs_eight_y % k1 != 0 {
+			continue;
+		}
+
+		for sign in [-1, 1] {
+			let k1 = sign * k1;
+			let k2 = eight_y / k1;
+			// k1 and k2 are now two signed integers that multiply to 8y
+
+			let two_m = k1 + k2;
+			if two_m % 2 != 0 {
+				continue;
+			}
+
+			let m = two_m / 2;
+
+			// Now, m was 2*vy + 1, and so...
+			if (m - 1) % 2 != 0 {
+				continue;
+			}
+			let vy = (m - 1) / 2;
+			let discriminant = m * m - eight_y;
+			if discriminant &lt; 0 {
+				continue;
+			}
+
+			let sqrt_disc = sqrt(discriminant).unwrap();
+
+			for pm in [-1, 1] {
+				let t_numer = 2 * vy + 1 + pm * sqrt_disc;
+				if t_numer &lt;= 0 || t_numer % 2 != 0 {
+					continue;
+				}
+				let t = t_numer / 2;
+				ans.push((t, vy));
+			}
+		}
+	}
+
+	ans
+}
+// end::time_finder[]
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	let rect = read_input(input).unwrap();
+	let trajectories = get_trajectories(rect);
+	(17, (pt1(trajectories.iter()), pt2(trajectories.iter()))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;Option&lt;Num&gt;, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::get_traj[]
+fn get_x(t: Time, vx: Num) -&gt; Num {
+	if t &lt;= vx {
+		vx * t - t * (t - 1) / 2
+	} else {
+		vx * (vx + 1) / 2
+	}
+}
+
+fn get_trajectories(rect: Rect&lt;Num&gt;) -&gt; Vec&lt;Trajectory&gt; {
+	let Rect {
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+	} = rect;
+
+	let mut trajectories = vec![];
+
+	for y in y_min..=y_max {
+		if y == 0 {
+			// If any vx works, then there will be infinitely many choices for vy because it
+			// retraces its ascent on its descent. And if no vx works, then it's moot
+			continue;
+		}
+
+		let ts_and_vys = find_ts_and_vys_for_y(y);
+
+		for (t, vy) in ts_and_vys {
+			for x in x_min..=x_max {
+				let velocities = find_velocities(t, Pos { x, y });
+
+				for velo in velocities {
+					let velo = match velo {
+						Some(v) =&gt; v,
+						None =&gt; continue,
+					};
+					if velo.vy == vy &amp;&amp; get_x(t, velo.vx) == x {
+						trajectories.push(Trajectory {
+							_t: t,
+							_pos: Pos { x, y },
+							velo,
+						});
+					}
+				}
+			}
+		}
+	}
+
+	trajectories
+}
+// end::get_traj[]
+
+// tag::pt1[]
+fn pt1&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; Option&lt;Num&gt; {
+	trajectories
+		.map(|traj| {
+			let traj = *traj.borrow();
+			let vy = traj.velo.vy;
+			if vy &lt; 0 {
+				return 0;
+			}
+			vy * (vy + 1) / 2
+		})
+		.max()
+}
+// end::pt1[]
+
+// tag::pt2[]
+fn pt2&lt;T: std::borrow::Borrow&lt;Trajectory&gt;&gt;(trajectories: impl Iterator&lt;Item = T&gt;) -&gt; usize {
+	trajectories
+		.map(|traj| {
+			let Trajectory { velo, .. } = *traj.borrow();
+			(velo.vx, velo.vy)
+		})
+		.collect::&lt;Set&lt;_&gt;&gt;()
+		.len()
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test_velocity_finder() {
+		for (t, x, y) in [
+			(1, 7, 2),
+			(2, 13, 3),
+			(3, 18, 3),
+			(4, 22, 2),
+			(5, 25, 0),
+			(6, 27, -3),
+			(7, 28, -7),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 7, vy: 2 }
+			);
+		}
+
+		for (t, x, y) in [
+			(1, 6, 3),
+			(2, 11, 5),
+			(3, 15, 6),
+			(4, 18, 6),
+			(5, 20, 5),
+			(6, 21, 3),
+			(7, 21, 0),
+			(8, 21, -4),
+			(9, 21, -9),
+		] {
+			assert_eq!(
+				find_velocities(t, Pos { x, y })
+					.iter()
+					.flatten()
+					.next()
+					.unwrap(),
+				&amp;Velo { vx: 6, vy: 3 }
+			);
+		}
+
+		test_input!("target area: x=20..30, y=-10..-5", day: 17, ans: (Some(45), 112));
+		test_input!("target area: x=34..35, y=-8..-6", day: 17, ans: (Some(3), 9));
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>     <nav class="pagination">
+        <span class="prev"><a href="../day_16/soln">Day 16: Packet Decoder</a></span>
+        <span class="next"><a href="../day_18/soln">Day 18: Snailfish</a></span>
+    </nav>
+
+</article>
+  </div>
+  <footer class="footer">
+  <p>This page was built using <a href="https://antora.org" target="_blank">Antora</a> with a theme forked from the <a
+      href="https://gitlab.com/antora/antora-ui-default" target="_blank">default UI</a>. Search is powered by <a
+      href="https://lunrjs.com" target="_blank">Lunr</a>.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script>
+	function add_is_current_path() {
+		let elem = document.querySelector(`.nav-container .is-current-page > .final-depth`);
+		if (!elem) { return; }
+		while (!elem.classList.contains("nav-panel-explore")) {
+			if (elem.tagName === "LI") {
+				elem.classList.add("is-current-path");
+			}
+			elem = elem.parentNode;
+		}
+	}
+	add_is_current_path()
+</script>
+<script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+	<script src="../../_/js/vendor/lunr.js"></script>
+<script src="../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../.." data-snippet-length="100" data-stylesheet="../../_/css/search.css"></script>
+<script async src="../../search-index.js"></script>
+<script>
+	function set_up_footnotes() {
+		let footnoteBox;
+		let footnoteP;
+		const _isMobile = "ontouchstart" in document.documentElement;
+
+		// Apparently, sticking the tooltip in a child div of document.body, instead of in
+		// document.body directly, helps performance.
+		// https://atfzl.com/don-t-attach-tooltips-to-document-body
+		const footnoteHolder = document.createElement("div");
+		document.body.appendChild(footnoteHolder);
+
+		function showFootnoteBoxOnHover(elem) {
+			const FOOTNOTE_BOX_MAX_WIDTH = 400;
+
+			if (footnoteBox === undefined) {
+				footnoteBox = document.createElement("div");
+				footnoteHolder.appendChild(footnoteBox);
+				footnoteBox.classList.add("footnote-box");
+				footnoteBox.addEventListener("mouseleave", () => removeFootnoteBox());
+
+				footnoteP = document.createElement("p");
+				footnoteBox.appendChild(footnoteP);
+
+				footnoteBox.style.zIndex = 9999;
+			}
+
+			// Remove the numbering from this footnote box
+			const footnoteId = elem.getAttribute("href"); // Starts with #
+			const footnoteClone = document
+				.getElementById(footnoteId.substring(1))
+				.cloneNode(true);
+			const footnoteA = footnoteClone.getElementsByTagName("a")[0];
+			footnoteA.remove();
+
+			const footnoteHtml = footnoteClone.innerHTML.replace(/^\s*\.\s*/, "");
+
+			footnoteP.innerHTML = footnoteHtml;
+			footnoteBox.style.right = null;
+			footnoteBox.style.left = "0px";
+			footnoteBox.style.top = "0px";
+
+			const elemRect = elem.getBoundingClientRect();
+			const bodyRect = document.body.getBoundingClientRect();
+
+			footnoteBox.style.display = "block";
+
+			let tx = false;
+			let ty = false;
+
+			if (elemRect.left - FOOTNOTE_BOX_MAX_WIDTH < 10) {
+				const px = -bodyRect.left + 10;
+				footnoteBox.style.left = `${px}px`;
+
+				tx = true;
+			} else {
+				const px = elemRect.left - bodyRect.left + 20;
+				footnoteBox.style.left = `${px}px`;
+			}
+
+			const footnoteRect = footnoteBox.getBoundingClientRect();
+
+			const windowHeight = document.documentElement.clientHeight;
+			if (elemRect.top + footnoteRect.height > windowHeight) {
+				const py = -10 + window.scrollY + windowHeight;
+				footnoteBox.style.top = `${py}px`;
+			} else {
+				const py = elemRect.top - bodyRect.top;
+				footnoteBox.style.top = `${py}px`;
+
+				ty = true;
+			}
+
+			footnoteBox.style.transform = (() => {
+				let transX = tx ? 0 : "-100%";
+				let transY = ty ? 0 : "-100%";
+				return `translate(${transX}, ${transY})`;
+			})();
+
+			// if (elemRect.right + FOOTNOTE_BOX_MAX_WIDTH - 30 > bodyRect.right) {
+			// 	const px = bodyRect.right - (bodyRect.left + bodyRect.width);
+			// 	console.log(bodyRect);
+			// 	footnoteBox.style.left = null;
+			// 	footnoteBox.style.right = `${px}px`;
+			// 	console.log("right");
+			// } else {
+			// 	const px = -10 + elemRect.left - bodyRect.left;
+			// 	footnoteBox.style.right = null;
+			// 	footnoteBox.style.left = `${px}px`;
+			// 	console.log("left");
+			// }
+		}
+
+		function removeFootnoteBox() {
+			if (footnoteBox === undefined) {
+				return;
+			}
+			footnoteBox.style.display = "none";
+		}
+
+		function initializeFootnotes() {
+			const footnotes = document.querySelectorAll(
+				":not(#footnotes) .footnote a.footnote",
+			);
+			const nFootnotes = footnotes.length;
+			for (let i = 0; i < nFootnotes; i++) {
+				const footnote = footnotes[i];
+				footnote.addEventListener("mouseenter", event => {
+					showFootnoteBoxOnHover(footnote);
+				});
+			}
+		}
+
+		if (!_isMobile) {
+			initializeFootnotes();
+		}
+	}
+	set_up_footnotes()
+</script>
+<script>
+	function add_titles() {
+		const elems = document.querySelectorAll(".ui-icon.nav-menu-icon");
+		for (let i = 0, len = elems.length; i < len; i++) {
+			const elem = elems[i];
+			if (elem.getAttribute('title') === null) {
+				elems[i].setAttribute("title", "Navigation menu icon: one bullet followed by three sub-bullets");
+			}
+		}
+	}
+	add_titles()
+</script>
+</main>
+</div>
+</body>
+
+</html>

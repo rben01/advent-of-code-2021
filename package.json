@@ -5,10 +5,13 @@
 		"url": "github:rben01/advent_of_code_2021",
 		"type": "git"
 	},
+	"type": "commonjs",
 	"license": "MIT",
 	"devDependencies": {
+		"@antora/lunr-extension": "^1.0.0-alpha.8",
 		"antora": "^3.1.2",
-		"@antora/lunr-extension": "^1.0.0-alpha.8"
+		"asciidoctor": "^2.2.6",
+		"asciidoctor-katex": "^0.4.1"
 	},
 	"scripts": {
 		"build": "npx antora --clean antora-playbook.yml"

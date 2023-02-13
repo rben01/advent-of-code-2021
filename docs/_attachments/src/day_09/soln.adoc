@@ -1,0 +1,27 @@
+= Day 9: Smoke Basin
+
+link_day:9[] {link-sep} link_input:9[]
+
+Nothing complicated here.
+We must do the following things with a 2D matrix whose entries are between 1 and 9 (inclusive).
+
+. In {part-title} 1 we have to find the local minima of the matrix.
+. In {part-title} 2 we have to find the matrix's maximal connected regions containing no 9s.
+This is just a DFS through the matrix with a small amount of bookkeeping.
+
+***
+
+== {setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
+
+== {part-title} 1
+--
+include_source::mod.rs[tag=pt1]
+--
+
+== {part-title} 2
+--
+include_source::mod.rs[tag=pt2]
+--

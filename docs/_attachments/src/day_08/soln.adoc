@@ -1,0 +1,83 @@
+= Day 8: Seven Segment Search
+
+link_day:8[] {link-sep} link_input:8[]
+
+What an interesting problem!
+We are asked to deduce the manner in which a computer has been incorrectly hooked up to a https://en.wikipedia.org/wiki/Seven-segment_display[seven-segment display^] (7SD):
+
+image::https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Seven_segment_01_Pengo.jpg/485px-Seven_segment_01_Pengo.jpg[A seven-segment display chip with pins showing,width=300]
+
+We will use the following display schematic, with the segments labeled A–G:
+
+[source]
+----
+  0:      1:      2:      3:      4:
+ AAAA            AAAA    AAAA
+B    C       C       C       C  B    C
+B    C       C       C       C  B    C
+                 DDDD    DDDD    DDDD
+E    F       F  E            F       F
+E    F       F  E            F       F
+ GGGG            GGGG    GGGG
+
+  5:      6:      7:      8:      9:
+ AAAA    AAAA    AAAA    AAAA    AAAA
+B       B            C  B    C  B    C
+B       B            C  B    C  B    C
+ DDDD    DDDD            DDDD    DDDD
+     F  E    F       F  E    F       F
+     F  E    F       F  E    F       F
+ GGGG    GGGG            GGGG    GGGG
+----
+
+The computer sends a stream of digits that we see as various patterns of lit segments on the 7SD.
+The computer has the correct logic to display digits, but its wires to the 7SD got crossed during setup, so the digits it attempts to display end up looking like gibberish to us.
+But because the computer's underlying logic still holds, we can still deduce things from its output.
+For instance, if it lights up only two segments, we know that it is trying to display a 1 (because 1 is the only digit made of exactly two segments), and so the two segments it lit up _should_ be rewired to the two segments `CF` (although we still don't know in which order).
+If it lights up five segments, then it could be trying to display either a 2 (`ACDEG`), 3 (`ACDFG`), or 5 (`ABDFG`).
+By observing the patterns it lights up, and using our knowledge of how the digits 0–9 should have been displayed, we can deduce the full wiring scheme and how the computer must be rewired to the display in order to function correctly.
+
+The only other wrinkle is we don't even get to tell the computer which digits to attempt to display; that is entirely up to it.
+We simply receive a stream of _some_ digits, and from that must deduce the wiring scheme.
+
+.The Solution
+The strategy is as follows: for each garbled digit we see, record its pattern and the list of candidate digits (those having the same number of segments turned on).
+Then, by taking set differences and intersections between the patterns seen and their candidates, we can derive more specific information about the rewiring.
+For instance:
+
+. Suppose the computer sends two digits and lights up `ABD` and `AB`.
+`ABD` only has one candidate, 7 (`ACF`), because only 7 has three segments turned on.
+`AB` only has one candidate, 1 (`CF`), because only 1 has two segments turned on.
+Then we take the difference of the displayed segments — `ABD − AB = D` — and all pairwise differences between their corresponding candidates (just one in this case) — `ACF − CF = A` — to deduce that `D` must be rewired to `A`.
+We continue this logic, subtracting (say) the map `D ➜ A` from other display-candidate pairs to narrow _them_ down.
+We are done when we know the one segment that each segment needs to be rewired to.
+. Suppose the computer sends `ABCDE`; its candidates would be 2 (`ACDEG`), 3 (`ACDFG`), and 5 (`ABDFG`).
+If it then sends `DEF`, its candidates would be just 7 (`ACF`).
+The intersection of the two sent digits is `DE`.
+Taking the pairwise intersections between the candidates, and keeping only those with the same length as `DE`, we see that the candidates for `DE` are `AC` and `AF`.
+Subtracting `D ➜ A` from this, we deduce that `E` must be mapped to either `C` or `F`.
+Subtracting `D ➜ A` and `E ➜ C|F` from `DEF ➜ ACF`, we see that `F ➜ C|F` as well.
+. Continuing this way, we can eventually deduce all the mappings.
+
+***
+
+== {setup-title}
+First, we model the notion of a digit.
+
+include_source::mod.rs[tag=digit]
+
+.The Algorithm
+
+We repeatedly take the intersection and set-differences between digits, getting a more and more refined mapping until finally we are left with a 1:1 mapping.
+
+include_source::mod.rs[tag=setup]
+
+== {part-title} 1
+--
+include_source::mod.rs[tag=pt1]
+--
+
+== {part-title} 2
+--
+include_source::mod.rs[tag=pt2]
+--

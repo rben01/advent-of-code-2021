@@ -1,0 +1,59 @@
+= Day 16: Packet Decoder
+
+link_day:16[] {link-sep} link_input:16[]
+
+Dear lord, this problem was brutal.
+It consisted of roughly three parts:
+
+. Parse a hex string into a binary string by parsing each hex character into a quartet — trivial
+. ({part-title} 1) Parse this binary string into a tree of packets according to rules set out in the problem statement — “easy” in the sense that I wrote up an _almost_ correct solution in no time at all.
+Very very hard in the sense that it required precise bookkeeping and it took forever for me to get it all exactly correct.
+But from a theoretical standpoint it wasn't really that hard.
+. ({part-title} 2) Evaluate the packet tree as an expression tree (more or less like parsing S-expressions) — easy.
+
+***
+
+== {setup-title}
+
+The main function here is `Binary::as_packets`.
+There's a lot to unpack here, but roughly the algorithm is as follows:
+
+. Maintain a cursor into the original data
+. Maintain a stack of parse states, which consist of:
+.. The depth in the parse tree
+.. The length of remaining data for this packet.
+Packets tell us how much data they expect; when there isn't any left, we head back up a level in the tree.
+So we have to track how much of their data we've consumed so far.
+This “amount of data” quantity comes in two flavors:
++
+--
+... Number of bits that the children comprise
+... Number of direct children, i.e., number of child packets
+--
++
+One tricky bit is that packets share bits-remaining with their children.
+In other words, if a child consumes some bits from the input, so have all of its ancestors that count their data in bits.
+(Packets that are expecting a fixed number of child packets are unaffected when their descendants consume data.)
+In either case, if the current packet has no more data remaining — 0 bits or 0 child packets — continue on to the next parse state on the stack.
+. Looking at the data beginning at the cursor, parse the stream into a single packet.
+. Advance the cursor the number of bits this packet consumed.
+. If this packet was an operator, increment the depth, as its children will follow. Otherwise the depth remains unchanged.
+. Push a new parse state onto the stack, containing the incremented depth and the length of remaining data for this packet.
+. If this packet was the last of its parent's children, decrement the depth.
+
+--
+include_source::mod.rs[tag=setup]
+--
+
+== {part-title} 1
+{part-title} 1 just asks us to compute some summary data of all the packets in the parse tree.
+As long as we have the right packets (regardless of their depths) we'll get the right answer.
+
+include_source::mod.rs[tag=pt1]
+
+== {part-title} 2
+{part-title} 2 asks us to actually evaluate the packet tree as a tree of an expressions, akin to S-expressions.
+While this wasn't hard, one challenge was to implement it without code duplication.
+The way I achieved this was to split the operators into two families, ``Reducer``s (`+`, `*`, `min`, and `max`) and ``Operators``s (`≤`, `==`, `≥`) which essentially comprise their own interfaces that specify how they should be applied to values in the stack.
+
+include_source::mod.rs[tag=pt2]

@@ -8,6 +8,9 @@ content:
     - url: ./solutions
       branches: HEAD
 
+output:
+  dir: ./docs
+
 ui:
   bundle:
     # url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
@@ -22,7 +25,10 @@ antora:
     - require: "@antora/lunr-extension"
 
 asciidoc:
+  extensions:
+    - "./lib/adoc-extensions.js"
   attributes:
+    src-dir: src
     hide-uri-scheme: true
     click-to-reveal: Click to reveal answer
     caution-caption: true
@@ -30,3 +36,4 @@ asciidoc:
     setup-title: Setup
     part-title: Part
     page-pagination: true
+    link-sep: │

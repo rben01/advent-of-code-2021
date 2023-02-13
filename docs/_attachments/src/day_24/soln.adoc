@@ -1,0 +1,82 @@
+= Day 24: Arithmetic Logic Unit
+
+link_day:24[] {link-sep} link_input:24[]
+
+This problem asks us to do two things:
+
+. Implement a simple processor, with four registers `W`, `X`, `Y`, and `Z` all initialized to `0`, that accepts a program to run.
+. Find the inputs to this program that will lead to the processor's `Z` register containing `0` when its input has been entirely consumed, which we'll refer to as “acceptable inputs”.
+
+The specific program that this problem gives us reads in 14 digits of input, so it looks something like this:
+
+:several-instr: <several instructions manipulating register contents>
+[source,text,subs="quotes,replacements,attributes"]
+--
+read 1^st^ digit of input into W register
+{several-instr}
+read 2^nd^ digit of input into W register
+{several-instr}
+read 3^rd^ digit of input into W register
+{several-instr}
+...
+read 14^th^ digit of input into W register
+{several-instr}
+
+check if register Z is 0
+--
+
+We will refer to the list of instructions from one `read` instruction up to, but excluding, the next `read` instruction — such as the instructions contained in lines 1 and 2 of the above text — as an “instruction block”.
+
+
+[NOTE]
+--
+Note that while the inputs to the program are digits in the range [1, 9], the registers can contain arbitrary integers.
+For instance the program could read `8` into `W`, copy `W` to `X`, read `9` into `W`, multiply `W` and `X`, and write the result to `Z`; then `Z` would have a value of `72`.
+--
+
+***
+
+== {setup-title}
+
+--
+include_source::mod.rs[tag=setup]
+--
+
+.The Algorithm
+
+A naive solution that ran the program on every every possibility from 10^14^ to 10^15^−1 would need to check 9×10^14^ possibilities, which would be computationally infeasible.
+(Trust me, I tried.
+Did not get very far before searching for a better way.)
+
+Instead, we use the fact that the set of register values achievable by instruction block `k` is actually quite small (compared to 9×10^14^).
+The algorithm is as follows:
+
+. Before reading any input, the `Z` register has an initial value of pass:q[`z~0~ = 0`].
+. Phase 1:
+.. We find the set of values pass:q[`z~1~`] of the `Z` register after instruction block 1 reads in a digit.
+.. For each pass:q[`z~1~`], we find the set of values pass:q[`z~2~`] of the `Z` register after instruction block 2 reads in a digit, and record for each pass:q[`z~2~`] which values of pass:q[`z~1~`] led to it.
+.. For each pass:q[`z~2~`], we find the set of values pass:q[`z~3~`] of the `Z` register after instruction block 3 reads in a digit, and record for each pass:q[`z~3~`] which values of pass:q[`z~2~`] led to it.
+.. This continues until we reach the end, at which point we will have a massive number of pass:q[`z~14~`]s linked to their preceding pass:q[`z~13~`]s, each of which is linked to its preceding pass:q[`z~12~`]s, each of which is linked to its preceding pass:q[`z~11~`]s, etc., going all the way back to the pass:q[`z~1~`]s, which point to pass:q[`z~0~ = 0`].
+. Phase 2:
+.. But we know we're only concerned with inputs that lead to a final value of pass:q[`z~14~ = 0`].
+.. So keep only those pass:q[`z~13~`]s that led to pass:q[`z~14~ = 0`].
+.. Then keep only those pass:q[`z~12~`]s that led to _those_ pass:q[`z~13~`]s.
+.. Then keep only those pass:q[`z~11~`]s that to _those_ pass:q[`z~12~`]s.
+.. Repeat, going all the way back to find only those pass:q[`z~1~`]s that led to _those_ pass:q[`z~2~`]s.
+.. This produces a diamond-shaped graph, which starts out small at pass:q[`z~0~ = 0`], fans out in the middle, and then shrinks again as it approaches pass:q[`z~14~ = 0`].
+. Phase 3:
+.. Now that we have this graph, we're almost done.
+A 14-digit input that causes the `Z` register's final value to be `0` can be found by finding sequences of digits that take us all the way through the graph from left to right.
+... So, if we've read in, say, 12345, and digit 6 does not lead to a permissible pass:q[`z~6~`] value, then we know that 123456 is not the first six digits of any acceptable input.
+
+The problem asks us specifically for the largest and smallest acceptable inputs.
+To find these, we simply do a DFS on this graph, preferentially walking along edges formed by the largest digits, but backtracking to a smaller digit where necessary.
+
+To reduce code duplication, this DFS algorithm takes function parameters that give it the next digit to look at or tell it when to backtrack (since, for instance, it will need to backtrack when hitting `d=1` when searching for the largest acceptable input but when `d=9` for the smallest acceptable input).
+
+include_source::mod.rs[tag=algo]
+
+== {part-title}s 1 and 2
+--
+include_source::mod.rs[tags=pt1;pt2]
+--

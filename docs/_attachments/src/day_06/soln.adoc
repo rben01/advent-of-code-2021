@@ -1,0 +1,22 @@
+= Day 6: Lanternfish
+
+link_day:6[] {link-sep} link_input:6[]
+
+At a high level, this problem requires modifying a map from ints to ints in a controlled fashion.
+At a low level:
+
+. This map's keys are actually the integers from 0 to 8 (inclusive), so it can just be stored in an array.
+. The “controlled fashion” is merely shifting most values over.
+In one case we have to also add to said values.
+
+***
+
+== {setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
+
+== {part-title}s 1 and 2
+--
+include_source::mod.rs[tags=pt1;pt2]
+--

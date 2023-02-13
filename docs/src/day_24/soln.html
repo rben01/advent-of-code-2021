@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+<meta name="viewport"
+	content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Day 24: Arithmetic Logic Unit :: Advent of Code 2021</title>
+        <link rel="prev" href="../day_23/soln">
+        <link rel="next" href="../day_25/soln">
+    <meta name="generator" content="Antora 3.1.2">
+<link rel="stylesheet" href="../../_/css/site.css" />
+<link rel="stylesheet" href="../../_/css/code-syntax-highlight.css" />
+<link rel="stylesheet" href="https://use.typekit.net/fnd4xvj.css" />
+<link rel="stylesheet" href="https://iosevka-rltb.pages.dev/dist/iosevka-rltb-mono/iosevka-rltb-mono-cloudflare.css">
+<meta name="theme-color" content="#0970c4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0967b4" media="(prefers-color-scheme: dark)">
+<script>var uiRootPath = '../../_';</script>
+<link rel="icon" type="image/x-icon" href="../../favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+</head>
+
+<body class="article">
+  <header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">Advent of Code 2021</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable open-left">
+          <span class="navbar-link">Links</span>
+          <div class="navbar-dropdown">
+            <a class="navbar-item navbar-external-link" href="https://github.com/rben01" target="_blank">
+              <div class="site-logo github-logo github-repo-logo"></div><span class="site-url">/&nbsp;rben01</span>
+            </a>
+          </div>
+        </div>
+          <div class="navbar-item search hide-for-print">
+            <div id="search-field" class="field">
+              <input id="search-input" type="text" placeholder="Search this site">
+            </div>
+          </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<svg xmlns="http://www.w3.org/2000/svg" id="icon-mask-container" width="0" height="0">
+	<defs>
+		<clipPath id="icon-github" clipPathUnits="objectBoundingBox">
+			<path transform="scale(0.0102040816)" fill-rule="evenodd" clip-rule="evenodd"
+				d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z">
+			</path>
+		</clipPath>
+		<clipPath id="icon-menu-clippath" clipPathUnits="objectBoundingBox">
+			<circle cx=".1" cy=".1575" r=".06"></circle>
+			<path d="M.325 .1175h.65 v.08h-.65z"></path>
+			<circle cx=".25" cy=".4775" r=".06"></circle>
+			<path d="M.475 .4375h.5 v.08h-.5z"></path>
+			<circle cx=".25" cy=".7975" r=".06"></circle>
+			<path d="M.475 .7575h.5 v.08h-.5z"></path>
+		</clipPath>
+		<clipPath id="icon-external-link" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.0017) translate(-256 -256)"
+				d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z" />
+		</clipPath>
+		<clipPath id="icon-star" clipPathUnits="objectBoundingBox">
+			<path transform="translate(0 0.075) scale(0.001736)"
+				d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+		</clipPath>
+	</defs>
+	<symbol viewBox="0 0 100 100" id="icon-back" class="svg-icon-template">
+		<path
+			d="m 50.000978,9.89975 -40.1010516,40.10025 40.1010516,40.10025 5.6556,-5.65551 -30.434757,-30.44194 h 64.878253 v -8.0056 H 25.221821 l 30.434757,-30.44001 z" />
+	</symbol>
+	<symbol viewBox="0 0 30 30" id="icon-caret" class="svg-icon-template">
+		<path d="m 10.18745,2.9998 14.0001,12.0002 -14.0001,12.0001 z" stroke-width="2" stroke-linecap="round"
+			stroke-linejoin="round" />
+	</symbol>
+	<symbol viewBox="0 0 30 30" id="icon-chevron">
+		<path
+			d="M 3.6699219,6.5898438 1.4550781,8.6152344 15,23.374272 28.544922,8.6152344 26.330078,6.5898438 15,18.759498 Z" />
+	</symbol>
+	<symbol viewBox="0 0 16 16" id="icon-clipboard">
+		<path fill-rule="evenodd"
+			d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z" />
+	</symbol>
+	<symbol viewBox="0 0 1 1" id="icon-home-filled" class="svg-icon-template icon-home">
+		<path
+			d="M.5002 .10747572875253811 L.10042786437626905 .4662178643762691 l.02671524585077328 .029770717813528465 l.06725688977295768 -.060354082044552726 v.44845 h.25506 v-.25166 H.5505 v.25166 h.25506 v-.44845 l.06725688977295768 .060354082044552726 l.02671524585077328 -.029770717813528465 l-.154812135623731 -.13892322952293115 V.1 h-.12657 V.21371495268001076 z" />
+	</symbol>
+	<symbol viewBox="0 0 1 1" id="icon-home-outline" class="svg-icon-template icon-home">
+		<path
+			d="M.5002 .10747572875253811 L.10042786437626905 .4662178643762691 l.02671524585077328 .029770717813528465 l.06725688977295768 -.060354082044552726 v.44845 h.25506 v-.25166 H.5505 v.25166 h.25506 v-.44845 l.06725688977295768 .060354082044552726 l.02671524585077328 -.029770717813528465 l-.154812135623731 -.13892322952293115 V.1 h-.12657 V.21371495268001076 z v.0565685424949238 L.65815 .30578331524901864 V.14 H.70472 V.2910051322295775 L.65815 .2492147727540948 v.0565685424949238 L.76556 .40216945463621206 V.8440845001452447 h-.17166 v-.25166 H.40946 v.25166 h-.17166 V.40216945463621206 L.5002 .16404427124746193 z " />
+	</symbol>
+	<symbol viewBox="0 0 1 1" id="icon-menu">
+		<circle cx=".1" cy=".1575" r=".06"></circle>
+		<path d="M.325 .1175h.65 v.08h-.65z"></path>
+		<circle cx=".25" cy=".4775" r=".06"></circle>
+		<path d="M.475 .4375h.5 v.08h-.5z"></path>
+		<circle cx=".25" cy=".7975" r=".06"></circle>
+		<path d="M.475 .7575h.5 v.08h-.5z"></path>
+	</symbol>
+</svg>
+  <div class="body">
+	<div class="nav-container"  data-component="ROOT"
+  data-version="" >
+  <aside class="nav">
+    <div class="panels">
+      <div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">Navigation</span>
+    <span class="nav-explore-expander">
+      <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" viewBox="0 0 1 1">
+        <title>Discloure chevron</title>
+        <use href="#icon-chevron"></use>
+      </svg>
+    </span>
+  </div>
+  <ul class="components">
+      <li
+        class="component is-current">
+          <a class="title" href="../../">Solutions</a>
+            <ul class="nav-list">
+      <li class="nav-item is-active"
+        data-depth="0">
+        <span
+          class="nav-item-expander clickable">
+        </span>
+          <ul class="nav-list">
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_01/soln">Day 1: Sonar Sweep</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_02/soln">Day 2: Dive!</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_03/soln">Day 3: Binary Diagnostic</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_04/soln">Day 4: Giant Squid</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_05/soln">Day 5: Hydrothermal Venture</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_06/soln">Day 6: Lanternfish</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_07/soln">Day 7: The Treachery of Whales</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_08/soln">Day 8: Seven Segment Search</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_09/soln">Day 9: Smoke Basin</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_10/soln">Day 10: Syntax Scoring</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_11/soln">Day 11: Dumbo Octopus</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_12/soln">Day 12: Passage Pathing</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_13/soln">Day 13: Transparent Origami</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_14/soln">Day 14: Extended Polymerization</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_15/soln">Day 15: Chiton</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_16/soln">Day 16: Packet Decoder</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_17/soln">Day 17: Trick Shot</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_18/soln">Day 18: Snailfish</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_19/soln">Day 19: Beacon Scanner</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_20/soln">Day 20: Trench Map</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_21/soln">Day 21: Dirac Dice</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_22/soln">Day 22: Reactor Reboot</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_23/soln">Day 23: Amphipod</a>
+        </span>
+              </li>
+      <li class="nav-item is-active is-current-page"
+        data-depth="1">
+        <span
+          class="nav-item-expander final-depth">
+              <span class="nav-text">Day 24: Arithmetic Logic Unit</span>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_25/soln">Day 25: Sea Cucumber</a>
+        </span>
+              </li>
+  </ul>
+      </li>
+  </ul>
+      </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+	<main class="article">
+  <div class="toolbar" role="navigation">
+  <button class="nav-toggle">
+	<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1">
+		<title>Show or hide menu</title>
+		<use class="icon-menu" href="#icon-menu"></use>
+		<use class="icon-back" href="#icon-back"></use>
+	</svg>
+</button>
+    <a href="../../" class="home-link" title="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon icon-home" viewBox="0 0 1 1">
+        <title>Home</title>
+        <use class="icon-home icon-home-filled" href="#icon-home-filled"></use>
+        <use class="icon-home icon-home-outline" href="#icon-home-outline"></use>
+      </svg>
+    </a>
+  <nav class="breadcrumbs" aria-label="breadcrumbs">
+    <ul>
+      <li>&#47;</li> 
+          <li>
+              <a href="../../">Solutions</a>
+
+          </li>
+        <li>&#47;</li>
+        <li><span>Day 24: Arithmetic Logic Unit</span></li>
+    </ul>
+</nav>
+  </div>
+  <div class="content">
+      <aside class="toc sidebar" data-title="Contents"
+  data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+      <article class="doc">
+	<div class="title-container">
+			<h1 class="page">Day 24: Arithmetic Logic Unit</h1>
+	</div>
+	<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/24" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day #24 problem description</a> │ <a href="/_attachments/src/day_24/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>This problem asks us to do two things:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Implement a simple processor, with four registers <code>W</code>, <code>X</code>, <code>Y</code>, and <code>Z</code> all initialized to <code>0</code>, that accepts a program to run.</p>
+</li>
+<li>
+<p>Find the inputs to this program that will lead to the processor&#8217;s <code>Z</code> register containing <code>0</code> when its input has been entirely consumed, which we&#8217;ll refer to as “acceptable inputs”.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The specific program that this problem gives us reads in 14 digits of input, so it looks something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">read 1<sup>st</sup> digit of input into W register
+&lt;several instructions manipulating register contents&gt;
+read 2<sup>nd</sup> digit of input into W register
+&lt;several instructions manipulating register contents&gt;
+read 3<sup>rd</sup> digit of input into W register
+&lt;several instructions manipulating register contents&gt;
+&#8230;&#8203;
+read 14<sup>th</sup> digit of input into W register
+&lt;several instructions manipulating register contents&gt;
+
+check if register Z is 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We will refer to the list of instructions from one <code>read</code> instruction up to, but excluding, the next <code>read</code> instruction — such as the instructions contained in lines 1 and 2 of the above text — as an “instruction block”.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Note that while the inputs to the program are digits in the range [1, 9], the registers can contain arbitrary integers.
+For instance the program could read <code>8</code> into <code>W</code>, copy <code>W</code> to <code>X</code>, read <code>9</code> into <code>W</code>, multiply <code>W</code> and <code>X</code>, and write the result to <code>Z</code>; then <code>Z</code> would have a value of <code>72</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setup"><a class="anchor" href="#_setup"></a>Setup</h2>
+<div class="sectionbody">
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use std::{
+	collections::{BTreeMap as Map, BTreeSet as Set},
+	ops::{Index, IndexMut},
+};
+
+type Num = i32;
+type Output = String;
+
+#[derive(Debug, Clone, Copy)]
+enum Operand {
+	Number(Num),
+	Reg(Register),
+}
+
+impl Operand {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use Operand::*;
+		Some(match s.parse().ok() {
+			Some(val) =&gt; Number(val),
+			None =&gt; Reg(Register::from_str(s)?),
+		})
+	}
+}
+
+#[derive(Debug, Clone, Copy)]
+enum MathOp {
+	Add,
+	Mul,
+	Div,
+	Mod,
+	Eql,
+}
+
+impl MathOp {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use MathOp::*;
+		Some(match s {
+			"add" =&gt; Add,
+			"mul" =&gt; Mul,
+			"div" =&gt; Div,
+			"mod" =&gt; Mod,
+			"eql" =&gt; Eql,
+			_ =&gt; return None,
+		})
+	}
+}
+
+#[derive(Debug, Clone)]
+struct MathInstr {
+	operation: MathOp,
+	register: Register,
+	operand: Operand,
+}
+
+#[derive(Debug)]
+struct InstrBlock {
+	in_reg: Register,
+	instrs: Vec&lt;MathInstr&gt;,
+}
+
+#[derive(Debug, Clone, Copy)]
+enum Register {
+	W = 0,
+	X,
+	Y,
+	Z,
+}
+
+impl Register {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use Register::*;
+		Some(match s {
+			"w" =&gt; W,
+			"x" =&gt; X,
+			"y" =&gt; Y,
+			"z" =&gt; Z,
+			_ =&gt; return None,
+		})
+	}
+}
+
+#[derive(Debug)]
+struct Alu {
+	registers: [Num; 4],
+}
+
+impl Index&lt;Register&gt; for Alu {
+	type Output = Num;
+	fn index(&amp;self, register: Register) -&gt; &amp;Self::Output {
+		&amp;self.registers[register as usize]
+	}
+}
+
+impl IndexMut&lt;Register&gt; for Alu {
+	fn index_mut(&amp;mut self, register: Register) -&gt; &amp;mut Self::Output {
+		&amp;mut self.registers[register as usize]
+	}
+}
+
+impl Alu {
+	fn new() -&gt; Self {
+		Self { registers: [0; 4] }
+	}
+
+	fn run_block(&amp;mut self, block: &amp;InstrBlock, input: Num) {
+		use MathOp::*;
+		use Operand::*;
+
+		self[block.in_reg] = input;
+
+		for &amp;MathInstr {
+			operation,
+			register,
+			operand,
+		} in &amp;block.instrs
+		{
+			let value = match operand {
+				Number(n) =&gt; n,
+				Reg(register) =&gt; self[register],
+			};
+
+			let r = &amp;mut self[register];
+			match operation {
+				Add =&gt; *r += value,
+				Mul =&gt; *r *= value,
+				Div =&gt; *r /= value,
+				Mod =&gt; *r %= value,
+				Eql =&gt; *r = if r == &amp;value { 1 } else { 0 },
+			}
+		}
+	}
+
+	fn from_running_block_on(
+		block: &amp;InstrBlock,
+		input: Num,
+		setup: impl FnOnce(&amp;mut Self),
+	) -&gt; Self {
+		let mut alu = Alu::new();
+		setup(&amp;mut alu);
+		alu.run_block(block, input);
+		alu
+	}
+}
+
+fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;InstrBlock&gt;&gt; {
+	let mut blocks = vec![];
+	let mut curr_in_reg = None;
+	let mut curr_instrs = vec![];
+
+	// Dummy input line at the end that tells the last block it's done
+	for line in s.lines().chain(std::iter::once("inp x")) {
+		let mut splat = line.split_ascii_whitespace();
+		let instr_str = splat.next()?;
+		if instr_str == "inp" {
+			if let Some(r) = curr_in_reg {
+				blocks.push(InstrBlock {
+					in_reg: r,
+					instrs: curr_instrs.clone(),
+				});
+			}
+
+			curr_in_reg = Some(Register::from_str(splat.next()?)?);
+			curr_instrs.clear();
+		} else {
+			let operation = MathOp::from_str(instr_str)?;
+			let register = Register::from_str(splat.next()?)?;
+			let operand = Operand::from_str(splat.next()?)?;
+			curr_instrs.push(MathInstr {
+				operation,
+				register,
+				operand,
+			});
+		}
+	}
+
+	Some(blocks)
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Output, Output&gt; {
+	let blocks = read_input(input).unwrap();
+	let valid_zs = get_valid_zs(&amp;blocks);
+	(24, (pt1(&amp;blocks, &amp;valid_zs), pt2(&amp;blocks, &amp;valid_zs))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;Output, Output&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::algo[]
+fn get_valid_zs(blocks: impl AsRef&lt;[InstrBlock]&gt;) -&gt; Vec&lt;Set&lt;Num&gt;&gt; {
+	let blocks = blocks.as_ref();
+	let n_digits = blocks.len();
+
+	let mut all_zs_ltr = vec![Map::new(); n_digits + 1];
+	all_zs_ltr.first_mut().unwrap().insert(0, Set::new());
+
+	for (digit_idx, block) in blocks.iter().enumerate() {
+		let (all_prev_zs, all_next_zs) = all_zs_ltr.split_at_mut(digit_idx + 1);
+		let prev_zs = &amp;all_prev_zs[all_prev_zs.len() - 1];
+		let curr_zs = &amp;mut all_next_zs[0];
+
+		for &amp;prev_z in prev_zs.keys() {
+			for digit in 1..=9 {
+				let z = Alu::from_running_block_on(block, digit, |alu| alu[Register::Z] = prev_z)
+					[Register::Z];
+				curr_zs.entry(z).or_insert_with(Set::new).insert(prev_z);
+			}
+		}
+		// tag::debugging[]
+		#[cfg(debug_assertions)]
+		println!("{}: {:?}", digit_idx, curr_zs.len());
+		// end::debugging[]
+	}
+
+	let mut all_valid_zs_rtl = vec![Set::new(); n_digits];
+	let mut curr_zs = std::iter::once(0).collect::&lt;Set&lt;_&gt;&gt;();
+
+	for (digit_idx, valid_zs) in all_valid_zs_rtl.iter_mut().enumerate().rev() {
+		valid_zs.extend(curr_zs.iter().copied());
+
+		let mut new_curr_zs = Set::new();
+		let prev_zs = &amp;all_zs_ltr[digit_idx + 1];
+		for z in &amp;curr_zs {
+			new_curr_zs.extend(prev_zs.get(z).unwrap().iter().copied());
+		}
+		curr_zs = new_curr_zs;
+	}
+
+	all_valid_zs_rtl
+}
+
+fn find_digits&lt;DigitRange: Iterator&lt;Item = Num&gt;&gt;(
+	blocks: impl AsRef&lt;[InstrBlock]&gt;,
+	valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;,
+	first_digit: Num,
+	attempted_digit_range_ctor: impl Fn(Num) -&gt; DigitRange,
+	get_next_digit: impl Fn(Num) -&gt; Num,
+	can_continue: impl Fn(Num) -&gt; bool,
+) -&gt; Output {
+	struct CandidateDigit {
+		z_init: Num,
+		digit: Num,
+		next_digit_attempted: Num,
+	}
+
+	let blocks = blocks.as_ref();
+	let valid_zs = valid_zs.as_ref();
+
+	let n_digits = blocks.len();
+
+	let mut candidates = vec![CandidateDigit {
+		z_init: 0,
+		digit: 0,
+		next_digit_attempted: first_digit,
+	}];
+
+	'find_digits: while candidates.len() &lt;= n_digits {
+		let digit_idx = candidates.len() - 1;
+		let block = &amp;blocks[digit_idx];
+
+		let CandidateDigit {
+			z_init,
+			digit,
+			next_digit_attempted,
+		} = candidates[digit_idx];
+
+		for attempted_digit in attempted_digit_range_ctor(next_digit_attempted) {
+			let z =
+				Alu::from_running_block_on(block, attempted_digit, |alu| alu[Register::Z] = z_init)
+					[Register::Z];
+
+			if valid_zs[digit_idx].contains(&amp;z) {
+				candidates[digit_idx].next_digit_attempted = get_next_digit(attempted_digit);
+				candidates.push(CandidateDigit {
+					z_init: z,
+					digit: attempted_digit,
+					next_digit_attempted: first_digit,
+				});
+				continue 'find_digits;
+			}
+		}
+
+		// Could not find a digit that worked; need to backtrack
+		if can_continue(digit) {
+			candidates[digit_idx] = CandidateDigit {
+				z_init,
+				digit: get_next_digit(digit),
+				next_digit_attempted: first_digit,
+			};
+		} else {
+			candidates.pop();
+			assert_ne!(candidates.len(), 0);
+		}
+	}
+
+	candidates
+		.iter()
+		.skip(1)
+		.map(|c| c.digit.to_string())
+		.collect::&lt;Vec&lt;_&gt;&gt;()
+		.join("")
+}
+// end::algo[]
+
+// tag::pt1[]
+fn pt1(blocks: impl AsRef&lt;[InstrBlock]&gt;, valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;) -&gt; Output {
+	find_digits(
+		blocks,
+		valid_zs,
+		9,
+		|digit| (1..=digit).rev(),
+		|digit| digit - 1,
+		|digit| digit &gt; 1,
+	)
+}
+
+// end::pt1[]
+// tag::pt2[]
+fn pt2(blocks: impl AsRef&lt;[InstrBlock]&gt;, valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;) -&gt; Output {
+	find_digits(
+		blocks,
+		valid_zs,
+		1,
+		|digit| digit..=9,
+		|digit| digit + 1,
+		|digit| digit &lt; 9,
+	)
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		assert!(
+			cfg!(not(debug_assertions)),
+			"Day 24 may not be tested in debug mode; it requires --release"
+		);
+		test_input!(include_str!("input.txt"), day: 24, ans: ("94992992796199".to_owned(), "11931881141161".to_owned()));
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">The Algorithm</div>
+<p>A naive solution that ran the program on every every possibility from 10<sup>14</sup> to 10<sup>15</sup>−1 would need to check 9×10<sup>14</sup> possibilities, which would be computationally infeasible.
+(Trust me, I tried.
+Did not get very far before searching for a better way.)</p>
+</div>
+<div class="paragraph">
+<p>Instead, we use the fact that the set of register values achievable by instruction block <code>k</code> is actually quite small (compared to 9×10<sup>14</sup>).
+The algorithm is as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Before reading any input, the <code>Z</code> register has an initial value of <code>z<sub>0</sub> = 0</code>.</p>
+</li>
+<li>
+<p>Phase 1:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>We find the set of values <code>z<sub>1</sub></code> of the <code>Z</code> register after instruction block 1 reads in a digit.</p>
+</li>
+<li>
+<p>For each <code>z<sub>1</sub></code>, we find the set of values <code>z<sub>2</sub></code> of the <code>Z</code> register after instruction block 2 reads in a digit, and record for each <code>z<sub>2</sub></code> which values of <code>z<sub>1</sub></code> led to it.</p>
+</li>
+<li>
+<p>For each <code>z<sub>2</sub></code>, we find the set of values <code>z<sub>3</sub></code> of the <code>Z</code> register after instruction block 3 reads in a digit, and record for each <code>z<sub>3</sub></code> which values of <code>z<sub>2</sub></code> led to it.</p>
+</li>
+<li>
+<p>This continues until we reach the end, at which point we will have a massive number of <code>z<sub>14</sub></code>s linked to their preceding <code>z<sub>13</sub></code>s, each of which is linked to its preceding <code>z<sub>12</sub></code>s, each of which is linked to its preceding <code>z<sub>11</sub></code>s, etc., going all the way back to the <code>z<sub>1</sub></code>s, which point to <code>z<sub>0</sub> = 0</code>.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Phase 2:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>But we know we&#8217;re only concerned with inputs that lead to a final value of <code>z<sub>14</sub> = 0</code>.</p>
+</li>
+<li>
+<p>So keep only those <code>z<sub>13</sub></code>s that led to <code>z<sub>14</sub> = 0</code>.</p>
+</li>
+<li>
+<p>Then keep only those <code>z<sub>12</sub></code>s that led to <em>those</em> <code>z<sub>13</sub></code>s.</p>
+</li>
+<li>
+<p>Then keep only those <code>z<sub>11</sub></code>s that to <em>those</em> <code>z<sub>12</sub></code>s.</p>
+</li>
+<li>
+<p>Repeat, going all the way back to find only those <code>z<sub>1</sub></code>s that led to <em>those</em> <code>z<sub>2</sub></code>s.</p>
+</li>
+<li>
+<p>This produces a diamond-shaped graph, which starts out small at <code>z<sub>0</sub> = 0</code>, fans out in the middle, and then shrinks again as it approaches <code>z<sub>14</sub> = 0</code>.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Phase 3:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Now that we have this graph, we&#8217;re almost done.
+A 14-digit input that causes the <code>Z</code> register&#8217;s final value to be <code>0</code> can be found by finding sequences of digits that take us all the way through the graph from left to right.</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>So, if we&#8217;ve read in, say, 12345, and digit 6 does not lead to a permissible <code>z<sub>6</sub></code> value, then we know that 123456 is not the first six digits of any acceptable input.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The problem asks us specifically for the largest and smallest acceptable inputs.
+To find these, we simply do a DFS on this graph, preferentially walking along edges formed by the largest digits, but backtracking to a smaller digit where necessary.</p>
+</div>
+<div class="paragraph">
+<p>To reduce code duplication, this DFS algorithm takes function parameters that give it the next digit to look at or tell it when to backtrack (since, for instance, it will need to backtrack when hitting <code>d=1</code> when searching for the largest acceptable input but when <code>d=9</code> for the smallest acceptable input).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use std::{
+	collections::{BTreeMap as Map, BTreeSet as Set},
+	ops::{Index, IndexMut},
+};
+
+type Num = i32;
+type Output = String;
+
+#[derive(Debug, Clone, Copy)]
+enum Operand {
+	Number(Num),
+	Reg(Register),
+}
+
+impl Operand {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use Operand::*;
+		Some(match s.parse().ok() {
+			Some(val) =&gt; Number(val),
+			None =&gt; Reg(Register::from_str(s)?),
+		})
+	}
+}
+
+#[derive(Debug, Clone, Copy)]
+enum MathOp {
+	Add,
+	Mul,
+	Div,
+	Mod,
+	Eql,
+}
+
+impl MathOp {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use MathOp::*;
+		Some(match s {
+			"add" =&gt; Add,
+			"mul" =&gt; Mul,
+			"div" =&gt; Div,
+			"mod" =&gt; Mod,
+			"eql" =&gt; Eql,
+			_ =&gt; return None,
+		})
+	}
+}
+
+#[derive(Debug, Clone)]
+struct MathInstr {
+	operation: MathOp,
+	register: Register,
+	operand: Operand,
+}
+
+#[derive(Debug)]
+struct InstrBlock {
+	in_reg: Register,
+	instrs: Vec&lt;MathInstr&gt;,
+}
+
+#[derive(Debug, Clone, Copy)]
+enum Register {
+	W = 0,
+	X,
+	Y,
+	Z,
+}
+
+impl Register {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use Register::*;
+		Some(match s {
+			"w" =&gt; W,
+			"x" =&gt; X,
+			"y" =&gt; Y,
+			"z" =&gt; Z,
+			_ =&gt; return None,
+		})
+	}
+}
+
+#[derive(Debug)]
+struct Alu {
+	registers: [Num; 4],
+}
+
+impl Index&lt;Register&gt; for Alu {
+	type Output = Num;
+	fn index(&amp;self, register: Register) -&gt; &amp;Self::Output {
+		&amp;self.registers[register as usize]
+	}
+}
+
+impl IndexMut&lt;Register&gt; for Alu {
+	fn index_mut(&amp;mut self, register: Register) -&gt; &amp;mut Self::Output {
+		&amp;mut self.registers[register as usize]
+	}
+}
+
+impl Alu {
+	fn new() -&gt; Self {
+		Self { registers: [0; 4] }
+	}
+
+	fn run_block(&amp;mut self, block: &amp;InstrBlock, input: Num) {
+		use MathOp::*;
+		use Operand::*;
+
+		self[block.in_reg] = input;
+
+		for &amp;MathInstr {
+			operation,
+			register,
+			operand,
+		} in &amp;block.instrs
+		{
+			let value = match operand {
+				Number(n) =&gt; n,
+				Reg(register) =&gt; self[register],
+			};
+
+			let r = &amp;mut self[register];
+			match operation {
+				Add =&gt; *r += value,
+				Mul =&gt; *r *= value,
+				Div =&gt; *r /= value,
+				Mod =&gt; *r %= value,
+				Eql =&gt; *r = if r == &amp;value { 1 } else { 0 },
+			}
+		}
+	}
+
+	fn from_running_block_on(
+		block: &amp;InstrBlock,
+		input: Num,
+		setup: impl FnOnce(&amp;mut Self),
+	) -&gt; Self {
+		let mut alu = Alu::new();
+		setup(&amp;mut alu);
+		alu.run_block(block, input);
+		alu
+	}
+}
+
+fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;InstrBlock&gt;&gt; {
+	let mut blocks = vec![];
+	let mut curr_in_reg = None;
+	let mut curr_instrs = vec![];
+
+	// Dummy input line at the end that tells the last block it's done
+	for line in s.lines().chain(std::iter::once("inp x")) {
+		let mut splat = line.split_ascii_whitespace();
+		let instr_str = splat.next()?;
+		if instr_str == "inp" {
+			if let Some(r) = curr_in_reg {
+				blocks.push(InstrBlock {
+					in_reg: r,
+					instrs: curr_instrs.clone(),
+				});
+			}
+
+			curr_in_reg = Some(Register::from_str(splat.next()?)?);
+			curr_instrs.clear();
+		} else {
+			let operation = MathOp::from_str(instr_str)?;
+			let register = Register::from_str(splat.next()?)?;
+			let operand = Operand::from_str(splat.next()?)?;
+			curr_instrs.push(MathInstr {
+				operation,
+				register,
+				operand,
+			});
+		}
+	}
+
+	Some(blocks)
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Output, Output&gt; {
+	let blocks = read_input(input).unwrap();
+	let valid_zs = get_valid_zs(&amp;blocks);
+	(24, (pt1(&amp;blocks, &amp;valid_zs), pt2(&amp;blocks, &amp;valid_zs))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;Output, Output&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::algo[]
+fn get_valid_zs(blocks: impl AsRef&lt;[InstrBlock]&gt;) -&gt; Vec&lt;Set&lt;Num&gt;&gt; {
+	let blocks = blocks.as_ref();
+	let n_digits = blocks.len();
+
+	let mut all_zs_ltr = vec![Map::new(); n_digits + 1];
+	all_zs_ltr.first_mut().unwrap().insert(0, Set::new());
+
+	for (digit_idx, block) in blocks.iter().enumerate() {
+		let (all_prev_zs, all_next_zs) = all_zs_ltr.split_at_mut(digit_idx + 1);
+		let prev_zs = &amp;all_prev_zs[all_prev_zs.len() - 1];
+		let curr_zs = &amp;mut all_next_zs[0];
+
+		for &amp;prev_z in prev_zs.keys() {
+			for digit in 1..=9 {
+				let z = Alu::from_running_block_on(block, digit, |alu| alu[Register::Z] = prev_z)
+					[Register::Z];
+				curr_zs.entry(z).or_insert_with(Set::new).insert(prev_z);
+			}
+		}
+		// tag::debugging[]
+		#[cfg(debug_assertions)]
+		println!("{}: {:?}", digit_idx, curr_zs.len());
+		// end::debugging[]
+	}
+
+	let mut all_valid_zs_rtl = vec![Set::new(); n_digits];
+	let mut curr_zs = std::iter::once(0).collect::&lt;Set&lt;_&gt;&gt;();
+
+	for (digit_idx, valid_zs) in all_valid_zs_rtl.iter_mut().enumerate().rev() {
+		valid_zs.extend(curr_zs.iter().copied());
+
+		let mut new_curr_zs = Set::new();
+		let prev_zs = &amp;all_zs_ltr[digit_idx + 1];
+		for z in &amp;curr_zs {
+			new_curr_zs.extend(prev_zs.get(z).unwrap().iter().copied());
+		}
+		curr_zs = new_curr_zs;
+	}
+
+	all_valid_zs_rtl
+}
+
+fn find_digits&lt;DigitRange: Iterator&lt;Item = Num&gt;&gt;(
+	blocks: impl AsRef&lt;[InstrBlock]&gt;,
+	valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;,
+	first_digit: Num,
+	attempted_digit_range_ctor: impl Fn(Num) -&gt; DigitRange,
+	get_next_digit: impl Fn(Num) -&gt; Num,
+	can_continue: impl Fn(Num) -&gt; bool,
+) -&gt; Output {
+	struct CandidateDigit {
+		z_init: Num,
+		digit: Num,
+		next_digit_attempted: Num,
+	}
+
+	let blocks = blocks.as_ref();
+	let valid_zs = valid_zs.as_ref();
+
+	let n_digits = blocks.len();
+
+	let mut candidates = vec![CandidateDigit {
+		z_init: 0,
+		digit: 0,
+		next_digit_attempted: first_digit,
+	}];
+
+	'find_digits: while candidates.len() &lt;= n_digits {
+		let digit_idx = candidates.len() - 1;
+		let block = &amp;blocks[digit_idx];
+
+		let CandidateDigit {
+			z_init,
+			digit,
+			next_digit_attempted,
+		} = candidates[digit_idx];
+
+		for attempted_digit in attempted_digit_range_ctor(next_digit_attempted) {
+			let z =
+				Alu::from_running_block_on(block, attempted_digit, |alu| alu[Register::Z] = z_init)
+					[Register::Z];
+
+			if valid_zs[digit_idx].contains(&amp;z) {
+				candidates[digit_idx].next_digit_attempted = get_next_digit(attempted_digit);
+				candidates.push(CandidateDigit {
+					z_init: z,
+					digit: attempted_digit,
+					next_digit_attempted: first_digit,
+				});
+				continue 'find_digits;
+			}
+		}
+
+		// Could not find a digit that worked; need to backtrack
+		if can_continue(digit) {
+			candidates[digit_idx] = CandidateDigit {
+				z_init,
+				digit: get_next_digit(digit),
+				next_digit_attempted: first_digit,
+			};
+		} else {
+			candidates.pop();
+			assert_ne!(candidates.len(), 0);
+		}
+	}
+
+	candidates
+		.iter()
+		.skip(1)
+		.map(|c| c.digit.to_string())
+		.collect::&lt;Vec&lt;_&gt;&gt;()
+		.join("")
+}
+// end::algo[]
+
+// tag::pt1[]
+fn pt1(blocks: impl AsRef&lt;[InstrBlock]&gt;, valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;) -&gt; Output {
+	find_digits(
+		blocks,
+		valid_zs,
+		9,
+		|digit| (1..=digit).rev(),
+		|digit| digit - 1,
+		|digit| digit &gt; 1,
+	)
+}
+
+// end::pt1[]
+// tag::pt2[]
+fn pt2(blocks: impl AsRef&lt;[InstrBlock]&gt;, valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;) -&gt; Output {
+	find_digits(
+		blocks,
+		valid_zs,
+		1,
+		|digit| digit..=9,
+		|digit| digit + 1,
+		|digit| digit &lt; 9,
+	)
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		assert!(
+			cfg!(not(debug_assertions)),
+			"Day 24 may not be tested in debug mode; it requires --release"
+		);
+		test_input!(include_str!("input.txt"), day: 24, ans: ("94992992796199".to_owned(), "11931881141161".to_owned()));
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_parts_1_and_2"><a class="anchor" href="#_parts_1_and_2"></a>Parts 1 and 2</h2>
+<div class="sectionbody">
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use std::{
+	collections::{BTreeMap as Map, BTreeSet as Set},
+	ops::{Index, IndexMut},
+};
+
+type Num = i32;
+type Output = String;
+
+#[derive(Debug, Clone, Copy)]
+enum Operand {
+	Number(Num),
+	Reg(Register),
+}
+
+impl Operand {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use Operand::*;
+		Some(match s.parse().ok() {
+			Some(val) =&gt; Number(val),
+			None =&gt; Reg(Register::from_str(s)?),
+		})
+	}
+}
+
+#[derive(Debug, Clone, Copy)]
+enum MathOp {
+	Add,
+	Mul,
+	Div,
+	Mod,
+	Eql,
+}
+
+impl MathOp {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use MathOp::*;
+		Some(match s {
+			"add" =&gt; Add,
+			"mul" =&gt; Mul,
+			"div" =&gt; Div,
+			"mod" =&gt; Mod,
+			"eql" =&gt; Eql,
+			_ =&gt; return None,
+		})
+	}
+}
+
+#[derive(Debug, Clone)]
+struct MathInstr {
+	operation: MathOp,
+	register: Register,
+	operand: Operand,
+}
+
+#[derive(Debug)]
+struct InstrBlock {
+	in_reg: Register,
+	instrs: Vec&lt;MathInstr&gt;,
+}
+
+#[derive(Debug, Clone, Copy)]
+enum Register {
+	W = 0,
+	X,
+	Y,
+	Z,
+}
+
+impl Register {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		use Register::*;
+		Some(match s {
+			"w" =&gt; W,
+			"x" =&gt; X,
+			"y" =&gt; Y,
+			"z" =&gt; Z,
+			_ =&gt; return None,
+		})
+	}
+}
+
+#[derive(Debug)]
+struct Alu {
+	registers: [Num; 4],
+}
+
+impl Index&lt;Register&gt; for Alu {
+	type Output = Num;
+	fn index(&amp;self, register: Register) -&gt; &amp;Self::Output {
+		&amp;self.registers[register as usize]
+	}
+}
+
+impl IndexMut&lt;Register&gt; for Alu {
+	fn index_mut(&amp;mut self, register: Register) -&gt; &amp;mut Self::Output {
+		&amp;mut self.registers[register as usize]
+	}
+}
+
+impl Alu {
+	fn new() -&gt; Self {
+		Self { registers: [0; 4] }
+	}
+
+	fn run_block(&amp;mut self, block: &amp;InstrBlock, input: Num) {
+		use MathOp::*;
+		use Operand::*;
+
+		self[block.in_reg] = input;
+
+		for &amp;MathInstr {
+			operation,
+			register,
+			operand,
+		} in &amp;block.instrs
+		{
+			let value = match operand {
+				Number(n) =&gt; n,
+				Reg(register) =&gt; self[register],
+			};
+
+			let r = &amp;mut self[register];
+			match operation {
+				Add =&gt; *r += value,
+				Mul =&gt; *r *= value,
+				Div =&gt; *r /= value,
+				Mod =&gt; *r %= value,
+				Eql =&gt; *r = if r == &amp;value { 1 } else { 0 },
+			}
+		}
+	}
+
+	fn from_running_block_on(
+		block: &amp;InstrBlock,
+		input: Num,
+		setup: impl FnOnce(&amp;mut Self),
+	) -&gt; Self {
+		let mut alu = Alu::new();
+		setup(&amp;mut alu);
+		alu.run_block(block, input);
+		alu
+	}
+}
+
+fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;InstrBlock&gt;&gt; {
+	let mut blocks = vec![];
+	let mut curr_in_reg = None;
+	let mut curr_instrs = vec![];
+
+	// Dummy input line at the end that tells the last block it's done
+	for line in s.lines().chain(std::iter::once("inp x")) {
+		let mut splat = line.split_ascii_whitespace();
+		let instr_str = splat.next()?;
+		if instr_str == "inp" {
+			if let Some(r) = curr_in_reg {
+				blocks.push(InstrBlock {
+					in_reg: r,
+					instrs: curr_instrs.clone(),
+				});
+			}
+
+			curr_in_reg = Some(Register::from_str(splat.next()?)?);
+			curr_instrs.clear();
+		} else {
+			let operation = MathOp::from_str(instr_str)?;
+			let register = Register::from_str(splat.next()?)?;
+			let operand = Operand::from_str(splat.next()?)?;
+			curr_instrs.push(MathInstr {
+				operation,
+				register,
+				operand,
+			});
+		}
+	}
+
+	Some(blocks)
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Output, Output&gt; {
+	let blocks = read_input(input).unwrap();
+	let valid_zs = get_valid_zs(&amp;blocks);
+	(24, (pt1(&amp;blocks, &amp;valid_zs), pt2(&amp;blocks, &amp;valid_zs))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;Output, Output&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::algo[]
+fn get_valid_zs(blocks: impl AsRef&lt;[InstrBlock]&gt;) -&gt; Vec&lt;Set&lt;Num&gt;&gt; {
+	let blocks = blocks.as_ref();
+	let n_digits = blocks.len();
+
+	let mut all_zs_ltr = vec![Map::new(); n_digits + 1];
+	all_zs_ltr.first_mut().unwrap().insert(0, Set::new());
+
+	for (digit_idx, block) in blocks.iter().enumerate() {
+		let (all_prev_zs, all_next_zs) = all_zs_ltr.split_at_mut(digit_idx + 1);
+		let prev_zs = &amp;all_prev_zs[all_prev_zs.len() - 1];
+		let curr_zs = &amp;mut all_next_zs[0];
+
+		for &amp;prev_z in prev_zs.keys() {
+			for digit in 1..=9 {
+				let z = Alu::from_running_block_on(block, digit, |alu| alu[Register::Z] = prev_z)
+					[Register::Z];
+				curr_zs.entry(z).or_insert_with(Set::new).insert(prev_z);
+			}
+		}
+		// tag::debugging[]
+		#[cfg(debug_assertions)]
+		println!("{}: {:?}", digit_idx, curr_zs.len());
+		// end::debugging[]
+	}
+
+	let mut all_valid_zs_rtl = vec![Set::new(); n_digits];
+	let mut curr_zs = std::iter::once(0).collect::&lt;Set&lt;_&gt;&gt;();
+
+	for (digit_idx, valid_zs) in all_valid_zs_rtl.iter_mut().enumerate().rev() {
+		valid_zs.extend(curr_zs.iter().copied());
+
+		let mut new_curr_zs = Set::new();
+		let prev_zs = &amp;all_zs_ltr[digit_idx + 1];
+		for z in &amp;curr_zs {
+			new_curr_zs.extend(prev_zs.get(z).unwrap().iter().copied());
+		}
+		curr_zs = new_curr_zs;
+	}
+
+	all_valid_zs_rtl
+}
+
+fn find_digits&lt;DigitRange: Iterator&lt;Item = Num&gt;&gt;(
+	blocks: impl AsRef&lt;[InstrBlock]&gt;,
+	valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;,
+	first_digit: Num,
+	attempted_digit_range_ctor: impl Fn(Num) -&gt; DigitRange,
+	get_next_digit: impl Fn(Num) -&gt; Num,
+	can_continue: impl Fn(Num) -&gt; bool,
+) -&gt; Output {
+	struct CandidateDigit {
+		z_init: Num,
+		digit: Num,
+		next_digit_attempted: Num,
+	}
+
+	let blocks = blocks.as_ref();
+	let valid_zs = valid_zs.as_ref();
+
+	let n_digits = blocks.len();
+
+	let mut candidates = vec![CandidateDigit {
+		z_init: 0,
+		digit: 0,
+		next_digit_attempted: first_digit,
+	}];
+
+	'find_digits: while candidates.len() &lt;= n_digits {
+		let digit_idx = candidates.len() - 1;
+		let block = &amp;blocks[digit_idx];
+
+		let CandidateDigit {
+			z_init,
+			digit,
+			next_digit_attempted,
+		} = candidates[digit_idx];
+
+		for attempted_digit in attempted_digit_range_ctor(next_digit_attempted) {
+			let z =
+				Alu::from_running_block_on(block, attempted_digit, |alu| alu[Register::Z] = z_init)
+					[Register::Z];
+
+			if valid_zs[digit_idx].contains(&amp;z) {
+				candidates[digit_idx].next_digit_attempted = get_next_digit(attempted_digit);
+				candidates.push(CandidateDigit {
+					z_init: z,
+					digit: attempted_digit,
+					next_digit_attempted: first_digit,
+				});
+				continue 'find_digits;
+			}
+		}
+
+		// Could not find a digit that worked; need to backtrack
+		if can_continue(digit) {
+			candidates[digit_idx] = CandidateDigit {
+				z_init,
+				digit: get_next_digit(digit),
+				next_digit_attempted: first_digit,
+			};
+		} else {
+			candidates.pop();
+			assert_ne!(candidates.len(), 0);
+		}
+	}
+
+	candidates
+		.iter()
+		.skip(1)
+		.map(|c| c.digit.to_string())
+		.collect::&lt;Vec&lt;_&gt;&gt;()
+		.join("")
+}
+// end::algo[]
+
+// tag::pt1[]
+fn pt1(blocks: impl AsRef&lt;[InstrBlock]&gt;, valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;) -&gt; Output {
+	find_digits(
+		blocks,
+		valid_zs,
+		9,
+		|digit| (1..=digit).rev(),
+		|digit| digit - 1,
+		|digit| digit &gt; 1,
+	)
+}
+
+// end::pt1[]
+// tag::pt2[]
+fn pt2(blocks: impl AsRef&lt;[InstrBlock]&gt;, valid_zs: impl AsRef&lt;[Set&lt;Num&gt;]&gt;) -&gt; Output {
+	find_digits(
+		blocks,
+		valid_zs,
+		1,
+		|digit| digit..=9,
+		|digit| digit + 1,
+		|digit| digit &lt; 9,
+	)
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		assert!(
+			cfg!(not(debug_assertions)),
+			"Day 24 may not be tested in debug mode; it requires --release"
+		);
+		test_input!(include_str!("input.txt"), day: 24, ans: ("94992992796199".to_owned(), "11931881141161".to_owned()));
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>     <nav class="pagination">
+        <span class="prev"><a href="../day_23/soln">Day 23: Amphipod</a></span>
+        <span class="next"><a href="../day_25/soln">Day 25: Sea Cucumber</a></span>
+    </nav>
+
+</article>
+  </div>
+  <footer class="footer">
+  <p>This page was built using <a href="https://antora.org" target="_blank">Antora</a> with a theme forked from the <a
+      href="https://gitlab.com/antora/antora-ui-default" target="_blank">default UI</a>. Search is powered by <a
+      href="https://lunrjs.com" target="_blank">Lunr</a>.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script>
+	function add_is_current_path() {
+		let elem = document.querySelector(`.nav-container .is-current-page > .final-depth`);
+		if (!elem) { return; }
+		while (!elem.classList.contains("nav-panel-explore")) {
+			if (elem.tagName === "LI") {
+				elem.classList.add("is-current-path");
+			}
+			elem = elem.parentNode;
+		}
+	}
+	add_is_current_path()
+</script>
+<script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+	<script src="../../_/js/vendor/lunr.js"></script>
+<script src="../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../.." data-snippet-length="100" data-stylesheet="../../_/css/search.css"></script>
+<script async src="../../search-index.js"></script>
+<script>
+	function set_up_footnotes() {
+		let footnoteBox;
+		let footnoteP;
+		const _isMobile = "ontouchstart" in document.documentElement;
+
+		// Apparently, sticking the tooltip in a child div of document.body, instead of in
+		// document.body directly, helps performance.
+		// https://atfzl.com/don-t-attach-tooltips-to-document-body
+		const footnoteHolder = document.createElement("div");
+		document.body.appendChild(footnoteHolder);
+
+		function showFootnoteBoxOnHover(elem) {
+			const FOOTNOTE_BOX_MAX_WIDTH = 400;
+
+			if (footnoteBox === undefined) {
+				footnoteBox = document.createElement("div");
+				footnoteHolder.appendChild(footnoteBox);
+				footnoteBox.classList.add("footnote-box");
+				footnoteBox.addEventListener("mouseleave", () => removeFootnoteBox());
+
+				footnoteP = document.createElement("p");
+				footnoteBox.appendChild(footnoteP);
+
+				footnoteBox.style.zIndex = 9999;
+			}
+
+			// Remove the numbering from this footnote box
+			const footnoteId = elem.getAttribute("href"); // Starts with #
+			const footnoteClone = document
+				.getElementById(footnoteId.substring(1))
+				.cloneNode(true);
+			const footnoteA = footnoteClone.getElementsByTagName("a")[0];
+			footnoteA.remove();
+
+			const footnoteHtml = footnoteClone.innerHTML.replace(/^\s*\.\s*/, "");
+
+			footnoteP.innerHTML = footnoteHtml;
+			footnoteBox.style.right = null;
+			footnoteBox.style.left = "0px";
+			footnoteBox.style.top = "0px";
+
+			const elemRect = elem.getBoundingClientRect();
+			const bodyRect = document.body.getBoundingClientRect();
+
+			footnoteBox.style.display = "block";
+
+			let tx = false;
+			let ty = false;
+
+			if (elemRect.left - FOOTNOTE_BOX_MAX_WIDTH < 10) {
+				const px = -bodyRect.left + 10;
+				footnoteBox.style.left = `${px}px`;
+
+				tx = true;
+			} else {
+				const px = elemRect.left - bodyRect.left + 20;
+				footnoteBox.style.left = `${px}px`;
+			}
+
+			const footnoteRect = footnoteBox.getBoundingClientRect();
+
+			const windowHeight = document.documentElement.clientHeight;
+			if (elemRect.top + footnoteRect.height > windowHeight) {
+				const py = -10 + window.scrollY + windowHeight;
+				footnoteBox.style.top = `${py}px`;
+			} else {
+				const py = elemRect.top - bodyRect.top;
+				footnoteBox.style.top = `${py}px`;
+
+				ty = true;
+			}
+
+			footnoteBox.style.transform = (() => {
+				let transX = tx ? 0 : "-100%";
+				let transY = ty ? 0 : "-100%";
+				return `translate(${transX}, ${transY})`;
+			})();
+
+			// if (elemRect.right + FOOTNOTE_BOX_MAX_WIDTH - 30 > bodyRect.right) {
+			// 	const px = bodyRect.right - (bodyRect.left + bodyRect.width);
+			// 	console.log(bodyRect);
+			// 	footnoteBox.style.left = null;
+			// 	footnoteBox.style.right = `${px}px`;
+			// 	console.log("right");
+			// } else {
+			// 	const px = -10 + elemRect.left - bodyRect.left;
+			// 	footnoteBox.style.right = null;
+			// 	footnoteBox.style.left = `${px}px`;
+			// 	console.log("left");
+			// }
+		}
+
+		function removeFootnoteBox() {
+			if (footnoteBox === undefined) {
+				return;
+			}
+			footnoteBox.style.display = "none";
+		}
+
+		function initializeFootnotes() {
+			const footnotes = document.querySelectorAll(
+				":not(#footnotes) .footnote a.footnote",
+			);
+			const nFootnotes = footnotes.length;
+			for (let i = 0; i < nFootnotes; i++) {
+				const footnote = footnotes[i];
+				footnote.addEventListener("mouseenter", event => {
+					showFootnoteBoxOnHover(footnote);
+				});
+			}
+		}
+
+		if (!_isMobile) {
+			initializeFootnotes();
+		}
+	}
+	set_up_footnotes()
+</script>
+<script>
+	function add_titles() {
+		const elems = document.querySelectorAll(".ui-icon.nav-menu-icon");
+		for (let i = 0, len = elems.length; i < len; i++) {
+			const elem = elems[i];
+			if (elem.getAttribute('title') === null) {
+				elems[i].setAttribute("title", "Navigation menu icon: one bullet followed by three sub-bullets");
+			}
+		}
+	}
+	add_titles()
+</script>
+</main>
+</div>
+</body>
+
+</html>

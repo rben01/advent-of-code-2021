@@ -1,0 +1,23 @@
+= Day 11: Dumbo Octopus
+
+link_day:11[] {link-sep} link_input:11[]
+
+These problems where you just have to manage the state of an array and update it correctly, and potentially query the state of the array, aren't that interesting to me anymore.
+There is no algorithmic interestingness to them.
+
+***
+
+== {setup-title}
+--
+include_source::mod.rs[tag=setup]
+--
+
+== {part-title} 1
+--
+include_source::mod.rs[tag=pt1]
+--
+
+== {part-title} 2
+--
+include_source::mod.rs[tag=pt2]
+--

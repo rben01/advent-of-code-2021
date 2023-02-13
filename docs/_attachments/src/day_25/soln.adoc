@@ -1,0 +1,13 @@
+= Day 25: Sea Cucumber
+
+link_day:25[] {link-sep} link_input:25[]
+
+Simple array manipulation.
+Not interesting!
+
+***
+
+== {setup-title} and {part-title} 1 (there was no {part-title} 2)
+--
+include_source::mod.rs[tags=setup;pt1]
+--

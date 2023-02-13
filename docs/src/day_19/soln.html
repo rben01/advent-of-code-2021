@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+<meta name="viewport"
+	content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Day 19: Beacon Scanner :: Advent of Code 2021</title>
+        <link rel="prev" href="../day_18/soln">
+        <link rel="next" href="../day_20/soln">
+    <meta name="generator" content="Antora 3.1.2">
+<link rel="stylesheet" href="../../_/css/site.css" />
+<link rel="stylesheet" href="../../_/css/code-syntax-highlight.css" />
+<link rel="stylesheet" href="https://use.typekit.net/fnd4xvj.css" />
+<link rel="stylesheet" href="https://iosevka-rltb.pages.dev/dist/iosevka-rltb-mono/iosevka-rltb-mono-cloudflare.css">
+<meta name="theme-color" content="#0970c4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0967b4" media="(prefers-color-scheme: dark)">
+<script>var uiRootPath = '../../_';</script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+		integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+	<!-- The loading of KaTeX is deferred to speed up page rendering -->
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+		integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4"
+		crossorigin="anonymous"></script>
+	<!-- To automatically render math in text elements, include the auto-render extension: -->
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+		integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+		onload="renderMathInElement(document.body);"></script>
+<link rel="icon" type="image/x-icon" href="../../favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+</head>
+
+<body class="article">
+  <header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">Advent of Code 2021</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable open-left">
+          <span class="navbar-link">Links</span>
+          <div class="navbar-dropdown">
+            <a class="navbar-item navbar-external-link" href="https://github.com/rben01" target="_blank">
+              <div class="site-logo github-logo github-repo-logo"></div><span class="site-url">/&nbsp;rben01</span>
+            </a>
+          </div>
+        </div>
+          <div class="navbar-item search hide-for-print">
+            <div id="search-field" class="field">
+              <input id="search-input" type="text" placeholder="Search this site">
+            </div>
+          </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<svg xmlns="http://www.w3.org/2000/svg" id="icon-mask-container" width="0" height="0">
+	<defs>
+		<clipPath id="icon-github" clipPathUnits="objectBoundingBox">
+			<path transform="scale(0.0102040816)" fill-rule="evenodd" clip-rule="evenodd"
+				d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z">
+			</path>
+		</clipPath>
+		<clipPath id="icon-menu-clippath" clipPathUnits="objectBoundingBox">
+			<circle cx=".1" cy=".1575" r=".06"></circle>
+			<path d="M.325 .1175h.65 v.08h-.65z"></path>
+			<circle cx=".25" cy=".4775" r=".06"></circle>
+			<path d="M.475 .4375h.5 v.08h-.5z"></path>
+			<circle cx=".25" cy=".7975" r=".06"></circle>
+			<path d="M.475 .7575h.5 v.08h-.5z"></path>
+		</clipPath>
+		<clipPath id="icon-external-link" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.0017) translate(-256 -256)"
+				d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z" />
+		</clipPath>
+		<clipPath id="icon-star" clipPathUnits="objectBoundingBox">
+			<path transform="translate(0 0.075) scale(0.001736)"
+				d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+		</clipPath>
+	</defs>
+	<symbol viewBox="0 0 100 100" id="icon-back" class="svg-icon-template">
+		<path
+			d="m 50.000978,9.89975 -40.1010516,40.10025 40.1010516,40.10025 5.6556,-5.65551 -30.434757,-30.44194 h 64.878253 v -8.0056 H 25.221821 l 30.434757,-30.44001 z" />
+	</symbol>
+	<symbol viewBox="0 0 30 30" id="icon-caret" class="svg-icon-template">
+		<path d="m 10.18745,2.9998 14.0001,12.0002 -14.0001,12.0001 z" stroke-width="2" stroke-linecap="round"
+			stroke-linejoin="round" />
+	</symbol>
+	<symbol viewBox="0 0 30 30" id="icon-chevron">
+		<path
+			d="M 3.6699219,6.5898438 1.4550781,8.6152344 15,23.374272 28.544922,8.6152344 26.330078,6.5898438 15,18.759498 Z" />
+	</symbol>
+	<symbol viewBox="0 0 16 16" id="icon-clipboard">
+		<path fill-rule="evenodd"
+			d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z" />
+	</symbol>
+	<symbol viewBox="0 0 1 1" id="icon-home-filled" class="svg-icon-template icon-home">
+		<path
+			d="M.5002 .10747572875253811 L.10042786437626905 .4662178643762691 l.02671524585077328 .029770717813528465 l.06725688977295768 -.060354082044552726 v.44845 h.25506 v-.25166 H.5505 v.25166 h.25506 v-.44845 l.06725688977295768 .060354082044552726 l.02671524585077328 -.029770717813528465 l-.154812135623731 -.13892322952293115 V.1 h-.12657 V.21371495268001076 z" />
+	</symbol>
+	<symbol viewBox="0 0 1 1" id="icon-home-outline" class="svg-icon-template icon-home">
+		<path
+			d="M.5002 .10747572875253811 L.10042786437626905 .4662178643762691 l.02671524585077328 .029770717813528465 l.06725688977295768 -.060354082044552726 v.44845 h.25506 v-.25166 H.5505 v.25166 h.25506 v-.44845 l.06725688977295768 .060354082044552726 l.02671524585077328 -.029770717813528465 l-.154812135623731 -.13892322952293115 V.1 h-.12657 V.21371495268001076 z v.0565685424949238 L.65815 .30578331524901864 V.14 H.70472 V.2910051322295775 L.65815 .2492147727540948 v.0565685424949238 L.76556 .40216945463621206 V.8440845001452447 h-.17166 v-.25166 H.40946 v.25166 h-.17166 V.40216945463621206 L.5002 .16404427124746193 z " />
+	</symbol>
+	<symbol viewBox="0 0 1 1" id="icon-menu">
+		<circle cx=".1" cy=".1575" r=".06"></circle>
+		<path d="M.325 .1175h.65 v.08h-.65z"></path>
+		<circle cx=".25" cy=".4775" r=".06"></circle>
+		<path d="M.475 .4375h.5 v.08h-.5z"></path>
+		<circle cx=".25" cy=".7975" r=".06"></circle>
+		<path d="M.475 .7575h.5 v.08h-.5z"></path>
+	</symbol>
+</svg>
+  <div class="body">
+	<div class="nav-container"  data-component="ROOT"
+  data-version="" >
+  <aside class="nav">
+    <div class="panels">
+      <div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">Navigation</span>
+    <span class="nav-explore-expander">
+      <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" viewBox="0 0 1 1">
+        <title>Discloure chevron</title>
+        <use href="#icon-chevron"></use>
+      </svg>
+    </span>
+  </div>
+  <ul class="components">
+      <li
+        class="component is-current">
+          <a class="title" href="../../">Solutions</a>
+            <ul class="nav-list">
+      <li class="nav-item is-active"
+        data-depth="0">
+        <span
+          class="nav-item-expander clickable">
+        </span>
+          <ul class="nav-list">
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_01/soln">Day 1: Sonar Sweep</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_02/soln">Day 2: Dive!</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_03/soln">Day 3: Binary Diagnostic</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_04/soln">Day 4: Giant Squid</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_05/soln">Day 5: Hydrothermal Venture</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_06/soln">Day 6: Lanternfish</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_07/soln">Day 7: The Treachery of Whales</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_08/soln">Day 8: Seven Segment Search</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_09/soln">Day 9: Smoke Basin</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_10/soln">Day 10: Syntax Scoring</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_11/soln">Day 11: Dumbo Octopus</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_12/soln">Day 12: Passage Pathing</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_13/soln">Day 13: Transparent Origami</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_14/soln">Day 14: Extended Polymerization</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_15/soln">Day 15: Chiton</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_16/soln">Day 16: Packet Decoder</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_17/soln">Day 17: Trick Shot</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_18/soln">Day 18: Snailfish</a>
+        </span>
+              </li>
+      <li class="nav-item is-active is-current-page"
+        data-depth="1">
+        <span
+          class="nav-item-expander final-depth">
+              <span class="nav-text">Day 19: Beacon Scanner</span>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_20/soln">Day 20: Trench Map</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_21/soln">Day 21: Dirac Dice</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_22/soln">Day 22: Reactor Reboot</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_23/soln">Day 23: Amphipod</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_24/soln">Day 24: Arithmetic Logic Unit</a>
+        </span>
+              </li>
+      <li class="nav-item is-active"
+        data-depth="1">
+        <span
+          class="nav-item-expander clickable final-depth">
+              <a class="nav-link"
+                href="../day_25/soln">Day 25: Sea Cucumber</a>
+        </span>
+              </li>
+  </ul>
+      </li>
+  </ul>
+      </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+	<main class="article">
+  <div class="toolbar" role="navigation">
+  <button class="nav-toggle">
+	<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1">
+		<title>Show or hide menu</title>
+		<use class="icon-menu" href="#icon-menu"></use>
+		<use class="icon-back" href="#icon-back"></use>
+	</svg>
+</button>
+    <a href="../../" class="home-link" title="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon icon-home" viewBox="0 0 1 1">
+        <title>Home</title>
+        <use class="icon-home icon-home-filled" href="#icon-home-filled"></use>
+        <use class="icon-home icon-home-outline" href="#icon-home-outline"></use>
+      </svg>
+    </a>
+  <nav class="breadcrumbs" aria-label="breadcrumbs">
+    <ul>
+      <li>&#47;</li> 
+          <li>
+              <a href="../../">Solutions</a>
+
+          </li>
+        <li>&#47;</li>
+        <li><span>Day 19: Beacon Scanner</span></li>
+    </ul>
+</nav>
+  </div>
+  <div class="content">
+      <aside class="toc sidebar" data-title="Contents"
+  data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+      <article class="doc">
+	<div class="title-container">
+			<h1 class="page">Day 19: Beacon Scanner</h1>
+	</div>
+	<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://adventofcode.com/2021/day/19" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day #19 problem description</a> │ <a href="/_attachments/src/day_19/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+</div>
+<div class="paragraph">
+<p>This problem asks us to essentially solve a 3D jigsaw puzzle; we are given “pieces” (scanners) and need to find how they fit together by looking at their “edges” (beacons).
+As in an ordinary puzzle, we might need to rotate pieces to get them to mesh.</p>
+</div>
+<div class="paragraph">
+<p>To solve this, we simply try every solution: we start with Scanner #1 and try to adjoin each other scanner to it.
+Once we find a scanner that works, we go back to step 1 and try to adjoin a new scanner to the two-scanner union, and when we&#8217;ve done that we try to adjoin a new scanner to the three-scanner union, etc.
+If at any point we can&#8217;t fit a new scanner onto the existing scanners, we backtrack, removing scanners so that we can add them in a different way.
+We&#8217;re done when all scanners have been adjoined.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Technically there is a wrinkle that this solution ignores: it is not sufficient for scanners to merely fit together, i.e., to have overlapping beacons; additionally, each of the scanners in an adjoined pair must not have any beacons in the shared region that the other scanner in the pair does not have.
+In other words, they must agree on <em>all</em>, not just <em>some</em>, of the beacons in the region where they intersect.
+We ignore this wrinkle altogether; thankfully the authors were kind enough to give us input where this doesn&#8217;t matter.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Because this “puzzle” is three-dimensional, there are 24 ways to orient a piece with respect to another (six faces can be “up”, and then there are four ways to rotate about the up-axis).
+In the code, one of these 24 orientations is referred to as a <code>Swivel</code>.
+For each orientation, we find all translations that cause the pieces to fit together; these are <code>Translation</code>s.
+(A <code>Swivel</code> and a <code>Translation</code> together form a <code>Transform</code>.)
+Then we rinse and repeat with the next piece.</p>
+</div>
+<div class="paragraph">
+<p>To actually do the math, we simply use matrix multiplication.
+As always, the matrix <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span> that performs a given transformation is <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)#Relationship_to_linear_maps" target="_blank" rel="noopener">the matrix whose columns are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo stretchy="false">(</mo><msub><mi>e</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>T</mi><mo stretchy="false">(</mo><msub><mi>e</mi><mi>n</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">T(e_1), \ldots, T(e_n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></a> where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>e</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">e_1,\ldots,e_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> are the basis vectors.</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setup"><a class="anchor" href="#_setup"></a>Setup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The function that does the heavy lifting here is <code>Scanner::merge_all</code>, which simply starts with the first provided scanner and then repeatedly tries to form larger and larger unions by merging the other scanners with the existing union.
+It stops when it first successfully merges all scanners together.</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use std::{borrow::Borrow, collections::BTreeSet};
+use strum::IntoEnumIterator;
+use strum_macros::EnumIter;
+
+type Triple = [i32; 3];
+
+#[derive(Debug, Clone, Copy)]
+struct Matrix3([i32; 9]);
+
+impl Matrix3 {
+	fn from_cols(x: impl Into&lt;Triple&gt;, y: impl Into&lt;Triple&gt;, z: impl Into&lt;Triple&gt;) -&gt; Self {
+		let x = x.into();
+		let y = y.into();
+		let z = z.into();
+		Self([x[0], y[0], z[0], x[1], y[1], z[1], x[2], y[2], z[2]])
+	}
+
+	fn row(&amp;self, i: usize) -&gt; Triple {
+		[0, 1, 2].map(|j| self.0[3 * i + j])
+	}
+
+	fn col(&amp;self, i: usize) -&gt; Triple {
+		[0, 1, 2].map(|j| self.0[i + 3 * j])
+	}
+
+	fn mat_mul(&amp;self, other: Self) -&gt; Self {
+		let mut entries = [0; 9];
+		let mut i = 0;
+		for r in 0..3 {
+			let self_row = self.row(r);
+			for c in 0..3 {
+				let other_col = other.col(c);
+				entries[i] = (0..3).map(|i| self_row[i] * other_col[i]).sum();
+				i += 1;
+			}
+		}
+		Self(entries)
+	}
+
+	fn mul_vec(&amp;self, col: Triple) -&gt; Triple {
+		let mut entries = [0; 3];
+		for (r, elem) in entries.iter_mut().enumerate() {
+			let self_row = self.row(r);
+			*elem = (0..3).map(|i| self_row[i] * col[i]).sum();
+		}
+		entries
+	}
+}
+
+impl std::ops::Index&lt;[usize; 2]&gt; for Matrix3 {
+	type Output = i32;
+	fn index(&amp;self, index: [usize; 2]) -&gt; &amp;Self::Output {
+		let [row, col] = index;
+		&amp;self.0[3 * row + col]
+	}
+}
+
+#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
+enum Axis {
+	PosX,
+	NegX,
+	PosY,
+	NegY,
+	PosZ,
+	NegZ,
+}
+
+impl From&lt;Axis&gt; for Triple {
+	fn from(axis: Axis) -&gt; Self {
+		use Axis::*;
+		match axis {
+			PosX =&gt; [1, 0, 0],
+			NegX =&gt; [-1, 0, 0],
+			PosY =&gt; [0, 1, 0],
+			NegY =&gt; [0, -1, 0],
+			PosZ =&gt; [0, 0, 1],
+			NegZ =&gt; [0, 0, -1],
+		}
+	}
+}
+
+#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
+enum RotationCcw {
+	Zero,
+	Quarter,
+	Half,
+	ThreeQuarters,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Swivel {
+	up_face: Axis,
+	rotation_about_up: RotationCcw,
+}
+
+impl Swivel {
+	fn new(up_face: Axis, rotation_about_up: RotationCcw) -&gt; Self {
+		Self {
+			up_face,
+			rotation_about_up,
+		}
+	}
+
+	fn identity() -&gt; Self {
+		Self::new(Axis::PosZ, RotationCcw::Zero)
+	}
+
+	fn apply(self, point: Triple) -&gt; Triple {
+		use Axis::*;
+		use RotationCcw::*;
+
+		let mat_to_bring_face_to_up = match self.up_face {
+			PosX =&gt; Matrix3::from_cols(PosZ, PosY, NegX),
+			NegX =&gt; Matrix3::from_cols(NegZ, PosY, PosX),
+			PosY =&gt; Matrix3::from_cols(PosX, PosZ, NegY),
+			NegY =&gt; Matrix3::from_cols(PosX, NegZ, PosY),
+			PosZ =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+			NegZ =&gt; {
+				// We have a couple options; we pick the one that rotates about the y axis
+				// because it's easier to actually rotate my hand that way
+				Matrix3::from_cols(NegX, PosY, NegZ)
+			}
+		};
+
+		let mat_to_rotate_about_up = match self.rotation_about_up {
+			Zero =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+			Quarter =&gt; Matrix3::from_cols(PosY, NegX, PosZ),
+			Half =&gt; Matrix3::from_cols(NegX, NegY, PosZ),
+			ThreeQuarters =&gt; Matrix3::from_cols(NegY, PosX, PosZ),
+		};
+
+		mat_to_bring_face_to_up
+			.mat_mul(mat_to_rotate_about_up)
+			.mul_vec(point)
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Translation(Triple);
+
+impl Translation {
+	fn identity() -&gt; Self {
+		Self([0, 0, 0])
+	}
+
+	fn apply(&amp;self, point: Triple) -&gt; Triple {
+		let [x, y, z] = point;
+		let [tx, ty, tz] = self.0;
+		[x + tx, y + ty, z + tz]
+	}
+
+	fn manhattan_dist(&amp;self) -&gt; u32 {
+		let [x, y, z] = self.0;
+		u32::try_from(x.abs() + y.abs() + z.abs()).unwrap()
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Transform {
+	swivel: Swivel,
+	translation: Translation,
+}
+
+impl From&lt;Swivel&gt; for Transform {
+	fn from(swivel: Swivel) -&gt; Self {
+		Self {
+			swivel,
+			translation: Translation([0, 0, 0]),
+		}
+	}
+}
+
+impl From&lt;Translation&gt; for Transform {
+	fn from(translation: Translation) -&gt; Self {
+		Self {
+			swivel: Swivel::new(Axis::PosZ, RotationCcw::Zero),
+			translation,
+		}
+	}
+}
+
+impl Transform {
+	fn identity() -&gt; Self {
+		Self {
+			swivel: Swivel::identity(),
+			translation: Translation::identity(),
+		}
+	}
+
+	fn apply(&amp;self, point: Triple) -&gt; Triple {
+		self.translation.apply(self.swivel.apply(point))
+	}
+}
+
+#[derive(Debug, Clone)]
+struct Scanner {
+	beacons: BTreeSet&lt;Triple&gt;,
+}
+
+impl Scanner {
+	fn new(beacons: BTreeSet&lt;Triple&gt;) -&gt; Self {
+		Self { beacons }
+	}
+
+	fn merged_with(&amp;self, other: &amp;Self) -&gt; Self {
+		Self {
+			beacons: self.beacons.union(&amp;other.beacons).copied().collect(),
+		}
+	}
+
+	fn applying&lt;T: Into&lt;Transform&gt; + Copy&gt;(&amp;self, transform: T) -&gt; Self {
+		let transform = transform.into();
+		Scanner::new(self.beacons.iter().map(|&amp;p| transform.apply(p)).collect())
+	}
+
+	fn candidates_for_merge(&amp;self, other: &amp;Scanner) -&gt; Vec&lt;(Transform, Scanner)&gt; {
+		let mut transforms = BTreeSet::new();
+		let mut candidates = vec![];
+
+		for up_face in Axis::iter() {
+			for rotation in RotationCcw::iter() {
+				let swivel = Swivel::new(up_face, rotation);
+				let swiveled_other = other.applying(swivel);
+
+				for swiveled_other_beacon in &amp;swiveled_other.beacons {
+					for this_beacon in &amp;self.beacons {
+						let translation = Translation(
+							[0, 1, 2].map(|i| this_beacon[i] - swiveled_other_beacon[i]),
+						);
+						let transformed_other = swiveled_other.applying(translation);
+
+						if self
+							.beacons
+							.intersection(&amp;transformed_other.beacons)
+							.count() &gt;= 12
+						{
+							let transform = Transform {
+								swivel,
+								translation,
+							};
+							let wasnt_present = transforms.insert(transform);
+							if wasnt_present {
+								candidates.push((transform, transformed_other));
+							}
+						}
+					}
+				}
+			}
+		}
+
+		candidates
+	}
+
+	fn merge_all&lt;S: Borrow&lt;Scanner&gt;&gt;(
+		scanners: impl AsRef&lt;[S]&gt;,
+	) -&gt; Option&lt;(Vec&lt;Transform&gt;, Scanner)&gt; {
+		let scanners = scanners.as_ref();
+
+		let (first, rest) = scanners.split_first().unwrap();
+		let first = first.borrow();
+		if rest.is_empty() {
+			return Some((vec![Transform::identity()], first.clone()));
+		}
+
+		for (i, s) in rest.iter().enumerate() {
+			let s = s.borrow();
+
+			for (transform, transformed_scanner) in first.candidates_for_merge(s) {
+				let merged_scanner = first.merged_with(&amp;transformed_scanner);
+				let new_scanners = std::iter::once(&amp;merged_scanner)
+					.chain(rest.iter().enumerate().filter_map(|(j, s)| {
+						if i == j {
+							None
+						} else {
+							Some(s.borrow())
+						}
+					}))
+					.collect::&lt;Vec&lt;_&gt;&gt;();
+
+				let merge_result = Scanner::merge_all(new_scanners);
+
+				if let Some((transforms, ans)) = merge_result {
+					return Some((std::iter::once(transform).chain(transforms).collect(), ans));
+				}
+			}
+		}
+
+		None
+	}
+}
+
+fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;Scanner&gt;&gt; {
+	let mut scanners = vec![];
+	let mut this_scanner_beacons = BTreeSet::new();
+	for line in s.lines().chain(std::iter::once("")) {
+		if line.starts_with("---") {
+			continue;
+		}
+
+		if line.is_empty() {
+			scanners.push(Scanner::new(this_scanner_beacons.clone()));
+			this_scanner_beacons.clear();
+		} else {
+			let mut comps = line.split(',');
+			let [x, y, z] = [0; 3].map(|_| comps.next()?.parse().ok());
+			let [x, y, z] = [x?, y?, z?];
+			this_scanner_beacons.insert([x, y, z]);
+		}
+	}
+
+	Some(scanners)
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, u32&gt; {
+	let scanners = read_input(input).unwrap();
+	let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();
+	let translations = transforms.iter().map(|t| t.translation).collect::&lt;Vec&lt;_&gt;&gt;();
+
+	(19, (pt1(&amp;scanner), pt2(&amp;translations))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, u32&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::pt1[]
+fn pt1(scanner: &amp;Scanner) -&gt; usize {
+	scanner.beacons.len()
+}
+// end::pt1[]
+
+// tag::pt2[]
+fn pt2&lt;V: AsRef&lt;[Translation]&gt;&gt;(translations: V) -&gt; u32 {
+	let translations = translations.as_ref();
+	let mut max_manh_dist = u32::MIN;
+	for (i, translation1) in translations.iter().enumerate() {
+		let [x1, y1, z1] = translation1.0;
+		for translation2 in translations.iter().skip(i + 1) {
+			let [x2, y2, z2] = translation2.0;
+
+			let diff = Translation([x2 - x1, y2 - y1, z2 - z1]);
+			max_manh_dist = max_manh_dist.max(diff.manhattan_dist());
+		}
+	}
+
+	max_manh_dist
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		assert!(
+			cfg!(not(debug_assertions)),
+			"Day 19 may not be tested in debug mode; it requires --release"
+		);
+		test_input!(include_str!("input.txt"), day: 19, ans: (385, 10707));
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_1"><a class="anchor" href="#_part_1"></a>Part 1</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Part 1 asks us to simply count the distinct beacons after the scanners have all been merged.
+Below, <code>scanner</code> is obtained from <code>let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use std::{borrow::Borrow, collections::BTreeSet};
+use strum::IntoEnumIterator;
+use strum_macros::EnumIter;
+
+type Triple = [i32; 3];
+
+#[derive(Debug, Clone, Copy)]
+struct Matrix3([i32; 9]);
+
+impl Matrix3 {
+	fn from_cols(x: impl Into&lt;Triple&gt;, y: impl Into&lt;Triple&gt;, z: impl Into&lt;Triple&gt;) -&gt; Self {
+		let x = x.into();
+		let y = y.into();
+		let z = z.into();
+		Self([x[0], y[0], z[0], x[1], y[1], z[1], x[2], y[2], z[2]])
+	}
+
+	fn row(&amp;self, i: usize) -&gt; Triple {
+		[0, 1, 2].map(|j| self.0[3 * i + j])
+	}
+
+	fn col(&amp;self, i: usize) -&gt; Triple {
+		[0, 1, 2].map(|j| self.0[i + 3 * j])
+	}
+
+	fn mat_mul(&amp;self, other: Self) -&gt; Self {
+		let mut entries = [0; 9];
+		let mut i = 0;
+		for r in 0..3 {
+			let self_row = self.row(r);
+			for c in 0..3 {
+				let other_col = other.col(c);
+				entries[i] = (0..3).map(|i| self_row[i] * other_col[i]).sum();
+				i += 1;
+			}
+		}
+		Self(entries)
+	}
+
+	fn mul_vec(&amp;self, col: Triple) -&gt; Triple {
+		let mut entries = [0; 3];
+		for (r, elem) in entries.iter_mut().enumerate() {
+			let self_row = self.row(r);
+			*elem = (0..3).map(|i| self_row[i] * col[i]).sum();
+		}
+		entries
+	}
+}
+
+impl std::ops::Index&lt;[usize; 2]&gt; for Matrix3 {
+	type Output = i32;
+	fn index(&amp;self, index: [usize; 2]) -&gt; &amp;Self::Output {
+		let [row, col] = index;
+		&amp;self.0[3 * row + col]
+	}
+}
+
+#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
+enum Axis {
+	PosX,
+	NegX,
+	PosY,
+	NegY,
+	PosZ,
+	NegZ,
+}
+
+impl From&lt;Axis&gt; for Triple {
+	fn from(axis: Axis) -&gt; Self {
+		use Axis::*;
+		match axis {
+			PosX =&gt; [1, 0, 0],
+			NegX =&gt; [-1, 0, 0],
+			PosY =&gt; [0, 1, 0],
+			NegY =&gt; [0, -1, 0],
+			PosZ =&gt; [0, 0, 1],
+			NegZ =&gt; [0, 0, -1],
+		}
+	}
+}
+
+#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
+enum RotationCcw {
+	Zero,
+	Quarter,
+	Half,
+	ThreeQuarters,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Swivel {
+	up_face: Axis,
+	rotation_about_up: RotationCcw,
+}
+
+impl Swivel {
+	fn new(up_face: Axis, rotation_about_up: RotationCcw) -&gt; Self {
+		Self {
+			up_face,
+			rotation_about_up,
+		}
+	}
+
+	fn identity() -&gt; Self {
+		Self::new(Axis::PosZ, RotationCcw::Zero)
+	}
+
+	fn apply(self, point: Triple) -&gt; Triple {
+		use Axis::*;
+		use RotationCcw::*;
+
+		let mat_to_bring_face_to_up = match self.up_face {
+			PosX =&gt; Matrix3::from_cols(PosZ, PosY, NegX),
+			NegX =&gt; Matrix3::from_cols(NegZ, PosY, PosX),
+			PosY =&gt; Matrix3::from_cols(PosX, PosZ, NegY),
+			NegY =&gt; Matrix3::from_cols(PosX, NegZ, PosY),
+			PosZ =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+			NegZ =&gt; {
+				// We have a couple options; we pick the one that rotates about the y axis
+				// because it's easier to actually rotate my hand that way
+				Matrix3::from_cols(NegX, PosY, NegZ)
+			}
+		};
+
+		let mat_to_rotate_about_up = match self.rotation_about_up {
+			Zero =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+			Quarter =&gt; Matrix3::from_cols(PosY, NegX, PosZ),
+			Half =&gt; Matrix3::from_cols(NegX, NegY, PosZ),
+			ThreeQuarters =&gt; Matrix3::from_cols(NegY, PosX, PosZ),
+		};
+
+		mat_to_bring_face_to_up
+			.mat_mul(mat_to_rotate_about_up)
+			.mul_vec(point)
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Translation(Triple);
+
+impl Translation {
+	fn identity() -&gt; Self {
+		Self([0, 0, 0])
+	}
+
+	fn apply(&amp;self, point: Triple) -&gt; Triple {
+		let [x, y, z] = point;
+		let [tx, ty, tz] = self.0;
+		[x + tx, y + ty, z + tz]
+	}
+
+	fn manhattan_dist(&amp;self) -&gt; u32 {
+		let [x, y, z] = self.0;
+		u32::try_from(x.abs() + y.abs() + z.abs()).unwrap()
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Transform {
+	swivel: Swivel,
+	translation: Translation,
+}
+
+impl From&lt;Swivel&gt; for Transform {
+	fn from(swivel: Swivel) -&gt; Self {
+		Self {
+			swivel,
+			translation: Translation([0, 0, 0]),
+		}
+	}
+}
+
+impl From&lt;Translation&gt; for Transform {
+	fn from(translation: Translation) -&gt; Self {
+		Self {
+			swivel: Swivel::new(Axis::PosZ, RotationCcw::Zero),
+			translation,
+		}
+	}
+}
+
+impl Transform {
+	fn identity() -&gt; Self {
+		Self {
+			swivel: Swivel::identity(),
+			translation: Translation::identity(),
+		}
+	}
+
+	fn apply(&amp;self, point: Triple) -&gt; Triple {
+		self.translation.apply(self.swivel.apply(point))
+	}
+}
+
+#[derive(Debug, Clone)]
+struct Scanner {
+	beacons: BTreeSet&lt;Triple&gt;,
+}
+
+impl Scanner {
+	fn new(beacons: BTreeSet&lt;Triple&gt;) -&gt; Self {
+		Self { beacons }
+	}
+
+	fn merged_with(&amp;self, other: &amp;Self) -&gt; Self {
+		Self {
+			beacons: self.beacons.union(&amp;other.beacons).copied().collect(),
+		}
+	}
+
+	fn applying&lt;T: Into&lt;Transform&gt; + Copy&gt;(&amp;self, transform: T) -&gt; Self {
+		let transform = transform.into();
+		Scanner::new(self.beacons.iter().map(|&amp;p| transform.apply(p)).collect())
+	}
+
+	fn candidates_for_merge(&amp;self, other: &amp;Scanner) -&gt; Vec&lt;(Transform, Scanner)&gt; {
+		let mut transforms = BTreeSet::new();
+		let mut candidates = vec![];
+
+		for up_face in Axis::iter() {
+			for rotation in RotationCcw::iter() {
+				let swivel = Swivel::new(up_face, rotation);
+				let swiveled_other = other.applying(swivel);
+
+				for swiveled_other_beacon in &amp;swiveled_other.beacons {
+					for this_beacon in &amp;self.beacons {
+						let translation = Translation(
+							[0, 1, 2].map(|i| this_beacon[i] - swiveled_other_beacon[i]),
+						);
+						let transformed_other = swiveled_other.applying(translation);
+
+						if self
+							.beacons
+							.intersection(&amp;transformed_other.beacons)
+							.count() &gt;= 12
+						{
+							let transform = Transform {
+								swivel,
+								translation,
+							};
+							let wasnt_present = transforms.insert(transform);
+							if wasnt_present {
+								candidates.push((transform, transformed_other));
+							}
+						}
+					}
+				}
+			}
+		}
+
+		candidates
+	}
+
+	fn merge_all&lt;S: Borrow&lt;Scanner&gt;&gt;(
+		scanners: impl AsRef&lt;[S]&gt;,
+	) -&gt; Option&lt;(Vec&lt;Transform&gt;, Scanner)&gt; {
+		let scanners = scanners.as_ref();
+
+		let (first, rest) = scanners.split_first().unwrap();
+		let first = first.borrow();
+		if rest.is_empty() {
+			return Some((vec![Transform::identity()], first.clone()));
+		}
+
+		for (i, s) in rest.iter().enumerate() {
+			let s = s.borrow();
+
+			for (transform, transformed_scanner) in first.candidates_for_merge(s) {
+				let merged_scanner = first.merged_with(&amp;transformed_scanner);
+				let new_scanners = std::iter::once(&amp;merged_scanner)
+					.chain(rest.iter().enumerate().filter_map(|(j, s)| {
+						if i == j {
+							None
+						} else {
+							Some(s.borrow())
+						}
+					}))
+					.collect::&lt;Vec&lt;_&gt;&gt;();
+
+				let merge_result = Scanner::merge_all(new_scanners);
+
+				if let Some((transforms, ans)) = merge_result {
+					return Some((std::iter::once(transform).chain(transforms).collect(), ans));
+				}
+			}
+		}
+
+		None
+	}
+}
+
+fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;Scanner&gt;&gt; {
+	let mut scanners = vec![];
+	let mut this_scanner_beacons = BTreeSet::new();
+	for line in s.lines().chain(std::iter::once("")) {
+		if line.starts_with("---") {
+			continue;
+		}
+
+		if line.is_empty() {
+			scanners.push(Scanner::new(this_scanner_beacons.clone()));
+			this_scanner_beacons.clear();
+		} else {
+			let mut comps = line.split(',');
+			let [x, y, z] = [0; 3].map(|_| comps.next()?.parse().ok());
+			let [x, y, z] = [x?, y?, z?];
+			this_scanner_beacons.insert([x, y, z]);
+		}
+	}
+
+	Some(scanners)
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, u32&gt; {
+	let scanners = read_input(input).unwrap();
+	let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();
+	let translations = transforms.iter().map(|t| t.translation).collect::&lt;Vec&lt;_&gt;&gt;();
+
+	(19, (pt1(&amp;scanner), pt2(&amp;translations))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, u32&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::pt1[]
+fn pt1(scanner: &amp;Scanner) -&gt; usize {
+	scanner.beacons.len()
+}
+// end::pt1[]
+
+// tag::pt2[]
+fn pt2&lt;V: AsRef&lt;[Translation]&gt;&gt;(translations: V) -&gt; u32 {
+	let translations = translations.as_ref();
+	let mut max_manh_dist = u32::MIN;
+	for (i, translation1) in translations.iter().enumerate() {
+		let [x1, y1, z1] = translation1.0;
+		for translation2 in translations.iter().skip(i + 1) {
+			let [x2, y2, z2] = translation2.0;
+
+			let diff = Translation([x2 - x1, y2 - y1, z2 - z1]);
+			max_manh_dist = max_manh_dist.max(diff.manhattan_dist());
+		}
+	}
+
+	max_manh_dist
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		assert!(
+			cfg!(not(debug_assertions)),
+			"Day 19 may not be tested in debug mode; it requires --release"
+		);
+		test_input!(include_str!("input.txt"), day: 19, ans: (385, 10707));
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_2"><a class="anchor" href="#_part_2"></a>Part 2</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Part 2 asks us to find the maximum <a href="https://en.wikipedia.org/wiki/Taxicab_geometry" target="_blank" rel="noopener">Manhattan distance</a> between scanners.
+To do this, we have to track the transformation of each scanner in the successful merge; we then read the pairwise Manhattan distances from each scanner&#8217;s transformation&#8217;s translation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use std::{borrow::Borrow, collections::BTreeSet};
+use strum::IntoEnumIterator;
+use strum_macros::EnumIter;
+
+type Triple = [i32; 3];
+
+#[derive(Debug, Clone, Copy)]
+struct Matrix3([i32; 9]);
+
+impl Matrix3 {
+	fn from_cols(x: impl Into&lt;Triple&gt;, y: impl Into&lt;Triple&gt;, z: impl Into&lt;Triple&gt;) -&gt; Self {
+		let x = x.into();
+		let y = y.into();
+		let z = z.into();
+		Self([x[0], y[0], z[0], x[1], y[1], z[1], x[2], y[2], z[2]])
+	}
+
+	fn row(&amp;self, i: usize) -&gt; Triple {
+		[0, 1, 2].map(|j| self.0[3 * i + j])
+	}
+
+	fn col(&amp;self, i: usize) -&gt; Triple {
+		[0, 1, 2].map(|j| self.0[i + 3 * j])
+	}
+
+	fn mat_mul(&amp;self, other: Self) -&gt; Self {
+		let mut entries = [0; 9];
+		let mut i = 0;
+		for r in 0..3 {
+			let self_row = self.row(r);
+			for c in 0..3 {
+				let other_col = other.col(c);
+				entries[i] = (0..3).map(|i| self_row[i] * other_col[i]).sum();
+				i += 1;
+			}
+		}
+		Self(entries)
+	}
+
+	fn mul_vec(&amp;self, col: Triple) -&gt; Triple {
+		let mut entries = [0; 3];
+		for (r, elem) in entries.iter_mut().enumerate() {
+			let self_row = self.row(r);
+			*elem = (0..3).map(|i| self_row[i] * col[i]).sum();
+		}
+		entries
+	}
+}
+
+impl std::ops::Index&lt;[usize; 2]&gt; for Matrix3 {
+	type Output = i32;
+	fn index(&amp;self, index: [usize; 2]) -&gt; &amp;Self::Output {
+		let [row, col] = index;
+		&amp;self.0[3 * row + col]
+	}
+}
+
+#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
+enum Axis {
+	PosX,
+	NegX,
+	PosY,
+	NegY,
+	PosZ,
+	NegZ,
+}
+
+impl From&lt;Axis&gt; for Triple {
+	fn from(axis: Axis) -&gt; Self {
+		use Axis::*;
+		match axis {
+			PosX =&gt; [1, 0, 0],
+			NegX =&gt; [-1, 0, 0],
+			PosY =&gt; [0, 1, 0],
+			NegY =&gt; [0, -1, 0],
+			PosZ =&gt; [0, 0, 1],
+			NegZ =&gt; [0, 0, -1],
+		}
+	}
+}
+
+#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
+enum RotationCcw {
+	Zero,
+	Quarter,
+	Half,
+	ThreeQuarters,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Swivel {
+	up_face: Axis,
+	rotation_about_up: RotationCcw,
+}
+
+impl Swivel {
+	fn new(up_face: Axis, rotation_about_up: RotationCcw) -&gt; Self {
+		Self {
+			up_face,
+			rotation_about_up,
+		}
+	}
+
+	fn identity() -&gt; Self {
+		Self::new(Axis::PosZ, RotationCcw::Zero)
+	}
+
+	fn apply(self, point: Triple) -&gt; Triple {
+		use Axis::*;
+		use RotationCcw::*;
+
+		let mat_to_bring_face_to_up = match self.up_face {
+			PosX =&gt; Matrix3::from_cols(PosZ, PosY, NegX),
+			NegX =&gt; Matrix3::from_cols(NegZ, PosY, PosX),
+			PosY =&gt; Matrix3::from_cols(PosX, PosZ, NegY),
+			NegY =&gt; Matrix3::from_cols(PosX, NegZ, PosY),
+			PosZ =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+			NegZ =&gt; {
+				// We have a couple options; we pick the one that rotates about the y axis
+				// because it's easier to actually rotate my hand that way
+				Matrix3::from_cols(NegX, PosY, NegZ)
+			}
+		};
+
+		let mat_to_rotate_about_up = match self.rotation_about_up {
+			Zero =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+			Quarter =&gt; Matrix3::from_cols(PosY, NegX, PosZ),
+			Half =&gt; Matrix3::from_cols(NegX, NegY, PosZ),
+			ThreeQuarters =&gt; Matrix3::from_cols(NegY, PosX, PosZ),
+		};
+
+		mat_to_bring_face_to_up
+			.mat_mul(mat_to_rotate_about_up)
+			.mul_vec(point)
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Translation(Triple);
+
+impl Translation {
+	fn identity() -&gt; Self {
+		Self([0, 0, 0])
+	}
+
+	fn apply(&amp;self, point: Triple) -&gt; Triple {
+		let [x, y, z] = point;
+		let [tx, ty, tz] = self.0;
+		[x + tx, y + ty, z + tz]
+	}
+
+	fn manhattan_dist(&amp;self) -&gt; u32 {
+		let [x, y, z] = self.0;
+		u32::try_from(x.abs() + y.abs() + z.abs()).unwrap()
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+struct Transform {
+	swivel: Swivel,
+	translation: Translation,
+}
+
+impl From&lt;Swivel&gt; for Transform {
+	fn from(swivel: Swivel) -&gt; Self {
+		Self {
+			swivel,
+			translation: Translation([0, 0, 0]),
+		}
+	}
+}
+
+impl From&lt;Translation&gt; for Transform {
+	fn from(translation: Translation) -&gt; Self {
+		Self {
+			swivel: Swivel::new(Axis::PosZ, RotationCcw::Zero),
+			translation,
+		}
+	}
+}
+
+impl Transform {
+	fn identity() -&gt; Self {
+		Self {
+			swivel: Swivel::identity(),
+			translation: Translation::identity(),
+		}
+	}
+
+	fn apply(&amp;self, point: Triple) -&gt; Triple {
+		self.translation.apply(self.swivel.apply(point))
+	}
+}
+
+#[derive(Debug, Clone)]
+struct Scanner {
+	beacons: BTreeSet&lt;Triple&gt;,
+}
+
+impl Scanner {
+	fn new(beacons: BTreeSet&lt;Triple&gt;) -&gt; Self {
+		Self { beacons }
+	}
+
+	fn merged_with(&amp;self, other: &amp;Self) -&gt; Self {
+		Self {
+			beacons: self.beacons.union(&amp;other.beacons).copied().collect(),
+		}
+	}
+
+	fn applying&lt;T: Into&lt;Transform&gt; + Copy&gt;(&amp;self, transform: T) -&gt; Self {
+		let transform = transform.into();
+		Scanner::new(self.beacons.iter().map(|&amp;p| transform.apply(p)).collect())
+	}
+
+	fn candidates_for_merge(&amp;self, other: &amp;Scanner) -&gt; Vec&lt;(Transform, Scanner)&gt; {
+		let mut transforms = BTreeSet::new();
+		let mut candidates = vec![];
+
+		for up_face in Axis::iter() {
+			for rotation in RotationCcw::iter() {
+				let swivel = Swivel::new(up_face, rotation);
+				let swiveled_other = other.applying(swivel);
+
+				for swiveled_other_beacon in &amp;swiveled_other.beacons {
+					for this_beacon in &amp;self.beacons {
+						let translation = Translation(
+							[0, 1, 2].map(|i| this_beacon[i] - swiveled_other_beacon[i]),
+						);
+						let transformed_other = swiveled_other.applying(translation);
+
+						if self
+							.beacons
+							.intersection(&amp;transformed_other.beacons)
+							.count() &gt;= 12
+						{
+							let transform = Transform {
+								swivel,
+								translation,
+							};
+							let wasnt_present = transforms.insert(transform);
+							if wasnt_present {
+								candidates.push((transform, transformed_other));
+							}
+						}
+					}
+				}
+			}
+		}
+
+		candidates
+	}
+
+	fn merge_all&lt;S: Borrow&lt;Scanner&gt;&gt;(
+		scanners: impl AsRef&lt;[S]&gt;,
+	) -&gt; Option&lt;(Vec&lt;Transform&gt;, Scanner)&gt; {
+		let scanners = scanners.as_ref();
+
+		let (first, rest) = scanners.split_first().unwrap();
+		let first = first.borrow();
+		if rest.is_empty() {
+			return Some((vec![Transform::identity()], first.clone()));
+		}
+
+		for (i, s) in rest.iter().enumerate() {
+			let s = s.borrow();
+
+			for (transform, transformed_scanner) in first.candidates_for_merge(s) {
+				let merged_scanner = first.merged_with(&amp;transformed_scanner);
+				let new_scanners = std::iter::once(&amp;merged_scanner)
+					.chain(rest.iter().enumerate().filter_map(|(j, s)| {
+						if i == j {
+							None
+						} else {
+							Some(s.borrow())
+						}
+					}))
+					.collect::&lt;Vec&lt;_&gt;&gt;();
+
+				let merge_result = Scanner::merge_all(new_scanners);
+
+				if let Some((transforms, ans)) = merge_result {
+					return Some((std::iter::once(transform).chain(transforms).collect(), ans));
+				}
+			}
+		}
+
+		None
+	}
+}
+
+fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;Scanner&gt;&gt; {
+	let mut scanners = vec![];
+	let mut this_scanner_beacons = BTreeSet::new();
+	for line in s.lines().chain(std::iter::once("")) {
+		if line.starts_with("---") {
+			continue;
+		}
+
+		if line.is_empty() {
+			scanners.push(Scanner::new(this_scanner_beacons.clone()));
+			this_scanner_beacons.clear();
+		} else {
+			let mut comps = line.split(',');
+			let [x, y, z] = [0; 3].map(|_| comps.next()?.parse().ok());
+			let [x, y, z] = [x?, y?, z?];
+			this_scanner_beacons.insert([x, y, z]);
+		}
+	}
+
+	Some(scanners)
+}
+
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, u32&gt; {
+	let scanners = read_input(input).unwrap();
+	let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();
+	let translations = transforms.iter().map(|t| t.translation).collect::&lt;Vec&lt;_&gt;&gt;();
+
+	(19, (pt1(&amp;scanner), pt2(&amp;translations))).into()
+}
+
+pub fn ans() -&gt; Answer&lt;usize, u32&gt; {
+	ans_for_input(include_str!("input.txt"))
+}
+// end::setup[]
+
+// tag::pt1[]
+fn pt1(scanner: &amp;Scanner) -&gt; usize {
+	scanner.beacons.len()
+}
+// end::pt1[]
+
+// tag::pt2[]
+fn pt2&lt;V: AsRef&lt;[Translation]&gt;&gt;(translations: V) -&gt; u32 {
+	let translations = translations.as_ref();
+	let mut max_manh_dist = u32::MIN;
+	for (i, translation1) in translations.iter().enumerate() {
+		let [x1, y1, z1] = translation1.0;
+		for translation2 in translations.iter().skip(i + 1) {
+			let [x2, y2, z2] = translation2.0;
+
+			let diff = Translation([x2 - x1, y2 - y1, z2 - z1]);
+			max_manh_dist = max_manh_dist.max(diff.manhattan_dist());
+		}
+	}
+
+	max_manh_dist
+}
+// end::pt2[]
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
+
+	#[test]
+	fn test() {
+		assert!(
+			cfg!(not(debug_assertions)),
+			"Day 19 may not be tested in debug mode; it requires --release"
+		);
+		test_input!(include_str!("input.txt"), day: 19, ans: (385, 10707));
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>     <nav class="pagination">
+        <span class="prev"><a href="../day_18/soln">Day 18: Snailfish</a></span>
+        <span class="next"><a href="../day_20/soln">Day 20: Trench Map</a></span>
+    </nav>
+
+</article>
+  </div>
+  <footer class="footer">
+  <p>This page was built using <a href="https://antora.org" target="_blank">Antora</a> with a theme forked from the <a
+      href="https://gitlab.com/antora/antora-ui-default" target="_blank">default UI</a>. Search is powered by <a
+      href="https://lunrjs.com" target="_blank">Lunr</a>.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script>
+	function add_is_current_path() {
+		let elem = document.querySelector(`.nav-container .is-current-page > .final-depth`);
+		if (!elem) { return; }
+		while (!elem.classList.contains("nav-panel-explore")) {
+			if (elem.tagName === "LI") {
+				elem.classList.add("is-current-path");
+			}
+			elem = elem.parentNode;
+		}
+	}
+	add_is_current_path()
+</script>
+<script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+	<script src="../../_/js/vendor/lunr.js"></script>
+<script src="../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../.." data-snippet-length="100" data-stylesheet="../../_/css/search.css"></script>
+<script async src="../../search-index.js"></script>
+<script>
+	function set_up_footnotes() {
+		let footnoteBox;
+		let footnoteP;
+		const _isMobile = "ontouchstart" in document.documentElement;
+
+		// Apparently, sticking the tooltip in a child div of document.body, instead of in
+		// document.body directly, helps performance.
+		// https://atfzl.com/don-t-attach-tooltips-to-document-body
+		const footnoteHolder = document.createElement("div");
+		document.body.appendChild(footnoteHolder);
+
+		function showFootnoteBoxOnHover(elem) {
+			const FOOTNOTE_BOX_MAX_WIDTH = 400;
+
+			if (footnoteBox === undefined) {
+				footnoteBox = document.createElement("div");
+				footnoteHolder.appendChild(footnoteBox);
+				footnoteBox.classList.add("footnote-box");
+				footnoteBox.addEventListener("mouseleave", () => removeFootnoteBox());
+
+				footnoteP = document.createElement("p");
+				footnoteBox.appendChild(footnoteP);
+
+				footnoteBox.style.zIndex = 9999;
+			}
+
+			// Remove the numbering from this footnote box
+			const footnoteId = elem.getAttribute("href"); // Starts with #
+			const footnoteClone = document
+				.getElementById(footnoteId.substring(1))
+				.cloneNode(true);
+			const footnoteA = footnoteClone.getElementsByTagName("a")[0];
+			footnoteA.remove();
+
+			const footnoteHtml = footnoteClone.innerHTML.replace(/^\s*\.\s*/, "");
+
+			footnoteP.innerHTML = footnoteHtml;
+			footnoteBox.style.right = null;
+			footnoteBox.style.left = "0px";
+			footnoteBox.style.top = "0px";
+
+			const elemRect = elem.getBoundingClientRect();
+			const bodyRect = document.body.getBoundingClientRect();
+
+			footnoteBox.style.display = "block";
+
+			let tx = false;
+			let ty = false;
+
+			if (elemRect.left - FOOTNOTE_BOX_MAX_WIDTH < 10) {
+				const px = -bodyRect.left + 10;
+				footnoteBox.style.left = `${px}px`;
+
+				tx = true;
+			} else {
+				const px = elemRect.left - bodyRect.left + 20;
+				footnoteBox.style.left = `${px}px`;
+			}
+
+			const footnoteRect = footnoteBox.getBoundingClientRect();
+
+			const windowHeight = document.documentElement.clientHeight;
+			if (elemRect.top + footnoteRect.height > windowHeight) {
+				const py = -10 + window.scrollY + windowHeight;
+				footnoteBox.style.top = `${py}px`;
+			} else {
+				const py = elemRect.top - bodyRect.top;
+				footnoteBox.style.top = `${py}px`;
+
+				ty = true;
+			}
+
+			footnoteBox.style.transform = (() => {
+				let transX = tx ? 0 : "-100%";
+				let transY = ty ? 0 : "-100%";
+				return `translate(${transX}, ${transY})`;
+			})();
+
+			// if (elemRect.right + FOOTNOTE_BOX_MAX_WIDTH - 30 > bodyRect.right) {
+			// 	const px = bodyRect.right - (bodyRect.left + bodyRect.width);
+			// 	console.log(bodyRect);
+			// 	footnoteBox.style.left = null;
+			// 	footnoteBox.style.right = `${px}px`;
+			// 	console.log("right");
+			// } else {
+			// 	const px = -10 + elemRect.left - bodyRect.left;
+			// 	footnoteBox.style.right = null;
+			// 	footnoteBox.style.left = `${px}px`;
+			// 	console.log("left");
+			// }
+		}
+
+		function removeFootnoteBox() {
+			if (footnoteBox === undefined) {
+				return;
+			}
+			footnoteBox.style.display = "none";
+		}
+
+		function initializeFootnotes() {
+			const footnotes = document.querySelectorAll(
+				":not(#footnotes) .footnote a.footnote",
+			);
+			const nFootnotes = footnotes.length;
+			for (let i = 0; i < nFootnotes; i++) {
+				const footnote = footnotes[i];
+				footnote.addEventListener("mouseenter", event => {
+					showFootnoteBoxOnHover(footnote);
+				});
+			}
+		}
+
+		if (!_isMobile) {
+			initializeFootnotes();
+		}
+	}
+	set_up_footnotes()
+</script>
+<script>
+	function add_titles() {
+		const elems = document.querySelectorAll(".ui-icon.nav-menu-icon");
+		for (let i = 0, len = elems.length; i < len; i++) {
+			const elem = elems[i];
+			if (elem.getAttribute('title') === null) {
+				elems[i].setAttribute("title", "Navigation menu icon: one bullet followed by three sub-bullets");
+			}
+		}
+	}
+	add_titles()
+</script>
+</main>
+</div>
+</body>
+
+</html>

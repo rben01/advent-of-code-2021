@@ -1,3 +1,50 @@
-= Index
+= Advent of Code 2021
+
+[.lead]
+This doc has my solutions for the https://adventofcode.com/2021[2021 Advent of Code^].
+It assumes some familiarity with https://www.rust-lang.org/[the Rust language^].
+
+[NOTE]
+====
+Advent of Code gives all participants the same problems, but gives different inputs to each participant.
+Therefore, it makes little sense to give the actual numeric answers to problems here.
+However, we do provide the input that was given to us in order to contextualize the input-parsing code.
+The solutions below should work for any input/output pair provided by Advent of Code.
+====
+
+[WARNING]
+====
+This document has the solutions out in the open!
+Don't read it if you're still working on Advent of Code.
+====
+
+
+== Setup
+Rust is a very strict language and makes you explicitly handle all errors that might arise (as opposed to, say,  exceptions implicitly being thrown on error, as Python does).
+However, we can trust our inputs, taken straight from Advent of Code, to be correct and give unambiguous answers without errors.
+For this reason, we tend to be pretty loosey-goosey about unwrapping the ``Option``s and ``Result``s that the Rust compiler correctly points out we could theoretically encounter.
+(There wouldn't be any point to handling those cases gracefully; we're just trying to solve Advent of Code, not create general-purpose a submarine-squid-bingo-player that can function sensibly even when the squid gives us nonsensical input.
+For our purposes, the residual variants of a `Try` object at the boundary of our program are `!` (Rust's bottom or “never” type).)
+
+
+Commonly used code, in `src/lib.rs` and `src/utils.rs`, is below:
+
+.link:./{src-dir}/lib.rs[`lib.rs`^]
+--
+include_source::./src/lib.rs[tag=code]
+--
+
+.link:./{src-dir}/utils.rs[`utils.rs`^]
+--
+include_source::./src/utils.rs[tag=code]
+--
+
+
+== Problems and Solutions
 
 include::../nav.adoc[]
+
+== Conclusion
+
+This was a lot of work, but a lot of fun, and I learned a ton, both about algorithms in general and about Rust.
+Looking forward to next year's Advent of Code!
