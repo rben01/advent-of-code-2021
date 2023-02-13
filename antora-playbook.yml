@@ -1,6 +1,6 @@
 site:
   robots: allow
-  title: Advent of Code 2021
+  title: Robert Bennett — Advent of Code 2021
   url: /
 
 content:
@@ -29,6 +29,7 @@ asciidoc:
     - "./lib/adoc-extensions.js"
   attributes:
     src-dir: src
+    source-highlighter: highlightjs-ext
     hide-uri-scheme: true
     click-to-reveal: Click to reveal answer
     caution-caption: true

@@ -12,8 +12,9 @@
 
 	--default-transition-duration: 0.125s;
 	--default-transition-timing-function: ease;
-	--default-transition: all var(--default-transition-duration) var(--default-transition-timing-function), visibility 0s,
-		display 0s;
+	--default-transition: all var(--default-transition-duration)
+			var(--default-transition-timing-function),
+		visibility 0s, display 0s;
 	--scroll-behavior: smooth;
 
 	--default-bg-color: white;
@@ -117,14 +118,14 @@
 	--thumb-border-color: white;
 	--thumb-shadow-color: #ddd;
 	--gist-table-bg-color: white;
-	--admon-text-color: white;
+	--admon-icon-text-color: white;
 	--admon-shadow-color: rgb(0 0 0 / 0.5);
 	--admon-note-icon-color: #217ee7;
 	--admon-tip-shadow-color: rgb(155 155 0 / 0.8);
 	--admon-tip-icon-color: #41af46;
-	--admon-warning-icon-color: #f8b90a;
-	--admon-caution-icon-color: #bf3400;
-	--admon-important-icon-color: #bf0000;
+	--admon-warning-icon-color: #fdbb06;
+	--admon-caution-icon-color: #fa5e15;
+	--admon-important-icon-color: #ca1313;
 	--conum-text-color: white;
 	--conum-bg-color: #222;
 	--hdlist-table-row-border-color: #ccc;
@@ -262,11 +263,11 @@
 		--thumb-shadow-color: rgb(48, 48, 48);
 		--gist-table-bg-color: rgb(24, 24, 24);
 		--admon-shadow-color: rgb(0 0 0 / 0.5);
-		--admon-note-icon-color: #19559a;
+		--admon-note-icon-color: #1b64b7;
 		--admon-tip-shadow-color: rgb(155 155 0 / 0.8);
 		--admon-tip-icon-color: #2d9332;
-		--admon-warning-icon-color: #fad400;
-		--admon-caution-icon-color: #cc4e20;
+		--admon-warning-icon-color: #fdbb06;
+		--admon-caution-icon-color: #fa783c;
 		--admon-important-icon-color: #df2929;
 		--conum-text-color: rgb(29, 29, 29);
 		--conum-bg-color: rgb(224, 224, 224);
@@ -627,7 +628,8 @@ html.is-clipped--nav {
 	flex-direction: column;
 	z-index: inherit;
 	transform: translateY(0);
-	transition: transform var(--default-transition-duration) var(--default-transition-timing-function);
+	transition: transform var(--default-transition-duration)
+		var(--default-transition-timing-function);
 }
 .nav-container .nav-item-expander :is(.nav-link, .nav-text) {
 	line-height: 1.4;
@@ -703,7 +705,7 @@ html.is-clipped--nav {
 	padding: 0.5rem 1rem 0;
 	margin: 0;
 	overflow-y: scroll;
-	overscroll-behavior: none;
+	overscroll-behavior: contain;
 	max-height: 100%;
 	display: block;
 }
@@ -1278,7 +1280,7 @@ h6 {
 .doc table.tableblock {
 	font-size: 0.83333rem;
 }
-.dic
+.doc
 	:is(
 		.tablecontainer,
 		.tablecontainer + *,
@@ -1393,12 +1395,14 @@ h6 {
 	border-radius: 5px;
 	border: 3px solid var(--admonition-border-color);
 }
+
 .doc .admonitionblock .icon {
+	color: var(--admon-icon-text-color);
 	position: absolute;
 	top: 0;
 	left: 0;
 	font-size: 0.83333rem;
-	padding: 0 0.5rem;
+	padding: 0 0.5rem 0 0.35rem;
 	height: 1.25rem;
 	line-height: 1;
 	/* font-weight: 500; */
@@ -1406,34 +1410,84 @@ h6 {
 	text-transform: uppercase;
 	border-radius: 0.45rem;
 	transform: translate(-0.5rem, -50%);
+	/* width of the `calc` part is twice padding-left above, + width of `icon i::before`
+	below, minus a bit so it looks symmetrical with the big border radius*/
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0, rgba(0, 0, 0, 0.2))
+		no-repeat 0 / calc(2 * 0.35rem + 0.9em - 0.05rem) 100%;
+	vertical-align: middle;
 }
-.doc .admonitionblock:is(.caution, .important, .note, .tip, .warning) .icon {
-	color: var(--admon-text-color);
+
+.doc .admonitionblock .icon i {
+	position: relative;
+	top: 0.05em;
 }
+
+.doc .admonitionblock .icon i::before {
+	background-color: var(--admon-icon-text-color);
+	display: inline-block;
+	content: "";
+	height: 0.9em;
+	width: 0.9em;
+	text-align: center;
+	margin-right: 0.35rem;
+	position: relative;
+	bottom: 0.025em;
+}
+
 .doc .admonitionblock.caution .icon {
 	background-color: var(--admon-caution-icon-color);
 }
+
+.doc .admonitionblock.caution .icon i::before {
+	clip-path: url(#icon-admon-caution);
+}
+
 .doc .admonitionblock.important .icon {
 	background-color: var(--admon-important-icon-color);
 }
+
+.doc .admonitionblock.important .icon i::before {
+	clip-path: url(#icon-admon-important);
+}
+
 .doc .admonitionblock.note .icon {
 	background-color: var(--admon-note-icon-color);
 }
+
+.doc .admonitionblock.note .icon i::before {
+	clip-path: url(#icon-admon-note);
+	position: relative;
+	bottom: 0.025em;
+}
+
 .doc .admonitionblock.tip .icon {
 	background-color: var(--admon-tip-icon-color);
 }
+
+.doc .admonitionblock.tip .icon i::before {
+	clip-path: url(#icon-admon-tip);
+}
+
 .doc .admonitionblock.warning .icon {
 	background-color: var(--admon-warning-icon-color);
 }
+
+.doc .admonitionblock.warning .icon i::before {
+	clip-path: url(#icon-admon-warning);
+}
+
 .doc .admonitionblock .icon i {
 	display: inline-flex;
 	align-items: center;
 	height: 100%;
 }
+
 .doc .admonitionblock .icon i::after {
 	content: attr(title);
 	position: relative;
-	top: 0.1125em;
+	top: 0.125em;
+	padding-left: calc(0.5rem - 0.1rem);
+	/* matches the padding-right 0.5rem above, minus a bit for visual symmetry */
 }
 .doc :is(.imageblock, .videoblock) {
 	display: flex;
@@ -1937,7 +1991,8 @@ h6 {
 	width: 0.9em;
 	height: 0.9em;
 	top: 0.05em;
-	transition: transform var(--default-transition-duration) var(--default-transition-timing-function);
+	transition: transform var(--default-transition-duration)
+		var(--default-transition-timing-function);
 }
 .has-ui-icon.external-link:hover::after {
 	transform: scale(1.1);

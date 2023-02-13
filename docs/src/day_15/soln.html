@@ -5,7 +5,7 @@
   <meta charset="utf-8">
 <meta name="viewport"
 	content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Day 15: Chiton :: Advent of Code 2021</title>
+<title>Day 15: Chiton :: Robert Bennett — Advent of Code 2021</title>
         <link rel="prev" href="../day_14/soln">
         <link rel="next" href="../day_16/soln">
     <meta name="generator" content="Antora 3.1.2">
@@ -36,7 +36,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Advent of Code 2021</a>
+      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -82,8 +82,33 @@
 				d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z" />
 		</clipPath>
 		<clipPath id="icon-star" clipPathUnits="objectBoundingBox">
-			<path transform="translate(0 0.075) scale(0.001736)"
+			<path transform="translate(.5 .5) scale(0.001736) translate(-288 -256)"
 				d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+		</clipPath>
+		<clipPath id="icon-admon-caution" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-224 -256)" d="M159.3 5.4c7.8-7.3 19.9-7.2 27.7
+			.1c27.6 25.9 53.5 53.8 77.7 84c11-14.4 23.5-30.1 37-42.9c7.9-7.4 20.1-7.4 28 .1c34.6 33 63.9 76.6 84.5 118c20.3
+			40.8 33.8 82.5 33.8 111.9C448 404.2 348.2 512 224 512C98.4 512 0 404.1 0 276.5c0-38.4 17.8-85.3 45.4-131.7C73.3
+			97.7 112.7 48.6 159.3 5.4zM225.7 416c25.3 0 47.7-7 68.8-21c42.1-29.4 53.4-88.2
+			28.1-134.4c-4.5-9-16-9.6-22.5-2l-25.2 29.3c-6.6 7.6-18.5
+			7.4-24.7-.5c-16.5-21-46-58.5-62.8-79.8c-6.3-8-18.3-8.1-24.7-.1c-33.8 42.5-50.8 69.3-50.8 99.4C112 375.4 162.6
+			416 225.7 416z" />
+		</clipPath>
+		<clipPath id="icon-admon-important" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001753125) translate(-256 -256)"
+				d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+		</clipPath>
+		<clipPath id="icon-admon-note" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001753125) translate(-256 -256)"
+				d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+		</clipPath>
+		<clipPath id="icon-admon-tip" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-192 -256)"
+				d="M256 384c9.6-31.9 29.5-59.1 49.2-86.2l0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C352 78.8 273.2 0 176 0S0 78.8 0 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4l0 0C66.5 324.9 86.4 352.1 96 384H256zM176 512c44.2 0 80-35.8 80-80V416H96v16c0 44.2 35.8 80 80 80zM96 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z" />
+		</clipPath>
+		<clipPath id="icon-admon-warning" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-256 -256)"
+				d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" />
 		</clipPath>
 	</defs>
 	<symbol viewBox="0 0 100 100" id="icon-back" class="svg-icon-template">
@@ -377,7 +402,7 @@
 
           </li>
         <li>&#47;</li>
-        <li><span>Day 15: Chiton</span></li>
+        <li><a href="#">Day 15: Chiton</a></li>
     </ul>
 </nav>
   </div>
@@ -422,157 +447,157 @@ We repeat this process until no modifications are made to any tentative cost, at
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use ndarray::prelude::*;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> ndarray::prelude::*;
 
-type Cost = u32;
-type Grid = Array2&lt;Cost&gt;;
-type Coords = (usize, usize);
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Cost</span> = <span class="hljs-type">u32</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Grid</span> = Array2&lt;Cost&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Coords</span> = (<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>);
 
-fn read_input(input: &amp;str) -&gt; Option&lt;Grid&gt; {
-	let mut lines = input.lines();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Grid&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = input.<span class="hljs-title function_ invoke__">lines</span>();
 
-	let mut grid = vec![];
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = <span class="hljs-built_in">vec!</span>[];
 
-	let first_line = lines.next()?;
-	for c in first_line.chars() {
-		grid.push(c.to_digit(10)? as Cost);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">first_line</span> = lines.<span class="hljs-title function_ invoke__">next</span>()?;
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> first_line.<span class="hljs-title function_ invoke__">chars</span>() {
+		grid.<span class="hljs-title function_ invoke__">push</span>(c.<span class="hljs-title function_ invoke__">to_digit</span>(<span class="hljs-number">10</span>)? <span class="hljs-keyword">as</span> Cost);
 	}
-	let n_cols = grid.len();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_cols</span> = grid.<span class="hljs-title function_ invoke__">len</span>();
 
-	for line in lines {
-		for c in line.chars() {
-			grid.push(c.to_digit(10)? as Cost);
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> lines {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> line.<span class="hljs-title function_ invoke__">chars</span>() {
+			grid.<span class="hljs-title function_ invoke__">push</span>(c.<span class="hljs-title function_ invoke__">to_digit</span>(<span class="hljs-number">10</span>)? <span class="hljs-keyword">as</span> Cost);
 		}
 	}
 
-	let n_rows = grid.len() / n_cols;
-	assert_eq!(n_rows * n_cols, grid.len());
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_rows</span> = grid.<span class="hljs-title function_ invoke__">len</span>() / n_cols;
+	<span class="hljs-built_in">assert_eq!</span>(n_rows * n_cols, grid.<span class="hljs-title function_ invoke__">len</span>());
 
-	Array2::from_shape_vec((n_rows, n_cols), grid).ok()
+	Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((n_rows, n_cols), grid).<span class="hljs-title function_ invoke__">ok</span>()
 }
 
-enum Direction {
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Direction</span> {
 	N,
 	S,
 	E,
 	W,
 }
 
-impl Direction {
-	fn stepping_from(&amp;self, grid: &amp;Grid, (from_row, from_col): Coords) -&gt; Option&lt;Coords&gt; {
-		use Direction::*;
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Direction</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">stepping_from</span>(&amp;<span class="hljs-keyword">self</span>, grid: &amp;Grid, (from_row, from_col): Coords) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Coords&gt; {
+		<span class="hljs-keyword">use</span> Direction::*;
 
-		let (min_row, min_col) = (0, 0);
-		let (n_rows, n_cols) = grid.dim();
-		let max_row = n_rows - 1;
-		let max_col = n_cols - 1;
+		<span class="hljs-keyword">let</span> (min_row, min_col) = (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+		<span class="hljs-keyword">let</span> (n_rows, n_cols) = grid.<span class="hljs-title function_ invoke__">dim</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">max_row</span> = n_rows - <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">max_col</span> = n_cols - <span class="hljs-number">1</span>;
 
-		let new_row = match self {
-			N if from_row == min_row =&gt; return None,
-			N =&gt; from_row - 1,
-			S if from_row == max_row =&gt; return None,
-			S =&gt; from_row + 1,
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_row</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span> {
+			N <span class="hljs-keyword">if</span> from_row == min_row =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			N =&gt; from_row - <span class="hljs-number">1</span>,
+			S <span class="hljs-keyword">if</span> from_row == max_row =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			S =&gt; from_row + <span class="hljs-number">1</span>,
 			_ =&gt; from_row,
 		};
 
-		let new_col = match self {
-			W if from_col == min_col =&gt; return None,
-			W =&gt; from_col - 1,
-			E if from_col == max_col =&gt; return None,
-			E =&gt; from_col + 1,
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_col</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span> {
+			W <span class="hljs-keyword">if</span> from_col == min_col =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			W =&gt; from_col - <span class="hljs-number">1</span>,
+			E <span class="hljs-keyword">if</span> from_col == max_col =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			E =&gt; from_col + <span class="hljs-number">1</span>,
 			_ =&gt; from_col,
 		};
 
-		Some((new_row, new_col))
+		<span class="hljs-title function_ invoke__">Some</span>((new_row, new_col))
 	}
 }
 
-fn traversal_cost(entry_costs: &amp;Grid) -&gt; Cost {
-	use Direction::*;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">traversal_cost</span>(entry_costs: &amp;Grid) <span class="hljs-punctuation">-&gt;</span> Cost {
+	<span class="hljs-keyword">use</span> Direction::*;
 
-	let (n_rows, n_cols) = entry_costs.dim();
-	let max_row = n_rows - 1;
-	let max_col = n_cols - 1;
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = entry_costs.<span class="hljs-title function_ invoke__">dim</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">max_row</span> = n_rows - <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">max_col</span> = n_cols - <span class="hljs-number">1</span>;
 
-	let mut net_travel_costs = Grid::from_shape_simple_fn((n_rows, n_cols), || Cost::MAX);
-	net_travel_costs[(0, 0)] = 0;
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">net_travel_costs</span> = Grid::<span class="hljs-title function_ invoke__">from_shape_simple_fn</span>((n_rows, n_cols), || Cost::MAX);
+	net_travel_costs[(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)] = <span class="hljs-number">0</span>;
 
-	let max_dist = max_row + max_col;
-	loop {
-		let mut did_modify = false;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">max_dist</span> = max_row + max_col;
+	<span class="hljs-keyword">loop</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">did_modify</span> = <span class="hljs-literal">false</span>;
 
-		for dist in 0..=max_dist {
-			let r_min = if dist &lt; max_col { 0 } else { dist - max_col };
-			let r_max = dist.min(max_row);
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">dist</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..=max_dist {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">r_min</span> = <span class="hljs-keyword">if</span> dist &lt; max_col { <span class="hljs-number">0</span> } <span class="hljs-keyword">else</span> { dist - max_col };
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">r_max</span> = dist.<span class="hljs-title function_ invoke__">min</span>(max_row);
 
-			for r in r_min..=r_max {
-				let c = dist - r;
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">r</span> <span class="hljs-keyword">in</span> r_min..=r_max {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">c</span> = dist - r;
 
-				let net_cost_to_travel_here = net_travel_costs[(r, c)];
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">net_cost_to_travel_here</span> = net_travel_costs[(r, c)];
 
-				// One of the perks of moving diagonally, down and to the right, is that
-				// this assertion holds (which means the following (necessary) loop isn't
-				// pointless)
-				assert_ne!(net_cost_to_travel_here, Cost::MAX);
+				<span class="hljs-comment">// One of the perks of moving diagonally, down and to the right, is that</span>
+				<span class="hljs-comment">// this assertion holds (which means the following (necessary) loop isn&#x27;t</span>
+				<span class="hljs-comment">// pointless)</span>
+				<span class="hljs-built_in">assert_ne!</span>(net_cost_to_travel_here, Cost::MAX);
 
-				for dir in [N, S, E, W] {
-					let nghbr_coords = match dir.stepping_from(entry_costs, (r, c)) {
-						Some(nghbr_coords) =&gt; nghbr_coords,
-						None =&gt; continue,
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">dir</span> <span class="hljs-keyword">in</span> [N, S, E, W] {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">nghbr_coords</span> = <span class="hljs-keyword">match</span> dir.<span class="hljs-title function_ invoke__">stepping_from</span>(entry_costs, (r, c)) {
+						<span class="hljs-title function_ invoke__">Some</span>(nghbr_coords) =&gt; nghbr_coords,
+						<span class="hljs-literal">None</span> =&gt; <span class="hljs-keyword">continue</span>,
 					};
 
-					let net_cost_to_travel_to_nghbr_thru_here =
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">net_cost_to_travel_to_nghbr_thru_here</span> =
 						net_cost_to_travel_here + entry_costs[nghbr_coords];
 
-					if net_cost_to_travel_to_nghbr_thru_here &lt; net_travel_costs[nghbr_coords] {
+					<span class="hljs-keyword">if</span> net_cost_to_travel_to_nghbr_thru_here &lt; net_travel_costs[nghbr_coords] {
 						net_travel_costs[nghbr_coords] = net_cost_to_travel_to_nghbr_thru_here;
-						did_modify = true;
+						did_modify = <span class="hljs-literal">true</span>;
 					}
 				}
 			}
 		}
 
-		if !did_modify {
-			return net_travel_costs[(max_row, max_col)];
+		<span class="hljs-keyword">if</span> !did_modify {
+			<span class="hljs-keyword">return</span> net_travel_costs[(max_row, max_col)];
 		}
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Cost, Cost&gt; {
-	let grid = read_input(input).unwrap();
-	(15, (pt1(&amp;grid), pt2(&amp;grid))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;Cost, Cost&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">grid</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">15</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;grid), <span class="hljs-title function_ invoke__">pt2</span>(&amp;grid))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;Cost, Cost&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;Cost, Cost&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(grid: &amp;Grid) -&gt; Cost {
-	traversal_cost(grid)
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(grid: &amp;Grid) <span class="hljs-punctuation">-&gt;</span> Cost {
+	<span class="hljs-title function_ invoke__">traversal_cost</span>(grid)
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn expand_grid(grid: &amp;Grid, k: usize) -&gt; Grid {
-	let (n_rows, n_cols) = grid.dim();
-	let mut new_grid = Array2::from_shape_simple_fn((k * n_rows, k * n_cols), || 0);
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">expand_grid</span>(grid: &amp;Grid, k: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Grid {
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = grid.<span class="hljs-title function_ invoke__">dim</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_grid</span> = Array2::<span class="hljs-title function_ invoke__">from_shape_simple_fn</span>((k * n_rows, k * n_cols), || <span class="hljs-number">0</span>);
 
-	// Arrays are in row major order, so that's the order we iterate in (for cache-friendliness)
-	for outer_r in 0..k {
-		for inner_r in 0..n_rows {
-			for outer_c in 0..k {
-				for inner_c in 0..n_cols {
-					let old_cost = grid[(inner_r, inner_c)];
+	<span class="hljs-comment">// Arrays are in row major order, so that&#x27;s the order we iterate in (for cache-friendliness)</span>
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">outer_r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..k {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">inner_r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_rows {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">outer_c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..k {
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">inner_c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_cols {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">old_cost</span> = grid[(inner_r, inner_c)];
 
-					let d_cost = Cost::try_from(outer_r + outer_c).unwrap();
-					let new_cost = (old_cost + d_cost - 1) % 9 + 1;
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">d_cost</span> = Cost::<span class="hljs-title function_ invoke__">try_from</span>(outer_r + outer_c).<span class="hljs-title function_ invoke__">unwrap</span>();
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_cost</span> = (old_cost + d_cost - <span class="hljs-number">1</span>) % <span class="hljs-number">9</span> + <span class="hljs-number">1</span>;
 
-					let new_grid_r = outer_r * n_rows + inner_r;
-					let new_grid_c = outer_c * n_cols + inner_c;
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_grid_r</span> = outer_r * n_rows + inner_r;
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_grid_c</span> = outer_c * n_cols + inner_c;
 
 					new_grid[(new_grid_r, new_grid_c)] = new_cost;
 				}
@@ -583,21 +608,21 @@ fn expand_grid(grid: &amp;Grid, k: usize) -&gt; Grid {
 	new_grid
 }
 
-fn pt2(grid: &amp;Grid) -&gt; Cost {
-	let grid = expand_grid(grid, 5);
-	traversal_cost(&amp;grid)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(grid: &amp;Grid) <span class="hljs-punctuation">-&gt;</span> Cost {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">grid</span> = <span class="hljs-title function_ invoke__">expand_grid</span>(grid, <span class="hljs-number">5</span>);
+	<span class="hljs-title function_ invoke__">traversal_cost</span>(&amp;grid)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 15, ans: (40, 315));
-		test_input!(include_str!("input.txt"), day: 15, ans: (739, 3040));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">15</span>, ans: (<span class="hljs-number">40</span>, <span class="hljs-number">315</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">15</span>, ans: (<span class="hljs-number">739</span>, <span class="hljs-number">3040</span>));
 	}
 }</code></pre>
 </div>
@@ -613,157 +638,157 @@ mod test {
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use ndarray::prelude::*;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> ndarray::prelude::*;
 
-type Cost = u32;
-type Grid = Array2&lt;Cost&gt;;
-type Coords = (usize, usize);
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Cost</span> = <span class="hljs-type">u32</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Grid</span> = Array2&lt;Cost&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Coords</span> = (<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>);
 
-fn read_input(input: &amp;str) -&gt; Option&lt;Grid&gt; {
-	let mut lines = input.lines();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Grid&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = input.<span class="hljs-title function_ invoke__">lines</span>();
 
-	let mut grid = vec![];
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = <span class="hljs-built_in">vec!</span>[];
 
-	let first_line = lines.next()?;
-	for c in first_line.chars() {
-		grid.push(c.to_digit(10)? as Cost);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">first_line</span> = lines.<span class="hljs-title function_ invoke__">next</span>()?;
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> first_line.<span class="hljs-title function_ invoke__">chars</span>() {
+		grid.<span class="hljs-title function_ invoke__">push</span>(c.<span class="hljs-title function_ invoke__">to_digit</span>(<span class="hljs-number">10</span>)? <span class="hljs-keyword">as</span> Cost);
 	}
-	let n_cols = grid.len();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_cols</span> = grid.<span class="hljs-title function_ invoke__">len</span>();
 
-	for line in lines {
-		for c in line.chars() {
-			grid.push(c.to_digit(10)? as Cost);
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> lines {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> line.<span class="hljs-title function_ invoke__">chars</span>() {
+			grid.<span class="hljs-title function_ invoke__">push</span>(c.<span class="hljs-title function_ invoke__">to_digit</span>(<span class="hljs-number">10</span>)? <span class="hljs-keyword">as</span> Cost);
 		}
 	}
 
-	let n_rows = grid.len() / n_cols;
-	assert_eq!(n_rows * n_cols, grid.len());
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_rows</span> = grid.<span class="hljs-title function_ invoke__">len</span>() / n_cols;
+	<span class="hljs-built_in">assert_eq!</span>(n_rows * n_cols, grid.<span class="hljs-title function_ invoke__">len</span>());
 
-	Array2::from_shape_vec((n_rows, n_cols), grid).ok()
+	Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((n_rows, n_cols), grid).<span class="hljs-title function_ invoke__">ok</span>()
 }
 
-enum Direction {
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Direction</span> {
 	N,
 	S,
 	E,
 	W,
 }
 
-impl Direction {
-	fn stepping_from(&amp;self, grid: &amp;Grid, (from_row, from_col): Coords) -&gt; Option&lt;Coords&gt; {
-		use Direction::*;
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Direction</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">stepping_from</span>(&amp;<span class="hljs-keyword">self</span>, grid: &amp;Grid, (from_row, from_col): Coords) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Coords&gt; {
+		<span class="hljs-keyword">use</span> Direction::*;
 
-		let (min_row, min_col) = (0, 0);
-		let (n_rows, n_cols) = grid.dim();
-		let max_row = n_rows - 1;
-		let max_col = n_cols - 1;
+		<span class="hljs-keyword">let</span> (min_row, min_col) = (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+		<span class="hljs-keyword">let</span> (n_rows, n_cols) = grid.<span class="hljs-title function_ invoke__">dim</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">max_row</span> = n_rows - <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">max_col</span> = n_cols - <span class="hljs-number">1</span>;
 
-		let new_row = match self {
-			N if from_row == min_row =&gt; return None,
-			N =&gt; from_row - 1,
-			S if from_row == max_row =&gt; return None,
-			S =&gt; from_row + 1,
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_row</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span> {
+			N <span class="hljs-keyword">if</span> from_row == min_row =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			N =&gt; from_row - <span class="hljs-number">1</span>,
+			S <span class="hljs-keyword">if</span> from_row == max_row =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			S =&gt; from_row + <span class="hljs-number">1</span>,
 			_ =&gt; from_row,
 		};
 
-		let new_col = match self {
-			W if from_col == min_col =&gt; return None,
-			W =&gt; from_col - 1,
-			E if from_col == max_col =&gt; return None,
-			E =&gt; from_col + 1,
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_col</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span> {
+			W <span class="hljs-keyword">if</span> from_col == min_col =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			W =&gt; from_col - <span class="hljs-number">1</span>,
+			E <span class="hljs-keyword">if</span> from_col == max_col =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			E =&gt; from_col + <span class="hljs-number">1</span>,
 			_ =&gt; from_col,
 		};
 
-		Some((new_row, new_col))
+		<span class="hljs-title function_ invoke__">Some</span>((new_row, new_col))
 	}
 }
 
-fn traversal_cost(entry_costs: &amp;Grid) -&gt; Cost {
-	use Direction::*;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">traversal_cost</span>(entry_costs: &amp;Grid) <span class="hljs-punctuation">-&gt;</span> Cost {
+	<span class="hljs-keyword">use</span> Direction::*;
 
-	let (n_rows, n_cols) = entry_costs.dim();
-	let max_row = n_rows - 1;
-	let max_col = n_cols - 1;
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = entry_costs.<span class="hljs-title function_ invoke__">dim</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">max_row</span> = n_rows - <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">max_col</span> = n_cols - <span class="hljs-number">1</span>;
 
-	let mut net_travel_costs = Grid::from_shape_simple_fn((n_rows, n_cols), || Cost::MAX);
-	net_travel_costs[(0, 0)] = 0;
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">net_travel_costs</span> = Grid::<span class="hljs-title function_ invoke__">from_shape_simple_fn</span>((n_rows, n_cols), || Cost::MAX);
+	net_travel_costs[(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)] = <span class="hljs-number">0</span>;
 
-	let max_dist = max_row + max_col;
-	loop {
-		let mut did_modify = false;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">max_dist</span> = max_row + max_col;
+	<span class="hljs-keyword">loop</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">did_modify</span> = <span class="hljs-literal">false</span>;
 
-		for dist in 0..=max_dist {
-			let r_min = if dist &lt; max_col { 0 } else { dist - max_col };
-			let r_max = dist.min(max_row);
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">dist</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..=max_dist {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">r_min</span> = <span class="hljs-keyword">if</span> dist &lt; max_col { <span class="hljs-number">0</span> } <span class="hljs-keyword">else</span> { dist - max_col };
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">r_max</span> = dist.<span class="hljs-title function_ invoke__">min</span>(max_row);
 
-			for r in r_min..=r_max {
-				let c = dist - r;
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">r</span> <span class="hljs-keyword">in</span> r_min..=r_max {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">c</span> = dist - r;
 
-				let net_cost_to_travel_here = net_travel_costs[(r, c)];
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">net_cost_to_travel_here</span> = net_travel_costs[(r, c)];
 
-				// One of the perks of moving diagonally, down and to the right, is that
-				// this assertion holds (which means the following (necessary) loop isn't
-				// pointless)
-				assert_ne!(net_cost_to_travel_here, Cost::MAX);
+				<span class="hljs-comment">// One of the perks of moving diagonally, down and to the right, is that</span>
+				<span class="hljs-comment">// this assertion holds (which means the following (necessary) loop isn&#x27;t</span>
+				<span class="hljs-comment">// pointless)</span>
+				<span class="hljs-built_in">assert_ne!</span>(net_cost_to_travel_here, Cost::MAX);
 
-				for dir in [N, S, E, W] {
-					let nghbr_coords = match dir.stepping_from(entry_costs, (r, c)) {
-						Some(nghbr_coords) =&gt; nghbr_coords,
-						None =&gt; continue,
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">dir</span> <span class="hljs-keyword">in</span> [N, S, E, W] {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">nghbr_coords</span> = <span class="hljs-keyword">match</span> dir.<span class="hljs-title function_ invoke__">stepping_from</span>(entry_costs, (r, c)) {
+						<span class="hljs-title function_ invoke__">Some</span>(nghbr_coords) =&gt; nghbr_coords,
+						<span class="hljs-literal">None</span> =&gt; <span class="hljs-keyword">continue</span>,
 					};
 
-					let net_cost_to_travel_to_nghbr_thru_here =
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">net_cost_to_travel_to_nghbr_thru_here</span> =
 						net_cost_to_travel_here + entry_costs[nghbr_coords];
 
-					if net_cost_to_travel_to_nghbr_thru_here &lt; net_travel_costs[nghbr_coords] {
+					<span class="hljs-keyword">if</span> net_cost_to_travel_to_nghbr_thru_here &lt; net_travel_costs[nghbr_coords] {
 						net_travel_costs[nghbr_coords] = net_cost_to_travel_to_nghbr_thru_here;
-						did_modify = true;
+						did_modify = <span class="hljs-literal">true</span>;
 					}
 				}
 			}
 		}
 
-		if !did_modify {
-			return net_travel_costs[(max_row, max_col)];
+		<span class="hljs-keyword">if</span> !did_modify {
+			<span class="hljs-keyword">return</span> net_travel_costs[(max_row, max_col)];
 		}
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Cost, Cost&gt; {
-	let grid = read_input(input).unwrap();
-	(15, (pt1(&amp;grid), pt2(&amp;grid))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;Cost, Cost&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">grid</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">15</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;grid), <span class="hljs-title function_ invoke__">pt2</span>(&amp;grid))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;Cost, Cost&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;Cost, Cost&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(grid: &amp;Grid) -&gt; Cost {
-	traversal_cost(grid)
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(grid: &amp;Grid) <span class="hljs-punctuation">-&gt;</span> Cost {
+	<span class="hljs-title function_ invoke__">traversal_cost</span>(grid)
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn expand_grid(grid: &amp;Grid, k: usize) -&gt; Grid {
-	let (n_rows, n_cols) = grid.dim();
-	let mut new_grid = Array2::from_shape_simple_fn((k * n_rows, k * n_cols), || 0);
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">expand_grid</span>(grid: &amp;Grid, k: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Grid {
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = grid.<span class="hljs-title function_ invoke__">dim</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_grid</span> = Array2::<span class="hljs-title function_ invoke__">from_shape_simple_fn</span>((k * n_rows, k * n_cols), || <span class="hljs-number">0</span>);
 
-	// Arrays are in row major order, so that's the order we iterate in (for cache-friendliness)
-	for outer_r in 0..k {
-		for inner_r in 0..n_rows {
-			for outer_c in 0..k {
-				for inner_c in 0..n_cols {
-					let old_cost = grid[(inner_r, inner_c)];
+	<span class="hljs-comment">// Arrays are in row major order, so that&#x27;s the order we iterate in (for cache-friendliness)</span>
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">outer_r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..k {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">inner_r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_rows {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">outer_c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..k {
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">inner_c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_cols {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">old_cost</span> = grid[(inner_r, inner_c)];
 
-					let d_cost = Cost::try_from(outer_r + outer_c).unwrap();
-					let new_cost = (old_cost + d_cost - 1) % 9 + 1;
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">d_cost</span> = Cost::<span class="hljs-title function_ invoke__">try_from</span>(outer_r + outer_c).<span class="hljs-title function_ invoke__">unwrap</span>();
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_cost</span> = (old_cost + d_cost - <span class="hljs-number">1</span>) % <span class="hljs-number">9</span> + <span class="hljs-number">1</span>;
 
-					let new_grid_r = outer_r * n_rows + inner_r;
-					let new_grid_c = outer_c * n_cols + inner_c;
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_grid_r</span> = outer_r * n_rows + inner_r;
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_grid_c</span> = outer_c * n_cols + inner_c;
 
 					new_grid[(new_grid_r, new_grid_c)] = new_cost;
 				}
@@ -774,21 +799,21 @@ fn expand_grid(grid: &amp;Grid, k: usize) -&gt; Grid {
 	new_grid
 }
 
-fn pt2(grid: &amp;Grid) -&gt; Cost {
-	let grid = expand_grid(grid, 5);
-	traversal_cost(&amp;grid)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(grid: &amp;Grid) <span class="hljs-punctuation">-&gt;</span> Cost {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">grid</span> = <span class="hljs-title function_ invoke__">expand_grid</span>(grid, <span class="hljs-number">5</span>);
+	<span class="hljs-title function_ invoke__">traversal_cost</span>(&amp;grid)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 15, ans: (40, 315));
-		test_input!(include_str!("input.txt"), day: 15, ans: (739, 3040));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">15</span>, ans: (<span class="hljs-number">40</span>, <span class="hljs-number">315</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">15</span>, ans: (<span class="hljs-number">739</span>, <span class="hljs-number">3040</span>));
 	}
 }</code></pre>
 </div>
@@ -808,157 +833,157 @@ This falls under “boring array manipulation”, so I won&#8217;t discuss it fu
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use ndarray::prelude::*;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> ndarray::prelude::*;
 
-type Cost = u32;
-type Grid = Array2&lt;Cost&gt;;
-type Coords = (usize, usize);
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Cost</span> = <span class="hljs-type">u32</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Grid</span> = Array2&lt;Cost&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Coords</span> = (<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>);
 
-fn read_input(input: &amp;str) -&gt; Option&lt;Grid&gt; {
-	let mut lines = input.lines();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Grid&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = input.<span class="hljs-title function_ invoke__">lines</span>();
 
-	let mut grid = vec![];
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = <span class="hljs-built_in">vec!</span>[];
 
-	let first_line = lines.next()?;
-	for c in first_line.chars() {
-		grid.push(c.to_digit(10)? as Cost);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">first_line</span> = lines.<span class="hljs-title function_ invoke__">next</span>()?;
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> first_line.<span class="hljs-title function_ invoke__">chars</span>() {
+		grid.<span class="hljs-title function_ invoke__">push</span>(c.<span class="hljs-title function_ invoke__">to_digit</span>(<span class="hljs-number">10</span>)? <span class="hljs-keyword">as</span> Cost);
 	}
-	let n_cols = grid.len();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_cols</span> = grid.<span class="hljs-title function_ invoke__">len</span>();
 
-	for line in lines {
-		for c in line.chars() {
-			grid.push(c.to_digit(10)? as Cost);
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> lines {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> line.<span class="hljs-title function_ invoke__">chars</span>() {
+			grid.<span class="hljs-title function_ invoke__">push</span>(c.<span class="hljs-title function_ invoke__">to_digit</span>(<span class="hljs-number">10</span>)? <span class="hljs-keyword">as</span> Cost);
 		}
 	}
 
-	let n_rows = grid.len() / n_cols;
-	assert_eq!(n_rows * n_cols, grid.len());
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_rows</span> = grid.<span class="hljs-title function_ invoke__">len</span>() / n_cols;
+	<span class="hljs-built_in">assert_eq!</span>(n_rows * n_cols, grid.<span class="hljs-title function_ invoke__">len</span>());
 
-	Array2::from_shape_vec((n_rows, n_cols), grid).ok()
+	Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((n_rows, n_cols), grid).<span class="hljs-title function_ invoke__">ok</span>()
 }
 
-enum Direction {
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Direction</span> {
 	N,
 	S,
 	E,
 	W,
 }
 
-impl Direction {
-	fn stepping_from(&amp;self, grid: &amp;Grid, (from_row, from_col): Coords) -&gt; Option&lt;Coords&gt; {
-		use Direction::*;
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Direction</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">stepping_from</span>(&amp;<span class="hljs-keyword">self</span>, grid: &amp;Grid, (from_row, from_col): Coords) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Coords&gt; {
+		<span class="hljs-keyword">use</span> Direction::*;
 
-		let (min_row, min_col) = (0, 0);
-		let (n_rows, n_cols) = grid.dim();
-		let max_row = n_rows - 1;
-		let max_col = n_cols - 1;
+		<span class="hljs-keyword">let</span> (min_row, min_col) = (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+		<span class="hljs-keyword">let</span> (n_rows, n_cols) = grid.<span class="hljs-title function_ invoke__">dim</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">max_row</span> = n_rows - <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">max_col</span> = n_cols - <span class="hljs-number">1</span>;
 
-		let new_row = match self {
-			N if from_row == min_row =&gt; return None,
-			N =&gt; from_row - 1,
-			S if from_row == max_row =&gt; return None,
-			S =&gt; from_row + 1,
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_row</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span> {
+			N <span class="hljs-keyword">if</span> from_row == min_row =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			N =&gt; from_row - <span class="hljs-number">1</span>,
+			S <span class="hljs-keyword">if</span> from_row == max_row =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			S =&gt; from_row + <span class="hljs-number">1</span>,
 			_ =&gt; from_row,
 		};
 
-		let new_col = match self {
-			W if from_col == min_col =&gt; return None,
-			W =&gt; from_col - 1,
-			E if from_col == max_col =&gt; return None,
-			E =&gt; from_col + 1,
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_col</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span> {
+			W <span class="hljs-keyword">if</span> from_col == min_col =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			W =&gt; from_col - <span class="hljs-number">1</span>,
+			E <span class="hljs-keyword">if</span> from_col == max_col =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+			E =&gt; from_col + <span class="hljs-number">1</span>,
 			_ =&gt; from_col,
 		};
 
-		Some((new_row, new_col))
+		<span class="hljs-title function_ invoke__">Some</span>((new_row, new_col))
 	}
 }
 
-fn traversal_cost(entry_costs: &amp;Grid) -&gt; Cost {
-	use Direction::*;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">traversal_cost</span>(entry_costs: &amp;Grid) <span class="hljs-punctuation">-&gt;</span> Cost {
+	<span class="hljs-keyword">use</span> Direction::*;
 
-	let (n_rows, n_cols) = entry_costs.dim();
-	let max_row = n_rows - 1;
-	let max_col = n_cols - 1;
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = entry_costs.<span class="hljs-title function_ invoke__">dim</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">max_row</span> = n_rows - <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">max_col</span> = n_cols - <span class="hljs-number">1</span>;
 
-	let mut net_travel_costs = Grid::from_shape_simple_fn((n_rows, n_cols), || Cost::MAX);
-	net_travel_costs[(0, 0)] = 0;
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">net_travel_costs</span> = Grid::<span class="hljs-title function_ invoke__">from_shape_simple_fn</span>((n_rows, n_cols), || Cost::MAX);
+	net_travel_costs[(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)] = <span class="hljs-number">0</span>;
 
-	let max_dist = max_row + max_col;
-	loop {
-		let mut did_modify = false;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">max_dist</span> = max_row + max_col;
+	<span class="hljs-keyword">loop</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">did_modify</span> = <span class="hljs-literal">false</span>;
 
-		for dist in 0..=max_dist {
-			let r_min = if dist &lt; max_col { 0 } else { dist - max_col };
-			let r_max = dist.min(max_row);
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">dist</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..=max_dist {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">r_min</span> = <span class="hljs-keyword">if</span> dist &lt; max_col { <span class="hljs-number">0</span> } <span class="hljs-keyword">else</span> { dist - max_col };
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">r_max</span> = dist.<span class="hljs-title function_ invoke__">min</span>(max_row);
 
-			for r in r_min..=r_max {
-				let c = dist - r;
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">r</span> <span class="hljs-keyword">in</span> r_min..=r_max {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">c</span> = dist - r;
 
-				let net_cost_to_travel_here = net_travel_costs[(r, c)];
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">net_cost_to_travel_here</span> = net_travel_costs[(r, c)];
 
-				// One of the perks of moving diagonally, down and to the right, is that
-				// this assertion holds (which means the following (necessary) loop isn't
-				// pointless)
-				assert_ne!(net_cost_to_travel_here, Cost::MAX);
+				<span class="hljs-comment">// One of the perks of moving diagonally, down and to the right, is that</span>
+				<span class="hljs-comment">// this assertion holds (which means the following (necessary) loop isn&#x27;t</span>
+				<span class="hljs-comment">// pointless)</span>
+				<span class="hljs-built_in">assert_ne!</span>(net_cost_to_travel_here, Cost::MAX);
 
-				for dir in [N, S, E, W] {
-					let nghbr_coords = match dir.stepping_from(entry_costs, (r, c)) {
-						Some(nghbr_coords) =&gt; nghbr_coords,
-						None =&gt; continue,
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">dir</span> <span class="hljs-keyword">in</span> [N, S, E, W] {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">nghbr_coords</span> = <span class="hljs-keyword">match</span> dir.<span class="hljs-title function_ invoke__">stepping_from</span>(entry_costs, (r, c)) {
+						<span class="hljs-title function_ invoke__">Some</span>(nghbr_coords) =&gt; nghbr_coords,
+						<span class="hljs-literal">None</span> =&gt; <span class="hljs-keyword">continue</span>,
 					};
 
-					let net_cost_to_travel_to_nghbr_thru_here =
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">net_cost_to_travel_to_nghbr_thru_here</span> =
 						net_cost_to_travel_here + entry_costs[nghbr_coords];
 
-					if net_cost_to_travel_to_nghbr_thru_here &lt; net_travel_costs[nghbr_coords] {
+					<span class="hljs-keyword">if</span> net_cost_to_travel_to_nghbr_thru_here &lt; net_travel_costs[nghbr_coords] {
 						net_travel_costs[nghbr_coords] = net_cost_to_travel_to_nghbr_thru_here;
-						did_modify = true;
+						did_modify = <span class="hljs-literal">true</span>;
 					}
 				}
 			}
 		}
 
-		if !did_modify {
-			return net_travel_costs[(max_row, max_col)];
+		<span class="hljs-keyword">if</span> !did_modify {
+			<span class="hljs-keyword">return</span> net_travel_costs[(max_row, max_col)];
 		}
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;Cost, Cost&gt; {
-	let grid = read_input(input).unwrap();
-	(15, (pt1(&amp;grid), pt2(&amp;grid))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;Cost, Cost&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">grid</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">15</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;grid), <span class="hljs-title function_ invoke__">pt2</span>(&amp;grid))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;Cost, Cost&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;Cost, Cost&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(grid: &amp;Grid) -&gt; Cost {
-	traversal_cost(grid)
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(grid: &amp;Grid) <span class="hljs-punctuation">-&gt;</span> Cost {
+	<span class="hljs-title function_ invoke__">traversal_cost</span>(grid)
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn expand_grid(grid: &amp;Grid, k: usize) -&gt; Grid {
-	let (n_rows, n_cols) = grid.dim();
-	let mut new_grid = Array2::from_shape_simple_fn((k * n_rows, k * n_cols), || 0);
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">expand_grid</span>(grid: &amp;Grid, k: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Grid {
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = grid.<span class="hljs-title function_ invoke__">dim</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_grid</span> = Array2::<span class="hljs-title function_ invoke__">from_shape_simple_fn</span>((k * n_rows, k * n_cols), || <span class="hljs-number">0</span>);
 
-	// Arrays are in row major order, so that's the order we iterate in (for cache-friendliness)
-	for outer_r in 0..k {
-		for inner_r in 0..n_rows {
-			for outer_c in 0..k {
-				for inner_c in 0..n_cols {
-					let old_cost = grid[(inner_r, inner_c)];
+	<span class="hljs-comment">// Arrays are in row major order, so that&#x27;s the order we iterate in (for cache-friendliness)</span>
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">outer_r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..k {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">inner_r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_rows {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">outer_c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..k {
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">inner_c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_cols {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">old_cost</span> = grid[(inner_r, inner_c)];
 
-					let d_cost = Cost::try_from(outer_r + outer_c).unwrap();
-					let new_cost = (old_cost + d_cost - 1) % 9 + 1;
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">d_cost</span> = Cost::<span class="hljs-title function_ invoke__">try_from</span>(outer_r + outer_c).<span class="hljs-title function_ invoke__">unwrap</span>();
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_cost</span> = (old_cost + d_cost - <span class="hljs-number">1</span>) % <span class="hljs-number">9</span> + <span class="hljs-number">1</span>;
 
-					let new_grid_r = outer_r * n_rows + inner_r;
-					let new_grid_c = outer_c * n_cols + inner_c;
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_grid_r</span> = outer_r * n_rows + inner_r;
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_grid_c</span> = outer_c * n_cols + inner_c;
 
 					new_grid[(new_grid_r, new_grid_c)] = new_cost;
 				}
@@ -969,21 +994,21 @@ fn expand_grid(grid: &amp;Grid, k: usize) -&gt; Grid {
 	new_grid
 }
 
-fn pt2(grid: &amp;Grid) -&gt; Cost {
-	let grid = expand_grid(grid, 5);
-	traversal_cost(&amp;grid)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(grid: &amp;Grid) <span class="hljs-punctuation">-&gt;</span> Cost {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">grid</span> = <span class="hljs-title function_ invoke__">expand_grid</span>(grid, <span class="hljs-number">5</span>);
+	<span class="hljs-title function_ invoke__">traversal_cost</span>(&amp;grid)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 15, ans: (40, 315));
-		test_input!(include_str!("input.txt"), day: 15, ans: (739, 3040));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">15</span>, ans: (<span class="hljs-number">40</span>, <span class="hljs-number">315</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">15</span>, ans: (<span class="hljs-number">739</span>, <span class="hljs-number">3040</span>));
 	}
 }</code></pre>
 </div>

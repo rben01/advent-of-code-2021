@@ -5,7 +5,7 @@
   <meta charset="utf-8">
 <meta name="viewport"
 	content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Day 14: Extended Polymerization :: Advent of Code 2021</title>
+<title>Day 14: Extended Polymerization :: Robert Bennett — Advent of Code 2021</title>
         <link rel="prev" href="../day_13/soln">
         <link rel="next" href="../day_15/soln">
     <meta name="generator" content="Antora 3.1.2">
@@ -26,7 +26,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Advent of Code 2021</a>
+      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -72,8 +72,33 @@
 				d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z" />
 		</clipPath>
 		<clipPath id="icon-star" clipPathUnits="objectBoundingBox">
-			<path transform="translate(0 0.075) scale(0.001736)"
+			<path transform="translate(.5 .5) scale(0.001736) translate(-288 -256)"
 				d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+		</clipPath>
+		<clipPath id="icon-admon-caution" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-224 -256)" d="M159.3 5.4c7.8-7.3 19.9-7.2 27.7
+			.1c27.6 25.9 53.5 53.8 77.7 84c11-14.4 23.5-30.1 37-42.9c7.9-7.4 20.1-7.4 28 .1c34.6 33 63.9 76.6 84.5 118c20.3
+			40.8 33.8 82.5 33.8 111.9C448 404.2 348.2 512 224 512C98.4 512 0 404.1 0 276.5c0-38.4 17.8-85.3 45.4-131.7C73.3
+			97.7 112.7 48.6 159.3 5.4zM225.7 416c25.3 0 47.7-7 68.8-21c42.1-29.4 53.4-88.2
+			28.1-134.4c-4.5-9-16-9.6-22.5-2l-25.2 29.3c-6.6 7.6-18.5
+			7.4-24.7-.5c-16.5-21-46-58.5-62.8-79.8c-6.3-8-18.3-8.1-24.7-.1c-33.8 42.5-50.8 69.3-50.8 99.4C112 375.4 162.6
+			416 225.7 416z" />
+		</clipPath>
+		<clipPath id="icon-admon-important" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001753125) translate(-256 -256)"
+				d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+		</clipPath>
+		<clipPath id="icon-admon-note" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001753125) translate(-256 -256)"
+				d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+		</clipPath>
+		<clipPath id="icon-admon-tip" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-192 -256)"
+				d="M256 384c9.6-31.9 29.5-59.1 49.2-86.2l0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C352 78.8 273.2 0 176 0S0 78.8 0 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4l0 0C66.5 324.9 86.4 352.1 96 384H256zM176 512c44.2 0 80-35.8 80-80V416H96v16c0 44.2 35.8 80 80 80zM96 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z" />
+		</clipPath>
+		<clipPath id="icon-admon-warning" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-256 -256)"
+				d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" />
 		</clipPath>
 	</defs>
 	<symbol viewBox="0 0 100 100" id="icon-back" class="svg-icon-template">
@@ -367,7 +392,7 @@
 
           </li>
         <li>&#47;</li>
-        <li><span>Day 14: Extended Polymerization</span></li>
+        <li><a href="#">Day 14: Extended Polymerization</a></li>
     </ul>
 </nav>
   </div>
@@ -443,97 +468,97 @@ This was the first problem of this year&#8217;s Advent of Code that I thought it
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::collections::BTreeMap as Map;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::collections::BTreeMap <span class="hljs-keyword">as</span> Map;
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-enum Position {
+<span class="hljs-meta">#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Position</span> {
 	Start,
 	Middle,
 	End,
 }
 
-#[derive(Debug)]
-struct Polymer {
-	template: String,
-	mapping: Map&lt;(char, char), char&gt;,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Polymer</span> {
+	template: <span class="hljs-type">String</span>,
+	mapping: Map&lt;(<span class="hljs-type">char</span>, <span class="hljs-type">char</span>), <span class="hljs-type">char</span>&gt;,
 }
 
-impl Polymer {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut lines = s.lines();
-		let template = lines.next()?.to_owned();
-		lines.next()?;
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Polymer</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = s.<span class="hljs-title function_ invoke__">lines</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">template</span> = lines.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">to_owned</span>();
+		lines.<span class="hljs-title function_ invoke__">next</span>()?;
 
-		let mut mapping = Map::new();
-		for line in lines {
-			let mut splat = line.split(" -&gt; ");
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">mapping</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> lines {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">splat</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&quot; -&gt; &quot;</span>);
 
-			let mut outer_chars = splat.next()?.chars();
-			let left = outer_chars.next()?;
-			let right = outer_chars.next()?;
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">outer_chars</span> = splat.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">chars</span>();
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">left</span> = outer_chars.<span class="hljs-title function_ invoke__">next</span>()?;
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">right</span> = outer_chars.<span class="hljs-title function_ invoke__">next</span>()?;
 
-			let inner = splat.next()?.chars().next()?;
-			mapping.insert((left, right), inner);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">inner</span> = splat.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">next</span>()?;
+			mapping.<span class="hljs-title function_ invoke__">insert</span>((left, right), inner);
 		}
 
-		Some(Polymer { template, mapping })
+		<span class="hljs-title function_ invoke__">Some</span>(Polymer { template, mapping })
 	}
 
-	fn get_initial_char_pair_counts(&amp;self) -&gt; Map&lt;(char, char, Position), usize&gt; {
-		use Position::*;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_initial_char_pair_counts</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> Map&lt;(<span class="hljs-type">char</span>, <span class="hljs-type">char</span>, Position), <span class="hljs-type">usize</span>&gt; {
+		<span class="hljs-keyword">use</span> Position::*;
 
-		let mut ans = Map::new();
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">ans</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
-		// Iterate over adjacent pairs of chars. The last index iterated is `n_pairs - 1`
-		// with `n_pairs == self.template.len() - 1`
-		for (i, (c1, c2)) in self
+		<span class="hljs-comment">// Iterate over adjacent pairs of chars. The last index iterated is `n_pairs - 1`</span>
+		<span class="hljs-comment">// with `n_pairs == self.template.len() - 1`</span>
+		<span class="hljs-title function_ invoke__">for</span> (i, (c1, c2)) <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>
 			.template
-			.chars()
-			.zip(self.template.chars().skip(1))
-			.enumerate()
+			.<span class="hljs-title function_ invoke__">chars</span>()
+			.<span class="hljs-title function_ invoke__">zip</span>(<span class="hljs-keyword">self</span>.template.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">skip</span>(<span class="hljs-number">1</span>))
+			.<span class="hljs-title function_ invoke__">enumerate</span>()
 		{
-			let position = if i == 0 {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">position</span> = <span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span> {
 				Start
-			} else if i == self.template.len() - 2 {
+			} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> i == <span class="hljs-keyword">self</span>.template.<span class="hljs-title function_ invoke__">len</span>() - <span class="hljs-number">2</span> {
 				End
-			} else {
+			} <span class="hljs-keyword">else</span> {
 				Middle
 			};
 
-			*ans.entry((c1, c2, position)).or_default() += 1;
+			*ans.<span class="hljs-title function_ invoke__">entry</span>((c1, c2, position)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
 		}
 		ans
 	}
 
-	fn apply_n_times(&amp;self, n: usize) -&gt; Map&lt;(char, char, Position), usize&gt; {
-		use Position::*;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_n_times</span>(&amp;<span class="hljs-keyword">self</span>, n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Map&lt;(<span class="hljs-type">char</span>, <span class="hljs-type">char</span>, Position), <span class="hljs-type">usize</span>&gt; {
+		<span class="hljs-keyword">use</span> Position::*;
 
-		let mut pair_counts = self.get_initial_char_pair_counts();
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">pair_counts</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">get_initial_char_pair_counts</span>();
 
-		for _ in 0..n {
-			let pair_counts_vec = pair_counts
-				.iter()
-				.filter_map(|(&amp;k, &amp;v)| if v &gt; 0 { Some((k, v)) } else { None })
-				.collect::&lt;Vec&lt;_&gt;&gt;();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">pair_counts_vec</span> = pair_counts
+				.<span class="hljs-title function_ invoke__">iter</span>()
+				.<span class="hljs-title function_ invoke__">filter_map</span>(|(&amp;k, &amp;v)| <span class="hljs-keyword">if</span> v &gt; <span class="hljs-number">0</span> { <span class="hljs-title function_ invoke__">Some</span>((k, v)) } <span class="hljs-keyword">else</span> { <span class="hljs-literal">None</span> })
+				.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
 
-			for (key, count) in pair_counts_vec {
-				let (c1, c2, position) = key;
-				if let Some(&amp;c) = self.mapping.get(&amp;(c1, c2)) {
-					let first_pos = match position {
+			<span class="hljs-title function_ invoke__">for</span> (key, count) <span class="hljs-keyword">in</span> pair_counts_vec {
+				<span class="hljs-keyword">let</span> (c1, c2, position) = key;
+				<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(&amp;c) = <span class="hljs-keyword">self</span>.mapping.<span class="hljs-title function_ invoke__">get</span>(&amp;(c1, c2)) {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">first_pos</span> = <span class="hljs-keyword">match</span> position {
 						Start =&gt; Start,
 						_ =&gt; Middle,
 					};
-					let second_pos = match position {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">second_pos</span> = <span class="hljs-keyword">match</span> position {
 						End =&gt; End,
 						_ =&gt; Middle,
 					};
 
-					*pair_counts.entry((c1, c, first_pos)).or_default() += count;
-					*pair_counts.entry((c, c2, second_pos)).or_default() += count;
+					*pair_counts.<span class="hljs-title function_ invoke__">entry</span>((c1, c, first_pos)).<span class="hljs-title function_ invoke__">or_default</span>() += count;
+					*pair_counts.<span class="hljs-title function_ invoke__">entry</span>((c, c2, second_pos)).<span class="hljs-title function_ invoke__">or_default</span>() += count;
 
-					*pair_counts.get_mut(&amp;key).unwrap() -= count;
+					*pair_counts.<span class="hljs-title function_ invoke__">get_mut</span>(&amp;key).<span class="hljs-title function_ invoke__">unwrap</span>() -= count;
 				}
 			}
 		}
@@ -542,40 +567,40 @@ impl Polymer {
 	}
 }
 
-fn get_ans(polymer: &amp;Polymer, n: usize) -&gt; usize {
-	use Position::*;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>(polymer: &amp;Polymer, n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">use</span> Position::*;
 
-	let char_pair_counts = polymer.apply_n_times(n);
-	let char_counts = {
-		let mut char_counts_2x = Map::new();
-		for ((c1, c2, position), count) in char_pair_counts {
-			let c1_multiplier = match position {
-				Start =&gt; 2,
-				_ =&gt; 1,
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">char_pair_counts</span> = polymer.<span class="hljs-title function_ invoke__">apply_n_times</span>(n);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">char_counts</span> = {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">char_counts_2x</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-title function_ invoke__">for</span> ((c1, c2, position), count) <span class="hljs-keyword">in</span> char_pair_counts {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">c1_multiplier</span> = <span class="hljs-keyword">match</span> position {
+				Start =&gt; <span class="hljs-number">2</span>,
+				_ =&gt; <span class="hljs-number">1</span>,
 			};
-			let c2_multiplier = match position {
-				End =&gt; 2,
-				_ =&gt; 1,
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">c2_multiplier</span> = <span class="hljs-keyword">match</span> position {
+				End =&gt; <span class="hljs-number">2</span>,
+				_ =&gt; <span class="hljs-number">1</span>,
 			};
 
-			for (c, mult) in [(c1, c1_multiplier), (c2, c2_multiplier)] {
-				*char_counts_2x.entry(c).or_insert(0) += mult * count;
+			<span class="hljs-title function_ invoke__">for</span> (c, mult) <span class="hljs-keyword">in</span> [(c1, c1_multiplier), (c2, c2_multiplier)] {
+				*char_counts_2x.<span class="hljs-title function_ invoke__">entry</span>(c).<span class="hljs-title function_ invoke__">or_insert</span>(<span class="hljs-number">0</span>) += mult * count;
 			}
 		}
 
 		char_counts_2x
-			.into_iter()
-			.map(|(k, v)| (k, v / 2))
+			.<span class="hljs-title function_ invoke__">into_iter</span>()
+			.<span class="hljs-title function_ invoke__">map</span>(|(k, v)| (k, v / <span class="hljs-number">2</span>))
 			.collect::&lt;Map&lt;_, _&gt;&gt;()
 	};
 
-	let mut max_count = 0;
-	let mut min_count = usize::MAX;
-	for &amp;count in char_counts.values() {
-		if count &lt; min_count {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_count</span> = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">min_count</span> = <span class="hljs-type">usize</span>::MAX;
+	<span class="hljs-keyword">for</span> &amp;count <span class="hljs-keyword">in</span> char_counts.<span class="hljs-title function_ invoke__">values</span>() {
+		<span class="hljs-keyword">if</span> count &lt; min_count {
 			min_count = count;
 		}
-		if count &gt; max_count {
+		<span class="hljs-keyword">if</span> count &gt; max_count {
 			max_count = count;
 		}
 	}
@@ -583,38 +608,38 @@ fn get_ans(polymer: &amp;Polymer, n: usize) -&gt; usize {
 	max_count - min_count
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let polymer = Polymer::from_str(input).unwrap();
-	(14, (pt1(&amp;polymer), pt2(&amp;polymer))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">polymer</span> = Polymer::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">14</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;polymer), <span class="hljs-title function_ invoke__">pt2</span>(&amp;polymer))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(polymer: &amp;Polymer) -&gt; usize {
-	get_ans(polymer, 10)
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(polymer: &amp;Polymer) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-title function_ invoke__">get_ans</span>(polymer, <span class="hljs-number">10</span>)
 }
 
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2(polymer: &amp;Polymer) -&gt; usize {
-	get_ans(polymer, 40)
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(polymer: &amp;Polymer) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-title function_ invoke__">get_ans</span>(polymer, <span class="hljs-number">40</span>)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 14, ans: (1588, 2_188_189_693_529));
-		test_input!(include_str!("input.txt"), day: 14, ans: (2937, 3_390_034_818_249));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">14</span>, ans: (<span class="hljs-number">1588</span>, <span class="hljs-number">2_188_189_693_529</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">14</span>, ans: (<span class="hljs-number">2937</span>, <span class="hljs-number">3_390_034_818_249</span>));
 	}
 }</code></pre>
 </div>
@@ -630,97 +655,97 @@ mod test {
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::collections::BTreeMap as Map;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::collections::BTreeMap <span class="hljs-keyword">as</span> Map;
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-enum Position {
+<span class="hljs-meta">#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Position</span> {
 	Start,
 	Middle,
 	End,
 }
 
-#[derive(Debug)]
-struct Polymer {
-	template: String,
-	mapping: Map&lt;(char, char), char&gt;,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Polymer</span> {
+	template: <span class="hljs-type">String</span>,
+	mapping: Map&lt;(<span class="hljs-type">char</span>, <span class="hljs-type">char</span>), <span class="hljs-type">char</span>&gt;,
 }
 
-impl Polymer {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut lines = s.lines();
-		let template = lines.next()?.to_owned();
-		lines.next()?;
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Polymer</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = s.<span class="hljs-title function_ invoke__">lines</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">template</span> = lines.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">to_owned</span>();
+		lines.<span class="hljs-title function_ invoke__">next</span>()?;
 
-		let mut mapping = Map::new();
-		for line in lines {
-			let mut splat = line.split(" -&gt; ");
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">mapping</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> lines {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">splat</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&quot; -&gt; &quot;</span>);
 
-			let mut outer_chars = splat.next()?.chars();
-			let left = outer_chars.next()?;
-			let right = outer_chars.next()?;
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">outer_chars</span> = splat.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">chars</span>();
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">left</span> = outer_chars.<span class="hljs-title function_ invoke__">next</span>()?;
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">right</span> = outer_chars.<span class="hljs-title function_ invoke__">next</span>()?;
 
-			let inner = splat.next()?.chars().next()?;
-			mapping.insert((left, right), inner);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">inner</span> = splat.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">next</span>()?;
+			mapping.<span class="hljs-title function_ invoke__">insert</span>((left, right), inner);
 		}
 
-		Some(Polymer { template, mapping })
+		<span class="hljs-title function_ invoke__">Some</span>(Polymer { template, mapping })
 	}
 
-	fn get_initial_char_pair_counts(&amp;self) -&gt; Map&lt;(char, char, Position), usize&gt; {
-		use Position::*;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_initial_char_pair_counts</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> Map&lt;(<span class="hljs-type">char</span>, <span class="hljs-type">char</span>, Position), <span class="hljs-type">usize</span>&gt; {
+		<span class="hljs-keyword">use</span> Position::*;
 
-		let mut ans = Map::new();
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">ans</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
-		// Iterate over adjacent pairs of chars. The last index iterated is `n_pairs - 1`
-		// with `n_pairs == self.template.len() - 1`
-		for (i, (c1, c2)) in self
+		<span class="hljs-comment">// Iterate over adjacent pairs of chars. The last index iterated is `n_pairs - 1`</span>
+		<span class="hljs-comment">// with `n_pairs == self.template.len() - 1`</span>
+		<span class="hljs-title function_ invoke__">for</span> (i, (c1, c2)) <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>
 			.template
-			.chars()
-			.zip(self.template.chars().skip(1))
-			.enumerate()
+			.<span class="hljs-title function_ invoke__">chars</span>()
+			.<span class="hljs-title function_ invoke__">zip</span>(<span class="hljs-keyword">self</span>.template.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">skip</span>(<span class="hljs-number">1</span>))
+			.<span class="hljs-title function_ invoke__">enumerate</span>()
 		{
-			let position = if i == 0 {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">position</span> = <span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span> {
 				Start
-			} else if i == self.template.len() - 2 {
+			} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> i == <span class="hljs-keyword">self</span>.template.<span class="hljs-title function_ invoke__">len</span>() - <span class="hljs-number">2</span> {
 				End
-			} else {
+			} <span class="hljs-keyword">else</span> {
 				Middle
 			};
 
-			*ans.entry((c1, c2, position)).or_default() += 1;
+			*ans.<span class="hljs-title function_ invoke__">entry</span>((c1, c2, position)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
 		}
 		ans
 	}
 
-	fn apply_n_times(&amp;self, n: usize) -&gt; Map&lt;(char, char, Position), usize&gt; {
-		use Position::*;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_n_times</span>(&amp;<span class="hljs-keyword">self</span>, n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Map&lt;(<span class="hljs-type">char</span>, <span class="hljs-type">char</span>, Position), <span class="hljs-type">usize</span>&gt; {
+		<span class="hljs-keyword">use</span> Position::*;
 
-		let mut pair_counts = self.get_initial_char_pair_counts();
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">pair_counts</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">get_initial_char_pair_counts</span>();
 
-		for _ in 0..n {
-			let pair_counts_vec = pair_counts
-				.iter()
-				.filter_map(|(&amp;k, &amp;v)| if v &gt; 0 { Some((k, v)) } else { None })
-				.collect::&lt;Vec&lt;_&gt;&gt;();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">pair_counts_vec</span> = pair_counts
+				.<span class="hljs-title function_ invoke__">iter</span>()
+				.<span class="hljs-title function_ invoke__">filter_map</span>(|(&amp;k, &amp;v)| <span class="hljs-keyword">if</span> v &gt; <span class="hljs-number">0</span> { <span class="hljs-title function_ invoke__">Some</span>((k, v)) } <span class="hljs-keyword">else</span> { <span class="hljs-literal">None</span> })
+				.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
 
-			for (key, count) in pair_counts_vec {
-				let (c1, c2, position) = key;
-				if let Some(&amp;c) = self.mapping.get(&amp;(c1, c2)) {
-					let first_pos = match position {
+			<span class="hljs-title function_ invoke__">for</span> (key, count) <span class="hljs-keyword">in</span> pair_counts_vec {
+				<span class="hljs-keyword">let</span> (c1, c2, position) = key;
+				<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(&amp;c) = <span class="hljs-keyword">self</span>.mapping.<span class="hljs-title function_ invoke__">get</span>(&amp;(c1, c2)) {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">first_pos</span> = <span class="hljs-keyword">match</span> position {
 						Start =&gt; Start,
 						_ =&gt; Middle,
 					};
-					let second_pos = match position {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">second_pos</span> = <span class="hljs-keyword">match</span> position {
 						End =&gt; End,
 						_ =&gt; Middle,
 					};
 
-					*pair_counts.entry((c1, c, first_pos)).or_default() += count;
-					*pair_counts.entry((c, c2, second_pos)).or_default() += count;
+					*pair_counts.<span class="hljs-title function_ invoke__">entry</span>((c1, c, first_pos)).<span class="hljs-title function_ invoke__">or_default</span>() += count;
+					*pair_counts.<span class="hljs-title function_ invoke__">entry</span>((c, c2, second_pos)).<span class="hljs-title function_ invoke__">or_default</span>() += count;
 
-					*pair_counts.get_mut(&amp;key).unwrap() -= count;
+					*pair_counts.<span class="hljs-title function_ invoke__">get_mut</span>(&amp;key).<span class="hljs-title function_ invoke__">unwrap</span>() -= count;
 				}
 			}
 		}
@@ -729,40 +754,40 @@ impl Polymer {
 	}
 }
 
-fn get_ans(polymer: &amp;Polymer, n: usize) -&gt; usize {
-	use Position::*;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>(polymer: &amp;Polymer, n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">use</span> Position::*;
 
-	let char_pair_counts = polymer.apply_n_times(n);
-	let char_counts = {
-		let mut char_counts_2x = Map::new();
-		for ((c1, c2, position), count) in char_pair_counts {
-			let c1_multiplier = match position {
-				Start =&gt; 2,
-				_ =&gt; 1,
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">char_pair_counts</span> = polymer.<span class="hljs-title function_ invoke__">apply_n_times</span>(n);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">char_counts</span> = {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">char_counts_2x</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-title function_ invoke__">for</span> ((c1, c2, position), count) <span class="hljs-keyword">in</span> char_pair_counts {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">c1_multiplier</span> = <span class="hljs-keyword">match</span> position {
+				Start =&gt; <span class="hljs-number">2</span>,
+				_ =&gt; <span class="hljs-number">1</span>,
 			};
-			let c2_multiplier = match position {
-				End =&gt; 2,
-				_ =&gt; 1,
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">c2_multiplier</span> = <span class="hljs-keyword">match</span> position {
+				End =&gt; <span class="hljs-number">2</span>,
+				_ =&gt; <span class="hljs-number">1</span>,
 			};
 
-			for (c, mult) in [(c1, c1_multiplier), (c2, c2_multiplier)] {
-				*char_counts_2x.entry(c).or_insert(0) += mult * count;
+			<span class="hljs-title function_ invoke__">for</span> (c, mult) <span class="hljs-keyword">in</span> [(c1, c1_multiplier), (c2, c2_multiplier)] {
+				*char_counts_2x.<span class="hljs-title function_ invoke__">entry</span>(c).<span class="hljs-title function_ invoke__">or_insert</span>(<span class="hljs-number">0</span>) += mult * count;
 			}
 		}
 
 		char_counts_2x
-			.into_iter()
-			.map(|(k, v)| (k, v / 2))
+			.<span class="hljs-title function_ invoke__">into_iter</span>()
+			.<span class="hljs-title function_ invoke__">map</span>(|(k, v)| (k, v / <span class="hljs-number">2</span>))
 			.collect::&lt;Map&lt;_, _&gt;&gt;()
 	};
 
-	let mut max_count = 0;
-	let mut min_count = usize::MAX;
-	for &amp;count in char_counts.values() {
-		if count &lt; min_count {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_count</span> = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">min_count</span> = <span class="hljs-type">usize</span>::MAX;
+	<span class="hljs-keyword">for</span> &amp;count <span class="hljs-keyword">in</span> char_counts.<span class="hljs-title function_ invoke__">values</span>() {
+		<span class="hljs-keyword">if</span> count &lt; min_count {
 			min_count = count;
 		}
-		if count &gt; max_count {
+		<span class="hljs-keyword">if</span> count &gt; max_count {
 			max_count = count;
 		}
 	}
@@ -770,38 +795,38 @@ fn get_ans(polymer: &amp;Polymer, n: usize) -&gt; usize {
 	max_count - min_count
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let polymer = Polymer::from_str(input).unwrap();
-	(14, (pt1(&amp;polymer), pt2(&amp;polymer))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">polymer</span> = Polymer::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">14</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;polymer), <span class="hljs-title function_ invoke__">pt2</span>(&amp;polymer))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(polymer: &amp;Polymer) -&gt; usize {
-	get_ans(polymer, 10)
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(polymer: &amp;Polymer) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-title function_ invoke__">get_ans</span>(polymer, <span class="hljs-number">10</span>)
 }
 
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2(polymer: &amp;Polymer) -&gt; usize {
-	get_ans(polymer, 40)
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(polymer: &amp;Polymer) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-title function_ invoke__">get_ans</span>(polymer, <span class="hljs-number">40</span>)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 14, ans: (1588, 2_188_189_693_529));
-		test_input!(include_str!("input.txt"), day: 14, ans: (2937, 3_390_034_818_249));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">14</span>, ans: (<span class="hljs-number">1588</span>, <span class="hljs-number">2_188_189_693_529</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">14</span>, ans: (<span class="hljs-number">2937</span>, <span class="hljs-number">3_390_034_818_249</span>));
 	}
 }</code></pre>
 </div>

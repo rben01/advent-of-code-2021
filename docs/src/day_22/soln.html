@@ -5,7 +5,7 @@
   <meta charset="utf-8">
 <meta name="viewport"
 	content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Day 22: Reactor Reboot :: Advent of Code 2021</title>
+<title>Day 22: Reactor Reboot :: Robert Bennett — Advent of Code 2021</title>
         <link rel="prev" href="../day_21/soln">
         <link rel="next" href="../day_23/soln">
     <meta name="generator" content="Antora 3.1.2">
@@ -36,7 +36,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Advent of Code 2021</a>
+      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -82,8 +82,33 @@
 				d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z" />
 		</clipPath>
 		<clipPath id="icon-star" clipPathUnits="objectBoundingBox">
-			<path transform="translate(0 0.075) scale(0.001736)"
+			<path transform="translate(.5 .5) scale(0.001736) translate(-288 -256)"
 				d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+		</clipPath>
+		<clipPath id="icon-admon-caution" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-224 -256)" d="M159.3 5.4c7.8-7.3 19.9-7.2 27.7
+			.1c27.6 25.9 53.5 53.8 77.7 84c11-14.4 23.5-30.1 37-42.9c7.9-7.4 20.1-7.4 28 .1c34.6 33 63.9 76.6 84.5 118c20.3
+			40.8 33.8 82.5 33.8 111.9C448 404.2 348.2 512 224 512C98.4 512 0 404.1 0 276.5c0-38.4 17.8-85.3 45.4-131.7C73.3
+			97.7 112.7 48.6 159.3 5.4zM225.7 416c25.3 0 47.7-7 68.8-21c42.1-29.4 53.4-88.2
+			28.1-134.4c-4.5-9-16-9.6-22.5-2l-25.2 29.3c-6.6 7.6-18.5
+			7.4-24.7-.5c-16.5-21-46-58.5-62.8-79.8c-6.3-8-18.3-8.1-24.7-.1c-33.8 42.5-50.8 69.3-50.8 99.4C112 375.4 162.6
+			416 225.7 416z" />
+		</clipPath>
+		<clipPath id="icon-admon-important" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001753125) translate(-256 -256)"
+				d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+		</clipPath>
+		<clipPath id="icon-admon-note" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001753125) translate(-256 -256)"
+				d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+		</clipPath>
+		<clipPath id="icon-admon-tip" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-192 -256)"
+				d="M256 384c9.6-31.9 29.5-59.1 49.2-86.2l0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C352 78.8 273.2 0 176 0S0 78.8 0 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4l0 0C66.5 324.9 86.4 352.1 96 384H256zM176 512c44.2 0 80-35.8 80-80V416H96v16c0 44.2 35.8 80 80 80zM96 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z" />
+		</clipPath>
+		<clipPath id="icon-admon-warning" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-256 -256)"
+				d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" />
 		</clipPath>
 	</defs>
 	<symbol viewBox="0 0 100 100" id="icon-back" class="svg-icon-template">
@@ -377,7 +402,7 @@
 
           </li>
         <li>&#47;</li>
-        <li><span>Day 22: Reactor Reboot</span></li>
+        <li><a href="#">Day 22: Reactor Reboot</a></li>
     </ul>
 </nav>
   </div>
@@ -424,104 +449,104 @@ To recombine boxes, we simply take two boxes that have a face in common and writ
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::fmt::{Display, Write};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::fmt::{Display, Write};
 
-type Span = [i32; 2];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Span</span> = [<span class="hljs-type">i32</span>; <span class="hljs-number">2</span>];
 
-#[derive(Debug, Clone, Copy)]
-struct Cuboid {
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Cuboid</span> {
 	x_range: Span,
 	y_range: Span,
 	z_range: Span,
 }
 
-impl Cuboid {
-	fn size(&amp;self) -&gt; usize {
-		fn width(span: Span) -&gt; usize {
-			usize::try_from(span[1] - span[0] + 1).unwrap()
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">size</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">width</span>(span: Span) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+			<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">try_from</span>(span[<span class="hljs-number">1</span>] - span[<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>()
 		}
-		let &amp;Cuboid {
+		<span class="hljs-keyword">let</span> &amp;Cuboid {
 			x_range,
 			y_range,
 			z_range,
-		} = self;
+		} = <span class="hljs-keyword">self</span>;
 
-		width(x_range) * width(y_range) * width(z_range)
+		<span class="hljs-title function_ invoke__">width</span>(x_range) * <span class="hljs-title function_ invoke__">width</span>(y_range) * <span class="hljs-title function_ invoke__">width</span>(z_range)
 	}
 }
 
-// tag::debugging[]
-impl std::fmt::Display for Cuboid {
-	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-		let [x0, x1] = &amp;self.x_range;
-		let [y0, y1] = &amp;self.y_range;
-		let [z0, z1] = &amp;self.z_range;
-		write!(f, "{:?}-{:?},{:?}-{:?},{:?}-{:?}", x0, x1, y0, y1, z0, z1)
+<span class="hljs-comment">// tag::debugging[]</span>
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::fmt::Display <span class="hljs-keyword">for</span> <span class="hljs-title class_">Cuboid</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
+		<span class="hljs-keyword">let</span> [x0, x1] = &amp;<span class="hljs-keyword">self</span>.x_range;
+		<span class="hljs-keyword">let</span> [y0, y1] = &amp;<span class="hljs-keyword">self</span>.y_range;
+		<span class="hljs-keyword">let</span> [z0, z1] = &amp;<span class="hljs-keyword">self</span>.z_range;
+		<span class="hljs-built_in">write!</span>(f, <span class="hljs-string">&quot;{:?}-{:?},{:?}-{:?},{:?}-{:?}&quot;</span>, x0, x1, y0, y1, z0, z1)
 	}
 }
 
-// end::debugging[]
-impl Cuboid {
-	fn intersection(&amp;self, other: &amp;Self) -&gt; Option&lt;Self&gt; {
-		fn span_intersection(span1: Span, span2: Span) -&gt; Option&lt;Span&gt; {
-			let lower = span1[0].max(span2[0]);
-			let upper = span1[1].min(span2[1]);
-			if upper &lt; lower {
-				None
-			} else {
-				Some([lower, upper])
+<span class="hljs-comment">// end::debugging[]</span>
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">intersection</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">span_intersection</span>(span1: Span, span2: Span) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Span&gt; {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">lower</span> = span1[<span class="hljs-number">0</span>].<span class="hljs-title function_ invoke__">max</span>(span2[<span class="hljs-number">0</span>]);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">upper</span> = span1[<span class="hljs-number">1</span>].<span class="hljs-title function_ invoke__">min</span>(span2[<span class="hljs-number">1</span>]);
+			<span class="hljs-keyword">if</span> upper &lt; lower {
+				<span class="hljs-literal">None</span>
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-title function_ invoke__">Some</span>([lower, upper])
 			}
 		}
 
-		Some(Self {
-			x_range: span_intersection(self.x_range, other.x_range)?,
-			y_range: span_intersection(self.y_range, other.y_range)?,
-			z_range: span_intersection(self.z_range, other.z_range)?,
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
+			x_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.x_range, other.x_range)?,
+			y_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.y_range, other.y_range)?,
+			z_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.z_range, other.z_range)?,
 		})
 	}
 
-	/// `other` divides `self` into 3^3 = 27 (potentially empty) sub-cuboids. Of the 26
-	/// that aren't `other`, we keep the nonempty ones. Once we've found them, we merge
-	/// them into as large cuboids as possible.
-	fn difference(&amp;self, other: &amp;Self) -&gt; Vec&lt;Self&gt; {
-		fn get_spans(my_span: Span, intersection_span: Span) -&gt; [Option&lt;Span&gt;; 3] {
-			let span1 = if my_span[0] == intersection_span[0] {
-				None
-			} else {
-				Some([my_span[0], intersection_span[0] - 1])
+	<span class="hljs-comment">/// `other` divides `self` into 3^3 = 27 (potentially empty) sub-cuboids. Of the 26</span>
+	<span class="hljs-comment">/// that aren&#x27;t `other`, we keep the nonempty ones. Once we&#x27;ve found them, we merge</span>
+	<span class="hljs-comment">/// them into as large cuboids as possible.</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">difference</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_spans</span>(my_span: Span, intersection_span: Span) <span class="hljs-punctuation">-&gt;</span> [<span class="hljs-type">Option</span>&lt;Span&gt;; <span class="hljs-number">3</span>] {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">span1</span> = <span class="hljs-keyword">if</span> my_span[<span class="hljs-number">0</span>] == intersection_span[<span class="hljs-number">0</span>] {
+				<span class="hljs-literal">None</span>
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-title function_ invoke__">Some</span>([my_span[<span class="hljs-number">0</span>], intersection_span[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span>])
 			};
 
-			let span2 = Some(intersection_span);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">span2</span> = <span class="hljs-title function_ invoke__">Some</span>(intersection_span);
 
-			let span3 = if intersection_span[1] == my_span[1] {
-				None
-			} else {
-				Some([intersection_span[1] + 1, my_span[1]])
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">span3</span> = <span class="hljs-keyword">if</span> intersection_span[<span class="hljs-number">1</span>] == my_span[<span class="hljs-number">1</span>] {
+				<span class="hljs-literal">None</span>
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-title function_ invoke__">Some</span>([intersection_span[<span class="hljs-number">1</span>] + <span class="hljs-number">1</span>, my_span[<span class="hljs-number">1</span>]])
 			};
 
 			[span1, span2, span3]
 		}
 
-		let intersection = match self.intersection(other) {
-			Some(c) =&gt; c,
-			None =&gt; return vec![*self],
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">intersection</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">intersection</span>(other) {
+			<span class="hljs-title function_ invoke__">Some</span>(c) =&gt; c,
+			<span class="hljs-literal">None</span> =&gt; <span class="hljs-keyword">return</span> <span class="hljs-built_in">vec!</span>[*<span class="hljs-keyword">self</span>],
 		};
 
-		let x_ranges = get_spans(self.x_range, intersection.x_range);
-		let y_ranges = get_spans(self.y_range, intersection.y_range);
-		let z_ranges = get_spans(self.z_range, intersection.z_range);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">x_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.x_range, intersection.x_range);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">y_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.y_range, intersection.y_range);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">z_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.z_range, intersection.z_range);
 
-		let mut on_cuboids = Vec::&lt;Self&gt;::new();
-		for &amp;x_range in x_ranges.iter().flatten() {
-			for &amp;y_range in y_ranges.iter().flatten() {
-				for &amp;z_range in z_ranges.iter().flatten() {
-					if x_range != intersection.x_range
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">on_cuboids</span> = <span class="hljs-type">Vec</span>::&lt;<span class="hljs-keyword">Self</span>&gt;::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> &amp;x_range <span class="hljs-keyword">in</span> x_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
+			<span class="hljs-keyword">for</span> &amp;y_range <span class="hljs-keyword">in</span> y_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
+				<span class="hljs-keyword">for</span> &amp;z_range <span class="hljs-keyword">in</span> z_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
+					<span class="hljs-keyword">if</span> x_range != intersection.x_range
 						|| y_range != intersection.y_range
 						|| z_range != intersection.z_range
 					{
-						on_cuboids.push(Cuboid {
+						on_cuboids.<span class="hljs-title function_ invoke__">push</span>(Cuboid {
 							x_range,
 							y_range,
 							z_range,
@@ -531,90 +556,90 @@ impl Cuboid {
 			}
 		}
 
-		// Iteratively merge the split-up cuboids together, where possible. For instance,
-		// if the middle of a cuboid was removed, there are 26 small cuboids created, but they
-		// can be merged into six larger cuboids. This is done by looking for abutting
-		// cuboids with the same dimensions along their respective abutting faces and
-		// combining them into one cuboid.
-		'merge: loop {
-			for (
+		<span class="hljs-comment">// Iteratively merge the split-up cuboids together, where possible. For instance,</span>
+		<span class="hljs-comment">// if the middle of a cuboid was removed, there are 26 small cuboids created, but they</span>
+		<span class="hljs-comment">// can be merged into six larger cuboids. This is done by looking for abutting</span>
+		<span class="hljs-comment">// cuboids with the same dimensions along their respective abutting faces and</span>
+		<span class="hljs-comment">// combining them into one cuboid.</span>
+		<span class="hljs-symbol">&#x27;merge</span>: <span class="hljs-keyword">loop</span> {
+			<span class="hljs-title function_ invoke__">for</span> (
 				i,
 				&amp;c1 @ Cuboid {
 					x_range,
 					y_range,
 					z_range,
 				},
-			) in on_cuboids.iter().enumerate()
+			) <span class="hljs-keyword">in</span> on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>()
 			{
-				for (j, &amp;c2) in on_cuboids.iter().enumerate().skip(i + 1) {
-					let mut cs = [c1, c2];
-					let mut merged_cuboid = None;
-					if y_range == c2.y_range &amp;&amp; z_range == c2.z_range {
-						cs.sort_by_key(|c| c.x_range);
-						if cs[0].x_range[1] == cs[1].x_range[0] - 1 {
-							merged_cuboid = Some(Cuboid {
-								x_range: [cs[0].x_range[0], cs[1].x_range[1]],
+				<span class="hljs-title function_ invoke__">for</span> (j, &amp;c2) <span class="hljs-keyword">in</span> on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">cs</span> = [c1, c2];
+					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">merged_cuboid</span> = <span class="hljs-literal">None</span>;
+					<span class="hljs-keyword">if</span> y_range == c2.y_range &amp;&amp; z_range == c2.z_range {
+						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.x_range);
+						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].x_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].x_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
+							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
+								x_range: [cs[<span class="hljs-number">0</span>].x_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].x_range[<span class="hljs-number">1</span>]],
 								y_range,
 								z_range,
 							});
 						}
-					} else if x_range == c2.x_range &amp;&amp; z_range == c2.z_range {
-						cs.sort_by_key(|c| c.y_range);
-						if cs[0].y_range[1] == cs[1].y_range[0] - 1 {
-							merged_cuboid = Some(Cuboid {
+					} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> x_range == c2.x_range &amp;&amp; z_range == c2.z_range {
+						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.y_range);
+						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].y_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].y_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
+							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
 								x_range,
-								y_range: [cs[0].y_range[0], cs[1].y_range[1]],
+								y_range: [cs[<span class="hljs-number">0</span>].y_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].y_range[<span class="hljs-number">1</span>]],
 								z_range,
 							});
 						}
-					} else if x_range == c2.x_range &amp;&amp; y_range == c2.y_range {
-						cs.sort_by_key(|c| c.z_range);
-						if cs[0].z_range[1] == cs[1].z_range[0] - 1 {
-							merged_cuboid = Some(Cuboid {
+					} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> x_range == c2.x_range &amp;&amp; y_range == c2.y_range {
+						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.z_range);
+						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].z_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].z_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
+							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
 								x_range,
 								y_range,
-								z_range: [cs[0].z_range[0], cs[1].z_range[1]],
+								z_range: [cs[<span class="hljs-number">0</span>].z_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].z_range[<span class="hljs-number">1</span>]],
 							});
 						}
 					}
 
-					if let Some(merged_cuboid) = merged_cuboid {
-						on_cuboids.swap_remove(j);
-						on_cuboids.swap_remove(i);
-						on_cuboids.push(merged_cuboid);
-						continue 'merge;
+					<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(merged_cuboid) = merged_cuboid {
+						on_cuboids.<span class="hljs-title function_ invoke__">swap_remove</span>(j);
+						on_cuboids.<span class="hljs-title function_ invoke__">swap_remove</span>(i);
+						on_cuboids.<span class="hljs-title function_ invoke__">push</span>(merged_cuboid);
+						<span class="hljs-keyword">continue</span> <span class="hljs-symbol">&#x27;merge</span>;
 					}
 				}
 			}
 
-			break;
+			<span class="hljs-keyword">break</span>;
 		}
 
 		on_cuboids
 	}
 }
 
-impl Cuboid {
-	fn from_coords_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut coords = s.split(',');
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_coords_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">coords</span> = s.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);
 
-		let mut comps = (0..3).filter_map(|_| {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">comps</span> = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">filter_map</span>(|_| {
 			coords
-				.next()?
-				.split('=')
-				.nth_back(0)?
-				.split('.')
-				.filter_map(|splat| splat.parse().ok())
-				.collect::&lt;Vec&lt;_&gt;&gt;()
-				.try_into()
-				.ok()
+				.<span class="hljs-title function_ invoke__">next</span>()?
+				.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;=&#x27;</span>)
+				.<span class="hljs-title function_ invoke__">nth_back</span>(<span class="hljs-number">0</span>)?
+				.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)
+				.<span class="hljs-title function_ invoke__">filter_map</span>(|splat| splat.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>())
+				.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;()
+				.<span class="hljs-title function_ invoke__">try_into</span>()
+				.<span class="hljs-title function_ invoke__">ok</span>()
 		});
 
-		let x_range = comps.next()?;
-		let y_range = comps.next()?;
-		let z_range = comps.next()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">x_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">y_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">z_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
 
-		Some(Self {
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
 			x_range,
 			y_range,
 			z_range,
@@ -622,67 +647,67 @@ impl Cuboid {
 	}
 }
 
-#[derive(Debug, Clone, Copy)]
-enum State {
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">State</span> {
 	On,
 	Off,
 }
 
-impl State {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		Some(match s {
-			"on" =&gt; Self::On,
-			"off" =&gt; Self::Off,
-			_ =&gt; return None,
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">State</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> s {
+			<span class="hljs-string">&quot;on&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::On,
+			<span class="hljs-string">&quot;off&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::Off,
+			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
 		})
 	}
 }
 
-#[derive(Debug, Clone, Copy)]
-struct RebootStep {
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">RebootStep</span> {
 	state: State,
 	cuboid: Cuboid,
 }
 
-// tag::debugging[]
-impl Display for RebootStep {
-	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-		f.write_char(match self.state {
-			State::On =&gt; '▲',
-			State::Off =&gt; '▽',
+<span class="hljs-comment">// tag::debugging[]</span>
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Display</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">RebootStep</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
+		f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.state {
+			State::On =&gt; <span class="hljs-string">&#x27;▲&#x27;</span>,
+			State::Off =&gt; <span class="hljs-string">&#x27;▽&#x27;</span>,
 		})?;
-		f.write_char(' ')?;
+		f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-string">&#x27; &#x27;</span>)?;
 
-		let Cuboid {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">Cuboid</span> {
 			x_range,
 			y_range,
 			z_range,
-		} = &amp;self.cuboid;
-		write!(f, "{:?} {:?} {:?}", x_range, y_range, z_range)
+		} = &amp;<span class="hljs-keyword">self</span>.cuboid;
+		<span class="hljs-built_in">write!</span>(f, <span class="hljs-string">&quot;{:?} {:?} {:?}&quot;</span>, x_range, y_range, z_range)
 	}
 }
 
-// end::debugging[]
-impl RebootStep {
-	fn from_line(line: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut str_comps = line.split_ascii_whitespace();
-		let state = State::from_str(str_comps.next()?)?;
-		let cuboid = Cuboid::from_coords_str(str_comps.next()?)?;
-		Some(Self { state, cuboid })
+<span class="hljs-comment">// end::debugging[]</span>
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">RebootStep</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_line</span>(line: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">str_comps</span> = line.<span class="hljs-title function_ invoke__">split_ascii_whitespace</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">state</span> = State::<span class="hljs-title function_ invoke__">from_str</span>(str_comps.<span class="hljs-title function_ invoke__">next</span>()?)?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">cuboid</span> = Cuboid::<span class="hljs-title function_ invoke__">from_coords_str</span>(str_comps.<span class="hljs-title function_ invoke__">next</span>()?)?;
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { state, cuboid })
 	}
 }
 
-#[derive(Debug)]
-struct Grid {
-	on_cuboids: Vec&lt;Cuboid&gt;,
-	bounds: Option&lt;Cuboid&gt;,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Grid</span> {
+	on_cuboids: <span class="hljs-type">Vec</span>&lt;Cuboid&gt;,
+	bounds: <span class="hljs-type">Option</span>&lt;Cuboid&gt;,
 }
 
-impl Grid {
-	fn new_with_size(n: i32) -&gt; Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Grid</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new_with_size</span>(n: <span class="hljs-type">i32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
 		Grid {
-			on_cuboids: vec![],
-			bounds: Some(Cuboid {
+			on_cuboids: <span class="hljs-built_in">vec!</span>[],
+			bounds: <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
 				x_range: [-n, n],
 				y_range: [-n, n],
 				z_range: [-n, n],
@@ -690,103 +715,103 @@ impl Grid {
 		}
 	}
 
-	fn new_unbounded() -&gt; Self {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new_unbounded</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
 		Grid {
-			on_cuboids: vec![],
-			bounds: None,
+			on_cuboids: <span class="hljs-built_in">vec!</span>[],
+			bounds: <span class="hljs-literal">None</span>,
 		}
 	}
 
-	fn apply_step(&amp;mut self, RebootStep { state, cuboid }: &amp;RebootStep) -&gt; Option&lt;()&gt; {
-		let cuboid = if let Some(bounds) = self.bounds {
-			cuboid.intersection(&amp;bounds)?
-		} else {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_step</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, RebootStep { state, cuboid }: &amp;RebootStep) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;()&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">cuboid</span> = <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(bounds) = <span class="hljs-keyword">self</span>.bounds {
+			cuboid.<span class="hljs-title function_ invoke__">intersection</span>(&amp;bounds)?
+		} <span class="hljs-keyword">else</span> {
 			*cuboid
 		};
 
-		match state {
+		<span class="hljs-keyword">match</span> state {
 			State::On =&gt; {
-				self.on_cuboids.push(cuboid);
+				<span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">push</span>(cuboid);
 			}
 			State::Off =&gt; {
-				let mut on_cuboids = vec![];
-				for my_cuboid in &amp;self.on_cuboids {
-					on_cuboids.extend(my_cuboid.difference(&amp;cuboid));
+				<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">on_cuboids</span> = <span class="hljs-built_in">vec!</span>[];
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">my_cuboid</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.on_cuboids {
+					on_cuboids.<span class="hljs-title function_ invoke__">extend</span>(my_cuboid.<span class="hljs-title function_ invoke__">difference</span>(&amp;cuboid));
 				}
-				self.on_cuboids = on_cuboids;
+				<span class="hljs-keyword">self</span>.on_cuboids = on_cuboids;
 			}
 		};
 
-		Some(())
+		<span class="hljs-title function_ invoke__">Some</span>(())
 	}
 
-	fn n_on(&amp;self) -&gt; usize {
-		let mut nonintersecting_cuboids = vec![];
-		for (i, &amp;c1) in self.on_cuboids.iter().enumerate() {
-			let mut pieces = vec![c1];
-			for &amp;c2 in self.on_cuboids.iter().skip(i + 1) {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">n_on</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">nonintersecting_cuboids</span> = <span class="hljs-built_in">vec!</span>[];
+		<span class="hljs-title function_ invoke__">for</span> (i, &amp;c1) <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">pieces</span> = <span class="hljs-built_in">vec!</span>[c1];
+			<span class="hljs-keyword">for</span> &amp;c2 <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
 				pieces = pieces
-					.into_iter()
-					.flat_map(|piece| piece.difference(&amp;c2))
-					.collect();
+					.<span class="hljs-title function_ invoke__">into_iter</span>()
+					.<span class="hljs-title function_ invoke__">flat_map</span>(|piece| piece.<span class="hljs-title function_ invoke__">difference</span>(&amp;c2))
+					.<span class="hljs-title function_ invoke__">collect</span>();
 			}
-			nonintersecting_cuboids.extend(pieces);
+			nonintersecting_cuboids.<span class="hljs-title function_ invoke__">extend</span>(pieces);
 		}
 
 		nonintersecting_cuboids
-			.iter()
-			.fold(0, |accum, cuboid| accum + cuboid.size())
+			.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">fold</span>(<span class="hljs-number">0</span>, |accum, cuboid| accum + cuboid.<span class="hljs-title function_ invoke__">size</span>())
 	}
 }
 
-fn read_input(input: &amp;str) -&gt; Option&lt;Vec&lt;RebootStep&gt;&gt; {
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;RebootStep&gt;&gt; {
 	input
-		.lines()
-		.map(RebootStep::from_line)
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
+		.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(RebootStep::from_line)
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let steps = read_input(input).unwrap();
-	(22, (pt1(steps.iter()), pt2(steps.iter()))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">steps</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">22</span>, (<span class="hljs-title function_ invoke__">pt1</span>(steps.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(steps.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: impl Iterator&lt;Item = R&gt;) -&gt; usize {
-	let mut grid = Grid::new_with_size(50);
-	for step in steps {
-		grid.apply_step(step.borrow());
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = R&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Grid::<span class="hljs-title function_ invoke__">new_with_size</span>(<span class="hljs-number">50</span>);
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
+		grid.<span class="hljs-title function_ invoke__">apply_step</span>(step.<span class="hljs-title function_ invoke__">borrow</span>());
 	}
 
-	grid.n_on()
+	grid.<span class="hljs-title function_ invoke__">n_on</span>()
 }
 
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: impl Iterator&lt;Item = R&gt;) -&gt; usize {
-	let mut grid = Grid::new_unbounded();
-	for step in steps {
-		grid.apply_step(step.borrow());
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = R&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Grid::<span class="hljs-title function_ invoke__">new_unbounded</span>();
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
+		grid.<span class="hljs-title function_ invoke__">apply_step</span>(step.<span class="hljs-title function_ invoke__">borrow</span>());
 	}
 
-	grid.n_on()
+	grid.<span class="hljs-title function_ invoke__">n_on</span>()
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 22, ans: (607_657, 1_187_742_789_778_677));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">22</span>, ans: (<span class="hljs-number">607_657</span>, <span class="hljs-number">1_187_742_789_778_677</span>));
 	}
 }</code></pre>
 </div>
@@ -807,104 +832,104 @@ In Part 2 this sequence occurs in an unbounded space, which is where the savings
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::fmt::{Display, Write};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::fmt::{Display, Write};
 
-type Span = [i32; 2];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Span</span> = [<span class="hljs-type">i32</span>; <span class="hljs-number">2</span>];
 
-#[derive(Debug, Clone, Copy)]
-struct Cuboid {
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Cuboid</span> {
 	x_range: Span,
 	y_range: Span,
 	z_range: Span,
 }
 
-impl Cuboid {
-	fn size(&amp;self) -&gt; usize {
-		fn width(span: Span) -&gt; usize {
-			usize::try_from(span[1] - span[0] + 1).unwrap()
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">size</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">width</span>(span: Span) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+			<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">try_from</span>(span[<span class="hljs-number">1</span>] - span[<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>()
 		}
-		let &amp;Cuboid {
+		<span class="hljs-keyword">let</span> &amp;Cuboid {
 			x_range,
 			y_range,
 			z_range,
-		} = self;
+		} = <span class="hljs-keyword">self</span>;
 
-		width(x_range) * width(y_range) * width(z_range)
+		<span class="hljs-title function_ invoke__">width</span>(x_range) * <span class="hljs-title function_ invoke__">width</span>(y_range) * <span class="hljs-title function_ invoke__">width</span>(z_range)
 	}
 }
 
-// tag::debugging[]
-impl std::fmt::Display for Cuboid {
-	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-		let [x0, x1] = &amp;self.x_range;
-		let [y0, y1] = &amp;self.y_range;
-		let [z0, z1] = &amp;self.z_range;
-		write!(f, "{:?}-{:?},{:?}-{:?},{:?}-{:?}", x0, x1, y0, y1, z0, z1)
+<span class="hljs-comment">// tag::debugging[]</span>
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::fmt::Display <span class="hljs-keyword">for</span> <span class="hljs-title class_">Cuboid</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
+		<span class="hljs-keyword">let</span> [x0, x1] = &amp;<span class="hljs-keyword">self</span>.x_range;
+		<span class="hljs-keyword">let</span> [y0, y1] = &amp;<span class="hljs-keyword">self</span>.y_range;
+		<span class="hljs-keyword">let</span> [z0, z1] = &amp;<span class="hljs-keyword">self</span>.z_range;
+		<span class="hljs-built_in">write!</span>(f, <span class="hljs-string">&quot;{:?}-{:?},{:?}-{:?},{:?}-{:?}&quot;</span>, x0, x1, y0, y1, z0, z1)
 	}
 }
 
-// end::debugging[]
-impl Cuboid {
-	fn intersection(&amp;self, other: &amp;Self) -&gt; Option&lt;Self&gt; {
-		fn span_intersection(span1: Span, span2: Span) -&gt; Option&lt;Span&gt; {
-			let lower = span1[0].max(span2[0]);
-			let upper = span1[1].min(span2[1]);
-			if upper &lt; lower {
-				None
-			} else {
-				Some([lower, upper])
+<span class="hljs-comment">// end::debugging[]</span>
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">intersection</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">span_intersection</span>(span1: Span, span2: Span) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Span&gt; {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">lower</span> = span1[<span class="hljs-number">0</span>].<span class="hljs-title function_ invoke__">max</span>(span2[<span class="hljs-number">0</span>]);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">upper</span> = span1[<span class="hljs-number">1</span>].<span class="hljs-title function_ invoke__">min</span>(span2[<span class="hljs-number">1</span>]);
+			<span class="hljs-keyword">if</span> upper &lt; lower {
+				<span class="hljs-literal">None</span>
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-title function_ invoke__">Some</span>([lower, upper])
 			}
 		}
 
-		Some(Self {
-			x_range: span_intersection(self.x_range, other.x_range)?,
-			y_range: span_intersection(self.y_range, other.y_range)?,
-			z_range: span_intersection(self.z_range, other.z_range)?,
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
+			x_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.x_range, other.x_range)?,
+			y_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.y_range, other.y_range)?,
+			z_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.z_range, other.z_range)?,
 		})
 	}
 
-	/// `other` divides `self` into 3^3 = 27 (potentially empty) sub-cuboids. Of the 26
-	/// that aren't `other`, we keep the nonempty ones. Once we've found them, we merge
-	/// them into as large cuboids as possible.
-	fn difference(&amp;self, other: &amp;Self) -&gt; Vec&lt;Self&gt; {
-		fn get_spans(my_span: Span, intersection_span: Span) -&gt; [Option&lt;Span&gt;; 3] {
-			let span1 = if my_span[0] == intersection_span[0] {
-				None
-			} else {
-				Some([my_span[0], intersection_span[0] - 1])
+	<span class="hljs-comment">/// `other` divides `self` into 3^3 = 27 (potentially empty) sub-cuboids. Of the 26</span>
+	<span class="hljs-comment">/// that aren&#x27;t `other`, we keep the nonempty ones. Once we&#x27;ve found them, we merge</span>
+	<span class="hljs-comment">/// them into as large cuboids as possible.</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">difference</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_spans</span>(my_span: Span, intersection_span: Span) <span class="hljs-punctuation">-&gt;</span> [<span class="hljs-type">Option</span>&lt;Span&gt;; <span class="hljs-number">3</span>] {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">span1</span> = <span class="hljs-keyword">if</span> my_span[<span class="hljs-number">0</span>] == intersection_span[<span class="hljs-number">0</span>] {
+				<span class="hljs-literal">None</span>
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-title function_ invoke__">Some</span>([my_span[<span class="hljs-number">0</span>], intersection_span[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span>])
 			};
 
-			let span2 = Some(intersection_span);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">span2</span> = <span class="hljs-title function_ invoke__">Some</span>(intersection_span);
 
-			let span3 = if intersection_span[1] == my_span[1] {
-				None
-			} else {
-				Some([intersection_span[1] + 1, my_span[1]])
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">span3</span> = <span class="hljs-keyword">if</span> intersection_span[<span class="hljs-number">1</span>] == my_span[<span class="hljs-number">1</span>] {
+				<span class="hljs-literal">None</span>
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-title function_ invoke__">Some</span>([intersection_span[<span class="hljs-number">1</span>] + <span class="hljs-number">1</span>, my_span[<span class="hljs-number">1</span>]])
 			};
 
 			[span1, span2, span3]
 		}
 
-		let intersection = match self.intersection(other) {
-			Some(c) =&gt; c,
-			None =&gt; return vec![*self],
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">intersection</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">intersection</span>(other) {
+			<span class="hljs-title function_ invoke__">Some</span>(c) =&gt; c,
+			<span class="hljs-literal">None</span> =&gt; <span class="hljs-keyword">return</span> <span class="hljs-built_in">vec!</span>[*<span class="hljs-keyword">self</span>],
 		};
 
-		let x_ranges = get_spans(self.x_range, intersection.x_range);
-		let y_ranges = get_spans(self.y_range, intersection.y_range);
-		let z_ranges = get_spans(self.z_range, intersection.z_range);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">x_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.x_range, intersection.x_range);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">y_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.y_range, intersection.y_range);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">z_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.z_range, intersection.z_range);
 
-		let mut on_cuboids = Vec::&lt;Self&gt;::new();
-		for &amp;x_range in x_ranges.iter().flatten() {
-			for &amp;y_range in y_ranges.iter().flatten() {
-				for &amp;z_range in z_ranges.iter().flatten() {
-					if x_range != intersection.x_range
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">on_cuboids</span> = <span class="hljs-type">Vec</span>::&lt;<span class="hljs-keyword">Self</span>&gt;::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> &amp;x_range <span class="hljs-keyword">in</span> x_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
+			<span class="hljs-keyword">for</span> &amp;y_range <span class="hljs-keyword">in</span> y_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
+				<span class="hljs-keyword">for</span> &amp;z_range <span class="hljs-keyword">in</span> z_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
+					<span class="hljs-keyword">if</span> x_range != intersection.x_range
 						|| y_range != intersection.y_range
 						|| z_range != intersection.z_range
 					{
-						on_cuboids.push(Cuboid {
+						on_cuboids.<span class="hljs-title function_ invoke__">push</span>(Cuboid {
 							x_range,
 							y_range,
 							z_range,
@@ -914,90 +939,90 @@ impl Cuboid {
 			}
 		}
 
-		// Iteratively merge the split-up cuboids together, where possible. For instance,
-		// if the middle of a cuboid was removed, there are 26 small cuboids created, but they
-		// can be merged into six larger cuboids. This is done by looking for abutting
-		// cuboids with the same dimensions along their respective abutting faces and
-		// combining them into one cuboid.
-		'merge: loop {
-			for (
+		<span class="hljs-comment">// Iteratively merge the split-up cuboids together, where possible. For instance,</span>
+		<span class="hljs-comment">// if the middle of a cuboid was removed, there are 26 small cuboids created, but they</span>
+		<span class="hljs-comment">// can be merged into six larger cuboids. This is done by looking for abutting</span>
+		<span class="hljs-comment">// cuboids with the same dimensions along their respective abutting faces and</span>
+		<span class="hljs-comment">// combining them into one cuboid.</span>
+		<span class="hljs-symbol">&#x27;merge</span>: <span class="hljs-keyword">loop</span> {
+			<span class="hljs-title function_ invoke__">for</span> (
 				i,
 				&amp;c1 @ Cuboid {
 					x_range,
 					y_range,
 					z_range,
 				},
-			) in on_cuboids.iter().enumerate()
+			) <span class="hljs-keyword">in</span> on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>()
 			{
-				for (j, &amp;c2) in on_cuboids.iter().enumerate().skip(i + 1) {
-					let mut cs = [c1, c2];
-					let mut merged_cuboid = None;
-					if y_range == c2.y_range &amp;&amp; z_range == c2.z_range {
-						cs.sort_by_key(|c| c.x_range);
-						if cs[0].x_range[1] == cs[1].x_range[0] - 1 {
-							merged_cuboid = Some(Cuboid {
-								x_range: [cs[0].x_range[0], cs[1].x_range[1]],
+				<span class="hljs-title function_ invoke__">for</span> (j, &amp;c2) <span class="hljs-keyword">in</span> on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">cs</span> = [c1, c2];
+					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">merged_cuboid</span> = <span class="hljs-literal">None</span>;
+					<span class="hljs-keyword">if</span> y_range == c2.y_range &amp;&amp; z_range == c2.z_range {
+						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.x_range);
+						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].x_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].x_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
+							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
+								x_range: [cs[<span class="hljs-number">0</span>].x_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].x_range[<span class="hljs-number">1</span>]],
 								y_range,
 								z_range,
 							});
 						}
-					} else if x_range == c2.x_range &amp;&amp; z_range == c2.z_range {
-						cs.sort_by_key(|c| c.y_range);
-						if cs[0].y_range[1] == cs[1].y_range[0] - 1 {
-							merged_cuboid = Some(Cuboid {
+					} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> x_range == c2.x_range &amp;&amp; z_range == c2.z_range {
+						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.y_range);
+						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].y_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].y_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
+							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
 								x_range,
-								y_range: [cs[0].y_range[0], cs[1].y_range[1]],
+								y_range: [cs[<span class="hljs-number">0</span>].y_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].y_range[<span class="hljs-number">1</span>]],
 								z_range,
 							});
 						}
-					} else if x_range == c2.x_range &amp;&amp; y_range == c2.y_range {
-						cs.sort_by_key(|c| c.z_range);
-						if cs[0].z_range[1] == cs[1].z_range[0] - 1 {
-							merged_cuboid = Some(Cuboid {
+					} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> x_range == c2.x_range &amp;&amp; y_range == c2.y_range {
+						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.z_range);
+						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].z_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].z_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
+							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
 								x_range,
 								y_range,
-								z_range: [cs[0].z_range[0], cs[1].z_range[1]],
+								z_range: [cs[<span class="hljs-number">0</span>].z_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].z_range[<span class="hljs-number">1</span>]],
 							});
 						}
 					}
 
-					if let Some(merged_cuboid) = merged_cuboid {
-						on_cuboids.swap_remove(j);
-						on_cuboids.swap_remove(i);
-						on_cuboids.push(merged_cuboid);
-						continue 'merge;
+					<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(merged_cuboid) = merged_cuboid {
+						on_cuboids.<span class="hljs-title function_ invoke__">swap_remove</span>(j);
+						on_cuboids.<span class="hljs-title function_ invoke__">swap_remove</span>(i);
+						on_cuboids.<span class="hljs-title function_ invoke__">push</span>(merged_cuboid);
+						<span class="hljs-keyword">continue</span> <span class="hljs-symbol">&#x27;merge</span>;
 					}
 				}
 			}
 
-			break;
+			<span class="hljs-keyword">break</span>;
 		}
 
 		on_cuboids
 	}
 }
 
-impl Cuboid {
-	fn from_coords_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut coords = s.split(',');
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_coords_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">coords</span> = s.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);
 
-		let mut comps = (0..3).filter_map(|_| {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">comps</span> = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">filter_map</span>(|_| {
 			coords
-				.next()?
-				.split('=')
-				.nth_back(0)?
-				.split('.')
-				.filter_map(|splat| splat.parse().ok())
-				.collect::&lt;Vec&lt;_&gt;&gt;()
-				.try_into()
-				.ok()
+				.<span class="hljs-title function_ invoke__">next</span>()?
+				.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;=&#x27;</span>)
+				.<span class="hljs-title function_ invoke__">nth_back</span>(<span class="hljs-number">0</span>)?
+				.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)
+				.<span class="hljs-title function_ invoke__">filter_map</span>(|splat| splat.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>())
+				.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;()
+				.<span class="hljs-title function_ invoke__">try_into</span>()
+				.<span class="hljs-title function_ invoke__">ok</span>()
 		});
 
-		let x_range = comps.next()?;
-		let y_range = comps.next()?;
-		let z_range = comps.next()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">x_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">y_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">z_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
 
-		Some(Self {
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
 			x_range,
 			y_range,
 			z_range,
@@ -1005,67 +1030,67 @@ impl Cuboid {
 	}
 }
 
-#[derive(Debug, Clone, Copy)]
-enum State {
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">State</span> {
 	On,
 	Off,
 }
 
-impl State {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		Some(match s {
-			"on" =&gt; Self::On,
-			"off" =&gt; Self::Off,
-			_ =&gt; return None,
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">State</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> s {
+			<span class="hljs-string">&quot;on&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::On,
+			<span class="hljs-string">&quot;off&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::Off,
+			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
 		})
 	}
 }
 
-#[derive(Debug, Clone, Copy)]
-struct RebootStep {
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">RebootStep</span> {
 	state: State,
 	cuboid: Cuboid,
 }
 
-// tag::debugging[]
-impl Display for RebootStep {
-	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-		f.write_char(match self.state {
-			State::On =&gt; '▲',
-			State::Off =&gt; '▽',
+<span class="hljs-comment">// tag::debugging[]</span>
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Display</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">RebootStep</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
+		f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.state {
+			State::On =&gt; <span class="hljs-string">&#x27;▲&#x27;</span>,
+			State::Off =&gt; <span class="hljs-string">&#x27;▽&#x27;</span>,
 		})?;
-		f.write_char(' ')?;
+		f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-string">&#x27; &#x27;</span>)?;
 
-		let Cuboid {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">Cuboid</span> {
 			x_range,
 			y_range,
 			z_range,
-		} = &amp;self.cuboid;
-		write!(f, "{:?} {:?} {:?}", x_range, y_range, z_range)
+		} = &amp;<span class="hljs-keyword">self</span>.cuboid;
+		<span class="hljs-built_in">write!</span>(f, <span class="hljs-string">&quot;{:?} {:?} {:?}&quot;</span>, x_range, y_range, z_range)
 	}
 }
 
-// end::debugging[]
-impl RebootStep {
-	fn from_line(line: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut str_comps = line.split_ascii_whitespace();
-		let state = State::from_str(str_comps.next()?)?;
-		let cuboid = Cuboid::from_coords_str(str_comps.next()?)?;
-		Some(Self { state, cuboid })
+<span class="hljs-comment">// end::debugging[]</span>
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">RebootStep</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_line</span>(line: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">str_comps</span> = line.<span class="hljs-title function_ invoke__">split_ascii_whitespace</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">state</span> = State::<span class="hljs-title function_ invoke__">from_str</span>(str_comps.<span class="hljs-title function_ invoke__">next</span>()?)?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">cuboid</span> = Cuboid::<span class="hljs-title function_ invoke__">from_coords_str</span>(str_comps.<span class="hljs-title function_ invoke__">next</span>()?)?;
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { state, cuboid })
 	}
 }
 
-#[derive(Debug)]
-struct Grid {
-	on_cuboids: Vec&lt;Cuboid&gt;,
-	bounds: Option&lt;Cuboid&gt;,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Grid</span> {
+	on_cuboids: <span class="hljs-type">Vec</span>&lt;Cuboid&gt;,
+	bounds: <span class="hljs-type">Option</span>&lt;Cuboid&gt;,
 }
 
-impl Grid {
-	fn new_with_size(n: i32) -&gt; Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Grid</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new_with_size</span>(n: <span class="hljs-type">i32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
 		Grid {
-			on_cuboids: vec![],
-			bounds: Some(Cuboid {
+			on_cuboids: <span class="hljs-built_in">vec!</span>[],
+			bounds: <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
 				x_range: [-n, n],
 				y_range: [-n, n],
 				z_range: [-n, n],
@@ -1073,103 +1098,103 @@ impl Grid {
 		}
 	}
 
-	fn new_unbounded() -&gt; Self {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new_unbounded</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
 		Grid {
-			on_cuboids: vec![],
-			bounds: None,
+			on_cuboids: <span class="hljs-built_in">vec!</span>[],
+			bounds: <span class="hljs-literal">None</span>,
 		}
 	}
 
-	fn apply_step(&amp;mut self, RebootStep { state, cuboid }: &amp;RebootStep) -&gt; Option&lt;()&gt; {
-		let cuboid = if let Some(bounds) = self.bounds {
-			cuboid.intersection(&amp;bounds)?
-		} else {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_step</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, RebootStep { state, cuboid }: &amp;RebootStep) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;()&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">cuboid</span> = <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(bounds) = <span class="hljs-keyword">self</span>.bounds {
+			cuboid.<span class="hljs-title function_ invoke__">intersection</span>(&amp;bounds)?
+		} <span class="hljs-keyword">else</span> {
 			*cuboid
 		};
 
-		match state {
+		<span class="hljs-keyword">match</span> state {
 			State::On =&gt; {
-				self.on_cuboids.push(cuboid);
+				<span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">push</span>(cuboid);
 			}
 			State::Off =&gt; {
-				let mut on_cuboids = vec![];
-				for my_cuboid in &amp;self.on_cuboids {
-					on_cuboids.extend(my_cuboid.difference(&amp;cuboid));
+				<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">on_cuboids</span> = <span class="hljs-built_in">vec!</span>[];
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">my_cuboid</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.on_cuboids {
+					on_cuboids.<span class="hljs-title function_ invoke__">extend</span>(my_cuboid.<span class="hljs-title function_ invoke__">difference</span>(&amp;cuboid));
 				}
-				self.on_cuboids = on_cuboids;
+				<span class="hljs-keyword">self</span>.on_cuboids = on_cuboids;
 			}
 		};
 
-		Some(())
+		<span class="hljs-title function_ invoke__">Some</span>(())
 	}
 
-	fn n_on(&amp;self) -&gt; usize {
-		let mut nonintersecting_cuboids = vec![];
-		for (i, &amp;c1) in self.on_cuboids.iter().enumerate() {
-			let mut pieces = vec![c1];
-			for &amp;c2 in self.on_cuboids.iter().skip(i + 1) {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">n_on</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">nonintersecting_cuboids</span> = <span class="hljs-built_in">vec!</span>[];
+		<span class="hljs-title function_ invoke__">for</span> (i, &amp;c1) <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">pieces</span> = <span class="hljs-built_in">vec!</span>[c1];
+			<span class="hljs-keyword">for</span> &amp;c2 <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
 				pieces = pieces
-					.into_iter()
-					.flat_map(|piece| piece.difference(&amp;c2))
-					.collect();
+					.<span class="hljs-title function_ invoke__">into_iter</span>()
+					.<span class="hljs-title function_ invoke__">flat_map</span>(|piece| piece.<span class="hljs-title function_ invoke__">difference</span>(&amp;c2))
+					.<span class="hljs-title function_ invoke__">collect</span>();
 			}
-			nonintersecting_cuboids.extend(pieces);
+			nonintersecting_cuboids.<span class="hljs-title function_ invoke__">extend</span>(pieces);
 		}
 
 		nonintersecting_cuboids
-			.iter()
-			.fold(0, |accum, cuboid| accum + cuboid.size())
+			.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">fold</span>(<span class="hljs-number">0</span>, |accum, cuboid| accum + cuboid.<span class="hljs-title function_ invoke__">size</span>())
 	}
 }
 
-fn read_input(input: &amp;str) -&gt; Option&lt;Vec&lt;RebootStep&gt;&gt; {
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;RebootStep&gt;&gt; {
 	input
-		.lines()
-		.map(RebootStep::from_line)
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
+		.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(RebootStep::from_line)
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let steps = read_input(input).unwrap();
-	(22, (pt1(steps.iter()), pt2(steps.iter()))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">steps</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">22</span>, (<span class="hljs-title function_ invoke__">pt1</span>(steps.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(steps.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: impl Iterator&lt;Item = R&gt;) -&gt; usize {
-	let mut grid = Grid::new_with_size(50);
-	for step in steps {
-		grid.apply_step(step.borrow());
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = R&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Grid::<span class="hljs-title function_ invoke__">new_with_size</span>(<span class="hljs-number">50</span>);
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
+		grid.<span class="hljs-title function_ invoke__">apply_step</span>(step.<span class="hljs-title function_ invoke__">borrow</span>());
 	}
 
-	grid.n_on()
+	grid.<span class="hljs-title function_ invoke__">n_on</span>()
 }
 
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: impl Iterator&lt;Item = R&gt;) -&gt; usize {
-	let mut grid = Grid::new_unbounded();
-	for step in steps {
-		grid.apply_step(step.borrow());
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = R&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Grid::<span class="hljs-title function_ invoke__">new_unbounded</span>();
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
+		grid.<span class="hljs-title function_ invoke__">apply_step</span>(step.<span class="hljs-title function_ invoke__">borrow</span>());
 	}
 
-	grid.n_on()
+	grid.<span class="hljs-title function_ invoke__">n_on</span>()
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 22, ans: (607_657, 1_187_742_789_778_677));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">22</span>, ans: (<span class="hljs-number">607_657</span>, <span class="hljs-number">1_187_742_789_778_677</span>));
 	}
 }</code></pre>
 </div>

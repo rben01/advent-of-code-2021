@@ -111,13 +111,13 @@ pre.pygments .hll /* not supported by highlightjs */ {
 	background-color: var(--syntax-line-highlight-bg-color);
 }
 pre.pygments,
-pre.highlightjs,
+pre:is(.highlight, .highlightjs),
 code.hljs {
 	background: var(--syntax-bg-color);
 }
 /* Comment */
 pre.pygments .tok-c,
-pre.highlightjs .hljs-comment {
+pre:is(.highlight, .highlightjs) .hljs-comment {
 	color: var(--syntax-comment-fg-color);
 	font-style: italic;
 }
@@ -127,30 +127,30 @@ pre.pygments .tok-err {
 }
 /* Keyword */
 pre.pygments .tok-k,
-pre.highlightjs .hljs-keyword {
+pre:is(.highlight, .highlightjs) .hljs-keyword {
 	color: var(--syntax-keyword-fg-color);
 	font-weight: normal;
 }
 /* Operator */
 pre.pygments .tok-o,
-pre.highlightjs .hljs-operator {
+pre:is(.highlight, .highlightjs) .hljs-operator {
 	color: var(--syntax-operator-fg-color);
 }
 /* Comment.Hashbang */
 pre.pygments .tok-ch,
-pre.highlightjs .hljs-comment {
+pre:is(.highlight, .highlightjs) .hljs-comment {
 	color: var(--syntax-hashbang-fg-color);
 	font-style: italic;
 }
 /* Comment.Multiline */
 pre.pygments .tok-cm,
-pre.highlightjs .hljs-comment {
+pre:is(.highlight, .highlightjs) .hljs-comment {
 	color: var(--syntax-comment-fg-color);
 	font-style: italic;
 }
 /* Comment.Preproc */
 pre.pygments .tok-cp,
-pre.highlightjs .hljs-meta {
+pre:is(.highlight, .highlightjs) .hljs-meta {
 	color: var(--syntax-preprocessor-fg-color);
 }
 /* Comment.PreprocFile */
@@ -160,13 +160,13 @@ pre.pygments .tok-cpf {
 }
 /* Comment.Single */
 pre.pygments .tok-c1,
-pre.highlightjs .hljs-comment {
+pre:is(.highlight, .highlightjs) .hljs-comment {
 	color: var(--syntax-comment-fg-color);
 	font-style: italic;
 }
 /* Comment.Special */
 pre.pygments .tok-cs,
-pre.highlightjs .hljs-comment {
+pre:is(.highlight, .highlightjs) .hljs-comment {
 	color: var(--syntax-comment-fg-color);
 	font-style: italic;
 }
@@ -243,33 +243,33 @@ pre.pygments .tok-kt {
 }
 /* Literal.Number */
 pre.pygments .tok-m,
-pre.highlightjs .hljs-number {
+pre:is(.highlight, .highlightjs) .hljs-number {
 	color: var(--syntax-literal_number-fg-color);
 }
 /* Literal.String */
 pre.pygments .tok-s,
-pre.highlightjs .hljs-string {
+pre:is(.highlight, .highlightjs) .hljs-string {
 	color: var(--syntax-literal_string-fg-color);
 }
 /* Name.Attribute */
 pre.pygments .tok-na,
-pre.highlightjs .hljs-property {
+pre:is(.highlight, .highlightjs) .hljs-property {
 	color: var(--syntax-name_attribute-fg-color);
 }
 /* Name.Builtin */
 pre.pygments .tok-nb,
-pre.highlightjs .hljs-property {
+pre:is(.highlight, .highlightjs) .hljs-property {
 	color: var(--syntax-name_builtin-fg-color);
 }
 /* Name.Class */
 pre.pygments .tok-nc,
-pre.highlightjs .hljs-title.class_ {
+pre:is(.highlight, .highlightjs) .hljs-title.class_ {
 	color: var(--syntax-name_class-fg-color);
 	font-weight: bold;
 }
 /* Name.Constant */
 pre.pygments .tok-no,
-pre.highlightjs .hljs-variable.constant_ {
+pre:is(.highlight, .highlightjs) .hljs-variable.constant_ {
 	color: var(--syntax-name_constant-fg-color);
 }
 /* Name.Decorator */
@@ -288,8 +288,8 @@ pre.pygments .tok-ne {
 }
 /* Name.Function */
 pre.pygments .tok-nf,
-pre.highlightjs .hljs-title,
-pre.highlightjs .hljs-title.function_ {
+pre:is(.highlight, .highlightjs) .hljs-title,
+pre:is(.highlight, .highlightjs) .hljs-title.function_ {
 	color: var(--syntax-name_function-fg-color);
 }
 /* Name.Label */
@@ -308,7 +308,7 @@ pre.pygments .tok-nt {
 }
 /* Name.Variable */
 pre.pygments .tok-nv,
-pre.highlightjs .hljs-variable {
+pre:is(.highlight, .highlightjs) .hljs-variable {
 	color: var(--syntax-name_variable-fg-color);
 }
 /* Operator.Word */
@@ -358,7 +358,7 @@ pre.pygments .tok-dl {
 }
 /* Literal.String.Doc */
 pre.pygments .tok-sd,
-pre.highlightjs .hljs-doctag {
+pre:is(.highlight, .highlightjs) .hljs-doctag {
 	color: var(--syntax-literal_string-fg-color);
 	font-style: italic;
 }
@@ -377,7 +377,7 @@ pre.pygments .tok-sh {
 }
 /* Literal.String.Interpol */
 pre.pygments .tok-si,
-pre.highlightjs .hljs-subst {
+pre:is(.highlight, .highlightjs) .hljs-subst {
 	color: var(--syntax-string_literal_special-fg-color);
 	font-weight: bold;
 }
@@ -387,7 +387,7 @@ pre.pygments .tok-sx {
 }
 /* Literal.String.Regex */
 pre.pygments .tok-sr,
-pre.highlightjs .hljs-regexp {
+pre:is(.highlight, .highlightjs) .hljs-regexp {
 	color: var(--syntax-string_literal_special-fg-color);
 }
 /* Literal.String.Single */
@@ -396,13 +396,13 @@ pre.pygments .tok-s1 {
 }
 /* Literal.String.Symbol */
 pre.pygments .tok-ss,
-pre.highlightjs .hljs-symbol,
-pre.highlightjs .hljs-literal {
+pre:is(.highlight, .highlightjs) .hljs-symbol,
+pre:is(.highlight, .highlightjs) .hljs-literal {
 	color: var(--syntax-name_variable-fg-color);
 }
 /* Name.Builtin.Pseudo */
 pre.pygments .tok-bp,
-pre.highlightjs .hljs-built_in {
+pre:is(.highlight, .highlightjs) .hljs-built_in {
 	color: var(--syntax-name_builtin-fg-color);
 }
 /* Name.Function.Magic */

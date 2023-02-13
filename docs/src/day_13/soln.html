@@ -5,7 +5,7 @@
   <meta charset="utf-8">
 <meta name="viewport"
 	content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Day 13: Transparent Origami :: Advent of Code 2021</title>
+<title>Day 13: Transparent Origami :: Robert Bennett — Advent of Code 2021</title>
         <link rel="prev" href="../day_12/soln">
         <link rel="next" href="../day_14/soln">
     <meta name="generator" content="Antora 3.1.2">
@@ -36,7 +36,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Advent of Code 2021</a>
+      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -82,8 +82,33 @@
 				d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z" />
 		</clipPath>
 		<clipPath id="icon-star" clipPathUnits="objectBoundingBox">
-			<path transform="translate(0 0.075) scale(0.001736)"
+			<path transform="translate(.5 .5) scale(0.001736) translate(-288 -256)"
 				d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+		</clipPath>
+		<clipPath id="icon-admon-caution" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-224 -256)" d="M159.3 5.4c7.8-7.3 19.9-7.2 27.7
+			.1c27.6 25.9 53.5 53.8 77.7 84c11-14.4 23.5-30.1 37-42.9c7.9-7.4 20.1-7.4 28 .1c34.6 33 63.9 76.6 84.5 118c20.3
+			40.8 33.8 82.5 33.8 111.9C448 404.2 348.2 512 224 512C98.4 512 0 404.1 0 276.5c0-38.4 17.8-85.3 45.4-131.7C73.3
+			97.7 112.7 48.6 159.3 5.4zM225.7 416c25.3 0 47.7-7 68.8-21c42.1-29.4 53.4-88.2
+			28.1-134.4c-4.5-9-16-9.6-22.5-2l-25.2 29.3c-6.6 7.6-18.5
+			7.4-24.7-.5c-16.5-21-46-58.5-62.8-79.8c-6.3-8-18.3-8.1-24.7-.1c-33.8 42.5-50.8 69.3-50.8 99.4C112 375.4 162.6
+			416 225.7 416z" />
+		</clipPath>
+		<clipPath id="icon-admon-important" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001753125) translate(-256 -256)"
+				d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+		</clipPath>
+		<clipPath id="icon-admon-note" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001753125) translate(-256 -256)"
+				d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+		</clipPath>
+		<clipPath id="icon-admon-tip" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-192 -256)"
+				d="M256 384c9.6-31.9 29.5-59.1 49.2-86.2l0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C352 78.8 273.2 0 176 0S0 78.8 0 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4l0 0C66.5 324.9 86.4 352.1 96 384H256zM176 512c44.2 0 80-35.8 80-80V416H96v16c0 44.2 35.8 80 80 80zM96 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z" />
+		</clipPath>
+		<clipPath id="icon-admon-warning" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-256 -256)"
+				d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" />
 		</clipPath>
 	</defs>
 	<symbol viewBox="0 0 100 100" id="icon-back" class="svg-icon-template">
@@ -377,7 +402,7 @@
 
           </li>
         <li>&#47;</li>
-        <li><span>Day 13: Transparent Origami</span></li>
+        <li><a href="#">Day 13: Transparent Origami</a></li>
     </ul>
 </nav>
   </div>
@@ -427,189 +452,189 @@ It is a precondition that no dot will lie <em>on</em> a fold.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use num::{CheckedAdd, Integer};
-use std::{collections::BTreeSet as Set, fmt::Display, str::FromStr};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> num::{CheckedAdd, Integer};
+<span class="hljs-keyword">use</span> std::{collections::BTreeSet <span class="hljs-keyword">as</span> Set, fmt::Display, <span class="hljs-type">str</span>::FromStr};
 
-#[derive(Copy, Clone)]
-enum Fold&lt;T&gt; {
-	X(T),
-	Y(T),
+<span class="hljs-meta">#[derive(Copy, Clone)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Fold</span>&lt;T&gt; {
+	<span class="hljs-title function_ invoke__">X</span>(T),
+	<span class="hljs-title function_ invoke__">Y</span>(T),
 }
 
-impl&lt;T: FromStr&gt; Fold&lt;T&gt; {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut words = s.split_whitespace();
-		words.next()?;
-		words.next()?;
-		let fold_eqn = words.next()?;
+<span class="hljs-keyword">impl</span>&lt;T: FromStr&gt; Fold&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">words</span> = s.<span class="hljs-title function_ invoke__">split_whitespace</span>();
+		words.<span class="hljs-title function_ invoke__">next</span>()?;
+		words.<span class="hljs-title function_ invoke__">next</span>()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">fold_eqn</span> = words.<span class="hljs-title function_ invoke__">next</span>()?;
 
-		let mut eqn_sides = fold_eqn.split('=');
-		let var = eqn_sides.next()?;
-		let value = eqn_sides.next()?.parse::&lt;T&gt;().ok()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">eqn_sides</span> = fold_eqn.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;=&#x27;</span>);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">var</span> = eqn_sides.<span class="hljs-title function_ invoke__">next</span>()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">value</span> = eqn_sides.<span class="hljs-title function_ invoke__">next</span>()?.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()?;
 
-		Some(match var {
-			"x" =&gt; Self::X(value),
-			"y" =&gt; Self::Y(value),
-			_ =&gt; return None,
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> var {
+			<span class="hljs-string">&quot;x&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">X</span>(value),
+			<span class="hljs-string">&quot;y&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">Y</span>(value),
+			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
 		})
 	}
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Point&lt;T: Integer&gt;(T, T);
+<span class="hljs-meta">#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span>&lt;T: Integer&gt;(T, T);
 
-impl&lt;T: Integer + Copy&gt; Point&lt;T&gt; {
-	fn folded(&amp;self, across: &amp;Fold&lt;T&gt;) -&gt; Self {
-		let &amp;Point(x, y) = self;
-		match *across {
-			Fold::X(fold_x) =&gt; {
-				let new_x = if x &gt; fold_x { fold_x - (x - fold_x) } else { x };
-				Point(new_x, y)
+<span class="hljs-keyword">impl</span>&lt;T: Integer + <span class="hljs-built_in">Copy</span>&gt; Point&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">folded</span>(&amp;<span class="hljs-keyword">self</span>, across: &amp;Fold&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> &amp;<span class="hljs-title function_ invoke__">Point</span>(x, y) = <span class="hljs-keyword">self</span>;
+		<span class="hljs-keyword">match</span> *across {
+			Fold::<span class="hljs-title function_ invoke__">X</span>(fold_x) =&gt; {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">new_x</span> = <span class="hljs-keyword">if</span> x &gt; fold_x { fold_x - (x - fold_x) } <span class="hljs-keyword">else</span> { x };
+				<span class="hljs-title function_ invoke__">Point</span>(new_x, y)
 			}
-			Fold::Y(fold_y) =&gt; {
-				let new_y = if y &gt; fold_y { fold_y - (y - fold_y) } else { y };
-				Point(x, new_y)
+			Fold::<span class="hljs-title function_ invoke__">Y</span>(fold_y) =&gt; {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">new_y</span> = <span class="hljs-keyword">if</span> y &gt; fold_y { fold_y - (y - fold_y) } <span class="hljs-keyword">else</span> { y };
+				<span class="hljs-title function_ invoke__">Point</span>(x, new_y)
 			}
 		}
 	}
 }
 
-#[derive(Clone, Debug)]
-struct Paper&lt;T: Integer&gt; {
+<span class="hljs-meta">#[derive(Clone, Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Paper</span>&lt;T: Integer&gt; {
 	dots: Set&lt;Point&lt;T&gt;&gt;,
 }
 
-impl&lt;T: Integer + Copy&gt; Paper&lt;T&gt; {
-	fn from_dots(dots: impl IntoIterator&lt;Item = Point&lt;T&gt;&gt;) -&gt; Paper&lt;T&gt; {
-		let dots = dots.into_iter().collect();
-		Self { dots }
+<span class="hljs-keyword">impl</span>&lt;T: Integer + <span class="hljs-built_in">Copy</span>&gt; Paper&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_dots</span>(dots: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">IntoIterator</span>&lt;Item = Point&lt;T&gt;&gt;) <span class="hljs-punctuation">-&gt;</span> Paper&lt;T&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">dots</span> = dots.<span class="hljs-title function_ invoke__">into_iter</span>().<span class="hljs-title function_ invoke__">collect</span>();
+		<span class="hljs-keyword">Self</span> { dots }
 	}
 
-	fn folded_across(&amp;self, fold: &amp;Fold&lt;T&gt;) -&gt; Paper&lt;T&gt; {
-		let mut dots = Set::new();
-		for p in &amp;self.dots {
-			dots.insert(p.folded(fold));
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">folded_across</span>(&amp;<span class="hljs-keyword">self</span>, fold: &amp;Fold&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> Paper&lt;T&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">dots</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">p</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.dots {
+			dots.<span class="hljs-title function_ invoke__">insert</span>(p.<span class="hljs-title function_ invoke__">folded</span>(fold));
 		}
 
-		Paper::from_dots(dots)
+		Paper::<span class="hljs-title function_ invoke__">from_dots</span>(dots)
 	}
 
-	fn do_folds&lt;F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
-		&amp;self,
-		folds: impl Iterator&lt;Item = F&gt;,
-	) -&gt; Paper&lt;T&gt; {
-		let mut paper = self.clone();
-		for fold in folds {
-			let fold = fold.borrow();
-			paper = paper.folded_across(fold);
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">do_folds</span>&lt;F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
+		&amp;<span class="hljs-keyword">self</span>,
+		folds: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = F&gt;,
+	) <span class="hljs-punctuation">-&gt;</span> Paper&lt;T&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">paper</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">clone</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">fold</span> <span class="hljs-keyword">in</span> folds {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">fold</span> = fold.<span class="hljs-title function_ invoke__">borrow</span>();
+			paper = paper.<span class="hljs-title function_ invoke__">folded_across</span>(fold);
 		}
 		paper
 	}
 }
 
-fn read_input&lt;T: Integer + FromStr + Copy&gt;(input: &amp;str) -&gt; Option&lt;(Paper&lt;T&gt;, Vec&lt;Fold&lt;T&gt;&gt;)&gt; {
-	let mut lines = input.lines();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>&lt;T: Integer + FromStr + <span class="hljs-built_in">Copy</span>&gt;(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;(Paper&lt;T&gt;, <span class="hljs-type">Vec</span>&lt;Fold&lt;T&gt;&gt;)&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = input.<span class="hljs-title function_ invoke__">lines</span>();
 
-	let points = lines
-		.by_ref()
-		.take_while(|line| !line.trim().is_empty())
-		.map(|line| {
-			let mut comps = line.split(',');
-			let x = comps.next()?.parse::&lt;T&gt;().ok()?;
-			let y = comps.next()?.parse::&lt;T&gt;().ok()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">points</span> = lines
+		.<span class="hljs-title function_ invoke__">by_ref</span>()
+		.<span class="hljs-title function_ invoke__">take_while</span>(|line| !line.<span class="hljs-title function_ invoke__">trim</span>().<span class="hljs-title function_ invoke__">is_empty</span>())
+		.<span class="hljs-title function_ invoke__">map</span>(|line| {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">comps</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()?;
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">y</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()?;
 
-			Some(Point(x, y))
+			<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y))
 		})
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?;
-	let paper = Paper::&lt;T&gt;::from_dots(points);
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">paper</span> = Paper::&lt;T&gt;::<span class="hljs-title function_ invoke__">from_dots</span>(points);
 
-	let folds = lines.map(Fold::&lt;T&gt;::from_str).collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">folds</span> = lines.<span class="hljs-title function_ invoke__">map</span>(Fold::&lt;T&gt;::from_str).collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
 
-	Some((paper, folds))
+	<span class="hljs-title function_ invoke__">Some</span>((paper, folds))
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, String&gt; {
-	let (paper, folds) = read_input::&lt;i32&gt;(input).unwrap();
-	(13, (pt1(&amp;paper, &amp;folds[0]), pt2(&amp;paper, folds.iter()))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">String</span>&gt; {
+	<span class="hljs-keyword">let</span> (paper, folds) = read_input::&lt;<span class="hljs-type">i32</span>&gt;(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">13</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;paper, &amp;folds[<span class="hljs-number">0</span>]), <span class="hljs-title function_ invoke__">pt2</span>(&amp;paper, folds.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, String&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">String</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1&lt;T: Integer + Copy&gt;(paper: &amp;Paper&lt;T&gt;, fold: &amp;Fold&lt;T&gt;) -&gt; usize {
-	paper.folded_across(fold).dots.len()
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;T: Integer + <span class="hljs-built_in">Copy</span>&gt;(paper: &amp;Paper&lt;T&gt;, fold: &amp;Fold&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	paper.<span class="hljs-title function_ invoke__">folded_across</span>(fold).dots.<span class="hljs-title function_ invoke__">len</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-impl&lt;T: Integer + CheckedAdd + Clone + Copy&gt; Display for Paper&lt;T&gt; {
-	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-		let (max_x, max_y) = {
-			let mut max_x = num::zero();
-			let mut max_y = num::zero();
-			for &amp;Point(x, y) in &amp;self.dots {
-				if x &gt; max_x {
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">impl</span>&lt;T: Integer + CheckedAdd + <span class="hljs-built_in">Clone</span> + <span class="hljs-built_in">Copy</span>&gt; Display <span class="hljs-keyword">for</span> <span class="hljs-title class_">Paper</span>&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
+		<span class="hljs-keyword">let</span> (max_x, max_y) = {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_x</span> = num::<span class="hljs-title function_ invoke__">zero</span>();
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_y</span> = num::<span class="hljs-title function_ invoke__">zero</span>();
+			<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">Point</span>(x, y) <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.dots {
+				<span class="hljs-keyword">if</span> x &gt; max_x {
 					max_x = x;
 				}
-				if y &gt; max_y {
+				<span class="hljs-keyword">if</span> y &gt; max_y {
 					max_y = y;
 				}
 			}
 			(max_x, max_y)
 		};
-		for y in num::range_step_inclusive(num::zero(), max_y, num::one()) {
-			for x in num::range_step_inclusive(num::zero(), max_x, num::one()) {
-				f.write_str(if self.dots.contains(&amp;Point(x, y)) {
-					"█" // unicode "full block" 0x2588
-				} else {
-					" "
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">y</span> <span class="hljs-keyword">in</span> num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(num::<span class="hljs-title function_ invoke__">zero</span>(), max_y, num::<span class="hljs-title function_ invoke__">one</span>()) {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">x</span> <span class="hljs-keyword">in</span> num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(num::<span class="hljs-title function_ invoke__">zero</span>(), max_x, num::<span class="hljs-title function_ invoke__">one</span>()) {
+				f.<span class="hljs-title function_ invoke__">write_str</span>(<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.dots.<span class="hljs-title function_ invoke__">contains</span>(&amp;<span class="hljs-title function_ invoke__">Point</span>(x, y)) {
+					<span class="hljs-string">&quot;█&quot;</span> <span class="hljs-comment">// unicode &quot;full block&quot; 0x2588</span>
+				} <span class="hljs-keyword">else</span> {
+					<span class="hljs-string">&quot; &quot;</span>
 				})?;
 			}
-			f.write_str("\n")?;
+			f.<span class="hljs-title function_ invoke__">write_str</span>(<span class="hljs-string">&quot;\n&quot;</span>)?;
 		}
 
-		Ok(())
+		<span class="hljs-title function_ invoke__">Ok</span>(())
 	}
 }
 
-fn pt2&lt;T: Integer + CheckedAdd + Clone + Copy, F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;T: Integer + CheckedAdd + <span class="hljs-built_in">Clone</span> + <span class="hljs-built_in">Copy</span>, F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
 	paper: &amp;Paper&lt;T&gt;,
-	folds: impl Iterator&lt;Item = F&gt;,
-) -&gt; String {
-	let ans = paper.do_folds(folds);
-	println!("{}", ans);
-	ans.to_string()
+	folds: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = F&gt;,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">String</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">ans</span> = paper.<span class="hljs-title function_ invoke__">do_folds</span>(folds);
+	<span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, ans);
+	ans.<span class="hljs-title function_ invoke__">to_string</span>()
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		let (paper, folds) = read_input::&lt;i32&gt;(include_str!("sample_input.txt")).unwrap();
-		assert_eq!(pt1(&amp;paper, &amp;folds[0]), 17);
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		<span class="hljs-keyword">let</span> (paper, folds) = read_input::&lt;<span class="hljs-type">i32</span>&gt;(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>)).<span class="hljs-title function_ invoke__">unwrap</span>();
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title function_ invoke__">pt1</span>(&amp;paper, &amp;folds[<span class="hljs-number">0</span>]), <span class="hljs-number">17</span>);
 
 		test_input!(
-			include_str!("input.txt"),
-			day: 13,
+			<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>),
+			day: <span class="hljs-number">13</span>,
 			ans: (
-				790,
-				concat!(
-					"███   ██  █  █ ████ ███  ████   ██  ██ \n",
-					"█  █ █  █ █  █    █ █  █ █       █ █  █\n",
-					"█  █ █    ████   █  ███  ███     █ █   \n",
-					"███  █ ██ █  █  █   █  █ █       █ █   \n",
-					"█    █  █ █  █ █    █  █ █    █  █ █  █\n",
-					"█     ███ █  █ ████ ███  █     ██   ██ \n"
-				).to_owned()
+				<span class="hljs-number">790</span>,
+				<span class="hljs-built_in">concat!</span>(
+					<span class="hljs-string">&quot;███   ██  █  █ ████ ███  ████   ██  ██ \n&quot;</span>,
+					<span class="hljs-string">&quot;█  █ █  █ █  █    █ █  █ █       █ █  █\n&quot;</span>,
+					<span class="hljs-string">&quot;█  █ █    ████   █  ███  ███     █ █   \n&quot;</span>,
+					<span class="hljs-string">&quot;███  █ ██ █  █  █   █  █ █       █ █   \n&quot;</span>,
+					<span class="hljs-string">&quot;█    █  █ █  █ █    █  █ █    █  █ █  █\n&quot;</span>,
+					<span class="hljs-string">&quot;█     ███ █  █ ████ ███  █     ██   ██ \n&quot;</span>
+				).<span class="hljs-title function_ invoke__">to_owned</span>()
 			)
 		);
 	}
@@ -626,189 +651,189 @@ mod test {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use num::{CheckedAdd, Integer};
-use std::{collections::BTreeSet as Set, fmt::Display, str::FromStr};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> num::{CheckedAdd, Integer};
+<span class="hljs-keyword">use</span> std::{collections::BTreeSet <span class="hljs-keyword">as</span> Set, fmt::Display, <span class="hljs-type">str</span>::FromStr};
 
-#[derive(Copy, Clone)]
-enum Fold&lt;T&gt; {
-	X(T),
-	Y(T),
+<span class="hljs-meta">#[derive(Copy, Clone)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Fold</span>&lt;T&gt; {
+	<span class="hljs-title function_ invoke__">X</span>(T),
+	<span class="hljs-title function_ invoke__">Y</span>(T),
 }
 
-impl&lt;T: FromStr&gt; Fold&lt;T&gt; {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut words = s.split_whitespace();
-		words.next()?;
-		words.next()?;
-		let fold_eqn = words.next()?;
+<span class="hljs-keyword">impl</span>&lt;T: FromStr&gt; Fold&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">words</span> = s.<span class="hljs-title function_ invoke__">split_whitespace</span>();
+		words.<span class="hljs-title function_ invoke__">next</span>()?;
+		words.<span class="hljs-title function_ invoke__">next</span>()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">fold_eqn</span> = words.<span class="hljs-title function_ invoke__">next</span>()?;
 
-		let mut eqn_sides = fold_eqn.split('=');
-		let var = eqn_sides.next()?;
-		let value = eqn_sides.next()?.parse::&lt;T&gt;().ok()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">eqn_sides</span> = fold_eqn.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;=&#x27;</span>);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">var</span> = eqn_sides.<span class="hljs-title function_ invoke__">next</span>()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">value</span> = eqn_sides.<span class="hljs-title function_ invoke__">next</span>()?.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()?;
 
-		Some(match var {
-			"x" =&gt; Self::X(value),
-			"y" =&gt; Self::Y(value),
-			_ =&gt; return None,
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> var {
+			<span class="hljs-string">&quot;x&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">X</span>(value),
+			<span class="hljs-string">&quot;y&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">Y</span>(value),
+			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
 		})
 	}
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Point&lt;T: Integer&gt;(T, T);
+<span class="hljs-meta">#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span>&lt;T: Integer&gt;(T, T);
 
-impl&lt;T: Integer + Copy&gt; Point&lt;T&gt; {
-	fn folded(&amp;self, across: &amp;Fold&lt;T&gt;) -&gt; Self {
-		let &amp;Point(x, y) = self;
-		match *across {
-			Fold::X(fold_x) =&gt; {
-				let new_x = if x &gt; fold_x { fold_x - (x - fold_x) } else { x };
-				Point(new_x, y)
+<span class="hljs-keyword">impl</span>&lt;T: Integer + <span class="hljs-built_in">Copy</span>&gt; Point&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">folded</span>(&amp;<span class="hljs-keyword">self</span>, across: &amp;Fold&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> &amp;<span class="hljs-title function_ invoke__">Point</span>(x, y) = <span class="hljs-keyword">self</span>;
+		<span class="hljs-keyword">match</span> *across {
+			Fold::<span class="hljs-title function_ invoke__">X</span>(fold_x) =&gt; {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">new_x</span> = <span class="hljs-keyword">if</span> x &gt; fold_x { fold_x - (x - fold_x) } <span class="hljs-keyword">else</span> { x };
+				<span class="hljs-title function_ invoke__">Point</span>(new_x, y)
 			}
-			Fold::Y(fold_y) =&gt; {
-				let new_y = if y &gt; fold_y { fold_y - (y - fold_y) } else { y };
-				Point(x, new_y)
+			Fold::<span class="hljs-title function_ invoke__">Y</span>(fold_y) =&gt; {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">new_y</span> = <span class="hljs-keyword">if</span> y &gt; fold_y { fold_y - (y - fold_y) } <span class="hljs-keyword">else</span> { y };
+				<span class="hljs-title function_ invoke__">Point</span>(x, new_y)
 			}
 		}
 	}
 }
 
-#[derive(Clone, Debug)]
-struct Paper&lt;T: Integer&gt; {
+<span class="hljs-meta">#[derive(Clone, Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Paper</span>&lt;T: Integer&gt; {
 	dots: Set&lt;Point&lt;T&gt;&gt;,
 }
 
-impl&lt;T: Integer + Copy&gt; Paper&lt;T&gt; {
-	fn from_dots(dots: impl IntoIterator&lt;Item = Point&lt;T&gt;&gt;) -&gt; Paper&lt;T&gt; {
-		let dots = dots.into_iter().collect();
-		Self { dots }
+<span class="hljs-keyword">impl</span>&lt;T: Integer + <span class="hljs-built_in">Copy</span>&gt; Paper&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_dots</span>(dots: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">IntoIterator</span>&lt;Item = Point&lt;T&gt;&gt;) <span class="hljs-punctuation">-&gt;</span> Paper&lt;T&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">dots</span> = dots.<span class="hljs-title function_ invoke__">into_iter</span>().<span class="hljs-title function_ invoke__">collect</span>();
+		<span class="hljs-keyword">Self</span> { dots }
 	}
 
-	fn folded_across(&amp;self, fold: &amp;Fold&lt;T&gt;) -&gt; Paper&lt;T&gt; {
-		let mut dots = Set::new();
-		for p in &amp;self.dots {
-			dots.insert(p.folded(fold));
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">folded_across</span>(&amp;<span class="hljs-keyword">self</span>, fold: &amp;Fold&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> Paper&lt;T&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">dots</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">p</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.dots {
+			dots.<span class="hljs-title function_ invoke__">insert</span>(p.<span class="hljs-title function_ invoke__">folded</span>(fold));
 		}
 
-		Paper::from_dots(dots)
+		Paper::<span class="hljs-title function_ invoke__">from_dots</span>(dots)
 	}
 
-	fn do_folds&lt;F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
-		&amp;self,
-		folds: impl Iterator&lt;Item = F&gt;,
-	) -&gt; Paper&lt;T&gt; {
-		let mut paper = self.clone();
-		for fold in folds {
-			let fold = fold.borrow();
-			paper = paper.folded_across(fold);
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">do_folds</span>&lt;F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
+		&amp;<span class="hljs-keyword">self</span>,
+		folds: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = F&gt;,
+	) <span class="hljs-punctuation">-&gt;</span> Paper&lt;T&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">paper</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">clone</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">fold</span> <span class="hljs-keyword">in</span> folds {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">fold</span> = fold.<span class="hljs-title function_ invoke__">borrow</span>();
+			paper = paper.<span class="hljs-title function_ invoke__">folded_across</span>(fold);
 		}
 		paper
 	}
 }
 
-fn read_input&lt;T: Integer + FromStr + Copy&gt;(input: &amp;str) -&gt; Option&lt;(Paper&lt;T&gt;, Vec&lt;Fold&lt;T&gt;&gt;)&gt; {
-	let mut lines = input.lines();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>&lt;T: Integer + FromStr + <span class="hljs-built_in">Copy</span>&gt;(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;(Paper&lt;T&gt;, <span class="hljs-type">Vec</span>&lt;Fold&lt;T&gt;&gt;)&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = input.<span class="hljs-title function_ invoke__">lines</span>();
 
-	let points = lines
-		.by_ref()
-		.take_while(|line| !line.trim().is_empty())
-		.map(|line| {
-			let mut comps = line.split(',');
-			let x = comps.next()?.parse::&lt;T&gt;().ok()?;
-			let y = comps.next()?.parse::&lt;T&gt;().ok()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">points</span> = lines
+		.<span class="hljs-title function_ invoke__">by_ref</span>()
+		.<span class="hljs-title function_ invoke__">take_while</span>(|line| !line.<span class="hljs-title function_ invoke__">trim</span>().<span class="hljs-title function_ invoke__">is_empty</span>())
+		.<span class="hljs-title function_ invoke__">map</span>(|line| {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">comps</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()?;
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">y</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()?;
 
-			Some(Point(x, y))
+			<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y))
 		})
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?;
-	let paper = Paper::&lt;T&gt;::from_dots(points);
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">paper</span> = Paper::&lt;T&gt;::<span class="hljs-title function_ invoke__">from_dots</span>(points);
 
-	let folds = lines.map(Fold::&lt;T&gt;::from_str).collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">folds</span> = lines.<span class="hljs-title function_ invoke__">map</span>(Fold::&lt;T&gt;::from_str).collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
 
-	Some((paper, folds))
+	<span class="hljs-title function_ invoke__">Some</span>((paper, folds))
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, String&gt; {
-	let (paper, folds) = read_input::&lt;i32&gt;(input).unwrap();
-	(13, (pt1(&amp;paper, &amp;folds[0]), pt2(&amp;paper, folds.iter()))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">String</span>&gt; {
+	<span class="hljs-keyword">let</span> (paper, folds) = read_input::&lt;<span class="hljs-type">i32</span>&gt;(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">13</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;paper, &amp;folds[<span class="hljs-number">0</span>]), <span class="hljs-title function_ invoke__">pt2</span>(&amp;paper, folds.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, String&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">String</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1&lt;T: Integer + Copy&gt;(paper: &amp;Paper&lt;T&gt;, fold: &amp;Fold&lt;T&gt;) -&gt; usize {
-	paper.folded_across(fold).dots.len()
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;T: Integer + <span class="hljs-built_in">Copy</span>&gt;(paper: &amp;Paper&lt;T&gt;, fold: &amp;Fold&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	paper.<span class="hljs-title function_ invoke__">folded_across</span>(fold).dots.<span class="hljs-title function_ invoke__">len</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-impl&lt;T: Integer + CheckedAdd + Clone + Copy&gt; Display for Paper&lt;T&gt; {
-	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-		let (max_x, max_y) = {
-			let mut max_x = num::zero();
-			let mut max_y = num::zero();
-			for &amp;Point(x, y) in &amp;self.dots {
-				if x &gt; max_x {
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">impl</span>&lt;T: Integer + CheckedAdd + <span class="hljs-built_in">Clone</span> + <span class="hljs-built_in">Copy</span>&gt; Display <span class="hljs-keyword">for</span> <span class="hljs-title class_">Paper</span>&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
+		<span class="hljs-keyword">let</span> (max_x, max_y) = {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_x</span> = num::<span class="hljs-title function_ invoke__">zero</span>();
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_y</span> = num::<span class="hljs-title function_ invoke__">zero</span>();
+			<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">Point</span>(x, y) <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.dots {
+				<span class="hljs-keyword">if</span> x &gt; max_x {
 					max_x = x;
 				}
-				if y &gt; max_y {
+				<span class="hljs-keyword">if</span> y &gt; max_y {
 					max_y = y;
 				}
 			}
 			(max_x, max_y)
 		};
-		for y in num::range_step_inclusive(num::zero(), max_y, num::one()) {
-			for x in num::range_step_inclusive(num::zero(), max_x, num::one()) {
-				f.write_str(if self.dots.contains(&amp;Point(x, y)) {
-					"█" // unicode "full block" 0x2588
-				} else {
-					" "
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">y</span> <span class="hljs-keyword">in</span> num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(num::<span class="hljs-title function_ invoke__">zero</span>(), max_y, num::<span class="hljs-title function_ invoke__">one</span>()) {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">x</span> <span class="hljs-keyword">in</span> num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(num::<span class="hljs-title function_ invoke__">zero</span>(), max_x, num::<span class="hljs-title function_ invoke__">one</span>()) {
+				f.<span class="hljs-title function_ invoke__">write_str</span>(<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.dots.<span class="hljs-title function_ invoke__">contains</span>(&amp;<span class="hljs-title function_ invoke__">Point</span>(x, y)) {
+					<span class="hljs-string">&quot;█&quot;</span> <span class="hljs-comment">// unicode &quot;full block&quot; 0x2588</span>
+				} <span class="hljs-keyword">else</span> {
+					<span class="hljs-string">&quot; &quot;</span>
 				})?;
 			}
-			f.write_str("\n")?;
+			f.<span class="hljs-title function_ invoke__">write_str</span>(<span class="hljs-string">&quot;\n&quot;</span>)?;
 		}
 
-		Ok(())
+		<span class="hljs-title function_ invoke__">Ok</span>(())
 	}
 }
 
-fn pt2&lt;T: Integer + CheckedAdd + Clone + Copy, F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;T: Integer + CheckedAdd + <span class="hljs-built_in">Clone</span> + <span class="hljs-built_in">Copy</span>, F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
 	paper: &amp;Paper&lt;T&gt;,
-	folds: impl Iterator&lt;Item = F&gt;,
-) -&gt; String {
-	let ans = paper.do_folds(folds);
-	println!("{}", ans);
-	ans.to_string()
+	folds: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = F&gt;,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">String</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">ans</span> = paper.<span class="hljs-title function_ invoke__">do_folds</span>(folds);
+	<span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, ans);
+	ans.<span class="hljs-title function_ invoke__">to_string</span>()
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		let (paper, folds) = read_input::&lt;i32&gt;(include_str!("sample_input.txt")).unwrap();
-		assert_eq!(pt1(&amp;paper, &amp;folds[0]), 17);
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		<span class="hljs-keyword">let</span> (paper, folds) = read_input::&lt;<span class="hljs-type">i32</span>&gt;(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>)).<span class="hljs-title function_ invoke__">unwrap</span>();
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title function_ invoke__">pt1</span>(&amp;paper, &amp;folds[<span class="hljs-number">0</span>]), <span class="hljs-number">17</span>);
 
 		test_input!(
-			include_str!("input.txt"),
-			day: 13,
+			<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>),
+			day: <span class="hljs-number">13</span>,
 			ans: (
-				790,
-				concat!(
-					"███   ██  █  █ ████ ███  ████   ██  ██ \n",
-					"█  █ █  █ █  █    █ █  █ █       █ █  █\n",
-					"█  █ █    ████   █  ███  ███     █ █   \n",
-					"███  █ ██ █  █  █   █  █ █       █ █   \n",
-					"█    █  █ █  █ █    █  █ █    █  █ █  █\n",
-					"█     ███ █  █ ████ ███  █     ██   ██ \n"
-				).to_owned()
+				<span class="hljs-number">790</span>,
+				<span class="hljs-built_in">concat!</span>(
+					<span class="hljs-string">&quot;███   ██  █  █ ████ ███  ████   ██  ██ \n&quot;</span>,
+					<span class="hljs-string">&quot;█  █ █  █ █  █    █ █  █ █       █ █  █\n&quot;</span>,
+					<span class="hljs-string">&quot;█  █ █    ████   █  ███  ███     █ █   \n&quot;</span>,
+					<span class="hljs-string">&quot;███  █ ██ █  █  █   █  █ █       █ █   \n&quot;</span>,
+					<span class="hljs-string">&quot;█    █  █ █  █ █    █  █ █    █  █ █  █\n&quot;</span>,
+					<span class="hljs-string">&quot;█     ███ █  █ ████ ███  █     ██   ██ \n&quot;</span>
+				).<span class="hljs-title function_ invoke__">to_owned</span>()
 			)
 		);
 	}
@@ -825,189 +850,189 @@ mod test {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-rust hljs" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use num::{CheckedAdd, Integer};
-use std::{collections::BTreeSet as Set, fmt::Display, str::FromStr};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> num::{CheckedAdd, Integer};
+<span class="hljs-keyword">use</span> std::{collections::BTreeSet <span class="hljs-keyword">as</span> Set, fmt::Display, <span class="hljs-type">str</span>::FromStr};
 
-#[derive(Copy, Clone)]
-enum Fold&lt;T&gt; {
-	X(T),
-	Y(T),
+<span class="hljs-meta">#[derive(Copy, Clone)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Fold</span>&lt;T&gt; {
+	<span class="hljs-title function_ invoke__">X</span>(T),
+	<span class="hljs-title function_ invoke__">Y</span>(T),
 }
 
-impl&lt;T: FromStr&gt; Fold&lt;T&gt; {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut words = s.split_whitespace();
-		words.next()?;
-		words.next()?;
-		let fold_eqn = words.next()?;
+<span class="hljs-keyword">impl</span>&lt;T: FromStr&gt; Fold&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">words</span> = s.<span class="hljs-title function_ invoke__">split_whitespace</span>();
+		words.<span class="hljs-title function_ invoke__">next</span>()?;
+		words.<span class="hljs-title function_ invoke__">next</span>()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">fold_eqn</span> = words.<span class="hljs-title function_ invoke__">next</span>()?;
 
-		let mut eqn_sides = fold_eqn.split('=');
-		let var = eqn_sides.next()?;
-		let value = eqn_sides.next()?.parse::&lt;T&gt;().ok()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">eqn_sides</span> = fold_eqn.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;=&#x27;</span>);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">var</span> = eqn_sides.<span class="hljs-title function_ invoke__">next</span>()?;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">value</span> = eqn_sides.<span class="hljs-title function_ invoke__">next</span>()?.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()?;
 
-		Some(match var {
-			"x" =&gt; Self::X(value),
-			"y" =&gt; Self::Y(value),
-			_ =&gt; return None,
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> var {
+			<span class="hljs-string">&quot;x&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">X</span>(value),
+			<span class="hljs-string">&quot;y&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">Y</span>(value),
+			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
 		})
 	}
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Point&lt;T: Integer&gt;(T, T);
+<span class="hljs-meta">#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span>&lt;T: Integer&gt;(T, T);
 
-impl&lt;T: Integer + Copy&gt; Point&lt;T&gt; {
-	fn folded(&amp;self, across: &amp;Fold&lt;T&gt;) -&gt; Self {
-		let &amp;Point(x, y) = self;
-		match *across {
-			Fold::X(fold_x) =&gt; {
-				let new_x = if x &gt; fold_x { fold_x - (x - fold_x) } else { x };
-				Point(new_x, y)
+<span class="hljs-keyword">impl</span>&lt;T: Integer + <span class="hljs-built_in">Copy</span>&gt; Point&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">folded</span>(&amp;<span class="hljs-keyword">self</span>, across: &amp;Fold&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> &amp;<span class="hljs-title function_ invoke__">Point</span>(x, y) = <span class="hljs-keyword">self</span>;
+		<span class="hljs-keyword">match</span> *across {
+			Fold::<span class="hljs-title function_ invoke__">X</span>(fold_x) =&gt; {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">new_x</span> = <span class="hljs-keyword">if</span> x &gt; fold_x { fold_x - (x - fold_x) } <span class="hljs-keyword">else</span> { x };
+				<span class="hljs-title function_ invoke__">Point</span>(new_x, y)
 			}
-			Fold::Y(fold_y) =&gt; {
-				let new_y = if y &gt; fold_y { fold_y - (y - fold_y) } else { y };
-				Point(x, new_y)
+			Fold::<span class="hljs-title function_ invoke__">Y</span>(fold_y) =&gt; {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">new_y</span> = <span class="hljs-keyword">if</span> y &gt; fold_y { fold_y - (y - fold_y) } <span class="hljs-keyword">else</span> { y };
+				<span class="hljs-title function_ invoke__">Point</span>(x, new_y)
 			}
 		}
 	}
 }
 
-#[derive(Clone, Debug)]
-struct Paper&lt;T: Integer&gt; {
+<span class="hljs-meta">#[derive(Clone, Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Paper</span>&lt;T: Integer&gt; {
 	dots: Set&lt;Point&lt;T&gt;&gt;,
 }
 
-impl&lt;T: Integer + Copy&gt; Paper&lt;T&gt; {
-	fn from_dots(dots: impl IntoIterator&lt;Item = Point&lt;T&gt;&gt;) -&gt; Paper&lt;T&gt; {
-		let dots = dots.into_iter().collect();
-		Self { dots }
+<span class="hljs-keyword">impl</span>&lt;T: Integer + <span class="hljs-built_in">Copy</span>&gt; Paper&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_dots</span>(dots: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">IntoIterator</span>&lt;Item = Point&lt;T&gt;&gt;) <span class="hljs-punctuation">-&gt;</span> Paper&lt;T&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">dots</span> = dots.<span class="hljs-title function_ invoke__">into_iter</span>().<span class="hljs-title function_ invoke__">collect</span>();
+		<span class="hljs-keyword">Self</span> { dots }
 	}
 
-	fn folded_across(&amp;self, fold: &amp;Fold&lt;T&gt;) -&gt; Paper&lt;T&gt; {
-		let mut dots = Set::new();
-		for p in &amp;self.dots {
-			dots.insert(p.folded(fold));
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">folded_across</span>(&amp;<span class="hljs-keyword">self</span>, fold: &amp;Fold&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> Paper&lt;T&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">dots</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">p</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.dots {
+			dots.<span class="hljs-title function_ invoke__">insert</span>(p.<span class="hljs-title function_ invoke__">folded</span>(fold));
 		}
 
-		Paper::from_dots(dots)
+		Paper::<span class="hljs-title function_ invoke__">from_dots</span>(dots)
 	}
 
-	fn do_folds&lt;F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
-		&amp;self,
-		folds: impl Iterator&lt;Item = F&gt;,
-	) -&gt; Paper&lt;T&gt; {
-		let mut paper = self.clone();
-		for fold in folds {
-			let fold = fold.borrow();
-			paper = paper.folded_across(fold);
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">do_folds</span>&lt;F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
+		&amp;<span class="hljs-keyword">self</span>,
+		folds: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = F&gt;,
+	) <span class="hljs-punctuation">-&gt;</span> Paper&lt;T&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">paper</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">clone</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">fold</span> <span class="hljs-keyword">in</span> folds {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">fold</span> = fold.<span class="hljs-title function_ invoke__">borrow</span>();
+			paper = paper.<span class="hljs-title function_ invoke__">folded_across</span>(fold);
 		}
 		paper
 	}
 }
 
-fn read_input&lt;T: Integer + FromStr + Copy&gt;(input: &amp;str) -&gt; Option&lt;(Paper&lt;T&gt;, Vec&lt;Fold&lt;T&gt;&gt;)&gt; {
-	let mut lines = input.lines();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>&lt;T: Integer + FromStr + <span class="hljs-built_in">Copy</span>&gt;(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;(Paper&lt;T&gt;, <span class="hljs-type">Vec</span>&lt;Fold&lt;T&gt;&gt;)&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = input.<span class="hljs-title function_ invoke__">lines</span>();
 
-	let points = lines
-		.by_ref()
-		.take_while(|line| !line.trim().is_empty())
-		.map(|line| {
-			let mut comps = line.split(',');
-			let x = comps.next()?.parse::&lt;T&gt;().ok()?;
-			let y = comps.next()?.parse::&lt;T&gt;().ok()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">points</span> = lines
+		.<span class="hljs-title function_ invoke__">by_ref</span>()
+		.<span class="hljs-title function_ invoke__">take_while</span>(|line| !line.<span class="hljs-title function_ invoke__">trim</span>().<span class="hljs-title function_ invoke__">is_empty</span>())
+		.<span class="hljs-title function_ invoke__">map</span>(|line| {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">comps</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()?;
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">y</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()?;
 
-			Some(Point(x, y))
+			<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y))
 		})
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?;
-	let paper = Paper::&lt;T&gt;::from_dots(points);
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">paper</span> = Paper::&lt;T&gt;::<span class="hljs-title function_ invoke__">from_dots</span>(points);
 
-	let folds = lines.map(Fold::&lt;T&gt;::from_str).collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">folds</span> = lines.<span class="hljs-title function_ invoke__">map</span>(Fold::&lt;T&gt;::from_str).collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
 
-	Some((paper, folds))
+	<span class="hljs-title function_ invoke__">Some</span>((paper, folds))
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, String&gt; {
-	let (paper, folds) = read_input::&lt;i32&gt;(input).unwrap();
-	(13, (pt1(&amp;paper, &amp;folds[0]), pt2(&amp;paper, folds.iter()))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">String</span>&gt; {
+	<span class="hljs-keyword">let</span> (paper, folds) = read_input::&lt;<span class="hljs-type">i32</span>&gt;(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">13</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;paper, &amp;folds[<span class="hljs-number">0</span>]), <span class="hljs-title function_ invoke__">pt2</span>(&amp;paper, folds.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, String&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">String</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1&lt;T: Integer + Copy&gt;(paper: &amp;Paper&lt;T&gt;, fold: &amp;Fold&lt;T&gt;) -&gt; usize {
-	paper.folded_across(fold).dots.len()
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;T: Integer + <span class="hljs-built_in">Copy</span>&gt;(paper: &amp;Paper&lt;T&gt;, fold: &amp;Fold&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	paper.<span class="hljs-title function_ invoke__">folded_across</span>(fold).dots.<span class="hljs-title function_ invoke__">len</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-impl&lt;T: Integer + CheckedAdd + Clone + Copy&gt; Display for Paper&lt;T&gt; {
-	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-		let (max_x, max_y) = {
-			let mut max_x = num::zero();
-			let mut max_y = num::zero();
-			for &amp;Point(x, y) in &amp;self.dots {
-				if x &gt; max_x {
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">impl</span>&lt;T: Integer + CheckedAdd + <span class="hljs-built_in">Clone</span> + <span class="hljs-built_in">Copy</span>&gt; Display <span class="hljs-keyword">for</span> <span class="hljs-title class_">Paper</span>&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
+		<span class="hljs-keyword">let</span> (max_x, max_y) = {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_x</span> = num::<span class="hljs-title function_ invoke__">zero</span>();
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_y</span> = num::<span class="hljs-title function_ invoke__">zero</span>();
+			<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">Point</span>(x, y) <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.dots {
+				<span class="hljs-keyword">if</span> x &gt; max_x {
 					max_x = x;
 				}
-				if y &gt; max_y {
+				<span class="hljs-keyword">if</span> y &gt; max_y {
 					max_y = y;
 				}
 			}
 			(max_x, max_y)
 		};
-		for y in num::range_step_inclusive(num::zero(), max_y, num::one()) {
-			for x in num::range_step_inclusive(num::zero(), max_x, num::one()) {
-				f.write_str(if self.dots.contains(&amp;Point(x, y)) {
-					"█" // unicode "full block" 0x2588
-				} else {
-					" "
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">y</span> <span class="hljs-keyword">in</span> num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(num::<span class="hljs-title function_ invoke__">zero</span>(), max_y, num::<span class="hljs-title function_ invoke__">one</span>()) {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">x</span> <span class="hljs-keyword">in</span> num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(num::<span class="hljs-title function_ invoke__">zero</span>(), max_x, num::<span class="hljs-title function_ invoke__">one</span>()) {
+				f.<span class="hljs-title function_ invoke__">write_str</span>(<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.dots.<span class="hljs-title function_ invoke__">contains</span>(&amp;<span class="hljs-title function_ invoke__">Point</span>(x, y)) {
+					<span class="hljs-string">&quot;█&quot;</span> <span class="hljs-comment">// unicode &quot;full block&quot; 0x2588</span>
+				} <span class="hljs-keyword">else</span> {
+					<span class="hljs-string">&quot; &quot;</span>
 				})?;
 			}
-			f.write_str("\n")?;
+			f.<span class="hljs-title function_ invoke__">write_str</span>(<span class="hljs-string">&quot;\n&quot;</span>)?;
 		}
 
-		Ok(())
+		<span class="hljs-title function_ invoke__">Ok</span>(())
 	}
 }
 
-fn pt2&lt;T: Integer + CheckedAdd + Clone + Copy, F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;T: Integer + CheckedAdd + <span class="hljs-built_in">Clone</span> + <span class="hljs-built_in">Copy</span>, F: std::borrow::Borrow&lt;Fold&lt;T&gt;&gt;&gt;(
 	paper: &amp;Paper&lt;T&gt;,
-	folds: impl Iterator&lt;Item = F&gt;,
-) -&gt; String {
-	let ans = paper.do_folds(folds);
-	println!("{}", ans);
-	ans.to_string()
+	folds: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = F&gt;,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">String</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">ans</span> = paper.<span class="hljs-title function_ invoke__">do_folds</span>(folds);
+	<span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, ans);
+	ans.<span class="hljs-title function_ invoke__">to_string</span>()
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		let (paper, folds) = read_input::&lt;i32&gt;(include_str!("sample_input.txt")).unwrap();
-		assert_eq!(pt1(&amp;paper, &amp;folds[0]), 17);
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		<span class="hljs-keyword">let</span> (paper, folds) = read_input::&lt;<span class="hljs-type">i32</span>&gt;(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>)).<span class="hljs-title function_ invoke__">unwrap</span>();
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title function_ invoke__">pt1</span>(&amp;paper, &amp;folds[<span class="hljs-number">0</span>]), <span class="hljs-number">17</span>);
 
 		test_input!(
-			include_str!("input.txt"),
-			day: 13,
+			<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>),
+			day: <span class="hljs-number">13</span>,
 			ans: (
-				790,
-				concat!(
-					"███   ██  █  █ ████ ███  ████   ██  ██ \n",
-					"█  █ █  █ █  █    █ █  █ █       █ █  █\n",
-					"█  █ █    ████   █  ███  ███     █ █   \n",
-					"███  █ ██ █  █  █   █  █ █       █ █   \n",
-					"█    █  █ █  █ █    █  █ █    █  █ █  █\n",
-					"█     ███ █  █ ████ ███  █     ██   ██ \n"
-				).to_owned()
+				<span class="hljs-number">790</span>,
+				<span class="hljs-built_in">concat!</span>(
+					<span class="hljs-string">&quot;███   ██  █  █ ████ ███  ████   ██  ██ \n&quot;</span>,
+					<span class="hljs-string">&quot;█  █ █  █ █  █    █ █  █ █       █ █  █\n&quot;</span>,
+					<span class="hljs-string">&quot;█  █ █    ████   █  ███  ███     █ █   \n&quot;</span>,
+					<span class="hljs-string">&quot;███  █ ██ █  █  █   █  █ █       █ █   \n&quot;</span>,
+					<span class="hljs-string">&quot;█    █  █ █  █ █    █  █ █    █  █ █  █\n&quot;</span>,
+					<span class="hljs-string">&quot;█     ███ █  █ ████ ███  █     ██   ██ \n&quot;</span>
+				).<span class="hljs-title function_ invoke__">to_owned</span>()
 			)
 		);
 	}
@@ -1021,7 +1046,7 @@ Here was my output: <code>PGHZBFJC</code>.</p>
 </div>
 <div class="listingblock code-as-text">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">███   ██  █  █ ████ ███  ████   ██  ██
+<pre class="highlight"><code>███   ██  █  █ ████ ███  ████   ██  ██
 █  █ █  █ █  █    █ █  █ █       █ █  █
 █  █ █    ████   █  ███  ███     █ █
 ███  █ ██ █  █  █   █  █ █       █ █
