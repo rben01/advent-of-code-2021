@@ -1,7 +1,0 @@
-include::./docs/shared.adoc[]
-:stylesheet: ../aoc.css
-
-link:../advent_of_code_2021.html#_problems_and_solutions[pass:n[icon:list-ol[\] Back to Home],role="header-nav-link first"]
-link:././day_02.html[pass:n[Next (Day 2) icon:chevron-right[\]],role=header-nav-link]
-
-include::{src-dir}/day_01/soln.adoc[leveloffset=+1]
