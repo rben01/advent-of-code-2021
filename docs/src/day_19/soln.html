@@ -35,7 +35,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
+      <a class="navbar-item" href="/advent_of_code_2021">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav" type="button"
         title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
@@ -450,7 +450,7 @@ Then we rinse and repeat with the next piece.</p>
 </div>
 <div class="paragraph">
 <p>To actually do the math, we simply use matrix multiplication.
-As always, the matrix \(T\) that performs a given transformation is <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)#Relationship_to_linear_maps" target="_blank" rel="noopener">the matrix whose columns are \(T(e_1), \ldots, T(e_n) \)</a> where \(e_1,\ldots,e_n\) are the basis vectors.</p>
+As always, the matrix <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span> that performs a given transformation is <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)#Relationship_to_linear_maps" target="_blank" rel="noopener">the matrix whose columns are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo stretchy="false">(</mo><msub><mi>e</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>T</mi><mo stretchy="false">(</mo><msub><mi>e</mi><mi>n</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">T(e_1), \ldots, T(e_n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></a> where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>e</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">e_1,\ldots,e_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> are the basis vectors.</p>
 </div>
 <hr>
 </div>
@@ -466,67 +466,67 @@ It stops when it first successfully merges all scanners together.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::{borrow::Borrow, collections::BTreeSet};
-use strum::IntoEnumIterator;
-use strum_macros::EnumIter;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::{borrow::Borrow, collections::BTreeSet};
+<span class="hljs-keyword">use</span> strum::IntoEnumIterator;
+<span class="hljs-keyword">use</span> strum_macros::EnumIter;
 
-type Triple = [i32; 3];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Triple</span> = [<span class="hljs-type">i32</span>; <span class="hljs-number">3</span>];
 
-#[derive(Debug, Clone, Copy)]
-struct Matrix3([i32; 9]);
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Matrix3</span>([<span class="hljs-type">i32</span>; <span class="hljs-number">9</span>]);
 
-impl Matrix3 {
-	fn from_cols(x: impl Into&lt;Triple&gt;, y: impl Into&lt;Triple&gt;, z: impl Into&lt;Triple&gt;) -&gt; Self {
-		let x = x.into();
-		let y = y.into();
-		let z = z.into();
-		Self([x[0], y[0], z[0], x[1], y[1], z[1], x[2], y[2], z[2]])
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Matrix3</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_cols</span>(x: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Into</span>&lt;Triple&gt;, y: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Into</span>&lt;Triple&gt;, z: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Into</span>&lt;Triple&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = x.<span class="hljs-title function_ invoke__">into</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">y</span> = y.<span class="hljs-title function_ invoke__">into</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">z</span> = z.<span class="hljs-title function_ invoke__">into</span>();
+		<span class="hljs-title function_ invoke__">Self</span>([x[<span class="hljs-number">0</span>], y[<span class="hljs-number">0</span>], z[<span class="hljs-number">0</span>], x[<span class="hljs-number">1</span>], y[<span class="hljs-number">1</span>], z[<span class="hljs-number">1</span>], x[<span class="hljs-number">2</span>], y[<span class="hljs-number">2</span>], z[<span class="hljs-number">2</span>]])
 	}
 
-	fn row(&amp;self, i: usize) -&gt; Triple {
-		[0, 1, 2].map(|j| self.0[3 * i + j])
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">row</span>(&amp;<span class="hljs-keyword">self</span>, i: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Triple {
+		[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|j| <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>[<span class="hljs-number">3</span> * i + j])
 	}
 
-	fn col(&amp;self, i: usize) -&gt; Triple {
-		[0, 1, 2].map(|j| self.0[i + 3 * j])
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">col</span>(&amp;<span class="hljs-keyword">self</span>, i: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Triple {
+		[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|j| <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>[i + <span class="hljs-number">3</span> * j])
 	}
 
-	fn mat_mul(&amp;self, other: Self) -&gt; Self {
-		let mut entries = [0; 9];
-		let mut i = 0;
-		for r in 0..3 {
-			let self_row = self.row(r);
-			for c in 0..3 {
-				let other_col = other.col(c);
-				entries[i] = (0..3).map(|i| self_row[i] * other_col[i]).sum();
-				i += 1;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">mat_mul</span>(&amp;<span class="hljs-keyword">self</span>, other: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">entries</span> = [<span class="hljs-number">0</span>; <span class="hljs-number">9</span>];
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">i</span> = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-number">3</span> {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">self_row</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">row</span>(r);
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-number">3</span> {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">other_col</span> = other.<span class="hljs-title function_ invoke__">col</span>(c);
+				entries[i] = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">map</span>(|i| self_row[i] * other_col[i]).<span class="hljs-title function_ invoke__">sum</span>();
+				i += <span class="hljs-number">1</span>;
 			}
 		}
-		Self(entries)
+		<span class="hljs-title function_ invoke__">Self</span>(entries)
 	}
 
-	fn mul_vec(&amp;self, col: Triple) -&gt; Triple {
-		let mut entries = [0; 3];
-		for (r, elem) in entries.iter_mut().enumerate() {
-			let self_row = self.row(r);
-			*elem = (0..3).map(|i| self_row[i] * col[i]).sum();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">mul_vec</span>(&amp;<span class="hljs-keyword">self</span>, col: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">entries</span> = [<span class="hljs-number">0</span>; <span class="hljs-number">3</span>];
+		<span class="hljs-title function_ invoke__">for</span> (r, elem) <span class="hljs-keyword">in</span> entries.<span class="hljs-title function_ invoke__">iter_mut</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">self_row</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">row</span>(r);
+			*elem = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">map</span>(|i| self_row[i] * col[i]).<span class="hljs-title function_ invoke__">sum</span>();
 		}
 		entries
 	}
 }
 
-impl std::ops::Index&lt;[usize; 2]&gt; for Matrix3 {
-	type Output = i32;
-	fn index(&amp;self, index: [usize; 2]) -&gt; &amp;Self::Output {
-		let [row, col] = index;
-		&amp;self.0[3 * row + col]
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::Index&lt;[<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Matrix3</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-type">i32</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">index</span>(&amp;<span class="hljs-keyword">self</span>, index: [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]) <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">let</span> [row, col] = index;
+		&amp;<span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>[<span class="hljs-number">3</span> * row + col]
 	}
 }
 
-#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
-enum Axis {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Axis</span> {
 	PosX,
 	NegX,
 	PosY,
@@ -535,182 +535,182 @@ enum Axis {
 	NegZ,
 }
 
-impl From&lt;Axis&gt; for Triple {
-	fn from(axis: Axis) -&gt; Self {
-		use Axis::*;
-		match axis {
-			PosX =&gt; [1, 0, 0],
-			NegX =&gt; [-1, 0, 0],
-			PosY =&gt; [0, 1, 0],
-			NegY =&gt; [0, -1, 0],
-			PosZ =&gt; [0, 0, 1],
-			NegZ =&gt; [0, 0, -1],
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Axis&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Triple</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(axis: Axis) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">use</span> Axis::*;
+		<span class="hljs-keyword">match</span> axis {
+			PosX =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+			NegX =&gt; [-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+			PosY =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			NegY =&gt; [<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			PosZ =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],
+			NegZ =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">1</span>],
 		}
 	}
 }
 
-#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
-enum RotationCcw {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">RotationCcw</span> {
 	Zero,
 	Quarter,
 	Half,
 	ThreeQuarters,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Swivel {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Swivel</span> {
 	up_face: Axis,
 	rotation_about_up: RotationCcw,
 }
 
-impl Swivel {
-	fn new(up_face: Axis, rotation_about_up: RotationCcw) -&gt; Self {
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Swivel</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(up_face: Axis, rotation_about_up: RotationCcw) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
 			up_face,
 			rotation_about_up,
 		}
 	}
 
-	fn identity() -&gt; Self {
-		Self::new(Axis::PosZ, RotationCcw::Zero)
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">identity</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(Axis::PosZ, RotationCcw::Zero)
 	}
 
-	fn apply(self, point: Triple) -&gt; Triple {
-		use Axis::*;
-		use RotationCcw::*;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply</span>(<span class="hljs-keyword">self</span>, point: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">use</span> Axis::*;
+		<span class="hljs-keyword">use</span> RotationCcw::*;
 
-		let mat_to_bring_face_to_up = match self.up_face {
-			PosX =&gt; Matrix3::from_cols(PosZ, PosY, NegX),
-			NegX =&gt; Matrix3::from_cols(NegZ, PosY, PosX),
-			PosY =&gt; Matrix3::from_cols(PosX, PosZ, NegY),
-			NegY =&gt; Matrix3::from_cols(PosX, NegZ, PosY),
-			PosZ =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">mat_to_bring_face_to_up</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.up_face {
+			PosX =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosZ, PosY, NegX),
+			NegX =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegZ, PosY, PosX),
+			PosY =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, PosZ, NegY),
+			NegY =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, NegZ, PosY),
+			PosZ =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, PosY, PosZ),
 			NegZ =&gt; {
-				// We have a couple options; we pick the one that rotates about the y axis
-				// because it's easier to actually rotate my hand that way
-				Matrix3::from_cols(NegX, PosY, NegZ)
+				<span class="hljs-comment">// We have a couple options; we pick the one that rotates about the y axis</span>
+				<span class="hljs-comment">// because it&#x27;s easier to actually rotate my hand that way</span>
+				Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegX, PosY, NegZ)
 			}
 		};
 
-		let mat_to_rotate_about_up = match self.rotation_about_up {
-			Zero =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
-			Quarter =&gt; Matrix3::from_cols(PosY, NegX, PosZ),
-			Half =&gt; Matrix3::from_cols(NegX, NegY, PosZ),
-			ThreeQuarters =&gt; Matrix3::from_cols(NegY, PosX, PosZ),
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">mat_to_rotate_about_up</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.rotation_about_up {
+			Zero =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, PosY, PosZ),
+			Quarter =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosY, NegX, PosZ),
+			Half =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegX, NegY, PosZ),
+			ThreeQuarters =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegY, PosX, PosZ),
 		};
 
 		mat_to_bring_face_to_up
-			.mat_mul(mat_to_rotate_about_up)
-			.mul_vec(point)
+			.<span class="hljs-title function_ invoke__">mat_mul</span>(mat_to_rotate_about_up)
+			.<span class="hljs-title function_ invoke__">mul_vec</span>(point)
 	}
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Translation(Triple);
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Translation</span>(Triple);
 
-impl Translation {
-	fn identity() -&gt; Self {
-		Self([0, 0, 0])
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Translation</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">identity</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-title function_ invoke__">Self</span>([<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>])
 	}
 
-	fn apply(&amp;self, point: Triple) -&gt; Triple {
-		let [x, y, z] = point;
-		let [tx, ty, tz] = self.0;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply</span>(&amp;<span class="hljs-keyword">self</span>, point: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">let</span> [x, y, z] = point;
+		<span class="hljs-keyword">let</span> [tx, ty, tz] = <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>;
 		[x + tx, y + ty, z + tz]
 	}
 
-	fn manhattan_dist(&amp;self) -&gt; u32 {
-		let [x, y, z] = self.0;
-		u32::try_from(x.abs() + y.abs() + z.abs()).unwrap()
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">manhattan_dist</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+		<span class="hljs-keyword">let</span> [x, y, z] = <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>;
+		<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(x.<span class="hljs-title function_ invoke__">abs</span>() + y.<span class="hljs-title function_ invoke__">abs</span>() + z.<span class="hljs-title function_ invoke__">abs</span>()).<span class="hljs-title function_ invoke__">unwrap</span>()
 	}
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Transform {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Transform</span> {
 	swivel: Swivel,
 	translation: Translation,
 }
 
-impl From&lt;Swivel&gt; for Transform {
-	fn from(swivel: Swivel) -&gt; Self {
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Swivel&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Transform</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(swivel: Swivel) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
 			swivel,
-			translation: Translation([0, 0, 0]),
+			translation: <span class="hljs-title function_ invoke__">Translation</span>([<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]),
 		}
 	}
 }
 
-impl From&lt;Translation&gt; for Transform {
-	fn from(translation: Translation) -&gt; Self {
-		Self {
-			swivel: Swivel::new(Axis::PosZ, RotationCcw::Zero),
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Translation&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Transform</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(translation: Translation) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			swivel: Swivel::<span class="hljs-title function_ invoke__">new</span>(Axis::PosZ, RotationCcw::Zero),
 			translation,
 		}
 	}
 }
 
-impl Transform {
-	fn identity() -&gt; Self {
-		Self {
-			swivel: Swivel::identity(),
-			translation: Translation::identity(),
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Transform</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">identity</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			swivel: Swivel::<span class="hljs-title function_ invoke__">identity</span>(),
+			translation: Translation::<span class="hljs-title function_ invoke__">identity</span>(),
 		}
 	}
 
-	fn apply(&amp;self, point: Triple) -&gt; Triple {
-		self.translation.apply(self.swivel.apply(point))
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply</span>(&amp;<span class="hljs-keyword">self</span>, point: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">self</span>.translation.<span class="hljs-title function_ invoke__">apply</span>(<span class="hljs-keyword">self</span>.swivel.<span class="hljs-title function_ invoke__">apply</span>(point))
 	}
 }
 
-#[derive(Debug, Clone)]
-struct Scanner {
+<span class="hljs-meta">#[derive(Debug, Clone)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Scanner</span> {
 	beacons: BTreeSet&lt;Triple&gt;,
 }
 
-impl Scanner {
-	fn new(beacons: BTreeSet&lt;Triple&gt;) -&gt; Self {
-		Self { beacons }
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Scanner</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(beacons: BTreeSet&lt;Triple&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> { beacons }
 	}
 
-	fn merged_with(&amp;self, other: &amp;Self) -&gt; Self {
-		Self {
-			beacons: self.beacons.union(&amp;other.beacons).copied().collect(),
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">merged_with</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			beacons: <span class="hljs-keyword">self</span>.beacons.<span class="hljs-title function_ invoke__">union</span>(&amp;other.beacons).<span class="hljs-title function_ invoke__">copied</span>().<span class="hljs-title function_ invoke__">collect</span>(),
 		}
 	}
 
-	fn applying&lt;T: Into&lt;Transform&gt; + Copy&gt;(&amp;self, transform: T) -&gt; Self {
-		let transform = transform.into();
-		Scanner::new(self.beacons.iter().map(|&amp;p| transform.apply(p)).collect())
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">applying</span>&lt;T: <span class="hljs-built_in">Into</span>&lt;Transform&gt; + <span class="hljs-built_in">Copy</span>&gt;(&amp;<span class="hljs-keyword">self</span>, transform: T) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">transform</span> = transform.<span class="hljs-title function_ invoke__">into</span>();
+		Scanner::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.beacons.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|&amp;p| transform.<span class="hljs-title function_ invoke__">apply</span>(p)).<span class="hljs-title function_ invoke__">collect</span>())
 	}
 
-	fn candidates_for_merge(&amp;self, other: &amp;Scanner) -&gt; Vec&lt;(Transform, Scanner)&gt; {
-		let mut transforms = BTreeSet::new();
-		let mut candidates = vec![];
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">candidates_for_merge</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;Scanner) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;(Transform, Scanner)&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">transforms</span> = BTreeSet::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">candidates</span> = <span class="hljs-built_in">vec!</span>[];
 
-		for up_face in Axis::iter() {
-			for rotation in RotationCcw::iter() {
-				let swivel = Swivel::new(up_face, rotation);
-				let swiveled_other = other.applying(swivel);
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">up_face</span> <span class="hljs-keyword">in</span> Axis::<span class="hljs-title function_ invoke__">iter</span>() {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">rotation</span> <span class="hljs-keyword">in</span> RotationCcw::<span class="hljs-title function_ invoke__">iter</span>() {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">swivel</span> = Swivel::<span class="hljs-title function_ invoke__">new</span>(up_face, rotation);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">swiveled_other</span> = other.<span class="hljs-title function_ invoke__">applying</span>(swivel);
 
-				for swiveled_other_beacon in &amp;swiveled_other.beacons {
-					for this_beacon in &amp;self.beacons {
-						let translation = Translation(
-							[0, 1, 2].map(|i| this_beacon[i] - swiveled_other_beacon[i]),
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">swiveled_other_beacon</span> <span class="hljs-keyword">in</span> &amp;swiveled_other.beacons {
+					<span class="hljs-keyword">for</span> <span class="hljs-variable">this_beacon</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.beacons {
+						<span class="hljs-keyword">let</span> <span class="hljs-variable">translation</span> = <span class="hljs-title function_ invoke__">Translation</span>(
+							[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|i| this_beacon[i] - swiveled_other_beacon[i]),
 						);
-						let transformed_other = swiveled_other.applying(translation);
+						<span class="hljs-keyword">let</span> <span class="hljs-variable">transformed_other</span> = swiveled_other.<span class="hljs-title function_ invoke__">applying</span>(translation);
 
-						if self
+						<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>
 							.beacons
-							.intersection(&amp;transformed_other.beacons)
-							.count() &gt;= 12
+							.<span class="hljs-title function_ invoke__">intersection</span>(&amp;transformed_other.beacons)
+							.<span class="hljs-title function_ invoke__">count</span>() &gt;= <span class="hljs-number">12</span>
 						{
-							let transform = Transform {
+							<span class="hljs-keyword">let</span> <span class="hljs-variable">transform</span> = Transform {
 								swivel,
 								translation,
 							};
-							let wasnt_present = transforms.insert(transform);
-							if wasnt_present {
-								candidates.push((transform, transformed_other));
+							<span class="hljs-keyword">let</span> <span class="hljs-variable">wasnt_present</span> = transforms.<span class="hljs-title function_ invoke__">insert</span>(transform);
+							<span class="hljs-keyword">if</span> wasnt_present {
+								candidates.<span class="hljs-title function_ invoke__">push</span>((transform, transformed_other));
 							}
 						}
 					}
@@ -721,115 +721,115 @@ impl Scanner {
 		candidates
 	}
 
-	fn merge_all&lt;S: Borrow&lt;Scanner&gt;&gt;(
-		scanners: impl AsRef&lt;[S]&gt;,
-	) -&gt; Option&lt;(Vec&lt;Transform&gt;, Scanner)&gt; {
-		let scanners = scanners.as_ref();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">merge_all</span>&lt;S: Borrow&lt;Scanner&gt;&gt;(
+		scanners: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">AsRef</span>&lt;[S]&gt;,
+	) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;(<span class="hljs-type">Vec</span>&lt;Transform&gt;, Scanner)&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">scanners</span> = scanners.<span class="hljs-title function_ invoke__">as_ref</span>();
 
-		let (first, rest) = scanners.split_first().unwrap();
-		let first = first.borrow();
-		if rest.is_empty() {
-			return Some((vec![Transform::identity()], first.clone()));
+		<span class="hljs-keyword">let</span> (first, rest) = scanners.<span class="hljs-title function_ invoke__">split_first</span>().<span class="hljs-title function_ invoke__">unwrap</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">first</span> = first.<span class="hljs-title function_ invoke__">borrow</span>();
+		<span class="hljs-keyword">if</span> rest.<span class="hljs-title function_ invoke__">is_empty</span>() {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Some</span>((<span class="hljs-built_in">vec!</span>[Transform::<span class="hljs-title function_ invoke__">identity</span>()], first.<span class="hljs-title function_ invoke__">clone</span>()));
 		}
 
-		for (i, s) in rest.iter().enumerate() {
-			let s = s.borrow();
+		<span class="hljs-title function_ invoke__">for</span> (i, s) <span class="hljs-keyword">in</span> rest.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">s</span> = s.<span class="hljs-title function_ invoke__">borrow</span>();
 
-			for (transform, transformed_scanner) in first.candidates_for_merge(s) {
-				let merged_scanner = first.merged_with(&amp;transformed_scanner);
-				let new_scanners = std::iter::once(&amp;merged_scanner)
-					.chain(rest.iter().enumerate().filter_map(|(j, s)| {
-						if i == j {
-							None
-						} else {
-							Some(s.borrow())
+			<span class="hljs-title function_ invoke__">for</span> (transform, transformed_scanner) <span class="hljs-keyword">in</span> first.<span class="hljs-title function_ invoke__">candidates_for_merge</span>(s) {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">merged_scanner</span> = first.<span class="hljs-title function_ invoke__">merged_with</span>(&amp;transformed_scanner);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">new_scanners</span> = std::iter::<span class="hljs-title function_ invoke__">once</span>(&amp;merged_scanner)
+					.<span class="hljs-title function_ invoke__">chain</span>(rest.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>().<span class="hljs-title function_ invoke__">filter_map</span>(|(j, s)| {
+						<span class="hljs-keyword">if</span> i == j {
+							<span class="hljs-literal">None</span>
+						} <span class="hljs-keyword">else</span> {
+							<span class="hljs-title function_ invoke__">Some</span>(s.<span class="hljs-title function_ invoke__">borrow</span>())
 						}
 					}))
-					.collect::&lt;Vec&lt;_&gt;&gt;();
+					.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
 
-				let merge_result = Scanner::merge_all(new_scanners);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">merge_result</span> = Scanner::<span class="hljs-title function_ invoke__">merge_all</span>(new_scanners);
 
-				if let Some((transforms, ans)) = merge_result {
-					return Some((std::iter::once(transform).chain(transforms).collect(), ans));
+				<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>((transforms, ans)) = merge_result {
+					<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Some</span>((std::iter::<span class="hljs-title function_ invoke__">once</span>(transform).<span class="hljs-title function_ invoke__">chain</span>(transforms).<span class="hljs-title function_ invoke__">collect</span>(), ans));
 				}
 			}
 		}
 
-		None
+		<span class="hljs-literal">None</span>
 	}
 }
 
-fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;Scanner&gt;&gt; {
-	let mut scanners = vec![];
-	let mut this_scanner_beacons = BTreeSet::new();
-	for line in s.lines().chain(std::iter::once("")) {
-		if line.starts_with("---") {
-			continue;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;Scanner&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">scanners</span> = <span class="hljs-built_in">vec!</span>[];
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">this_scanner_beacons</span> = BTreeSet::<span class="hljs-title function_ invoke__">new</span>();
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">chain</span>(std::iter::<span class="hljs-title function_ invoke__">once</span>(<span class="hljs-string">&quot;&quot;</span>)) {
+		<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">starts_with</span>(<span class="hljs-string">&quot;---&quot;</span>) {
+			<span class="hljs-keyword">continue</span>;
 		}
 
-		if line.is_empty() {
-			scanners.push(Scanner::new(this_scanner_beacons.clone()));
-			this_scanner_beacons.clear();
-		} else {
-			let mut comps = line.split(',');
-			let [x, y, z] = [0; 3].map(|_| comps.next()?.parse().ok());
-			let [x, y, z] = [x?, y?, z?];
-			this_scanner_beacons.insert([x, y, z]);
+		<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">is_empty</span>() {
+			scanners.<span class="hljs-title function_ invoke__">push</span>(Scanner::<span class="hljs-title function_ invoke__">new</span>(this_scanner_beacons.<span class="hljs-title function_ invoke__">clone</span>()));
+			this_scanner_beacons.<span class="hljs-title function_ invoke__">clear</span>();
+		} <span class="hljs-keyword">else</span> {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">comps</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);
+			<span class="hljs-keyword">let</span> [x, y, z] = [<span class="hljs-number">0</span>; <span class="hljs-number">3</span>].<span class="hljs-title function_ invoke__">map</span>(|_| comps.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>());
+			<span class="hljs-keyword">let</span> [x, y, z] = [x?, y?, z?];
+			this_scanner_beacons.<span class="hljs-title function_ invoke__">insert</span>([x, y, z]);
 		}
 	}
 
-	Some(scanners)
+	<span class="hljs-title function_ invoke__">Some</span>(scanners)
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, u32&gt; {
-	let scanners = read_input(input).unwrap();
-	let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();
-	let translations = transforms.iter().map(|t| t.translation).collect::&lt;Vec&lt;_&gt;&gt;();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">scanners</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	<span class="hljs-keyword">let</span> (transforms, scanner) = Scanner::<span class="hljs-title function_ invoke__">merge_all</span>(scanners).<span class="hljs-title function_ invoke__">unwrap</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">translations</span> = transforms.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|t| t.translation).collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
 
-	(19, (pt1(&amp;scanner), pt2(&amp;translations))).into()
+	(<span class="hljs-number">19</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;scanner), <span class="hljs-title function_ invoke__">pt2</span>(&amp;translations))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, u32&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(scanner: &amp;Scanner) -&gt; usize {
-	scanner.beacons.len()
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(scanner: &amp;Scanner) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	scanner.beacons.<span class="hljs-title function_ invoke__">len</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2&lt;V: AsRef&lt;[Translation]&gt;&gt;(translations: V) -&gt; u32 {
-	let translations = translations.as_ref();
-	let mut max_manh_dist = u32::MIN;
-	for (i, translation1) in translations.iter().enumerate() {
-		let [x1, y1, z1] = translation1.0;
-		for translation2 in translations.iter().skip(i + 1) {
-			let [x2, y2, z2] = translation2.0;
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[Translation]&gt;&gt;(translations: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">translations</span> = translations.<span class="hljs-title function_ invoke__">as_ref</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_manh_dist</span> = <span class="hljs-type">u32</span>::MIN;
+	<span class="hljs-title function_ invoke__">for</span> (i, translation1) <span class="hljs-keyword">in</span> translations.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+		<span class="hljs-keyword">let</span> [x1, y1, z1] = translation1.<span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">translation2</span> <span class="hljs-keyword">in</span> translations.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+			<span class="hljs-keyword">let</span> [x2, y2, z2] = translation2.<span class="hljs-number">0</span>;
 
-			let diff = Translation([x2 - x1, y2 - y1, z2 - z1]);
-			max_manh_dist = max_manh_dist.max(diff.manhattan_dist());
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">diff</span> = <span class="hljs-title function_ invoke__">Translation</span>([x2 - x1, y2 - y1, z2 - z1]);
+			max_manh_dist = max_manh_dist.<span class="hljs-title function_ invoke__">max</span>(diff.<span class="hljs-title function_ invoke__">manhattan_dist</span>());
 		}
 	}
 
 	max_manh_dist
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		assert!(
-			cfg!(not(debug_assertions)),
-			"Day 19 may not be tested in debug mode; it requires --release"
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		<span class="hljs-built_in">assert!</span>(
+			<span class="hljs-built_in">cfg!</span>(<span class="hljs-title function_ invoke__">not</span>(debug_assertions)),
+			<span class="hljs-string">&quot;Day 19 may not be tested in debug mode; it requires --release&quot;</span>
 		);
-		test_input!(include_str!("input.txt"), day: 19, ans: (385, 10707));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">19</span>, ans: (<span class="hljs-number">385</span>, <span class="hljs-number">10707</span>));
 	}
 }</code></pre>
 </div>
@@ -847,67 +847,67 @@ Below, <code>scanner</code> is obtained from <code>let (transforms, scanner) = S
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::{borrow::Borrow, collections::BTreeSet};
-use strum::IntoEnumIterator;
-use strum_macros::EnumIter;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::{borrow::Borrow, collections::BTreeSet};
+<span class="hljs-keyword">use</span> strum::IntoEnumIterator;
+<span class="hljs-keyword">use</span> strum_macros::EnumIter;
 
-type Triple = [i32; 3];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Triple</span> = [<span class="hljs-type">i32</span>; <span class="hljs-number">3</span>];
 
-#[derive(Debug, Clone, Copy)]
-struct Matrix3([i32; 9]);
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Matrix3</span>([<span class="hljs-type">i32</span>; <span class="hljs-number">9</span>]);
 
-impl Matrix3 {
-	fn from_cols(x: impl Into&lt;Triple&gt;, y: impl Into&lt;Triple&gt;, z: impl Into&lt;Triple&gt;) -&gt; Self {
-		let x = x.into();
-		let y = y.into();
-		let z = z.into();
-		Self([x[0], y[0], z[0], x[1], y[1], z[1], x[2], y[2], z[2]])
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Matrix3</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_cols</span>(x: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Into</span>&lt;Triple&gt;, y: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Into</span>&lt;Triple&gt;, z: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Into</span>&lt;Triple&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = x.<span class="hljs-title function_ invoke__">into</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">y</span> = y.<span class="hljs-title function_ invoke__">into</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">z</span> = z.<span class="hljs-title function_ invoke__">into</span>();
+		<span class="hljs-title function_ invoke__">Self</span>([x[<span class="hljs-number">0</span>], y[<span class="hljs-number">0</span>], z[<span class="hljs-number">0</span>], x[<span class="hljs-number">1</span>], y[<span class="hljs-number">1</span>], z[<span class="hljs-number">1</span>], x[<span class="hljs-number">2</span>], y[<span class="hljs-number">2</span>], z[<span class="hljs-number">2</span>]])
 	}
 
-	fn row(&amp;self, i: usize) -&gt; Triple {
-		[0, 1, 2].map(|j| self.0[3 * i + j])
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">row</span>(&amp;<span class="hljs-keyword">self</span>, i: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Triple {
+		[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|j| <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>[<span class="hljs-number">3</span> * i + j])
 	}
 
-	fn col(&amp;self, i: usize) -&gt; Triple {
-		[0, 1, 2].map(|j| self.0[i + 3 * j])
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">col</span>(&amp;<span class="hljs-keyword">self</span>, i: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Triple {
+		[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|j| <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>[i + <span class="hljs-number">3</span> * j])
 	}
 
-	fn mat_mul(&amp;self, other: Self) -&gt; Self {
-		let mut entries = [0; 9];
-		let mut i = 0;
-		for r in 0..3 {
-			let self_row = self.row(r);
-			for c in 0..3 {
-				let other_col = other.col(c);
-				entries[i] = (0..3).map(|i| self_row[i] * other_col[i]).sum();
-				i += 1;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">mat_mul</span>(&amp;<span class="hljs-keyword">self</span>, other: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">entries</span> = [<span class="hljs-number">0</span>; <span class="hljs-number">9</span>];
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">i</span> = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-number">3</span> {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">self_row</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">row</span>(r);
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-number">3</span> {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">other_col</span> = other.<span class="hljs-title function_ invoke__">col</span>(c);
+				entries[i] = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">map</span>(|i| self_row[i] * other_col[i]).<span class="hljs-title function_ invoke__">sum</span>();
+				i += <span class="hljs-number">1</span>;
 			}
 		}
-		Self(entries)
+		<span class="hljs-title function_ invoke__">Self</span>(entries)
 	}
 
-	fn mul_vec(&amp;self, col: Triple) -&gt; Triple {
-		let mut entries = [0; 3];
-		for (r, elem) in entries.iter_mut().enumerate() {
-			let self_row = self.row(r);
-			*elem = (0..3).map(|i| self_row[i] * col[i]).sum();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">mul_vec</span>(&amp;<span class="hljs-keyword">self</span>, col: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">entries</span> = [<span class="hljs-number">0</span>; <span class="hljs-number">3</span>];
+		<span class="hljs-title function_ invoke__">for</span> (r, elem) <span class="hljs-keyword">in</span> entries.<span class="hljs-title function_ invoke__">iter_mut</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">self_row</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">row</span>(r);
+			*elem = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">map</span>(|i| self_row[i] * col[i]).<span class="hljs-title function_ invoke__">sum</span>();
 		}
 		entries
 	}
 }
 
-impl std::ops::Index&lt;[usize; 2]&gt; for Matrix3 {
-	type Output = i32;
-	fn index(&amp;self, index: [usize; 2]) -&gt; &amp;Self::Output {
-		let [row, col] = index;
-		&amp;self.0[3 * row + col]
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::Index&lt;[<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Matrix3</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-type">i32</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">index</span>(&amp;<span class="hljs-keyword">self</span>, index: [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]) <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">let</span> [row, col] = index;
+		&amp;<span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>[<span class="hljs-number">3</span> * row + col]
 	}
 }
 
-#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
-enum Axis {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Axis</span> {
 	PosX,
 	NegX,
 	PosY,
@@ -916,182 +916,182 @@ enum Axis {
 	NegZ,
 }
 
-impl From&lt;Axis&gt; for Triple {
-	fn from(axis: Axis) -&gt; Self {
-		use Axis::*;
-		match axis {
-			PosX =&gt; [1, 0, 0],
-			NegX =&gt; [-1, 0, 0],
-			PosY =&gt; [0, 1, 0],
-			NegY =&gt; [0, -1, 0],
-			PosZ =&gt; [0, 0, 1],
-			NegZ =&gt; [0, 0, -1],
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Axis&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Triple</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(axis: Axis) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">use</span> Axis::*;
+		<span class="hljs-keyword">match</span> axis {
+			PosX =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+			NegX =&gt; [-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+			PosY =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			NegY =&gt; [<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			PosZ =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],
+			NegZ =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">1</span>],
 		}
 	}
 }
 
-#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
-enum RotationCcw {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">RotationCcw</span> {
 	Zero,
 	Quarter,
 	Half,
 	ThreeQuarters,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Swivel {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Swivel</span> {
 	up_face: Axis,
 	rotation_about_up: RotationCcw,
 }
 
-impl Swivel {
-	fn new(up_face: Axis, rotation_about_up: RotationCcw) -&gt; Self {
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Swivel</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(up_face: Axis, rotation_about_up: RotationCcw) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
 			up_face,
 			rotation_about_up,
 		}
 	}
 
-	fn identity() -&gt; Self {
-		Self::new(Axis::PosZ, RotationCcw::Zero)
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">identity</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(Axis::PosZ, RotationCcw::Zero)
 	}
 
-	fn apply(self, point: Triple) -&gt; Triple {
-		use Axis::*;
-		use RotationCcw::*;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply</span>(<span class="hljs-keyword">self</span>, point: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">use</span> Axis::*;
+		<span class="hljs-keyword">use</span> RotationCcw::*;
 
-		let mat_to_bring_face_to_up = match self.up_face {
-			PosX =&gt; Matrix3::from_cols(PosZ, PosY, NegX),
-			NegX =&gt; Matrix3::from_cols(NegZ, PosY, PosX),
-			PosY =&gt; Matrix3::from_cols(PosX, PosZ, NegY),
-			NegY =&gt; Matrix3::from_cols(PosX, NegZ, PosY),
-			PosZ =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">mat_to_bring_face_to_up</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.up_face {
+			PosX =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosZ, PosY, NegX),
+			NegX =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegZ, PosY, PosX),
+			PosY =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, PosZ, NegY),
+			NegY =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, NegZ, PosY),
+			PosZ =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, PosY, PosZ),
 			NegZ =&gt; {
-				// We have a couple options; we pick the one that rotates about the y axis
-				// because it's easier to actually rotate my hand that way
-				Matrix3::from_cols(NegX, PosY, NegZ)
+				<span class="hljs-comment">// We have a couple options; we pick the one that rotates about the y axis</span>
+				<span class="hljs-comment">// because it&#x27;s easier to actually rotate my hand that way</span>
+				Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegX, PosY, NegZ)
 			}
 		};
 
-		let mat_to_rotate_about_up = match self.rotation_about_up {
-			Zero =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
-			Quarter =&gt; Matrix3::from_cols(PosY, NegX, PosZ),
-			Half =&gt; Matrix3::from_cols(NegX, NegY, PosZ),
-			ThreeQuarters =&gt; Matrix3::from_cols(NegY, PosX, PosZ),
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">mat_to_rotate_about_up</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.rotation_about_up {
+			Zero =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, PosY, PosZ),
+			Quarter =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosY, NegX, PosZ),
+			Half =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegX, NegY, PosZ),
+			ThreeQuarters =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegY, PosX, PosZ),
 		};
 
 		mat_to_bring_face_to_up
-			.mat_mul(mat_to_rotate_about_up)
-			.mul_vec(point)
+			.<span class="hljs-title function_ invoke__">mat_mul</span>(mat_to_rotate_about_up)
+			.<span class="hljs-title function_ invoke__">mul_vec</span>(point)
 	}
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Translation(Triple);
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Translation</span>(Triple);
 
-impl Translation {
-	fn identity() -&gt; Self {
-		Self([0, 0, 0])
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Translation</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">identity</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-title function_ invoke__">Self</span>([<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>])
 	}
 
-	fn apply(&amp;self, point: Triple) -&gt; Triple {
-		let [x, y, z] = point;
-		let [tx, ty, tz] = self.0;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply</span>(&amp;<span class="hljs-keyword">self</span>, point: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">let</span> [x, y, z] = point;
+		<span class="hljs-keyword">let</span> [tx, ty, tz] = <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>;
 		[x + tx, y + ty, z + tz]
 	}
 
-	fn manhattan_dist(&amp;self) -&gt; u32 {
-		let [x, y, z] = self.0;
-		u32::try_from(x.abs() + y.abs() + z.abs()).unwrap()
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">manhattan_dist</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+		<span class="hljs-keyword">let</span> [x, y, z] = <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>;
+		<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(x.<span class="hljs-title function_ invoke__">abs</span>() + y.<span class="hljs-title function_ invoke__">abs</span>() + z.<span class="hljs-title function_ invoke__">abs</span>()).<span class="hljs-title function_ invoke__">unwrap</span>()
 	}
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Transform {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Transform</span> {
 	swivel: Swivel,
 	translation: Translation,
 }
 
-impl From&lt;Swivel&gt; for Transform {
-	fn from(swivel: Swivel) -&gt; Self {
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Swivel&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Transform</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(swivel: Swivel) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
 			swivel,
-			translation: Translation([0, 0, 0]),
+			translation: <span class="hljs-title function_ invoke__">Translation</span>([<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]),
 		}
 	}
 }
 
-impl From&lt;Translation&gt; for Transform {
-	fn from(translation: Translation) -&gt; Self {
-		Self {
-			swivel: Swivel::new(Axis::PosZ, RotationCcw::Zero),
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Translation&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Transform</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(translation: Translation) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			swivel: Swivel::<span class="hljs-title function_ invoke__">new</span>(Axis::PosZ, RotationCcw::Zero),
 			translation,
 		}
 	}
 }
 
-impl Transform {
-	fn identity() -&gt; Self {
-		Self {
-			swivel: Swivel::identity(),
-			translation: Translation::identity(),
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Transform</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">identity</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			swivel: Swivel::<span class="hljs-title function_ invoke__">identity</span>(),
+			translation: Translation::<span class="hljs-title function_ invoke__">identity</span>(),
 		}
 	}
 
-	fn apply(&amp;self, point: Triple) -&gt; Triple {
-		self.translation.apply(self.swivel.apply(point))
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply</span>(&amp;<span class="hljs-keyword">self</span>, point: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">self</span>.translation.<span class="hljs-title function_ invoke__">apply</span>(<span class="hljs-keyword">self</span>.swivel.<span class="hljs-title function_ invoke__">apply</span>(point))
 	}
 }
 
-#[derive(Debug, Clone)]
-struct Scanner {
+<span class="hljs-meta">#[derive(Debug, Clone)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Scanner</span> {
 	beacons: BTreeSet&lt;Triple&gt;,
 }
 
-impl Scanner {
-	fn new(beacons: BTreeSet&lt;Triple&gt;) -&gt; Self {
-		Self { beacons }
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Scanner</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(beacons: BTreeSet&lt;Triple&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> { beacons }
 	}
 
-	fn merged_with(&amp;self, other: &amp;Self) -&gt; Self {
-		Self {
-			beacons: self.beacons.union(&amp;other.beacons).copied().collect(),
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">merged_with</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			beacons: <span class="hljs-keyword">self</span>.beacons.<span class="hljs-title function_ invoke__">union</span>(&amp;other.beacons).<span class="hljs-title function_ invoke__">copied</span>().<span class="hljs-title function_ invoke__">collect</span>(),
 		}
 	}
 
-	fn applying&lt;T: Into&lt;Transform&gt; + Copy&gt;(&amp;self, transform: T) -&gt; Self {
-		let transform = transform.into();
-		Scanner::new(self.beacons.iter().map(|&amp;p| transform.apply(p)).collect())
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">applying</span>&lt;T: <span class="hljs-built_in">Into</span>&lt;Transform&gt; + <span class="hljs-built_in">Copy</span>&gt;(&amp;<span class="hljs-keyword">self</span>, transform: T) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">transform</span> = transform.<span class="hljs-title function_ invoke__">into</span>();
+		Scanner::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.beacons.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|&amp;p| transform.<span class="hljs-title function_ invoke__">apply</span>(p)).<span class="hljs-title function_ invoke__">collect</span>())
 	}
 
-	fn candidates_for_merge(&amp;self, other: &amp;Scanner) -&gt; Vec&lt;(Transform, Scanner)&gt; {
-		let mut transforms = BTreeSet::new();
-		let mut candidates = vec![];
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">candidates_for_merge</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;Scanner) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;(Transform, Scanner)&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">transforms</span> = BTreeSet::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">candidates</span> = <span class="hljs-built_in">vec!</span>[];
 
-		for up_face in Axis::iter() {
-			for rotation in RotationCcw::iter() {
-				let swivel = Swivel::new(up_face, rotation);
-				let swiveled_other = other.applying(swivel);
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">up_face</span> <span class="hljs-keyword">in</span> Axis::<span class="hljs-title function_ invoke__">iter</span>() {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">rotation</span> <span class="hljs-keyword">in</span> RotationCcw::<span class="hljs-title function_ invoke__">iter</span>() {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">swivel</span> = Swivel::<span class="hljs-title function_ invoke__">new</span>(up_face, rotation);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">swiveled_other</span> = other.<span class="hljs-title function_ invoke__">applying</span>(swivel);
 
-				for swiveled_other_beacon in &amp;swiveled_other.beacons {
-					for this_beacon in &amp;self.beacons {
-						let translation = Translation(
-							[0, 1, 2].map(|i| this_beacon[i] - swiveled_other_beacon[i]),
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">swiveled_other_beacon</span> <span class="hljs-keyword">in</span> &amp;swiveled_other.beacons {
+					<span class="hljs-keyword">for</span> <span class="hljs-variable">this_beacon</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.beacons {
+						<span class="hljs-keyword">let</span> <span class="hljs-variable">translation</span> = <span class="hljs-title function_ invoke__">Translation</span>(
+							[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|i| this_beacon[i] - swiveled_other_beacon[i]),
 						);
-						let transformed_other = swiveled_other.applying(translation);
+						<span class="hljs-keyword">let</span> <span class="hljs-variable">transformed_other</span> = swiveled_other.<span class="hljs-title function_ invoke__">applying</span>(translation);
 
-						if self
+						<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>
 							.beacons
-							.intersection(&amp;transformed_other.beacons)
-							.count() &gt;= 12
+							.<span class="hljs-title function_ invoke__">intersection</span>(&amp;transformed_other.beacons)
+							.<span class="hljs-title function_ invoke__">count</span>() &gt;= <span class="hljs-number">12</span>
 						{
-							let transform = Transform {
+							<span class="hljs-keyword">let</span> <span class="hljs-variable">transform</span> = Transform {
 								swivel,
 								translation,
 							};
-							let wasnt_present = transforms.insert(transform);
-							if wasnt_present {
-								candidates.push((transform, transformed_other));
+							<span class="hljs-keyword">let</span> <span class="hljs-variable">wasnt_present</span> = transforms.<span class="hljs-title function_ invoke__">insert</span>(transform);
+							<span class="hljs-keyword">if</span> wasnt_present {
+								candidates.<span class="hljs-title function_ invoke__">push</span>((transform, transformed_other));
 							}
 						}
 					}
@@ -1102,115 +1102,115 @@ impl Scanner {
 		candidates
 	}
 
-	fn merge_all&lt;S: Borrow&lt;Scanner&gt;&gt;(
-		scanners: impl AsRef&lt;[S]&gt;,
-	) -&gt; Option&lt;(Vec&lt;Transform&gt;, Scanner)&gt; {
-		let scanners = scanners.as_ref();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">merge_all</span>&lt;S: Borrow&lt;Scanner&gt;&gt;(
+		scanners: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">AsRef</span>&lt;[S]&gt;,
+	) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;(<span class="hljs-type">Vec</span>&lt;Transform&gt;, Scanner)&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">scanners</span> = scanners.<span class="hljs-title function_ invoke__">as_ref</span>();
 
-		let (first, rest) = scanners.split_first().unwrap();
-		let first = first.borrow();
-		if rest.is_empty() {
-			return Some((vec![Transform::identity()], first.clone()));
+		<span class="hljs-keyword">let</span> (first, rest) = scanners.<span class="hljs-title function_ invoke__">split_first</span>().<span class="hljs-title function_ invoke__">unwrap</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">first</span> = first.<span class="hljs-title function_ invoke__">borrow</span>();
+		<span class="hljs-keyword">if</span> rest.<span class="hljs-title function_ invoke__">is_empty</span>() {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Some</span>((<span class="hljs-built_in">vec!</span>[Transform::<span class="hljs-title function_ invoke__">identity</span>()], first.<span class="hljs-title function_ invoke__">clone</span>()));
 		}
 
-		for (i, s) in rest.iter().enumerate() {
-			let s = s.borrow();
+		<span class="hljs-title function_ invoke__">for</span> (i, s) <span class="hljs-keyword">in</span> rest.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">s</span> = s.<span class="hljs-title function_ invoke__">borrow</span>();
 
-			for (transform, transformed_scanner) in first.candidates_for_merge(s) {
-				let merged_scanner = first.merged_with(&amp;transformed_scanner);
-				let new_scanners = std::iter::once(&amp;merged_scanner)
-					.chain(rest.iter().enumerate().filter_map(|(j, s)| {
-						if i == j {
-							None
-						} else {
-							Some(s.borrow())
+			<span class="hljs-title function_ invoke__">for</span> (transform, transformed_scanner) <span class="hljs-keyword">in</span> first.<span class="hljs-title function_ invoke__">candidates_for_merge</span>(s) {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">merged_scanner</span> = first.<span class="hljs-title function_ invoke__">merged_with</span>(&amp;transformed_scanner);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">new_scanners</span> = std::iter::<span class="hljs-title function_ invoke__">once</span>(&amp;merged_scanner)
+					.<span class="hljs-title function_ invoke__">chain</span>(rest.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>().<span class="hljs-title function_ invoke__">filter_map</span>(|(j, s)| {
+						<span class="hljs-keyword">if</span> i == j {
+							<span class="hljs-literal">None</span>
+						} <span class="hljs-keyword">else</span> {
+							<span class="hljs-title function_ invoke__">Some</span>(s.<span class="hljs-title function_ invoke__">borrow</span>())
 						}
 					}))
-					.collect::&lt;Vec&lt;_&gt;&gt;();
+					.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
 
-				let merge_result = Scanner::merge_all(new_scanners);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">merge_result</span> = Scanner::<span class="hljs-title function_ invoke__">merge_all</span>(new_scanners);
 
-				if let Some((transforms, ans)) = merge_result {
-					return Some((std::iter::once(transform).chain(transforms).collect(), ans));
+				<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>((transforms, ans)) = merge_result {
+					<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Some</span>((std::iter::<span class="hljs-title function_ invoke__">once</span>(transform).<span class="hljs-title function_ invoke__">chain</span>(transforms).<span class="hljs-title function_ invoke__">collect</span>(), ans));
 				}
 			}
 		}
 
-		None
+		<span class="hljs-literal">None</span>
 	}
 }
 
-fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;Scanner&gt;&gt; {
-	let mut scanners = vec![];
-	let mut this_scanner_beacons = BTreeSet::new();
-	for line in s.lines().chain(std::iter::once("")) {
-		if line.starts_with("---") {
-			continue;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;Scanner&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">scanners</span> = <span class="hljs-built_in">vec!</span>[];
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">this_scanner_beacons</span> = BTreeSet::<span class="hljs-title function_ invoke__">new</span>();
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">chain</span>(std::iter::<span class="hljs-title function_ invoke__">once</span>(<span class="hljs-string">&quot;&quot;</span>)) {
+		<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">starts_with</span>(<span class="hljs-string">&quot;---&quot;</span>) {
+			<span class="hljs-keyword">continue</span>;
 		}
 
-		if line.is_empty() {
-			scanners.push(Scanner::new(this_scanner_beacons.clone()));
-			this_scanner_beacons.clear();
-		} else {
-			let mut comps = line.split(',');
-			let [x, y, z] = [0; 3].map(|_| comps.next()?.parse().ok());
-			let [x, y, z] = [x?, y?, z?];
-			this_scanner_beacons.insert([x, y, z]);
+		<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">is_empty</span>() {
+			scanners.<span class="hljs-title function_ invoke__">push</span>(Scanner::<span class="hljs-title function_ invoke__">new</span>(this_scanner_beacons.<span class="hljs-title function_ invoke__">clone</span>()));
+			this_scanner_beacons.<span class="hljs-title function_ invoke__">clear</span>();
+		} <span class="hljs-keyword">else</span> {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">comps</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);
+			<span class="hljs-keyword">let</span> [x, y, z] = [<span class="hljs-number">0</span>; <span class="hljs-number">3</span>].<span class="hljs-title function_ invoke__">map</span>(|_| comps.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>());
+			<span class="hljs-keyword">let</span> [x, y, z] = [x?, y?, z?];
+			this_scanner_beacons.<span class="hljs-title function_ invoke__">insert</span>([x, y, z]);
 		}
 	}
 
-	Some(scanners)
+	<span class="hljs-title function_ invoke__">Some</span>(scanners)
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, u32&gt; {
-	let scanners = read_input(input).unwrap();
-	let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();
-	let translations = transforms.iter().map(|t| t.translation).collect::&lt;Vec&lt;_&gt;&gt;();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">scanners</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	<span class="hljs-keyword">let</span> (transforms, scanner) = Scanner::<span class="hljs-title function_ invoke__">merge_all</span>(scanners).<span class="hljs-title function_ invoke__">unwrap</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">translations</span> = transforms.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|t| t.translation).collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
 
-	(19, (pt1(&amp;scanner), pt2(&amp;translations))).into()
+	(<span class="hljs-number">19</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;scanner), <span class="hljs-title function_ invoke__">pt2</span>(&amp;translations))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, u32&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(scanner: &amp;Scanner) -&gt; usize {
-	scanner.beacons.len()
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(scanner: &amp;Scanner) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	scanner.beacons.<span class="hljs-title function_ invoke__">len</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2&lt;V: AsRef&lt;[Translation]&gt;&gt;(translations: V) -&gt; u32 {
-	let translations = translations.as_ref();
-	let mut max_manh_dist = u32::MIN;
-	for (i, translation1) in translations.iter().enumerate() {
-		let [x1, y1, z1] = translation1.0;
-		for translation2 in translations.iter().skip(i + 1) {
-			let [x2, y2, z2] = translation2.0;
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[Translation]&gt;&gt;(translations: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">translations</span> = translations.<span class="hljs-title function_ invoke__">as_ref</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_manh_dist</span> = <span class="hljs-type">u32</span>::MIN;
+	<span class="hljs-title function_ invoke__">for</span> (i, translation1) <span class="hljs-keyword">in</span> translations.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+		<span class="hljs-keyword">let</span> [x1, y1, z1] = translation1.<span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">translation2</span> <span class="hljs-keyword">in</span> translations.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+			<span class="hljs-keyword">let</span> [x2, y2, z2] = translation2.<span class="hljs-number">0</span>;
 
-			let diff = Translation([x2 - x1, y2 - y1, z2 - z1]);
-			max_manh_dist = max_manh_dist.max(diff.manhattan_dist());
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">diff</span> = <span class="hljs-title function_ invoke__">Translation</span>([x2 - x1, y2 - y1, z2 - z1]);
+			max_manh_dist = max_manh_dist.<span class="hljs-title function_ invoke__">max</span>(diff.<span class="hljs-title function_ invoke__">manhattan_dist</span>());
 		}
 	}
 
 	max_manh_dist
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		assert!(
-			cfg!(not(debug_assertions)),
-			"Day 19 may not be tested in debug mode; it requires --release"
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		<span class="hljs-built_in">assert!</span>(
+			<span class="hljs-built_in">cfg!</span>(<span class="hljs-title function_ invoke__">not</span>(debug_assertions)),
+			<span class="hljs-string">&quot;Day 19 may not be tested in debug mode; it requires --release&quot;</span>
 		);
-		test_input!(include_str!("input.txt"), day: 19, ans: (385, 10707));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">19</span>, ans: (<span class="hljs-number">385</span>, <span class="hljs-number">10707</span>));
 	}
 }</code></pre>
 </div>
@@ -1226,67 +1226,67 @@ To do this, we have to track the transformation of each scanner in the successfu
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::{borrow::Borrow, collections::BTreeSet};
-use strum::IntoEnumIterator;
-use strum_macros::EnumIter;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::{borrow::Borrow, collections::BTreeSet};
+<span class="hljs-keyword">use</span> strum::IntoEnumIterator;
+<span class="hljs-keyword">use</span> strum_macros::EnumIter;
 
-type Triple = [i32; 3];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Triple</span> = [<span class="hljs-type">i32</span>; <span class="hljs-number">3</span>];
 
-#[derive(Debug, Clone, Copy)]
-struct Matrix3([i32; 9]);
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Matrix3</span>([<span class="hljs-type">i32</span>; <span class="hljs-number">9</span>]);
 
-impl Matrix3 {
-	fn from_cols(x: impl Into&lt;Triple&gt;, y: impl Into&lt;Triple&gt;, z: impl Into&lt;Triple&gt;) -&gt; Self {
-		let x = x.into();
-		let y = y.into();
-		let z = z.into();
-		Self([x[0], y[0], z[0], x[1], y[1], z[1], x[2], y[2], z[2]])
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Matrix3</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_cols</span>(x: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Into</span>&lt;Triple&gt;, y: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Into</span>&lt;Triple&gt;, z: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Into</span>&lt;Triple&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = x.<span class="hljs-title function_ invoke__">into</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">y</span> = y.<span class="hljs-title function_ invoke__">into</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">z</span> = z.<span class="hljs-title function_ invoke__">into</span>();
+		<span class="hljs-title function_ invoke__">Self</span>([x[<span class="hljs-number">0</span>], y[<span class="hljs-number">0</span>], z[<span class="hljs-number">0</span>], x[<span class="hljs-number">1</span>], y[<span class="hljs-number">1</span>], z[<span class="hljs-number">1</span>], x[<span class="hljs-number">2</span>], y[<span class="hljs-number">2</span>], z[<span class="hljs-number">2</span>]])
 	}
 
-	fn row(&amp;self, i: usize) -&gt; Triple {
-		[0, 1, 2].map(|j| self.0[3 * i + j])
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">row</span>(&amp;<span class="hljs-keyword">self</span>, i: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Triple {
+		[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|j| <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>[<span class="hljs-number">3</span> * i + j])
 	}
 
-	fn col(&amp;self, i: usize) -&gt; Triple {
-		[0, 1, 2].map(|j| self.0[i + 3 * j])
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">col</span>(&amp;<span class="hljs-keyword">self</span>, i: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Triple {
+		[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|j| <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>[i + <span class="hljs-number">3</span> * j])
 	}
 
-	fn mat_mul(&amp;self, other: Self) -&gt; Self {
-		let mut entries = [0; 9];
-		let mut i = 0;
-		for r in 0..3 {
-			let self_row = self.row(r);
-			for c in 0..3 {
-				let other_col = other.col(c);
-				entries[i] = (0..3).map(|i| self_row[i] * other_col[i]).sum();
-				i += 1;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">mat_mul</span>(&amp;<span class="hljs-keyword">self</span>, other: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">entries</span> = [<span class="hljs-number">0</span>; <span class="hljs-number">9</span>];
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">i</span> = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-number">3</span> {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">self_row</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">row</span>(r);
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-number">3</span> {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">other_col</span> = other.<span class="hljs-title function_ invoke__">col</span>(c);
+				entries[i] = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">map</span>(|i| self_row[i] * other_col[i]).<span class="hljs-title function_ invoke__">sum</span>();
+				i += <span class="hljs-number">1</span>;
 			}
 		}
-		Self(entries)
+		<span class="hljs-title function_ invoke__">Self</span>(entries)
 	}
 
-	fn mul_vec(&amp;self, col: Triple) -&gt; Triple {
-		let mut entries = [0; 3];
-		for (r, elem) in entries.iter_mut().enumerate() {
-			let self_row = self.row(r);
-			*elem = (0..3).map(|i| self_row[i] * col[i]).sum();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">mul_vec</span>(&amp;<span class="hljs-keyword">self</span>, col: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">entries</span> = [<span class="hljs-number">0</span>; <span class="hljs-number">3</span>];
+		<span class="hljs-title function_ invoke__">for</span> (r, elem) <span class="hljs-keyword">in</span> entries.<span class="hljs-title function_ invoke__">iter_mut</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">self_row</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">row</span>(r);
+			*elem = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">map</span>(|i| self_row[i] * col[i]).<span class="hljs-title function_ invoke__">sum</span>();
 		}
 		entries
 	}
 }
 
-impl std::ops::Index&lt;[usize; 2]&gt; for Matrix3 {
-	type Output = i32;
-	fn index(&amp;self, index: [usize; 2]) -&gt; &amp;Self::Output {
-		let [row, col] = index;
-		&amp;self.0[3 * row + col]
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::Index&lt;[<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Matrix3</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-type">i32</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">index</span>(&amp;<span class="hljs-keyword">self</span>, index: [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]) <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">let</span> [row, col] = index;
+		&amp;<span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>[<span class="hljs-number">3</span> * row + col]
 	}
 }
 
-#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
-enum Axis {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Axis</span> {
 	PosX,
 	NegX,
 	PosY,
@@ -1295,182 +1295,182 @@ enum Axis {
 	NegZ,
 }
 
-impl From&lt;Axis&gt; for Triple {
-	fn from(axis: Axis) -&gt; Self {
-		use Axis::*;
-		match axis {
-			PosX =&gt; [1, 0, 0],
-			NegX =&gt; [-1, 0, 0],
-			PosY =&gt; [0, 1, 0],
-			NegY =&gt; [0, -1, 0],
-			PosZ =&gt; [0, 0, 1],
-			NegZ =&gt; [0, 0, -1],
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Axis&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Triple</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(axis: Axis) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">use</span> Axis::*;
+		<span class="hljs-keyword">match</span> axis {
+			PosX =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+			NegX =&gt; [-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+			PosY =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			NegY =&gt; [<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			PosZ =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],
+			NegZ =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">1</span>],
 		}
 	}
 }
 
-#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
-enum RotationCcw {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, EnumIter, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">RotationCcw</span> {
 	Zero,
 	Quarter,
 	Half,
 	ThreeQuarters,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Swivel {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Swivel</span> {
 	up_face: Axis,
 	rotation_about_up: RotationCcw,
 }
 
-impl Swivel {
-	fn new(up_face: Axis, rotation_about_up: RotationCcw) -&gt; Self {
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Swivel</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(up_face: Axis, rotation_about_up: RotationCcw) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
 			up_face,
 			rotation_about_up,
 		}
 	}
 
-	fn identity() -&gt; Self {
-		Self::new(Axis::PosZ, RotationCcw::Zero)
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">identity</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(Axis::PosZ, RotationCcw::Zero)
 	}
 
-	fn apply(self, point: Triple) -&gt; Triple {
-		use Axis::*;
-		use RotationCcw::*;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply</span>(<span class="hljs-keyword">self</span>, point: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">use</span> Axis::*;
+		<span class="hljs-keyword">use</span> RotationCcw::*;
 
-		let mat_to_bring_face_to_up = match self.up_face {
-			PosX =&gt; Matrix3::from_cols(PosZ, PosY, NegX),
-			NegX =&gt; Matrix3::from_cols(NegZ, PosY, PosX),
-			PosY =&gt; Matrix3::from_cols(PosX, PosZ, NegY),
-			NegY =&gt; Matrix3::from_cols(PosX, NegZ, PosY),
-			PosZ =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">mat_to_bring_face_to_up</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.up_face {
+			PosX =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosZ, PosY, NegX),
+			NegX =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegZ, PosY, PosX),
+			PosY =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, PosZ, NegY),
+			NegY =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, NegZ, PosY),
+			PosZ =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, PosY, PosZ),
 			NegZ =&gt; {
-				// We have a couple options; we pick the one that rotates about the y axis
-				// because it's easier to actually rotate my hand that way
-				Matrix3::from_cols(NegX, PosY, NegZ)
+				<span class="hljs-comment">// We have a couple options; we pick the one that rotates about the y axis</span>
+				<span class="hljs-comment">// because it&#x27;s easier to actually rotate my hand that way</span>
+				Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegX, PosY, NegZ)
 			}
 		};
 
-		let mat_to_rotate_about_up = match self.rotation_about_up {
-			Zero =&gt; Matrix3::from_cols(PosX, PosY, PosZ),
-			Quarter =&gt; Matrix3::from_cols(PosY, NegX, PosZ),
-			Half =&gt; Matrix3::from_cols(NegX, NegY, PosZ),
-			ThreeQuarters =&gt; Matrix3::from_cols(NegY, PosX, PosZ),
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">mat_to_rotate_about_up</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.rotation_about_up {
+			Zero =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosX, PosY, PosZ),
+			Quarter =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(PosY, NegX, PosZ),
+			Half =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegX, NegY, PosZ),
+			ThreeQuarters =&gt; Matrix3::<span class="hljs-title function_ invoke__">from_cols</span>(NegY, PosX, PosZ),
 		};
 
 		mat_to_bring_face_to_up
-			.mat_mul(mat_to_rotate_about_up)
-			.mul_vec(point)
+			.<span class="hljs-title function_ invoke__">mat_mul</span>(mat_to_rotate_about_up)
+			.<span class="hljs-title function_ invoke__">mul_vec</span>(point)
 	}
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Translation(Triple);
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Translation</span>(Triple);
 
-impl Translation {
-	fn identity() -&gt; Self {
-		Self([0, 0, 0])
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Translation</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">identity</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-title function_ invoke__">Self</span>([<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>])
 	}
 
-	fn apply(&amp;self, point: Triple) -&gt; Triple {
-		let [x, y, z] = point;
-		let [tx, ty, tz] = self.0;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply</span>(&amp;<span class="hljs-keyword">self</span>, point: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">let</span> [x, y, z] = point;
+		<span class="hljs-keyword">let</span> [tx, ty, tz] = <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>;
 		[x + tx, y + ty, z + tz]
 	}
 
-	fn manhattan_dist(&amp;self) -&gt; u32 {
-		let [x, y, z] = self.0;
-		u32::try_from(x.abs() + y.abs() + z.abs()).unwrap()
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">manhattan_dist</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+		<span class="hljs-keyword">let</span> [x, y, z] = <span class="hljs-keyword">self</span>.<span class="hljs-number">0</span>;
+		<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(x.<span class="hljs-title function_ invoke__">abs</span>() + y.<span class="hljs-title function_ invoke__">abs</span>() + z.<span class="hljs-title function_ invoke__">abs</span>()).<span class="hljs-title function_ invoke__">unwrap</span>()
 	}
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Transform {
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Transform</span> {
 	swivel: Swivel,
 	translation: Translation,
 }
 
-impl From&lt;Swivel&gt; for Transform {
-	fn from(swivel: Swivel) -&gt; Self {
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Swivel&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Transform</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(swivel: Swivel) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
 			swivel,
-			translation: Translation([0, 0, 0]),
+			translation: <span class="hljs-title function_ invoke__">Translation</span>([<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]),
 		}
 	}
 }
 
-impl From&lt;Translation&gt; for Transform {
-	fn from(translation: Translation) -&gt; Self {
-		Self {
-			swivel: Swivel::new(Axis::PosZ, RotationCcw::Zero),
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Translation&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Transform</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(translation: Translation) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			swivel: Swivel::<span class="hljs-title function_ invoke__">new</span>(Axis::PosZ, RotationCcw::Zero),
 			translation,
 		}
 	}
 }
 
-impl Transform {
-	fn identity() -&gt; Self {
-		Self {
-			swivel: Swivel::identity(),
-			translation: Translation::identity(),
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Transform</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">identity</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			swivel: Swivel::<span class="hljs-title function_ invoke__">identity</span>(),
+			translation: Translation::<span class="hljs-title function_ invoke__">identity</span>(),
 		}
 	}
 
-	fn apply(&amp;self, point: Triple) -&gt; Triple {
-		self.translation.apply(self.swivel.apply(point))
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply</span>(&amp;<span class="hljs-keyword">self</span>, point: Triple) <span class="hljs-punctuation">-&gt;</span> Triple {
+		<span class="hljs-keyword">self</span>.translation.<span class="hljs-title function_ invoke__">apply</span>(<span class="hljs-keyword">self</span>.swivel.<span class="hljs-title function_ invoke__">apply</span>(point))
 	}
 }
 
-#[derive(Debug, Clone)]
-struct Scanner {
+<span class="hljs-meta">#[derive(Debug, Clone)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Scanner</span> {
 	beacons: BTreeSet&lt;Triple&gt;,
 }
 
-impl Scanner {
-	fn new(beacons: BTreeSet&lt;Triple&gt;) -&gt; Self {
-		Self { beacons }
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Scanner</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(beacons: BTreeSet&lt;Triple&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> { beacons }
 	}
 
-	fn merged_with(&amp;self, other: &amp;Self) -&gt; Self {
-		Self {
-			beacons: self.beacons.union(&amp;other.beacons).copied().collect(),
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">merged_with</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			beacons: <span class="hljs-keyword">self</span>.beacons.<span class="hljs-title function_ invoke__">union</span>(&amp;other.beacons).<span class="hljs-title function_ invoke__">copied</span>().<span class="hljs-title function_ invoke__">collect</span>(),
 		}
 	}
 
-	fn applying&lt;T: Into&lt;Transform&gt; + Copy&gt;(&amp;self, transform: T) -&gt; Self {
-		let transform = transform.into();
-		Scanner::new(self.beacons.iter().map(|&amp;p| transform.apply(p)).collect())
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">applying</span>&lt;T: <span class="hljs-built_in">Into</span>&lt;Transform&gt; + <span class="hljs-built_in">Copy</span>&gt;(&amp;<span class="hljs-keyword">self</span>, transform: T) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">transform</span> = transform.<span class="hljs-title function_ invoke__">into</span>();
+		Scanner::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.beacons.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|&amp;p| transform.<span class="hljs-title function_ invoke__">apply</span>(p)).<span class="hljs-title function_ invoke__">collect</span>())
 	}
 
-	fn candidates_for_merge(&amp;self, other: &amp;Scanner) -&gt; Vec&lt;(Transform, Scanner)&gt; {
-		let mut transforms = BTreeSet::new();
-		let mut candidates = vec![];
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">candidates_for_merge</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;Scanner) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;(Transform, Scanner)&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">transforms</span> = BTreeSet::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">candidates</span> = <span class="hljs-built_in">vec!</span>[];
 
-		for up_face in Axis::iter() {
-			for rotation in RotationCcw::iter() {
-				let swivel = Swivel::new(up_face, rotation);
-				let swiveled_other = other.applying(swivel);
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">up_face</span> <span class="hljs-keyword">in</span> Axis::<span class="hljs-title function_ invoke__">iter</span>() {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">rotation</span> <span class="hljs-keyword">in</span> RotationCcw::<span class="hljs-title function_ invoke__">iter</span>() {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">swivel</span> = Swivel::<span class="hljs-title function_ invoke__">new</span>(up_face, rotation);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">swiveled_other</span> = other.<span class="hljs-title function_ invoke__">applying</span>(swivel);
 
-				for swiveled_other_beacon in &amp;swiveled_other.beacons {
-					for this_beacon in &amp;self.beacons {
-						let translation = Translation(
-							[0, 1, 2].map(|i| this_beacon[i] - swiveled_other_beacon[i]),
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">swiveled_other_beacon</span> <span class="hljs-keyword">in</span> &amp;swiveled_other.beacons {
+					<span class="hljs-keyword">for</span> <span class="hljs-variable">this_beacon</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.beacons {
+						<span class="hljs-keyword">let</span> <span class="hljs-variable">translation</span> = <span class="hljs-title function_ invoke__">Translation</span>(
+							[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|i| this_beacon[i] - swiveled_other_beacon[i]),
 						);
-						let transformed_other = swiveled_other.applying(translation);
+						<span class="hljs-keyword">let</span> <span class="hljs-variable">transformed_other</span> = swiveled_other.<span class="hljs-title function_ invoke__">applying</span>(translation);
 
-						if self
+						<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>
 							.beacons
-							.intersection(&amp;transformed_other.beacons)
-							.count() &gt;= 12
+							.<span class="hljs-title function_ invoke__">intersection</span>(&amp;transformed_other.beacons)
+							.<span class="hljs-title function_ invoke__">count</span>() &gt;= <span class="hljs-number">12</span>
 						{
-							let transform = Transform {
+							<span class="hljs-keyword">let</span> <span class="hljs-variable">transform</span> = Transform {
 								swivel,
 								translation,
 							};
-							let wasnt_present = transforms.insert(transform);
-							if wasnt_present {
-								candidates.push((transform, transformed_other));
+							<span class="hljs-keyword">let</span> <span class="hljs-variable">wasnt_present</span> = transforms.<span class="hljs-title function_ invoke__">insert</span>(transform);
+							<span class="hljs-keyword">if</span> wasnt_present {
+								candidates.<span class="hljs-title function_ invoke__">push</span>((transform, transformed_other));
 							}
 						}
 					}
@@ -1481,115 +1481,115 @@ impl Scanner {
 		candidates
 	}
 
-	fn merge_all&lt;S: Borrow&lt;Scanner&gt;&gt;(
-		scanners: impl AsRef&lt;[S]&gt;,
-	) -&gt; Option&lt;(Vec&lt;Transform&gt;, Scanner)&gt; {
-		let scanners = scanners.as_ref();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">merge_all</span>&lt;S: Borrow&lt;Scanner&gt;&gt;(
+		scanners: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">AsRef</span>&lt;[S]&gt;,
+	) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;(<span class="hljs-type">Vec</span>&lt;Transform&gt;, Scanner)&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">scanners</span> = scanners.<span class="hljs-title function_ invoke__">as_ref</span>();
 
-		let (first, rest) = scanners.split_first().unwrap();
-		let first = first.borrow();
-		if rest.is_empty() {
-			return Some((vec![Transform::identity()], first.clone()));
+		<span class="hljs-keyword">let</span> (first, rest) = scanners.<span class="hljs-title function_ invoke__">split_first</span>().<span class="hljs-title function_ invoke__">unwrap</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">first</span> = first.<span class="hljs-title function_ invoke__">borrow</span>();
+		<span class="hljs-keyword">if</span> rest.<span class="hljs-title function_ invoke__">is_empty</span>() {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Some</span>((<span class="hljs-built_in">vec!</span>[Transform::<span class="hljs-title function_ invoke__">identity</span>()], first.<span class="hljs-title function_ invoke__">clone</span>()));
 		}
 
-		for (i, s) in rest.iter().enumerate() {
-			let s = s.borrow();
+		<span class="hljs-title function_ invoke__">for</span> (i, s) <span class="hljs-keyword">in</span> rest.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">s</span> = s.<span class="hljs-title function_ invoke__">borrow</span>();
 
-			for (transform, transformed_scanner) in first.candidates_for_merge(s) {
-				let merged_scanner = first.merged_with(&amp;transformed_scanner);
-				let new_scanners = std::iter::once(&amp;merged_scanner)
-					.chain(rest.iter().enumerate().filter_map(|(j, s)| {
-						if i == j {
-							None
-						} else {
-							Some(s.borrow())
+			<span class="hljs-title function_ invoke__">for</span> (transform, transformed_scanner) <span class="hljs-keyword">in</span> first.<span class="hljs-title function_ invoke__">candidates_for_merge</span>(s) {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">merged_scanner</span> = first.<span class="hljs-title function_ invoke__">merged_with</span>(&amp;transformed_scanner);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">new_scanners</span> = std::iter::<span class="hljs-title function_ invoke__">once</span>(&amp;merged_scanner)
+					.<span class="hljs-title function_ invoke__">chain</span>(rest.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>().<span class="hljs-title function_ invoke__">filter_map</span>(|(j, s)| {
+						<span class="hljs-keyword">if</span> i == j {
+							<span class="hljs-literal">None</span>
+						} <span class="hljs-keyword">else</span> {
+							<span class="hljs-title function_ invoke__">Some</span>(s.<span class="hljs-title function_ invoke__">borrow</span>())
 						}
 					}))
-					.collect::&lt;Vec&lt;_&gt;&gt;();
+					.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
 
-				let merge_result = Scanner::merge_all(new_scanners);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">merge_result</span> = Scanner::<span class="hljs-title function_ invoke__">merge_all</span>(new_scanners);
 
-				if let Some((transforms, ans)) = merge_result {
-					return Some((std::iter::once(transform).chain(transforms).collect(), ans));
+				<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>((transforms, ans)) = merge_result {
+					<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Some</span>((std::iter::<span class="hljs-title function_ invoke__">once</span>(transform).<span class="hljs-title function_ invoke__">chain</span>(transforms).<span class="hljs-title function_ invoke__">collect</span>(), ans));
 				}
 			}
 		}
 
-		None
+		<span class="hljs-literal">None</span>
 	}
 }
 
-fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;Scanner&gt;&gt; {
-	let mut scanners = vec![];
-	let mut this_scanner_beacons = BTreeSet::new();
-	for line in s.lines().chain(std::iter::once("")) {
-		if line.starts_with("---") {
-			continue;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;Scanner&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">scanners</span> = <span class="hljs-built_in">vec!</span>[];
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">this_scanner_beacons</span> = BTreeSet::<span class="hljs-title function_ invoke__">new</span>();
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">chain</span>(std::iter::<span class="hljs-title function_ invoke__">once</span>(<span class="hljs-string">&quot;&quot;</span>)) {
+		<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">starts_with</span>(<span class="hljs-string">&quot;---&quot;</span>) {
+			<span class="hljs-keyword">continue</span>;
 		}
 
-		if line.is_empty() {
-			scanners.push(Scanner::new(this_scanner_beacons.clone()));
-			this_scanner_beacons.clear();
-		} else {
-			let mut comps = line.split(',');
-			let [x, y, z] = [0; 3].map(|_| comps.next()?.parse().ok());
-			let [x, y, z] = [x?, y?, z?];
-			this_scanner_beacons.insert([x, y, z]);
+		<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">is_empty</span>() {
+			scanners.<span class="hljs-title function_ invoke__">push</span>(Scanner::<span class="hljs-title function_ invoke__">new</span>(this_scanner_beacons.<span class="hljs-title function_ invoke__">clone</span>()));
+			this_scanner_beacons.<span class="hljs-title function_ invoke__">clear</span>();
+		} <span class="hljs-keyword">else</span> {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">comps</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);
+			<span class="hljs-keyword">let</span> [x, y, z] = [<span class="hljs-number">0</span>; <span class="hljs-number">3</span>].<span class="hljs-title function_ invoke__">map</span>(|_| comps.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>());
+			<span class="hljs-keyword">let</span> [x, y, z] = [x?, y?, z?];
+			this_scanner_beacons.<span class="hljs-title function_ invoke__">insert</span>([x, y, z]);
 		}
 	}
 
-	Some(scanners)
+	<span class="hljs-title function_ invoke__">Some</span>(scanners)
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, u32&gt; {
-	let scanners = read_input(input).unwrap();
-	let (transforms, scanner) = Scanner::merge_all(scanners).unwrap();
-	let translations = transforms.iter().map(|t| t.translation).collect::&lt;Vec&lt;_&gt;&gt;();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">scanners</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	<span class="hljs-keyword">let</span> (transforms, scanner) = Scanner::<span class="hljs-title function_ invoke__">merge_all</span>(scanners).<span class="hljs-title function_ invoke__">unwrap</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">translations</span> = transforms.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|t| t.translation).collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
 
-	(19, (pt1(&amp;scanner), pt2(&amp;translations))).into()
+	(<span class="hljs-number">19</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;scanner), <span class="hljs-title function_ invoke__">pt2</span>(&amp;translations))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, u32&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(scanner: &amp;Scanner) -&gt; usize {
-	scanner.beacons.len()
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(scanner: &amp;Scanner) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	scanner.beacons.<span class="hljs-title function_ invoke__">len</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2&lt;V: AsRef&lt;[Translation]&gt;&gt;(translations: V) -&gt; u32 {
-	let translations = translations.as_ref();
-	let mut max_manh_dist = u32::MIN;
-	for (i, translation1) in translations.iter().enumerate() {
-		let [x1, y1, z1] = translation1.0;
-		for translation2 in translations.iter().skip(i + 1) {
-			let [x2, y2, z2] = translation2.0;
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[Translation]&gt;&gt;(translations: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">translations</span> = translations.<span class="hljs-title function_ invoke__">as_ref</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_manh_dist</span> = <span class="hljs-type">u32</span>::MIN;
+	<span class="hljs-title function_ invoke__">for</span> (i, translation1) <span class="hljs-keyword">in</span> translations.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+		<span class="hljs-keyword">let</span> [x1, y1, z1] = translation1.<span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">translation2</span> <span class="hljs-keyword">in</span> translations.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+			<span class="hljs-keyword">let</span> [x2, y2, z2] = translation2.<span class="hljs-number">0</span>;
 
-			let diff = Translation([x2 - x1, y2 - y1, z2 - z1]);
-			max_manh_dist = max_manh_dist.max(diff.manhattan_dist());
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">diff</span> = <span class="hljs-title function_ invoke__">Translation</span>([x2 - x1, y2 - y1, z2 - z1]);
+			max_manh_dist = max_manh_dist.<span class="hljs-title function_ invoke__">max</span>(diff.<span class="hljs-title function_ invoke__">manhattan_dist</span>());
 		}
 	}
 
 	max_manh_dist
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		assert!(
-			cfg!(not(debug_assertions)),
-			"Day 19 may not be tested in debug mode; it requires --release"
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		<span class="hljs-built_in">assert!</span>(
+			<span class="hljs-built_in">cfg!</span>(<span class="hljs-title function_ invoke__">not</span>(debug_assertions)),
+			<span class="hljs-string">&quot;Day 19 may not be tested in debug mode; it requires --release&quot;</span>
 		);
-		test_input!(include_str!("input.txt"), day: 19, ans: (385, 10707));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">19</span>, ans: (<span class="hljs-number">385</span>, <span class="hljs-number">10707</span>));
 	}
 }</code></pre>
 </div>

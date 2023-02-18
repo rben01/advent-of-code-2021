@@ -24,7 +24,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
+      <a class="navbar-item" href="/advent_of_code_2021">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav" type="button"
         title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
@@ -418,68 +418,68 @@ Not interesting!</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::{collections::BTreeSet as Set, fmt::Write};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::{collections::BTreeSet <span class="hljs-keyword">as</span> Set, fmt::Write};
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Point {
-	row: usize,
-	col: usize,
+<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span> {
+	row: <span class="hljs-type">usize</span>,
+	col: <span class="hljs-type">usize</span>,
 }
 
-#[derive(Debug, Clone)]
-struct SeaGarden {
-	width: usize,
-	height: usize,
+<span class="hljs-meta">#[derive(Debug, Clone)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">SeaGarden</span> {
+	width: <span class="hljs-type">usize</span>,
+	height: <span class="hljs-type">usize</span>,
 	rights: Set&lt;Point&gt;,
 	downs: Set&lt;Point&gt;,
 }
 
-// tag::debugging[]
-impl std::fmt::Display for SeaGarden {
-	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-		writeln!(f, "{} rows × {} cols", self.width, self.height)?;
-		for row in 0..self.height {
-			for col in 0..self.width {
-				let p = &amp;Point { row, col };
-				f.write_char(if self.rights.contains(p) {
-					'&gt;'
-				} else if self.downs.contains(p) {
-					'v'
-				} else {
-					'.'
+<span class="hljs-comment">// tag::debugging[]</span>
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::fmt::Display <span class="hljs-keyword">for</span> <span class="hljs-title class_">SeaGarden</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
+		<span class="hljs-built_in">writeln!</span>(f, <span class="hljs-string">&quot;{} rows × {} cols&quot;</span>, <span class="hljs-keyword">self</span>.width, <span class="hljs-keyword">self</span>.height)?;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">row</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-keyword">self</span>.height {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">col</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-keyword">self</span>.width {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">p</span> = &amp;Point { row, col };
+				f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.rights.<span class="hljs-title function_ invoke__">contains</span>(p) {
+					<span class="hljs-string">&#x27;&gt;&#x27;</span>
+				} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.downs.<span class="hljs-title function_ invoke__">contains</span>(p) {
+					<span class="hljs-string">&#x27;v&#x27;</span>
+				} <span class="hljs-keyword">else</span> {
+					<span class="hljs-string">&#x27;.&#x27;</span>
 				})?;
 			}
-			f.write_char('\n')?;
+			f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-string">&#x27;\n&#x27;</span>)?;
 		}
-		Ok(())
+		<span class="hljs-title function_ invoke__">Ok</span>(())
 	}
 }
 
-// end::debugging[]
-impl SeaGarden {
-	fn from_str(input: &amp;str) -&gt; Self {
-		let mut rights = Set::new();
-		let mut downs = Set::new();
+<span class="hljs-comment">// end::debugging[]</span>
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">SeaGarden</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">rights</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">downs</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
 
-		let mut width = 0;
-		let mut height = 0;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">width</span> = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">height</span> = <span class="hljs-number">0</span>;
 
-		for (row, line) in input.lines().enumerate() {
-			height += 1;
-			width = line.chars().count();
-			for (col, c) in line.chars().enumerate() {
-				let loc = Point { row, col };
-				match c {
-					'&gt;' =&gt; rights.insert(loc),
-					'v' =&gt; downs.insert(loc),
-					'.' =&gt; continue,
-					_ =&gt; unreachable!(),
+		<span class="hljs-title function_ invoke__">for</span> (row, line) <span class="hljs-keyword">in</span> input.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			height += <span class="hljs-number">1</span>;
+			width = line.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">count</span>();
+			<span class="hljs-title function_ invoke__">for</span> (col, c) <span class="hljs-keyword">in</span> line.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">loc</span> = Point { row, col };
+				<span class="hljs-keyword">match</span> c {
+					<span class="hljs-string">&#x27;&gt;&#x27;</span> =&gt; rights.<span class="hljs-title function_ invoke__">insert</span>(loc),
+					<span class="hljs-string">&#x27;v&#x27;</span> =&gt; downs.<span class="hljs-title function_ invoke__">insert</span>(loc),
+					<span class="hljs-string">&#x27;.&#x27;</span> =&gt; <span class="hljs-keyword">continue</span>,
+					_ =&gt; <span class="hljs-built_in">unreachable!</span>(),
 				};
 			}
 		}
-		Self {
+		<span class="hljs-keyword">Self</span> {
 			width,
 			height,
 			rights,
@@ -487,78 +487,78 @@ impl SeaGarden {
 		}
 	}
 
-	fn tick(&amp;mut self) -&gt; bool {
-		let mut any_cucumbers_did_move = false;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">any_cucumbers_did_move</span> = <span class="hljs-literal">false</span>;
 
-		let mut new_rights = Set::new();
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_rights</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
 
-		for old_loc @ &amp;Point { row, col } in &amp;self.rights {
-			let new_loc = Point {
+		<span class="hljs-keyword">for</span> <span class="hljs-title class_">old_loc</span> @ &amp;Point { row, col } <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.rights {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">new_loc</span> = Point {
 				row,
-				col: (col + 1) % self.width,
+				col: (col + <span class="hljs-number">1</span>) % <span class="hljs-keyword">self</span>.width,
 			};
-			if self.rights.contains(&amp;new_loc) || self.downs.contains(&amp;new_loc) {
-				new_rights.insert(*old_loc);
-			} else {
-				new_rights.insert(new_loc);
-				any_cucumbers_did_move = true;
+			<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.rights.<span class="hljs-title function_ invoke__">contains</span>(&amp;new_loc) || <span class="hljs-keyword">self</span>.downs.<span class="hljs-title function_ invoke__">contains</span>(&amp;new_loc) {
+				new_rights.<span class="hljs-title function_ invoke__">insert</span>(*old_loc);
+			} <span class="hljs-keyword">else</span> {
+				new_rights.<span class="hljs-title function_ invoke__">insert</span>(new_loc);
+				any_cucumbers_did_move = <span class="hljs-literal">true</span>;
 			}
 		}
 
-		let new_rights = new_rights;
-		let mut new_downs = Set::new();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_rights</span> = new_rights;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_downs</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
 
-		for old_loc @ &amp;Point { row, col } in &amp;self.downs {
-			let new_loc = Point {
-				row: (row + 1) % self.height,
+		<span class="hljs-keyword">for</span> <span class="hljs-title class_">old_loc</span> @ &amp;Point { row, col } <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.downs {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">new_loc</span> = Point {
+				row: (row + <span class="hljs-number">1</span>) % <span class="hljs-keyword">self</span>.height,
 				col,
 			};
-			if new_rights.contains(&amp;new_loc) || self.downs.contains(&amp;new_loc) {
-				new_downs.insert(*old_loc);
-			} else {
-				new_downs.insert(new_loc);
-				any_cucumbers_did_move = true;
+			<span class="hljs-keyword">if</span> new_rights.<span class="hljs-title function_ invoke__">contains</span>(&amp;new_loc) || <span class="hljs-keyword">self</span>.downs.<span class="hljs-title function_ invoke__">contains</span>(&amp;new_loc) {
+				new_downs.<span class="hljs-title function_ invoke__">insert</span>(*old_loc);
+			} <span class="hljs-keyword">else</span> {
+				new_downs.<span class="hljs-title function_ invoke__">insert</span>(new_loc);
+				any_cucumbers_did_move = <span class="hljs-literal">true</span>;
 			}
 		}
 
-		self.rights = new_rights;
-		self.downs = new_downs;
+		<span class="hljs-keyword">self</span>.rights = new_rights;
+		<span class="hljs-keyword">self</span>.downs = new_downs;
 
 		any_cucumbers_did_move
 	}
 
-	fn run_until_no_movement(&amp;mut self) -&gt; usize {
-		let mut n = 1;
-		while self.tick() {
-			n += 1;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">run_until_no_movement</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n</span> = <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">while</span> <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">tick</span>() {
+			n += <span class="hljs-number">1</span>;
 		}
 		n
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let mut garden = SeaGarden::from_str(input);
-	(25, (pt1(&amp;mut garden), 0)).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">garden</span> = SeaGarden::<span class="hljs-title function_ invoke__">from_str</span>(input);
+	(<span class="hljs-number">25</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;<span class="hljs-keyword">mut</span> garden), <span class="hljs-number">0</span>)).<span class="hljs-title function_ invoke__">into</span>()
 }
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
 
-// end::setup[]
-// tag::pt1[]
-fn pt1(garden: &amp;mut SeaGarden) -&gt; usize {
-	garden.run_until_no_movement()
+<span class="hljs-comment">// end::setup[]</span>
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(garden: &amp;<span class="hljs-keyword">mut</span> SeaGarden) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	garden.<span class="hljs-title function_ invoke__">run_until_no_movement</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 25, ans: (557, 0));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">25</span>, ans: (<span class="hljs-number">557</span>, <span class="hljs-number">0</span>));
 	}
 }</code></pre>
 </div>

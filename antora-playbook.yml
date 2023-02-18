@@ -1,7 +1,7 @@
 site:
   robots: allow
   title: Robert Bennett — Advent of Code 2021
-  url: /
+  url: /advent_of_code_2021
 
 content:
   sources:
@@ -14,9 +14,9 @@ output:
 ui:
   bundle:
     # url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
-    url: https://github.com/rben01/antora-ui/releases/latest/download/ui-bundle.zip
-    # url: ~/Documents/CloudDocs/Documents/Coding/Projects/Antora Theme/src
-    snapshot: true
+    # url: https://github.com/rben01/antora-ui/releases/latest/download/ui-bundle.zip
+    url: ~/Documents/CloudDocs/Documents/Coding/Projects/Antora Theme/src
+    # snapshot: true
 
 urls:
   html_extension_style: drop

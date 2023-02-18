@@ -35,7 +35,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
+      <a class="navbar-item" href="/advent_of_code_2021">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav" type="button"
         title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
@@ -419,7 +419,7 @@
 <p>This problem asks us, in effect, to find the number that minimizes the sum of particular measures of error.
 (Since the number of points is fixed, we will use “sum” and “mean” of the errors interchangeably, as they merely differ by a constant factor, the number of points.)
 A naive solution would iterate through all possibilities, but knowledge of statistics offers us a shortcut.
-In both parts, we aim to minimize an <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm" target="_blank" rel="noopener">\(l_p\)-norm</a>.</p>
+In both parts, we aim to minimize an <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm" target="_blank" rel="noopener"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>l</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">l_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0197em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>-norm</a>.</p>
 </div>
 <hr>
 </div>
@@ -432,69 +432,69 @@ In both parts, we aim to minimize an <a href="https://en.wikipedia.org/wiki/Norm
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::{utils::abs_diff, Answer};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::{utils::abs_diff, Answer};
 
-fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;usize&gt;&gt; {
-	s.trim()
-		.split(',')
-		.map(|n| n.parse().ok())
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
-}
-
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let nums = read_input(input).unwrap();
-	(7, (pt1(&amp;nums), pt2(&amp;nums))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt; {
+	s.<span class="hljs-title function_ invoke__">trim</span>()
+		.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
+		.<span class="hljs-title function_ invoke__">map</span>(|n| n.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>())
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">7</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;nums), <span class="hljs-title function_ invoke__">pt2</span>(&amp;nums))).<span class="hljs-title function_ invoke__">into</span>()
 }
-// end::setup[]
-// tag::pt1[]
-fn pt1&lt;V: AsRef&lt;[usize]&gt;&gt;(nums: V) -&gt; usize {
-	let mut nums = nums.as_ref().to_vec();
-	nums.sort_unstable();
-	let datum_below = nums[nums.len() / 2];
-	let datum_above = nums[1 + (nums.len() - 1) / 2];
-	let median = (datum_below + datum_above) / 2;
-	nums.iter().map(|&amp;n| abs_diff(n, median)).sum()
+
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::pt1[]
-// tag::pt2[]
-fn pt2&lt;V: AsRef&lt;[usize]&gt;&gt;(nums: V) -&gt; usize {
-	fn cost(mean: usize, nums: &amp;[usize]) -&gt; usize {
-		nums.iter()
-			.map(|&amp;n| {
-				let diff = abs_diff(n, mean);
-				diff * (diff + 1) / 2
+<span class="hljs-comment">// end::setup[]</span>
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>().<span class="hljs-title function_ invoke__">to_vec</span>();
+	nums.<span class="hljs-title function_ invoke__">sort_unstable</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_below</span> = nums[nums.<span class="hljs-title function_ invoke__">len</span>() / <span class="hljs-number">2</span>];
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_above</span> = nums[<span class="hljs-number">1</span> + (nums.<span class="hljs-title function_ invoke__">len</span>() - <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>];
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">median</span> = (datum_below + datum_above) / <span class="hljs-number">2</span>;
+	nums.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|&amp;n| <span class="hljs-title function_ invoke__">abs_diff</span>(n, median)).<span class="hljs-title function_ invoke__">sum</span>()
+}
+<span class="hljs-comment">// end::pt1[]</span>
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">cost</span>(mean: <span class="hljs-type">usize</span>, nums: &amp;[<span class="hljs-type">usize</span>]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		nums.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">map</span>(|&amp;n| {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">diff</span> = <span class="hljs-title function_ invoke__">abs_diff</span>(n, mean);
+				diff * (diff + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>
 			})
-			.sum()
+			.<span class="hljs-title function_ invoke__">sum</span>()
 	}
 
-	let nums = nums.as_ref();
-	let sum = nums.iter().sum::&lt;usize&gt;();
-	let len = nums.len();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">sum</span> = nums.<span class="hljs-title function_ invoke__">iter</span>().sum::&lt;<span class="hljs-type">usize</span>&gt;();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">len</span> = nums.<span class="hljs-title function_ invoke__">len</span>();
 
-	let mean_rounded_down = sum / len;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_down</span> = sum / len;
 
-	if sum % len == 0 {
-		cost(mean_rounded_down, nums)
-	} else {
-		let mean_rounded_up = (sum - 1) / len + 1;
-		cost(mean_rounded_down, nums).min(cost(mean_rounded_up, nums))
+	<span class="hljs-keyword">if</span> sum % len == <span class="hljs-number">0</span> {
+		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums)
+	} <span class="hljs-keyword">else</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_up</span> = (sum - <span class="hljs-number">1</span>) / len + <span class="hljs-number">1</span>;
+		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums).<span class="hljs-title function_ invoke__">min</span>(<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_up, nums))
 	}
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 7, ans: (328_187, 91_257_582));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">7</span>, ans: (<span class="hljs-number">328_187</span>, <span class="hljs-number">91_257_582</span>));
 	}
 }</code></pre>
 </div>
@@ -505,7 +505,7 @@ mod test {
 <h2 id="_part_1"><a class="anchor" href="#_part_1"></a>Part 1</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Part 1 asks us, in effect, to find the number \(x\) that minimizes the mean absolute deviation, or the \(l_1\)-norm of the error.
+<p>Part 1 asks us, in effect, to find the number <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> that minimizes the mean absolute deviation, or the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>l</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">l_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0197em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>-norm of the error.
 The number that does this is simply the median of the dataset.
 (In this problem, the median may be a half-integer, but the solution has to be an integer, so we can just round the median down.)</p>
 </div>
@@ -515,69 +515,69 @@ If you are not at the median and move towards it, you are moving toward at least
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::{utils::abs_diff, Answer};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::{utils::abs_diff, Answer};
 
-fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;usize&gt;&gt; {
-	s.trim()
-		.split(',')
-		.map(|n| n.parse().ok())
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
-}
-
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let nums = read_input(input).unwrap();
-	(7, (pt1(&amp;nums), pt2(&amp;nums))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt; {
+	s.<span class="hljs-title function_ invoke__">trim</span>()
+		.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
+		.<span class="hljs-title function_ invoke__">map</span>(|n| n.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>())
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">7</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;nums), <span class="hljs-title function_ invoke__">pt2</span>(&amp;nums))).<span class="hljs-title function_ invoke__">into</span>()
 }
-// end::setup[]
-// tag::pt1[]
-fn pt1&lt;V: AsRef&lt;[usize]&gt;&gt;(nums: V) -&gt; usize {
-	let mut nums = nums.as_ref().to_vec();
-	nums.sort_unstable();
-	let datum_below = nums[nums.len() / 2];
-	let datum_above = nums[1 + (nums.len() - 1) / 2];
-	let median = (datum_below + datum_above) / 2;
-	nums.iter().map(|&amp;n| abs_diff(n, median)).sum()
+
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::pt1[]
-// tag::pt2[]
-fn pt2&lt;V: AsRef&lt;[usize]&gt;&gt;(nums: V) -&gt; usize {
-	fn cost(mean: usize, nums: &amp;[usize]) -&gt; usize {
-		nums.iter()
-			.map(|&amp;n| {
-				let diff = abs_diff(n, mean);
-				diff * (diff + 1) / 2
+<span class="hljs-comment">// end::setup[]</span>
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>().<span class="hljs-title function_ invoke__">to_vec</span>();
+	nums.<span class="hljs-title function_ invoke__">sort_unstable</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_below</span> = nums[nums.<span class="hljs-title function_ invoke__">len</span>() / <span class="hljs-number">2</span>];
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_above</span> = nums[<span class="hljs-number">1</span> + (nums.<span class="hljs-title function_ invoke__">len</span>() - <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>];
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">median</span> = (datum_below + datum_above) / <span class="hljs-number">2</span>;
+	nums.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|&amp;n| <span class="hljs-title function_ invoke__">abs_diff</span>(n, median)).<span class="hljs-title function_ invoke__">sum</span>()
+}
+<span class="hljs-comment">// end::pt1[]</span>
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">cost</span>(mean: <span class="hljs-type">usize</span>, nums: &amp;[<span class="hljs-type">usize</span>]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		nums.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">map</span>(|&amp;n| {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">diff</span> = <span class="hljs-title function_ invoke__">abs_diff</span>(n, mean);
+				diff * (diff + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>
 			})
-			.sum()
+			.<span class="hljs-title function_ invoke__">sum</span>()
 	}
 
-	let nums = nums.as_ref();
-	let sum = nums.iter().sum::&lt;usize&gt;();
-	let len = nums.len();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">sum</span> = nums.<span class="hljs-title function_ invoke__">iter</span>().sum::&lt;<span class="hljs-type">usize</span>&gt;();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">len</span> = nums.<span class="hljs-title function_ invoke__">len</span>();
 
-	let mean_rounded_down = sum / len;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_down</span> = sum / len;
 
-	if sum % len == 0 {
-		cost(mean_rounded_down, nums)
-	} else {
-		let mean_rounded_up = (sum - 1) / len + 1;
-		cost(mean_rounded_down, nums).min(cost(mean_rounded_up, nums))
+	<span class="hljs-keyword">if</span> sum % len == <span class="hljs-number">0</span> {
+		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums)
+	} <span class="hljs-keyword">else</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_up</span> = (sum - <span class="hljs-number">1</span>) / len + <span class="hljs-number">1</span>;
+		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums).<span class="hljs-title function_ invoke__">min</span>(<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_up, nums))
 	}
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 7, ans: (328_187, 91_257_582));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">7</span>, ans: (<span class="hljs-number">328_187</span>, <span class="hljs-number">91_257_582</span>));
 	}
 }</code></pre>
 </div>
@@ -588,10 +588,10 @@ mod test {
 <h2 id="_part_2"><a class="anchor" href="#_part_2"></a>Part 2</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In Part 2, the cost associated with a distance of \(n\) is \(\sum_{k=1}^n k = \frac{n(n+1)}{2}\).
-Since \(n\) is an integer, \(n^2\ge n\), and so \(n^2+n\) is “not relatively penalized more than” \(n^2\) would be, which means the mean of the \(\frac{n(n+1)}{2}\) will be minimized whenever the mean of \(n^2\) is minimized.
-(It would be a problem if \(n\) exceeded \(n^2\), as then it might dominate in the sum and we&#8217;d no longer be looking to minimize the mean of the \(n^2\).)
-This is the <a href="https://en.wikipedia.org/wiki/Mean_squared_error" target="_blank" rel="noopener">mean squared error</a> (MSE, or \(l_2\)-norm of the error), and it is a <a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_theorem" target="_blank" rel="noopener">well-known fact of statistics</a> that the MSE is minimized by the arithmetic mean of the data.</p>
+<p>In Part 2, the cost associated with a distance of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><mi>k</mi><mo>=</mo><mfrac><mrow><mi>n</mi><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">\sum_{k=1}^n k = \frac{n(n+1)}{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.104em;vertical-align:-0.2997em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8043em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2997em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.355em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">n</span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>.
+Since <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> is an integer, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup><mo>≥</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n^2\ge n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9501em;vertical-align:-0.136em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>, and so <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup><mo>+</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n^2+n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> is “not relatively penalized more than” <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> would be, which means the mean of the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>n</mi><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{n(n+1)}{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.355em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">n</span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> will be minimized whenever the mean of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> is minimized.
+(It would be a problem if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> exceeded <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>, as then it might dominate in the sum and we&#8217;d no longer be looking to minimize the mean of the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>.)
+This is the <a href="https://en.wikipedia.org/wiki/Mean_squared_error" target="_blank" rel="noopener">mean squared error</a> (MSE, or <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>l</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">l_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0197em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>-norm of the error), and it is a <a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_theorem" target="_blank" rel="noopener">well-known fact of statistics</a> that the MSE is minimized by the arithmetic mean of the data.</p>
 </div>
 <div class="paragraph">
 <p>The only catch is that the arithmetic mean need not be an integer, but the solution to the problem must be.
@@ -600,69 +600,69 @@ This works because the error is concave up, i.e., a local minimum is the global 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::{utils::abs_diff, Answer};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::{utils::abs_diff, Answer};
 
-fn read_input(s: &amp;str) -&gt; Option&lt;Vec&lt;usize&gt;&gt; {
-	s.trim()
-		.split(',')
-		.map(|n| n.parse().ok())
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
-}
-
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let nums = read_input(input).unwrap();
-	(7, (pt1(&amp;nums), pt2(&amp;nums))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt; {
+	s.<span class="hljs-title function_ invoke__">trim</span>()
+		.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
+		.<span class="hljs-title function_ invoke__">map</span>(|n| n.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>())
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">7</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;nums), <span class="hljs-title function_ invoke__">pt2</span>(&amp;nums))).<span class="hljs-title function_ invoke__">into</span>()
 }
-// end::setup[]
-// tag::pt1[]
-fn pt1&lt;V: AsRef&lt;[usize]&gt;&gt;(nums: V) -&gt; usize {
-	let mut nums = nums.as_ref().to_vec();
-	nums.sort_unstable();
-	let datum_below = nums[nums.len() / 2];
-	let datum_above = nums[1 + (nums.len() - 1) / 2];
-	let median = (datum_below + datum_above) / 2;
-	nums.iter().map(|&amp;n| abs_diff(n, median)).sum()
+
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::pt1[]
-// tag::pt2[]
-fn pt2&lt;V: AsRef&lt;[usize]&gt;&gt;(nums: V) -&gt; usize {
-	fn cost(mean: usize, nums: &amp;[usize]) -&gt; usize {
-		nums.iter()
-			.map(|&amp;n| {
-				let diff = abs_diff(n, mean);
-				diff * (diff + 1) / 2
+<span class="hljs-comment">// end::setup[]</span>
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>().<span class="hljs-title function_ invoke__">to_vec</span>();
+	nums.<span class="hljs-title function_ invoke__">sort_unstable</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_below</span> = nums[nums.<span class="hljs-title function_ invoke__">len</span>() / <span class="hljs-number">2</span>];
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_above</span> = nums[<span class="hljs-number">1</span> + (nums.<span class="hljs-title function_ invoke__">len</span>() - <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>];
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">median</span> = (datum_below + datum_above) / <span class="hljs-number">2</span>;
+	nums.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|&amp;n| <span class="hljs-title function_ invoke__">abs_diff</span>(n, median)).<span class="hljs-title function_ invoke__">sum</span>()
+}
+<span class="hljs-comment">// end::pt1[]</span>
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">cost</span>(mean: <span class="hljs-type">usize</span>, nums: &amp;[<span class="hljs-type">usize</span>]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		nums.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">map</span>(|&amp;n| {
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">diff</span> = <span class="hljs-title function_ invoke__">abs_diff</span>(n, mean);
+				diff * (diff + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>
 			})
-			.sum()
+			.<span class="hljs-title function_ invoke__">sum</span>()
 	}
 
-	let nums = nums.as_ref();
-	let sum = nums.iter().sum::&lt;usize&gt;();
-	let len = nums.len();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">sum</span> = nums.<span class="hljs-title function_ invoke__">iter</span>().sum::&lt;<span class="hljs-type">usize</span>&gt;();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">len</span> = nums.<span class="hljs-title function_ invoke__">len</span>();
 
-	let mean_rounded_down = sum / len;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_down</span> = sum / len;
 
-	if sum % len == 0 {
-		cost(mean_rounded_down, nums)
-	} else {
-		let mean_rounded_up = (sum - 1) / len + 1;
-		cost(mean_rounded_down, nums).min(cost(mean_rounded_up, nums))
+	<span class="hljs-keyword">if</span> sum % len == <span class="hljs-number">0</span> {
+		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums)
+	} <span class="hljs-keyword">else</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_up</span> = (sum - <span class="hljs-number">1</span>) / len + <span class="hljs-number">1</span>;
+		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums).<span class="hljs-title function_ invoke__">min</span>(<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_up, nums))
 	}
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 7, ans: (328_187, 91_257_582));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">7</span>, ans: (<span class="hljs-number">328_187</span>, <span class="hljs-number">91_257_582</span>));
 	}
 }</code></pre>
 </div>

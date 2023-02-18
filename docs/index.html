@@ -24,7 +24,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
+      <a class="navbar-item" href="/advent_of_code_2021">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav" type="button"
         title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
@@ -457,75 +457,75 @@ For our purposes, the residual variants of a <code>Try</code> object at the boun
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">#![feature(array_zip)]
-#![feature(map_first_last)]
-#![feature(bool_to_option)]
-#![warn(clippy::pedantic)]
-#![allow(
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-meta">#![feature(array_zip)]</span>
+<span class="hljs-meta">#![feature(map_first_last)]</span>
+<span class="hljs-meta">#![feature(bool_to_option)]</span>
+<span class="hljs-meta">#![warn(clippy::pedantic)]</span>
+<span class="hljs-meta">#![allow(
 	clippy::enum_glob_use,
 	clippy::missing_panics_doc,
 	clippy::must_use_candidate,
 	clippy::similar_names,
 	clippy::too_many_lines
-)]
+)]</span>
 
-use std::fmt::{Debug, Display};
+<span class="hljs-keyword">use</span> std::fmt::{<span class="hljs-built_in">Debug</span>, Display};
 
-pub(crate) mod utils;
+<span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">mod</span> utils;
 
-// tag::mods[]
-macro_rules! include_days {
+<span class="hljs-comment">// tag::mods[]</span>
+<span class="hljs-built_in">macro_rules!</span> include_days {
 	($($mod_name:ident:$ft_name:literal),* $(,)?) =&gt; {
-		$(#[cfg(feature = $ft_name)] pub mod $mod_name;)*
+		$(<span class="hljs-meta">#[cfg(feature = $ft_name)]</span> <span class="hljs-keyword">pub</span> <span class="hljs-keyword">mod</span> $mod_name;)*
 	};
 }
 
 include_days!(
-	day_01:"day_01",
-	day_02:"day_02",
-	day_03:"day_03",
-	day_04:"day_04",
-	day_05:"day_05",
-	day_06:"day_06",
-	day_07:"day_07",
-	day_08:"day_08",
-	day_09:"day_09",
-	day_10:"day_10",
-	day_11:"day_11",
-	day_12:"day_12",
-	day_13:"day_13",
-	day_14:"day_14",
-	day_15:"day_15",
-	day_16:"day_16",
-	day_17:"day_17",
-	day_18:"day_18",
-	day_19:"day_19",
-	day_20:"day_20",
-	day_21:"day_21",
-	day_22:"day_22",
-	day_23:"day_23",
-	day_24:"day_24",
-	day_25:"day_25",
+	day_01:<span class="hljs-string">&quot;day_01&quot;</span>,
+	day_02:<span class="hljs-string">&quot;day_02&quot;</span>,
+	day_03:<span class="hljs-string">&quot;day_03&quot;</span>,
+	day_04:<span class="hljs-string">&quot;day_04&quot;</span>,
+	day_05:<span class="hljs-string">&quot;day_05&quot;</span>,
+	day_06:<span class="hljs-string">&quot;day_06&quot;</span>,
+	day_07:<span class="hljs-string">&quot;day_07&quot;</span>,
+	day_08:<span class="hljs-string">&quot;day_08&quot;</span>,
+	day_09:<span class="hljs-string">&quot;day_09&quot;</span>,
+	day_10:<span class="hljs-string">&quot;day_10&quot;</span>,
+	day_11:<span class="hljs-string">&quot;day_11&quot;</span>,
+	day_12:<span class="hljs-string">&quot;day_12&quot;</span>,
+	day_13:<span class="hljs-string">&quot;day_13&quot;</span>,
+	day_14:<span class="hljs-string">&quot;day_14&quot;</span>,
+	day_15:<span class="hljs-string">&quot;day_15&quot;</span>,
+	day_16:<span class="hljs-string">&quot;day_16&quot;</span>,
+	day_17:<span class="hljs-string">&quot;day_17&quot;</span>,
+	day_18:<span class="hljs-string">&quot;day_18&quot;</span>,
+	day_19:<span class="hljs-string">&quot;day_19&quot;</span>,
+	day_20:<span class="hljs-string">&quot;day_20&quot;</span>,
+	day_21:<span class="hljs-string">&quot;day_21&quot;</span>,
+	day_22:<span class="hljs-string">&quot;day_22&quot;</span>,
+	day_23:<span class="hljs-string">&quot;day_23&quot;</span>,
+	day_24:<span class="hljs-string">&quot;day_24&quot;</span>,
+	day_25:<span class="hljs-string">&quot;day_25&quot;</span>,
 );
 
-// end::mods[]
-#[derive(Debug, PartialEq, Eq)]
-pub struct Answer&lt;T1, T2&gt; {
-	day: usize,
+<span class="hljs-comment">// end::mods[]</span>
+<span class="hljs-meta">#[derive(Debug, PartialEq, Eq)]</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">Answer</span>&lt;T1, T2&gt; {
+	day: <span class="hljs-type">usize</span>,
 	pt1: T1,
 	pt2: T2,
 }
 
-impl&lt;T1: Debug, T2: Debug&gt; Display for Answer&lt;T1, T2&gt; {
-	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
-		let Answer { day, pt1, pt2 } = self;
-		write!(f, "Day: {:?} ; Part 1: {:?} ; Part 2: {:?}", day, pt1, pt2)
+<span class="hljs-keyword">impl</span>&lt;T1: <span class="hljs-built_in">Debug</span>, T2: <span class="hljs-built_in">Debug</span>&gt; Display <span class="hljs-keyword">for</span> <span class="hljs-title class_">Answer</span>&lt;T1, T2&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">Answer</span> { day, pt1, pt2 } = <span class="hljs-keyword">self</span>;
+		<span class="hljs-built_in">write!</span>(f, <span class="hljs-string">&quot;Day: {:?} ; Part 1: {:?} ; Part 2: {:?}&quot;</span>, day, pt1, pt2)
 	}
 }
 
-impl&lt;T1, T2&gt; From&lt;(usize, (T1, T2))&gt; for Answer&lt;T1, T2&gt; {
-	fn from((day, (pt1, pt2)): (usize, (T1, T2))) -&gt; Self {
-		Self { day, pt1, pt2 }
+<span class="hljs-keyword">impl</span>&lt;T1, T2&gt; <span class="hljs-built_in">From</span>&lt;(<span class="hljs-type">usize</span>, (T1, T2))&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Answer</span>&lt;T1, T2&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>((day, (pt1, pt2)): (<span class="hljs-type">usize</span>, (T1, T2))) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> { day, pt1, pt2 }
 	}
 }</code></pre>
 </div>
@@ -537,52 +537,52 @@ impl&lt;T1, T2&gt; From&lt;(usize, (T1, T2))&gt; for Answer&lt;T1, T2&gt; {
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">#![allow(dead_code)]
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-meta">#![allow(dead_code)]</span>
 
-#[macro_export]
-macro_rules! test_input {
+<span class="hljs-meta">#[macro_export]</span>
+<span class="hljs-built_in">macro_rules!</span> test_input {
 	($input:expr, day: $day:expr, ans: ($pt1:expr, $pt2:expr)) =&gt; {
-		assert_eq!(ans_for_input($input), ($day, ($pt1, $pt2)).into())
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title function_ invoke__">ans_for_input</span>($input), ($day, ($pt1, $pt2)).<span class="hljs-title function_ invoke__">into</span>())
 	};
 	($input:expr, pt1: $pt1:expr) =&gt; {
-		assert_eq!(pt1($input), $pt1);
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title function_ invoke__">pt1</span>($input), $pt1);
 	};
 	($input:expr, pt2: $pt2:expr) =&gt; {
-		assert_eq!(pt2($input), $pt2);
+		<span class="hljs-built_in">assert_eq!</span>(<span class="hljs-title function_ invoke__">pt2</span>($input), $pt2);
 	};
 }
 
-// tag::code[]
-pub(crate) fn to_decimal&lt;V: AsRef&lt;[bool]&gt;&gt;(binary_digits_msbf: V) -&gt; u32 {
+<span class="hljs-comment">// tag::code[]</span>
+<span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">to_decimal</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">bool</span>]&gt;&gt;(binary_digits_msbf: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
 	binary_digits_msbf
-		.as_ref()
-		.iter()
-		.rev()
-		.enumerate()
-		.map(|(pow2, &amp;is_on)| u32::from(is_on) * 2u32.pow(u32::try_from(pow2).unwrap()))
-		.reduce(|a, b| a + b)
-		.unwrap_or(0)
+		.<span class="hljs-title function_ invoke__">as_ref</span>()
+		.<span class="hljs-title function_ invoke__">iter</span>()
+		.<span class="hljs-title function_ invoke__">rev</span>()
+		.<span class="hljs-title function_ invoke__">enumerate</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|(pow2, &amp;is_on)| <span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">from</span>(is_on) * <span class="hljs-number">2u32</span>.<span class="hljs-title function_ invoke__">pow</span>(<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(pow2).<span class="hljs-title function_ invoke__">unwrap</span>()))
+		.<span class="hljs-title function_ invoke__">reduce</span>(|a, b| a + b)
+		.<span class="hljs-title function_ invoke__">unwrap_or</span>(<span class="hljs-number">0</span>)
 }
 
-pub(crate) fn to_big_decimal&lt;V: AsRef&lt;[bool]&gt;&gt;(binary_digits_msbf: V) -&gt; u64 {
+<span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">to_big_decimal</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">bool</span>]&gt;&gt;(binary_digits_msbf: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u64</span> {
 	binary_digits_msbf
-		.as_ref()
-		.iter()
-		.rev()
-		.enumerate()
-		.map(|(pow2, &amp;is_on)| u64::from(is_on) * 2u64.pow(u32::try_from(pow2).unwrap()))
-		.reduce(|a, b| a + b)
-		.unwrap_or(0)
+		.<span class="hljs-title function_ invoke__">as_ref</span>()
+		.<span class="hljs-title function_ invoke__">iter</span>()
+		.<span class="hljs-title function_ invoke__">rev</span>()
+		.<span class="hljs-title function_ invoke__">enumerate</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|(pow2, &amp;is_on)| <span class="hljs-type">u64</span>::<span class="hljs-title function_ invoke__">from</span>(is_on) * <span class="hljs-number">2u64</span>.<span class="hljs-title function_ invoke__">pow</span>(<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(pow2).<span class="hljs-title function_ invoke__">unwrap</span>()))
+		.<span class="hljs-title function_ invoke__">reduce</span>(|a, b| a + b)
+		.<span class="hljs-title function_ invoke__">unwrap_or</span>(<span class="hljs-number">0</span>)
 }
 
-pub(crate) fn abs_diff(a: usize, b: usize) -&gt; usize {
-	if a &gt; b {
+<span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">abs_diff</span>(a: <span class="hljs-type">usize</span>, b: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">if</span> a &gt; b {
 		a - b
-	} else {
+	} <span class="hljs-keyword">else</span> {
 		b - a
 	}
 }
-// end::code[]</code></pre>
+<span class="hljs-comment">// end::code[]</span></code></pre>
 </div>
 </div>
 </div>

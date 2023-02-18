@@ -25,7 +25,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
+      <a class="navbar-item" href="/advent_of_code_2021">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav" type="button"
         title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
@@ -490,305 +490,305 @@ Subtracting <code>D ➜ A</code> and <code>E ➜ C|F</code> from <code>DEF ➜ A
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::collections::{btree_map::Entry as MapEntry, BTreeMap as Map, BTreeSet as Set};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::collections::{btree_map::Entry <span class="hljs-keyword">as</span> MapEntry, BTreeMap <span class="hljs-keyword">as</span> Map, BTreeSet <span class="hljs-keyword">as</span> Set};
 
-const N_SEGMENTS: usize = 7;
-// end::setup[]
+<span class="hljs-keyword">const</span> N_SEGMENTS: <span class="hljs-type">usize</span> = <span class="hljs-number">7</span>;
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::digit[]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-struct Digit {
-	segments: [bool; N_SEGMENTS],
-	n_on: usize,
+<span class="hljs-comment">// tag::digit[]</span>
+<span class="hljs-meta">#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Digit</span> {
+	segments: [<span class="hljs-type">bool</span>; N_SEGMENTS],
+	n_on: <span class="hljs-type">usize</span>,
 }
 
-impl Digit {
-	fn new(segments: [bool; N_SEGMENTS]) -&gt; Self {
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(segments: [<span class="hljs-type">bool</span>; N_SEGMENTS]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
 			segments,
-			n_on: segments.iter().filter(|&amp;&amp;b| b).count(),
+			n_on: segments.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">filter</span>(|&amp;&amp;b| b).<span class="hljs-title function_ invoke__">count</span>(),
 		}
 	}
 
-	fn from_str(s: &amp;str) -&gt; Self {
-		let mut segments = [false; N_SEGMENTS];
-		for c in s.bytes() {
-			let i = c - b'a';
-			segments[usize::from(i)] = true;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">segments</span> = [<span class="hljs-literal">false</span>; N_SEGMENTS];
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">bytes</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">i</span> = c - <span class="hljs-string">b&#x27;a&#x27;</span>;
+			segments[<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(i)] = <span class="hljs-literal">true</span>;
 		}
-		Self::new(segments)
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(segments)
 	}
 
-	fn _bin_op(self, rhs: Self, f: impl Fn(bool, bool) -&gt; bool) -&gt; Self {
-		Self::new(self.segments.zip(rhs.segments).map(|(x, y)| f(x, y)))
-	}
-}
-
-impl std::ops::BitOr for Digit {
-	type Output = Self;
-	fn bitor(self, rhs: Self) -&gt; Self::Output {
-		self._bin_op(rhs, |x, y| x | y)
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">_bin_op</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>, f: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Fn</span>(<span class="hljs-type">bool</span>, <span class="hljs-type">bool</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.segments.<span class="hljs-title function_ invoke__">zip</span>(rhs.segments).<span class="hljs-title function_ invoke__">map</span>(|(x, y)| <span class="hljs-title function_ invoke__">f</span>(x, y)))
 	}
 }
 
-impl std::ops::BitAnd for Digit {
-	type Output = Self;
-	fn bitand(self, rhs: Self) -&gt; Self::Output {
-		self._bin_op(rhs, |x, y| x &amp; y)
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::BitOr <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">bitor</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">self</span>._bin_op(rhs, |x, y| x | y)
 	}
 }
 
-impl std::ops::Not for Digit {
-	type Output = Self;
-	fn not(self) -&gt; Self::Output {
-		Self::new(self.segments.map(|b| !b))
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::BitAnd <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">bitand</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">self</span>._bin_op(rhs, |x, y| x &amp; y)
 	}
 }
 
-impl From&lt;usize&gt; for Digit {
-	fn from(n: usize) -&gt; Self {
-		let segments = match n {
-			/*
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::Not <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">not</span>(<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.segments.<span class="hljs-title function_ invoke__">map</span>(|b| !b))
+	}
+}
+
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;<span class="hljs-type">usize</span>&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = <span class="hljs-keyword">match</span> n {
+			<span class="hljs-comment">/*
 			-----[A, B, C, D, E, F, G]
-			*/
-			0 =&gt; [1, 1, 1, 0, 1, 1, 1],
-			1 =&gt; [0, 0, 1, 0, 0, 1, 0],
-			2 =&gt; [1, 0, 1, 1, 1, 0, 1],
-			3 =&gt; [1, 0, 1, 1, 0, 1, 1],
-			4 =&gt; [0, 1, 1, 1, 0, 1, 0],
-			5 =&gt; [1, 1, 0, 1, 0, 1, 1],
-			6 =&gt; [1, 1, 0, 1, 1, 1, 1],
-			7 =&gt; [1, 0, 1, 0, 0, 1, 0],
-			8 =&gt; [1, 1, 1, 1, 1, 1, 1],
-			9 =&gt; [1, 1, 1, 1, 0, 1, 1],
-			_ =&gt; panic!("Cannot make digit for n={}", n),
+			*/</span>
+			<span class="hljs-number">0</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">1</span> =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">2</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">3</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">4</span> =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">5</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">6</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">7</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">8</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">9</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			_ =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;Cannot make digit for n={}&quot;</span>, n),
 		};
-		let segments = segments.map(|i| i != 0);
-		Self::new(segments)
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = segments.<span class="hljs-title function_ invoke__">map</span>(|i| i != <span class="hljs-number">0</span>);
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(segments)
 	}
 }
 
-impl From&lt;Digit&gt; for usize {
-	fn from(digit: Digit) -&gt; Self {
-		let segments = digit.segments.map(u8::from);
-		match segments {
-			/*
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Digit&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">usize</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(digit: Digit) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = digit.segments.<span class="hljs-title function_ invoke__">map</span>(<span class="hljs-type">u8</span>::from);
+		<span class="hljs-keyword">match</span> segments {
+			<span class="hljs-comment">/*
 			[A, B, C, D, E, F, G]
-			*/
-			[1, 1, 1, 0, 1, 1, 1] =&gt; 0,
-			[0, 0, 1, 0, 0, 1, 0] =&gt; 1,
-			[1, 0, 1, 1, 1, 0, 1] =&gt; 2,
-			[1, 0, 1, 1, 0, 1, 1] =&gt; 3,
-			[0, 1, 1, 1, 0, 1, 0] =&gt; 4,
-			[1, 1, 0, 1, 0, 1, 1] =&gt; 5,
-			[1, 1, 0, 1, 1, 1, 1] =&gt; 6,
-			[1, 0, 1, 0, 0, 1, 0] =&gt; 7,
-			[1, 1, 1, 1, 1, 1, 1] =&gt; 8,
-			[1, 1, 1, 1, 0, 1, 1] =&gt; 9,
-			_ =&gt; panic!("Digit {:?} is not valid", digit),
+			*/</span>
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">0</span>,
+			[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">1</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">2</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">3</span>,
+			[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">4</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">5</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">6</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">7</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">8</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">9</span>,
+			_ =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;Digit {:?} is not valid&quot;</span>, digit),
 		}
 	}
 }
-// end::digit[]
+<span class="hljs-comment">// end::digit[]</span>
 
-// tag::setup[]
-fn get_mapping_from_garbled_digits&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
-	garbled_digits: impl Iterator&lt;Item = D&gt;,
-) -&gt; Result&lt;Map&lt;Digit, Digit&gt;, Map&lt;Digit, Set&lt;Digit&gt;&gt;&gt; {
-	let mut mappings = Map::new();
+<span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_mapping_from_garbled_digits</span>&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
+	garbled_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;Map&lt;Digit, Digit&gt;, Map&lt;Digit, Set&lt;Digit&gt;&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">mappings</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
 	{
-		let mut grouped_by_n_on = Map::new();
-		for n in 0..=9 {
-			let digit = Digit::from(n);
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grouped_by_n_on</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">n</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..=<span class="hljs-number">9</span> {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">digit</span> = Digit::<span class="hljs-title function_ invoke__">from</span>(n);
 			grouped_by_n_on
-				.entry(digit.n_on)
-				.or_insert_with(Set::new)
-				.insert(digit);
+				.<span class="hljs-title function_ invoke__">entry</span>(digit.n_on)
+				.<span class="hljs-title function_ invoke__">or_insert_with</span>(Set::new)
+				.<span class="hljs-title function_ invoke__">insert</span>(digit);
 		}
 
-		for gd in garbled_digits {
-			let gd = *gd.borrow();
-			let digits_w_same_n_segments = &amp;grouped_by_n_on[&amp;gd.n_on];
-			mappings.insert(gd, digits_w_same_n_segments.clone());
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">gd</span> <span class="hljs-keyword">in</span> garbled_digits {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">gd</span> = *gd.<span class="hljs-title function_ invoke__">borrow</span>();
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">digits_w_same_n_segments</span> = &amp;grouped_by_n_on[&amp;gd.n_on];
+			mappings.<span class="hljs-title function_ invoke__">insert</span>(gd, digits_w_same_n_segments.<span class="hljs-title function_ invoke__">clone</span>());
 		}
 	}
 
-	let identity: &amp;dyn Fn(Digit) -&gt; _ = &amp;(|x| x);
-	let bitwise_not: &amp;dyn Fn(Digit) -&gt; _ = &amp;(|x| !x);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">identity</span>: &amp;<span class="hljs-keyword">dyn</span> <span class="hljs-title function_ invoke__">Fn</span>(Digit) <span class="hljs-punctuation">-&gt;</span> _ = &amp;(|x| x);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">bitwise_not</span>: &amp;<span class="hljs-keyword">dyn</span> <span class="hljs-title function_ invoke__">Fn</span>(Digit) <span class="hljs-punctuation">-&gt;</span> _ = &amp;(|x| !x);
 
-	loop {
-		let mut new_mappings = Map::new();
+	<span class="hljs-keyword">loop</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_mappings</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
-		for (i, (&amp;garbled1, choices1)) in mappings.iter().enumerate() {
-			for (&amp;garbled2, choices2) in mappings.iter().skip(i + 1) {
-				for (op1, op2) in [
+		<span class="hljs-title function_ invoke__">for</span> (i, (&amp;garbled1, choices1)) <span class="hljs-keyword">in</span> mappings.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-title function_ invoke__">for</span> (&amp;garbled2, choices2) <span class="hljs-keyword">in</span> mappings.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+				<span class="hljs-title function_ invoke__">for</span> (op1, op2) <span class="hljs-keyword">in</span> [
 					(identity, identity),
 					(identity, bitwise_not),
 					(bitwise_not, identity),
 				] {
-					let new_garbled = op1(garbled1) &amp; op2(garbled2);
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_garbled</span> = <span class="hljs-title function_ invoke__">op1</span>(garbled1) &amp; <span class="hljs-title function_ invoke__">op2</span>(garbled2);
 
-					if new_garbled.n_on == 0 {
-						continue;
+					<span class="hljs-keyword">if</span> new_garbled.n_on == <span class="hljs-number">0</span> {
+						<span class="hljs-keyword">continue</span>;
 					}
 
-					let mut new_good_candidates = Set::new();
-					for &amp;good_digit1 in choices1 {
-						for &amp;good_digit2 in choices2 {
-							let candidate = op1(good_digit1) &amp; op2(good_digit2);
-							if candidate.n_on == new_garbled.n_on {
-								new_good_candidates.insert(candidate);
+					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_good_candidates</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+					<span class="hljs-keyword">for</span> &amp;good_digit1 <span class="hljs-keyword">in</span> choices1 {
+						<span class="hljs-keyword">for</span> &amp;good_digit2 <span class="hljs-keyword">in</span> choices2 {
+							<span class="hljs-keyword">let</span> <span class="hljs-variable">candidate</span> = <span class="hljs-title function_ invoke__">op1</span>(good_digit1) &amp; <span class="hljs-title function_ invoke__">op2</span>(good_digit2);
+							<span class="hljs-keyword">if</span> candidate.n_on == new_garbled.n_on {
+								new_good_candidates.<span class="hljs-title function_ invoke__">insert</span>(candidate);
 							}
 						}
 					}
 
-					match new_mappings.entry(new_garbled) {
-						MapEntry::Vacant(v) =&gt; {
-							v.insert(new_good_candidates);
+					<span class="hljs-keyword">match</span> new_mappings.<span class="hljs-title function_ invoke__">entry</span>(new_garbled) {
+						MapEntry::<span class="hljs-title function_ invoke__">Vacant</span>(v) =&gt; {
+							v.<span class="hljs-title function_ invoke__">insert</span>(new_good_candidates);
 						}
-						MapEntry::Occupied(mut o) =&gt; {
-							o.insert(o.get() &amp; &amp;new_good_candidates);
+						MapEntry::<span class="hljs-title function_ invoke__">Occupied</span>(<span class="hljs-keyword">mut</span> o) =&gt; {
+							o.<span class="hljs-title function_ invoke__">insert</span>(o.<span class="hljs-title function_ invoke__">get</span>() &amp; &amp;new_good_candidates);
 						}
 					}
 				}
 			}
 		}
 
-		// Remove all keys that can be written as the disjoint-bitwise-or of two other
-		// keys, as they're redundant. This means if e.g., A and BC are present, then
-		// remove ABC. But if only AB and BC are present, then do *not* remove ABC (as AB
-		// and BC are not disjoint)
-		let mut redundant_keys = Set::new();
-		let new_garbled_keys = new_mappings.keys().copied().collect::&lt;Set&lt;_&gt;&gt;();
-		for (i, &amp;garbled1) in new_garbled_keys.iter().enumerate() {
-			for &amp;garbled2 in new_garbled_keys.iter().skip(i + 1) {
-				if (garbled1 &amp; garbled2).n_on != 0 {
-					continue;
+		<span class="hljs-comment">// Remove all keys that can be written as the disjoint-bitwise-or of two other</span>
+		<span class="hljs-comment">// keys, as they&#x27;re redundant. This means if e.g., A and BC are present, then</span>
+		<span class="hljs-comment">// remove ABC. But if only AB and BC are present, then do *not* remove ABC (as AB</span>
+		<span class="hljs-comment">// and BC are not disjoint)</span>
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">redundant_keys</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_garbled_keys</span> = new_mappings.<span class="hljs-title function_ invoke__">keys</span>().<span class="hljs-title function_ invoke__">copied</span>().collect::&lt;Set&lt;_&gt;&gt;();
+		<span class="hljs-title function_ invoke__">for</span> (i, &amp;garbled1) <span class="hljs-keyword">in</span> new_garbled_keys.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">for</span> &amp;garbled2 <span class="hljs-keyword">in</span> new_garbled_keys.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+				<span class="hljs-title function_ invoke__">if</span> (garbled1 &amp; garbled2).n_on != <span class="hljs-number">0</span> {
+					<span class="hljs-keyword">continue</span>;
 				}
-				let segment_union = garbled1 | garbled2;
-				if new_garbled_keys.contains(&amp;segment_union) {
-					redundant_keys.insert(segment_union);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">segment_union</span> = garbled1 | garbled2;
+				<span class="hljs-keyword">if</span> new_garbled_keys.<span class="hljs-title function_ invoke__">contains</span>(&amp;segment_union) {
+					redundant_keys.<span class="hljs-title function_ invoke__">insert</span>(segment_union);
 				}
 			}
 		}
 
-		for k in &amp;redundant_keys {
-			new_mappings.remove(k);
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">k</span> <span class="hljs-keyword">in</span> &amp;redundant_keys {
+			new_mappings.<span class="hljs-title function_ invoke__">remove</span>(k);
 		}
 
-		if mappings.len() == N_SEGMENTS &amp;&amp; mappings.values().all(|m| m.len() == 1) {
-			return Ok(mappings
-				.into_iter()
-				.map(|(k, v)| (k, v.iter().next().copied().unwrap()))
-				.collect());
-		} else if mappings == new_mappings {
-			return Err(mappings);
+		<span class="hljs-keyword">if</span> mappings.<span class="hljs-title function_ invoke__">len</span>() == N_SEGMENTS &amp;&amp; mappings.<span class="hljs-title function_ invoke__">values</span>().<span class="hljs-title function_ invoke__">all</span>(|m| m.<span class="hljs-title function_ invoke__">len</span>() == <span class="hljs-number">1</span>) {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Ok</span>(mappings
+				.<span class="hljs-title function_ invoke__">into_iter</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(|(k, v)| (k, v.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">next</span>().<span class="hljs-title function_ invoke__">copied</span>().<span class="hljs-title function_ invoke__">unwrap</span>()))
+				.<span class="hljs-title function_ invoke__">collect</span>());
+		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> mappings == new_mappings {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Err</span>(mappings);
 		}
 
 		mappings = new_mappings;
 	}
 }
 
-fn apply_mapping_to_garbled_digit(mapping: &amp;Map&lt;Digit, Digit&gt;, garbled_digit: Digit) -&gt; usize {
-	let mut result = Digit::new([false; 7]);
-	for (&amp;k, &amp;v) in mapping {
-		if (garbled_digit &amp; k).n_on &gt; 0 {
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_mapping_to_garbled_digit</span>(mapping: &amp;Map&lt;Digit, Digit&gt;, garbled_digit: Digit) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">result</span> = Digit::<span class="hljs-title function_ invoke__">new</span>([<span class="hljs-literal">false</span>; <span class="hljs-number">7</span>]);
+	<span class="hljs-title function_ invoke__">for</span> (&amp;k, &amp;v) <span class="hljs-keyword">in</span> mapping {
+		<span class="hljs-title function_ invoke__">if</span> (garbled_digit &amp; k).n_on &gt; <span class="hljs-number">0</span> {
 			result = result | v;
 		}
 	}
-	result.into()
+	result.<span class="hljs-title function_ invoke__">into</span>()
 }
 
-fn read_input(input: &amp;str) -&gt; Vec&lt;(Vec&lt;Digit&gt;, Vec&lt;Digit&gt;)&gt; {
-	fn whitespace_sepd_strs_to_digits(strs: &amp;str) -&gt; Vec&lt;Digit&gt; {
-		strs.trim()
-			.split_ascii_whitespace()
-			.map(Digit::from_str)
-			.collect()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;(<span class="hljs-type">Vec</span>&lt;Digit&gt;, <span class="hljs-type">Vec</span>&lt;Digit&gt;)&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">whitespace_sepd_strs_to_digits</span>(strs: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;Digit&gt; {
+		strs.<span class="hljs-title function_ invoke__">trim</span>()
+			.<span class="hljs-title function_ invoke__">split_ascii_whitespace</span>()
+			.<span class="hljs-title function_ invoke__">map</span>(Digit::from_str)
+			.<span class="hljs-title function_ invoke__">collect</span>()
 	}
 	input
-		.lines()
-		.filter_map(|line| {
-			let line = line.trim();
-			if line.is_empty() {
-				return None;
+		.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">filter_map</span>(|line| {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">line</span> = line.<span class="hljs-title function_ invoke__">trim</span>();
+			<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">is_empty</span>() {
+				<span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>;
 			}
-			let mut in_out = line.split('|');
-			let in_digits = whitespace_sepd_strs_to_digits(in_out.next()?);
-			let out_digits = whitespace_sepd_strs_to_digits(in_out.next()?);
-			Some((in_digits, out_digits))
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">in_out</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;|&#x27;</span>);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">in_digits</span> = <span class="hljs-title function_ invoke__">whitespace_sepd_strs_to_digits</span>(in_out.<span class="hljs-title function_ invoke__">next</span>()?);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">out_digits</span> = <span class="hljs-title function_ invoke__">whitespace_sepd_strs_to_digits</span>(in_out.<span class="hljs-title function_ invoke__">next</span>()?);
+			<span class="hljs-title function_ invoke__">Some</span>((in_digits, out_digits))
 		})
-		.collect()
+		.<span class="hljs-title function_ invoke__">collect</span>()
 }
 
-fn translate_line_to_digits&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
-	idod: (impl Iterator&lt;Item = D&gt;, impl Iterator&lt;Item = D&gt;),
-) -&gt; Option&lt;Vec&lt;usize&gt;&gt; {
-	let (in_digits, out_digits) = idod;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">translate_line_to_digits</span>&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
+	idod: (<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;, <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;),
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt; {
+	<span class="hljs-keyword">let</span> (in_digits, out_digits) = idod;
 
-	let mapping = get_mapping_from_garbled_digits(in_digits).ok()?;
-	Some(
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">mapping</span> = <span class="hljs-title function_ invoke__">get_mapping_from_garbled_digits</span>(in_digits).<span class="hljs-title function_ invoke__">ok</span>()?;
+	<span class="hljs-title function_ invoke__">Some</span>(
 		out_digits
-			.map(|d| apply_mapping_to_garbled_digit(&amp;mapping, *d.borrow()))
-			.collect(),
+			.<span class="hljs-title function_ invoke__">map</span>(|d| <span class="hljs-title function_ invoke__">apply_mapping_to_garbled_digit</span>(&amp;mapping, *d.<span class="hljs-title function_ invoke__">borrow</span>()))
+			.<span class="hljs-title function_ invoke__">collect</span>(),
 	)
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let in_out_lines = read_input(input);
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">in_out_lines</span> = <span class="hljs-title function_ invoke__">read_input</span>(input);
 
-	let output_digits = in_out_lines
-		.iter()
-		.map(|(in_d, out_d)| translate_line_to_digits((in_d.iter(), out_d.iter())))
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
-		.unwrap();
-	(8, (pt1(output_digits.iter()), pt2(output_digits.iter()))).into()
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">output_digits</span> = in_out_lines
+		.<span class="hljs-title function_ invoke__">iter</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|(in_d, out_d)| <span class="hljs-title function_ invoke__">translate_line_to_digits</span>((in_d.<span class="hljs-title function_ invoke__">iter</span>(), out_d.<span class="hljs-title function_ invoke__">iter</span>())))
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
+		.<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">8</span>, (<span class="hljs-title function_ invoke__">pt1</span>(output_digits.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(output_digits.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1&lt;Nums: AsRef&lt;[usize]&gt;&gt;(out_digits: impl Iterator&lt;Item = Nums&gt;) -&gt; usize {
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;Nums: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(out_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = Nums&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	out_digits
-		.map(|v| {
-			v.as_ref()
-				.iter()
-				.filter(|&amp;n| [1, 4, 7, 8].contains(n))
-				.count()
+		.<span class="hljs-title function_ invoke__">map</span>(|v| {
+			v.<span class="hljs-title function_ invoke__">as_ref</span>()
+				.<span class="hljs-title function_ invoke__">iter</span>()
+				.<span class="hljs-title function_ invoke__">filter</span>(|&amp;n| [<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>].<span class="hljs-title function_ invoke__">contains</span>(n))
+				.<span class="hljs-title function_ invoke__">count</span>()
 		})
-		.sum()
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2&lt;Nums: AsRef&lt;[usize]&gt;&gt;(out_digits: impl Iterator&lt;Item = Nums&gt;) -&gt; usize {
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;Nums: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(out_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = Nums&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	out_digits
-		.map(|v| {
-			v.as_ref()
-				.iter()
-				.rev()
-				.enumerate()
-				.map(|(pow10, &amp;val)| val * 10_usize.pow(u32::try_from(pow10).unwrap()))
-				.sum::&lt;usize&gt;()
+		.<span class="hljs-title function_ invoke__">map</span>(|v| {
+			v.<span class="hljs-title function_ invoke__">as_ref</span>()
+				.<span class="hljs-title function_ invoke__">iter</span>()
+				.<span class="hljs-title function_ invoke__">rev</span>()
+				.<span class="hljs-title function_ invoke__">enumerate</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(|(pow10, &amp;val)| val * <span class="hljs-number">10_usize</span>.<span class="hljs-title function_ invoke__">pow</span>(<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(pow10).<span class="hljs-title function_ invoke__">unwrap</span>()))
+				.sum::&lt;<span class="hljs-type">usize</span>&gt;()
 		})
-		.sum()
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 8, ans: (237, 1_009_098));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">8</span>, ans: (<span class="hljs-number">237</span>, <span class="hljs-number">1_009_098</span>));
 	}
 }</code></pre>
 </div>
@@ -799,305 +799,305 @@ mod test {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::collections::{btree_map::Entry as MapEntry, BTreeMap as Map, BTreeSet as Set};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::collections::{btree_map::Entry <span class="hljs-keyword">as</span> MapEntry, BTreeMap <span class="hljs-keyword">as</span> Map, BTreeSet <span class="hljs-keyword">as</span> Set};
 
-const N_SEGMENTS: usize = 7;
-// end::setup[]
+<span class="hljs-keyword">const</span> N_SEGMENTS: <span class="hljs-type">usize</span> = <span class="hljs-number">7</span>;
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::digit[]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-struct Digit {
-	segments: [bool; N_SEGMENTS],
-	n_on: usize,
+<span class="hljs-comment">// tag::digit[]</span>
+<span class="hljs-meta">#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Digit</span> {
+	segments: [<span class="hljs-type">bool</span>; N_SEGMENTS],
+	n_on: <span class="hljs-type">usize</span>,
 }
 
-impl Digit {
-	fn new(segments: [bool; N_SEGMENTS]) -&gt; Self {
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(segments: [<span class="hljs-type">bool</span>; N_SEGMENTS]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
 			segments,
-			n_on: segments.iter().filter(|&amp;&amp;b| b).count(),
+			n_on: segments.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">filter</span>(|&amp;&amp;b| b).<span class="hljs-title function_ invoke__">count</span>(),
 		}
 	}
 
-	fn from_str(s: &amp;str) -&gt; Self {
-		let mut segments = [false; N_SEGMENTS];
-		for c in s.bytes() {
-			let i = c - b'a';
-			segments[usize::from(i)] = true;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">segments</span> = [<span class="hljs-literal">false</span>; N_SEGMENTS];
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">bytes</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">i</span> = c - <span class="hljs-string">b&#x27;a&#x27;</span>;
+			segments[<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(i)] = <span class="hljs-literal">true</span>;
 		}
-		Self::new(segments)
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(segments)
 	}
 
-	fn _bin_op(self, rhs: Self, f: impl Fn(bool, bool) -&gt; bool) -&gt; Self {
-		Self::new(self.segments.zip(rhs.segments).map(|(x, y)| f(x, y)))
-	}
-}
-
-impl std::ops::BitOr for Digit {
-	type Output = Self;
-	fn bitor(self, rhs: Self) -&gt; Self::Output {
-		self._bin_op(rhs, |x, y| x | y)
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">_bin_op</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>, f: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Fn</span>(<span class="hljs-type">bool</span>, <span class="hljs-type">bool</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.segments.<span class="hljs-title function_ invoke__">zip</span>(rhs.segments).<span class="hljs-title function_ invoke__">map</span>(|(x, y)| <span class="hljs-title function_ invoke__">f</span>(x, y)))
 	}
 }
 
-impl std::ops::BitAnd for Digit {
-	type Output = Self;
-	fn bitand(self, rhs: Self) -&gt; Self::Output {
-		self._bin_op(rhs, |x, y| x &amp; y)
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::BitOr <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">bitor</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">self</span>._bin_op(rhs, |x, y| x | y)
 	}
 }
 
-impl std::ops::Not for Digit {
-	type Output = Self;
-	fn not(self) -&gt; Self::Output {
-		Self::new(self.segments.map(|b| !b))
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::BitAnd <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">bitand</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">self</span>._bin_op(rhs, |x, y| x &amp; y)
 	}
 }
 
-impl From&lt;usize&gt; for Digit {
-	fn from(n: usize) -&gt; Self {
-		let segments = match n {
-			/*
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::Not <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">not</span>(<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.segments.<span class="hljs-title function_ invoke__">map</span>(|b| !b))
+	}
+}
+
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;<span class="hljs-type">usize</span>&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = <span class="hljs-keyword">match</span> n {
+			<span class="hljs-comment">/*
 			-----[A, B, C, D, E, F, G]
-			*/
-			0 =&gt; [1, 1, 1, 0, 1, 1, 1],
-			1 =&gt; [0, 0, 1, 0, 0, 1, 0],
-			2 =&gt; [1, 0, 1, 1, 1, 0, 1],
-			3 =&gt; [1, 0, 1, 1, 0, 1, 1],
-			4 =&gt; [0, 1, 1, 1, 0, 1, 0],
-			5 =&gt; [1, 1, 0, 1, 0, 1, 1],
-			6 =&gt; [1, 1, 0, 1, 1, 1, 1],
-			7 =&gt; [1, 0, 1, 0, 0, 1, 0],
-			8 =&gt; [1, 1, 1, 1, 1, 1, 1],
-			9 =&gt; [1, 1, 1, 1, 0, 1, 1],
-			_ =&gt; panic!("Cannot make digit for n={}", n),
+			*/</span>
+			<span class="hljs-number">0</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">1</span> =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">2</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">3</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">4</span> =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">5</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">6</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">7</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">8</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">9</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			_ =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;Cannot make digit for n={}&quot;</span>, n),
 		};
-		let segments = segments.map(|i| i != 0);
-		Self::new(segments)
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = segments.<span class="hljs-title function_ invoke__">map</span>(|i| i != <span class="hljs-number">0</span>);
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(segments)
 	}
 }
 
-impl From&lt;Digit&gt; for usize {
-	fn from(digit: Digit) -&gt; Self {
-		let segments = digit.segments.map(u8::from);
-		match segments {
-			/*
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Digit&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">usize</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(digit: Digit) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = digit.segments.<span class="hljs-title function_ invoke__">map</span>(<span class="hljs-type">u8</span>::from);
+		<span class="hljs-keyword">match</span> segments {
+			<span class="hljs-comment">/*
 			[A, B, C, D, E, F, G]
-			*/
-			[1, 1, 1, 0, 1, 1, 1] =&gt; 0,
-			[0, 0, 1, 0, 0, 1, 0] =&gt; 1,
-			[1, 0, 1, 1, 1, 0, 1] =&gt; 2,
-			[1, 0, 1, 1, 0, 1, 1] =&gt; 3,
-			[0, 1, 1, 1, 0, 1, 0] =&gt; 4,
-			[1, 1, 0, 1, 0, 1, 1] =&gt; 5,
-			[1, 1, 0, 1, 1, 1, 1] =&gt; 6,
-			[1, 0, 1, 0, 0, 1, 0] =&gt; 7,
-			[1, 1, 1, 1, 1, 1, 1] =&gt; 8,
-			[1, 1, 1, 1, 0, 1, 1] =&gt; 9,
-			_ =&gt; panic!("Digit {:?} is not valid", digit),
+			*/</span>
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">0</span>,
+			[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">1</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">2</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">3</span>,
+			[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">4</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">5</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">6</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">7</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">8</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">9</span>,
+			_ =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;Digit {:?} is not valid&quot;</span>, digit),
 		}
 	}
 }
-// end::digit[]
+<span class="hljs-comment">// end::digit[]</span>
 
-// tag::setup[]
-fn get_mapping_from_garbled_digits&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
-	garbled_digits: impl Iterator&lt;Item = D&gt;,
-) -&gt; Result&lt;Map&lt;Digit, Digit&gt;, Map&lt;Digit, Set&lt;Digit&gt;&gt;&gt; {
-	let mut mappings = Map::new();
+<span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_mapping_from_garbled_digits</span>&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
+	garbled_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;Map&lt;Digit, Digit&gt;, Map&lt;Digit, Set&lt;Digit&gt;&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">mappings</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
 	{
-		let mut grouped_by_n_on = Map::new();
-		for n in 0..=9 {
-			let digit = Digit::from(n);
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grouped_by_n_on</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">n</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..=<span class="hljs-number">9</span> {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">digit</span> = Digit::<span class="hljs-title function_ invoke__">from</span>(n);
 			grouped_by_n_on
-				.entry(digit.n_on)
-				.or_insert_with(Set::new)
-				.insert(digit);
+				.<span class="hljs-title function_ invoke__">entry</span>(digit.n_on)
+				.<span class="hljs-title function_ invoke__">or_insert_with</span>(Set::new)
+				.<span class="hljs-title function_ invoke__">insert</span>(digit);
 		}
 
-		for gd in garbled_digits {
-			let gd = *gd.borrow();
-			let digits_w_same_n_segments = &amp;grouped_by_n_on[&amp;gd.n_on];
-			mappings.insert(gd, digits_w_same_n_segments.clone());
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">gd</span> <span class="hljs-keyword">in</span> garbled_digits {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">gd</span> = *gd.<span class="hljs-title function_ invoke__">borrow</span>();
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">digits_w_same_n_segments</span> = &amp;grouped_by_n_on[&amp;gd.n_on];
+			mappings.<span class="hljs-title function_ invoke__">insert</span>(gd, digits_w_same_n_segments.<span class="hljs-title function_ invoke__">clone</span>());
 		}
 	}
 
-	let identity: &amp;dyn Fn(Digit) -&gt; _ = &amp;(|x| x);
-	let bitwise_not: &amp;dyn Fn(Digit) -&gt; _ = &amp;(|x| !x);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">identity</span>: &amp;<span class="hljs-keyword">dyn</span> <span class="hljs-title function_ invoke__">Fn</span>(Digit) <span class="hljs-punctuation">-&gt;</span> _ = &amp;(|x| x);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">bitwise_not</span>: &amp;<span class="hljs-keyword">dyn</span> <span class="hljs-title function_ invoke__">Fn</span>(Digit) <span class="hljs-punctuation">-&gt;</span> _ = &amp;(|x| !x);
 
-	loop {
-		let mut new_mappings = Map::new();
+	<span class="hljs-keyword">loop</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_mappings</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
-		for (i, (&amp;garbled1, choices1)) in mappings.iter().enumerate() {
-			for (&amp;garbled2, choices2) in mappings.iter().skip(i + 1) {
-				for (op1, op2) in [
+		<span class="hljs-title function_ invoke__">for</span> (i, (&amp;garbled1, choices1)) <span class="hljs-keyword">in</span> mappings.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-title function_ invoke__">for</span> (&amp;garbled2, choices2) <span class="hljs-keyword">in</span> mappings.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+				<span class="hljs-title function_ invoke__">for</span> (op1, op2) <span class="hljs-keyword">in</span> [
 					(identity, identity),
 					(identity, bitwise_not),
 					(bitwise_not, identity),
 				] {
-					let new_garbled = op1(garbled1) &amp; op2(garbled2);
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_garbled</span> = <span class="hljs-title function_ invoke__">op1</span>(garbled1) &amp; <span class="hljs-title function_ invoke__">op2</span>(garbled2);
 
-					if new_garbled.n_on == 0 {
-						continue;
+					<span class="hljs-keyword">if</span> new_garbled.n_on == <span class="hljs-number">0</span> {
+						<span class="hljs-keyword">continue</span>;
 					}
 
-					let mut new_good_candidates = Set::new();
-					for &amp;good_digit1 in choices1 {
-						for &amp;good_digit2 in choices2 {
-							let candidate = op1(good_digit1) &amp; op2(good_digit2);
-							if candidate.n_on == new_garbled.n_on {
-								new_good_candidates.insert(candidate);
+					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_good_candidates</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+					<span class="hljs-keyword">for</span> &amp;good_digit1 <span class="hljs-keyword">in</span> choices1 {
+						<span class="hljs-keyword">for</span> &amp;good_digit2 <span class="hljs-keyword">in</span> choices2 {
+							<span class="hljs-keyword">let</span> <span class="hljs-variable">candidate</span> = <span class="hljs-title function_ invoke__">op1</span>(good_digit1) &amp; <span class="hljs-title function_ invoke__">op2</span>(good_digit2);
+							<span class="hljs-keyword">if</span> candidate.n_on == new_garbled.n_on {
+								new_good_candidates.<span class="hljs-title function_ invoke__">insert</span>(candidate);
 							}
 						}
 					}
 
-					match new_mappings.entry(new_garbled) {
-						MapEntry::Vacant(v) =&gt; {
-							v.insert(new_good_candidates);
+					<span class="hljs-keyword">match</span> new_mappings.<span class="hljs-title function_ invoke__">entry</span>(new_garbled) {
+						MapEntry::<span class="hljs-title function_ invoke__">Vacant</span>(v) =&gt; {
+							v.<span class="hljs-title function_ invoke__">insert</span>(new_good_candidates);
 						}
-						MapEntry::Occupied(mut o) =&gt; {
-							o.insert(o.get() &amp; &amp;new_good_candidates);
+						MapEntry::<span class="hljs-title function_ invoke__">Occupied</span>(<span class="hljs-keyword">mut</span> o) =&gt; {
+							o.<span class="hljs-title function_ invoke__">insert</span>(o.<span class="hljs-title function_ invoke__">get</span>() &amp; &amp;new_good_candidates);
 						}
 					}
 				}
 			}
 		}
 
-		// Remove all keys that can be written as the disjoint-bitwise-or of two other
-		// keys, as they're redundant. This means if e.g., A and BC are present, then
-		// remove ABC. But if only AB and BC are present, then do *not* remove ABC (as AB
-		// and BC are not disjoint)
-		let mut redundant_keys = Set::new();
-		let new_garbled_keys = new_mappings.keys().copied().collect::&lt;Set&lt;_&gt;&gt;();
-		for (i, &amp;garbled1) in new_garbled_keys.iter().enumerate() {
-			for &amp;garbled2 in new_garbled_keys.iter().skip(i + 1) {
-				if (garbled1 &amp; garbled2).n_on != 0 {
-					continue;
+		<span class="hljs-comment">// Remove all keys that can be written as the disjoint-bitwise-or of two other</span>
+		<span class="hljs-comment">// keys, as they&#x27;re redundant. This means if e.g., A and BC are present, then</span>
+		<span class="hljs-comment">// remove ABC. But if only AB and BC are present, then do *not* remove ABC (as AB</span>
+		<span class="hljs-comment">// and BC are not disjoint)</span>
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">redundant_keys</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_garbled_keys</span> = new_mappings.<span class="hljs-title function_ invoke__">keys</span>().<span class="hljs-title function_ invoke__">copied</span>().collect::&lt;Set&lt;_&gt;&gt;();
+		<span class="hljs-title function_ invoke__">for</span> (i, &amp;garbled1) <span class="hljs-keyword">in</span> new_garbled_keys.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">for</span> &amp;garbled2 <span class="hljs-keyword">in</span> new_garbled_keys.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+				<span class="hljs-title function_ invoke__">if</span> (garbled1 &amp; garbled2).n_on != <span class="hljs-number">0</span> {
+					<span class="hljs-keyword">continue</span>;
 				}
-				let segment_union = garbled1 | garbled2;
-				if new_garbled_keys.contains(&amp;segment_union) {
-					redundant_keys.insert(segment_union);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">segment_union</span> = garbled1 | garbled2;
+				<span class="hljs-keyword">if</span> new_garbled_keys.<span class="hljs-title function_ invoke__">contains</span>(&amp;segment_union) {
+					redundant_keys.<span class="hljs-title function_ invoke__">insert</span>(segment_union);
 				}
 			}
 		}
 
-		for k in &amp;redundant_keys {
-			new_mappings.remove(k);
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">k</span> <span class="hljs-keyword">in</span> &amp;redundant_keys {
+			new_mappings.<span class="hljs-title function_ invoke__">remove</span>(k);
 		}
 
-		if mappings.len() == N_SEGMENTS &amp;&amp; mappings.values().all(|m| m.len() == 1) {
-			return Ok(mappings
-				.into_iter()
-				.map(|(k, v)| (k, v.iter().next().copied().unwrap()))
-				.collect());
-		} else if mappings == new_mappings {
-			return Err(mappings);
+		<span class="hljs-keyword">if</span> mappings.<span class="hljs-title function_ invoke__">len</span>() == N_SEGMENTS &amp;&amp; mappings.<span class="hljs-title function_ invoke__">values</span>().<span class="hljs-title function_ invoke__">all</span>(|m| m.<span class="hljs-title function_ invoke__">len</span>() == <span class="hljs-number">1</span>) {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Ok</span>(mappings
+				.<span class="hljs-title function_ invoke__">into_iter</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(|(k, v)| (k, v.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">next</span>().<span class="hljs-title function_ invoke__">copied</span>().<span class="hljs-title function_ invoke__">unwrap</span>()))
+				.<span class="hljs-title function_ invoke__">collect</span>());
+		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> mappings == new_mappings {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Err</span>(mappings);
 		}
 
 		mappings = new_mappings;
 	}
 }
 
-fn apply_mapping_to_garbled_digit(mapping: &amp;Map&lt;Digit, Digit&gt;, garbled_digit: Digit) -&gt; usize {
-	let mut result = Digit::new([false; 7]);
-	for (&amp;k, &amp;v) in mapping {
-		if (garbled_digit &amp; k).n_on &gt; 0 {
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_mapping_to_garbled_digit</span>(mapping: &amp;Map&lt;Digit, Digit&gt;, garbled_digit: Digit) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">result</span> = Digit::<span class="hljs-title function_ invoke__">new</span>([<span class="hljs-literal">false</span>; <span class="hljs-number">7</span>]);
+	<span class="hljs-title function_ invoke__">for</span> (&amp;k, &amp;v) <span class="hljs-keyword">in</span> mapping {
+		<span class="hljs-title function_ invoke__">if</span> (garbled_digit &amp; k).n_on &gt; <span class="hljs-number">0</span> {
 			result = result | v;
 		}
 	}
-	result.into()
+	result.<span class="hljs-title function_ invoke__">into</span>()
 }
 
-fn read_input(input: &amp;str) -&gt; Vec&lt;(Vec&lt;Digit&gt;, Vec&lt;Digit&gt;)&gt; {
-	fn whitespace_sepd_strs_to_digits(strs: &amp;str) -&gt; Vec&lt;Digit&gt; {
-		strs.trim()
-			.split_ascii_whitespace()
-			.map(Digit::from_str)
-			.collect()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;(<span class="hljs-type">Vec</span>&lt;Digit&gt;, <span class="hljs-type">Vec</span>&lt;Digit&gt;)&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">whitespace_sepd_strs_to_digits</span>(strs: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;Digit&gt; {
+		strs.<span class="hljs-title function_ invoke__">trim</span>()
+			.<span class="hljs-title function_ invoke__">split_ascii_whitespace</span>()
+			.<span class="hljs-title function_ invoke__">map</span>(Digit::from_str)
+			.<span class="hljs-title function_ invoke__">collect</span>()
 	}
 	input
-		.lines()
-		.filter_map(|line| {
-			let line = line.trim();
-			if line.is_empty() {
-				return None;
+		.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">filter_map</span>(|line| {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">line</span> = line.<span class="hljs-title function_ invoke__">trim</span>();
+			<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">is_empty</span>() {
+				<span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>;
 			}
-			let mut in_out = line.split('|');
-			let in_digits = whitespace_sepd_strs_to_digits(in_out.next()?);
-			let out_digits = whitespace_sepd_strs_to_digits(in_out.next()?);
-			Some((in_digits, out_digits))
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">in_out</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;|&#x27;</span>);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">in_digits</span> = <span class="hljs-title function_ invoke__">whitespace_sepd_strs_to_digits</span>(in_out.<span class="hljs-title function_ invoke__">next</span>()?);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">out_digits</span> = <span class="hljs-title function_ invoke__">whitespace_sepd_strs_to_digits</span>(in_out.<span class="hljs-title function_ invoke__">next</span>()?);
+			<span class="hljs-title function_ invoke__">Some</span>((in_digits, out_digits))
 		})
-		.collect()
+		.<span class="hljs-title function_ invoke__">collect</span>()
 }
 
-fn translate_line_to_digits&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
-	idod: (impl Iterator&lt;Item = D&gt;, impl Iterator&lt;Item = D&gt;),
-) -&gt; Option&lt;Vec&lt;usize&gt;&gt; {
-	let (in_digits, out_digits) = idod;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">translate_line_to_digits</span>&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
+	idod: (<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;, <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;),
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt; {
+	<span class="hljs-keyword">let</span> (in_digits, out_digits) = idod;
 
-	let mapping = get_mapping_from_garbled_digits(in_digits).ok()?;
-	Some(
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">mapping</span> = <span class="hljs-title function_ invoke__">get_mapping_from_garbled_digits</span>(in_digits).<span class="hljs-title function_ invoke__">ok</span>()?;
+	<span class="hljs-title function_ invoke__">Some</span>(
 		out_digits
-			.map(|d| apply_mapping_to_garbled_digit(&amp;mapping, *d.borrow()))
-			.collect(),
+			.<span class="hljs-title function_ invoke__">map</span>(|d| <span class="hljs-title function_ invoke__">apply_mapping_to_garbled_digit</span>(&amp;mapping, *d.<span class="hljs-title function_ invoke__">borrow</span>()))
+			.<span class="hljs-title function_ invoke__">collect</span>(),
 	)
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let in_out_lines = read_input(input);
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">in_out_lines</span> = <span class="hljs-title function_ invoke__">read_input</span>(input);
 
-	let output_digits = in_out_lines
-		.iter()
-		.map(|(in_d, out_d)| translate_line_to_digits((in_d.iter(), out_d.iter())))
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
-		.unwrap();
-	(8, (pt1(output_digits.iter()), pt2(output_digits.iter()))).into()
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">output_digits</span> = in_out_lines
+		.<span class="hljs-title function_ invoke__">iter</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|(in_d, out_d)| <span class="hljs-title function_ invoke__">translate_line_to_digits</span>((in_d.<span class="hljs-title function_ invoke__">iter</span>(), out_d.<span class="hljs-title function_ invoke__">iter</span>())))
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
+		.<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">8</span>, (<span class="hljs-title function_ invoke__">pt1</span>(output_digits.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(output_digits.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1&lt;Nums: AsRef&lt;[usize]&gt;&gt;(out_digits: impl Iterator&lt;Item = Nums&gt;) -&gt; usize {
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;Nums: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(out_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = Nums&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	out_digits
-		.map(|v| {
-			v.as_ref()
-				.iter()
-				.filter(|&amp;n| [1, 4, 7, 8].contains(n))
-				.count()
+		.<span class="hljs-title function_ invoke__">map</span>(|v| {
+			v.<span class="hljs-title function_ invoke__">as_ref</span>()
+				.<span class="hljs-title function_ invoke__">iter</span>()
+				.<span class="hljs-title function_ invoke__">filter</span>(|&amp;n| [<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>].<span class="hljs-title function_ invoke__">contains</span>(n))
+				.<span class="hljs-title function_ invoke__">count</span>()
 		})
-		.sum()
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2&lt;Nums: AsRef&lt;[usize]&gt;&gt;(out_digits: impl Iterator&lt;Item = Nums&gt;) -&gt; usize {
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;Nums: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(out_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = Nums&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	out_digits
-		.map(|v| {
-			v.as_ref()
-				.iter()
-				.rev()
-				.enumerate()
-				.map(|(pow10, &amp;val)| val * 10_usize.pow(u32::try_from(pow10).unwrap()))
-				.sum::&lt;usize&gt;()
+		.<span class="hljs-title function_ invoke__">map</span>(|v| {
+			v.<span class="hljs-title function_ invoke__">as_ref</span>()
+				.<span class="hljs-title function_ invoke__">iter</span>()
+				.<span class="hljs-title function_ invoke__">rev</span>()
+				.<span class="hljs-title function_ invoke__">enumerate</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(|(pow10, &amp;val)| val * <span class="hljs-number">10_usize</span>.<span class="hljs-title function_ invoke__">pow</span>(<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(pow10).<span class="hljs-title function_ invoke__">unwrap</span>()))
+				.sum::&lt;<span class="hljs-type">usize</span>&gt;()
 		})
-		.sum()
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 8, ans: (237, 1_009_098));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">8</span>, ans: (<span class="hljs-number">237</span>, <span class="hljs-number">1_009_098</span>));
 	}
 }</code></pre>
 </div>
@@ -1111,305 +1111,305 @@ mod test {
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::collections::{btree_map::Entry as MapEntry, BTreeMap as Map, BTreeSet as Set};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::collections::{btree_map::Entry <span class="hljs-keyword">as</span> MapEntry, BTreeMap <span class="hljs-keyword">as</span> Map, BTreeSet <span class="hljs-keyword">as</span> Set};
 
-const N_SEGMENTS: usize = 7;
-// end::setup[]
+<span class="hljs-keyword">const</span> N_SEGMENTS: <span class="hljs-type">usize</span> = <span class="hljs-number">7</span>;
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::digit[]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-struct Digit {
-	segments: [bool; N_SEGMENTS],
-	n_on: usize,
+<span class="hljs-comment">// tag::digit[]</span>
+<span class="hljs-meta">#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Digit</span> {
+	segments: [<span class="hljs-type">bool</span>; N_SEGMENTS],
+	n_on: <span class="hljs-type">usize</span>,
 }
 
-impl Digit {
-	fn new(segments: [bool; N_SEGMENTS]) -&gt; Self {
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(segments: [<span class="hljs-type">bool</span>; N_SEGMENTS]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
 			segments,
-			n_on: segments.iter().filter(|&amp;&amp;b| b).count(),
+			n_on: segments.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">filter</span>(|&amp;&amp;b| b).<span class="hljs-title function_ invoke__">count</span>(),
 		}
 	}
 
-	fn from_str(s: &amp;str) -&gt; Self {
-		let mut segments = [false; N_SEGMENTS];
-		for c in s.bytes() {
-			let i = c - b'a';
-			segments[usize::from(i)] = true;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">segments</span> = [<span class="hljs-literal">false</span>; N_SEGMENTS];
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">bytes</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">i</span> = c - <span class="hljs-string">b&#x27;a&#x27;</span>;
+			segments[<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(i)] = <span class="hljs-literal">true</span>;
 		}
-		Self::new(segments)
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(segments)
 	}
 
-	fn _bin_op(self, rhs: Self, f: impl Fn(bool, bool) -&gt; bool) -&gt; Self {
-		Self::new(self.segments.zip(rhs.segments).map(|(x, y)| f(x, y)))
-	}
-}
-
-impl std::ops::BitOr for Digit {
-	type Output = Self;
-	fn bitor(self, rhs: Self) -&gt; Self::Output {
-		self._bin_op(rhs, |x, y| x | y)
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">_bin_op</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>, f: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Fn</span>(<span class="hljs-type">bool</span>, <span class="hljs-type">bool</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.segments.<span class="hljs-title function_ invoke__">zip</span>(rhs.segments).<span class="hljs-title function_ invoke__">map</span>(|(x, y)| <span class="hljs-title function_ invoke__">f</span>(x, y)))
 	}
 }
 
-impl std::ops::BitAnd for Digit {
-	type Output = Self;
-	fn bitand(self, rhs: Self) -&gt; Self::Output {
-		self._bin_op(rhs, |x, y| x &amp; y)
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::BitOr <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">bitor</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">self</span>._bin_op(rhs, |x, y| x | y)
 	}
 }
 
-impl std::ops::Not for Digit {
-	type Output = Self;
-	fn not(self) -&gt; Self::Output {
-		Self::new(self.segments.map(|b| !b))
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::BitAnd <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">bitand</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">self</span>._bin_op(rhs, |x, y| x &amp; y)
 	}
 }
 
-impl From&lt;usize&gt; for Digit {
-	fn from(n: usize) -&gt; Self {
-		let segments = match n {
-			/*
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::Not <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">not</span>(<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.segments.<span class="hljs-title function_ invoke__">map</span>(|b| !b))
+	}
+}
+
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;<span class="hljs-type">usize</span>&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = <span class="hljs-keyword">match</span> n {
+			<span class="hljs-comment">/*
 			-----[A, B, C, D, E, F, G]
-			*/
-			0 =&gt; [1, 1, 1, 0, 1, 1, 1],
-			1 =&gt; [0, 0, 1, 0, 0, 1, 0],
-			2 =&gt; [1, 0, 1, 1, 1, 0, 1],
-			3 =&gt; [1, 0, 1, 1, 0, 1, 1],
-			4 =&gt; [0, 1, 1, 1, 0, 1, 0],
-			5 =&gt; [1, 1, 0, 1, 0, 1, 1],
-			6 =&gt; [1, 1, 0, 1, 1, 1, 1],
-			7 =&gt; [1, 0, 1, 0, 0, 1, 0],
-			8 =&gt; [1, 1, 1, 1, 1, 1, 1],
-			9 =&gt; [1, 1, 1, 1, 0, 1, 1],
-			_ =&gt; panic!("Cannot make digit for n={}", n),
+			*/</span>
+			<span class="hljs-number">0</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">1</span> =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">2</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">3</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">4</span> =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">5</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">6</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">7</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">8</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">9</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			_ =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;Cannot make digit for n={}&quot;</span>, n),
 		};
-		let segments = segments.map(|i| i != 0);
-		Self::new(segments)
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = segments.<span class="hljs-title function_ invoke__">map</span>(|i| i != <span class="hljs-number">0</span>);
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(segments)
 	}
 }
 
-impl From&lt;Digit&gt; for usize {
-	fn from(digit: Digit) -&gt; Self {
-		let segments = digit.segments.map(u8::from);
-		match segments {
-			/*
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Digit&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">usize</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(digit: Digit) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = digit.segments.<span class="hljs-title function_ invoke__">map</span>(<span class="hljs-type">u8</span>::from);
+		<span class="hljs-keyword">match</span> segments {
+			<span class="hljs-comment">/*
 			[A, B, C, D, E, F, G]
-			*/
-			[1, 1, 1, 0, 1, 1, 1] =&gt; 0,
-			[0, 0, 1, 0, 0, 1, 0] =&gt; 1,
-			[1, 0, 1, 1, 1, 0, 1] =&gt; 2,
-			[1, 0, 1, 1, 0, 1, 1] =&gt; 3,
-			[0, 1, 1, 1, 0, 1, 0] =&gt; 4,
-			[1, 1, 0, 1, 0, 1, 1] =&gt; 5,
-			[1, 1, 0, 1, 1, 1, 1] =&gt; 6,
-			[1, 0, 1, 0, 0, 1, 0] =&gt; 7,
-			[1, 1, 1, 1, 1, 1, 1] =&gt; 8,
-			[1, 1, 1, 1, 0, 1, 1] =&gt; 9,
-			_ =&gt; panic!("Digit {:?} is not valid", digit),
+			*/</span>
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">0</span>,
+			[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">1</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">2</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">3</span>,
+			[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">4</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">5</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">6</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">7</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">8</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">9</span>,
+			_ =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;Digit {:?} is not valid&quot;</span>, digit),
 		}
 	}
 }
-// end::digit[]
+<span class="hljs-comment">// end::digit[]</span>
 
-// tag::setup[]
-fn get_mapping_from_garbled_digits&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
-	garbled_digits: impl Iterator&lt;Item = D&gt;,
-) -&gt; Result&lt;Map&lt;Digit, Digit&gt;, Map&lt;Digit, Set&lt;Digit&gt;&gt;&gt; {
-	let mut mappings = Map::new();
+<span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_mapping_from_garbled_digits</span>&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
+	garbled_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;Map&lt;Digit, Digit&gt;, Map&lt;Digit, Set&lt;Digit&gt;&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">mappings</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
 	{
-		let mut grouped_by_n_on = Map::new();
-		for n in 0..=9 {
-			let digit = Digit::from(n);
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grouped_by_n_on</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">n</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..=<span class="hljs-number">9</span> {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">digit</span> = Digit::<span class="hljs-title function_ invoke__">from</span>(n);
 			grouped_by_n_on
-				.entry(digit.n_on)
-				.or_insert_with(Set::new)
-				.insert(digit);
+				.<span class="hljs-title function_ invoke__">entry</span>(digit.n_on)
+				.<span class="hljs-title function_ invoke__">or_insert_with</span>(Set::new)
+				.<span class="hljs-title function_ invoke__">insert</span>(digit);
 		}
 
-		for gd in garbled_digits {
-			let gd = *gd.borrow();
-			let digits_w_same_n_segments = &amp;grouped_by_n_on[&amp;gd.n_on];
-			mappings.insert(gd, digits_w_same_n_segments.clone());
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">gd</span> <span class="hljs-keyword">in</span> garbled_digits {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">gd</span> = *gd.<span class="hljs-title function_ invoke__">borrow</span>();
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">digits_w_same_n_segments</span> = &amp;grouped_by_n_on[&amp;gd.n_on];
+			mappings.<span class="hljs-title function_ invoke__">insert</span>(gd, digits_w_same_n_segments.<span class="hljs-title function_ invoke__">clone</span>());
 		}
 	}
 
-	let identity: &amp;dyn Fn(Digit) -&gt; _ = &amp;(|x| x);
-	let bitwise_not: &amp;dyn Fn(Digit) -&gt; _ = &amp;(|x| !x);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">identity</span>: &amp;<span class="hljs-keyword">dyn</span> <span class="hljs-title function_ invoke__">Fn</span>(Digit) <span class="hljs-punctuation">-&gt;</span> _ = &amp;(|x| x);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">bitwise_not</span>: &amp;<span class="hljs-keyword">dyn</span> <span class="hljs-title function_ invoke__">Fn</span>(Digit) <span class="hljs-punctuation">-&gt;</span> _ = &amp;(|x| !x);
 
-	loop {
-		let mut new_mappings = Map::new();
+	<span class="hljs-keyword">loop</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_mappings</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
-		for (i, (&amp;garbled1, choices1)) in mappings.iter().enumerate() {
-			for (&amp;garbled2, choices2) in mappings.iter().skip(i + 1) {
-				for (op1, op2) in [
+		<span class="hljs-title function_ invoke__">for</span> (i, (&amp;garbled1, choices1)) <span class="hljs-keyword">in</span> mappings.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-title function_ invoke__">for</span> (&amp;garbled2, choices2) <span class="hljs-keyword">in</span> mappings.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+				<span class="hljs-title function_ invoke__">for</span> (op1, op2) <span class="hljs-keyword">in</span> [
 					(identity, identity),
 					(identity, bitwise_not),
 					(bitwise_not, identity),
 				] {
-					let new_garbled = op1(garbled1) &amp; op2(garbled2);
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_garbled</span> = <span class="hljs-title function_ invoke__">op1</span>(garbled1) &amp; <span class="hljs-title function_ invoke__">op2</span>(garbled2);
 
-					if new_garbled.n_on == 0 {
-						continue;
+					<span class="hljs-keyword">if</span> new_garbled.n_on == <span class="hljs-number">0</span> {
+						<span class="hljs-keyword">continue</span>;
 					}
 
-					let mut new_good_candidates = Set::new();
-					for &amp;good_digit1 in choices1 {
-						for &amp;good_digit2 in choices2 {
-							let candidate = op1(good_digit1) &amp; op2(good_digit2);
-							if candidate.n_on == new_garbled.n_on {
-								new_good_candidates.insert(candidate);
+					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_good_candidates</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+					<span class="hljs-keyword">for</span> &amp;good_digit1 <span class="hljs-keyword">in</span> choices1 {
+						<span class="hljs-keyword">for</span> &amp;good_digit2 <span class="hljs-keyword">in</span> choices2 {
+							<span class="hljs-keyword">let</span> <span class="hljs-variable">candidate</span> = <span class="hljs-title function_ invoke__">op1</span>(good_digit1) &amp; <span class="hljs-title function_ invoke__">op2</span>(good_digit2);
+							<span class="hljs-keyword">if</span> candidate.n_on == new_garbled.n_on {
+								new_good_candidates.<span class="hljs-title function_ invoke__">insert</span>(candidate);
 							}
 						}
 					}
 
-					match new_mappings.entry(new_garbled) {
-						MapEntry::Vacant(v) =&gt; {
-							v.insert(new_good_candidates);
+					<span class="hljs-keyword">match</span> new_mappings.<span class="hljs-title function_ invoke__">entry</span>(new_garbled) {
+						MapEntry::<span class="hljs-title function_ invoke__">Vacant</span>(v) =&gt; {
+							v.<span class="hljs-title function_ invoke__">insert</span>(new_good_candidates);
 						}
-						MapEntry::Occupied(mut o) =&gt; {
-							o.insert(o.get() &amp; &amp;new_good_candidates);
+						MapEntry::<span class="hljs-title function_ invoke__">Occupied</span>(<span class="hljs-keyword">mut</span> o) =&gt; {
+							o.<span class="hljs-title function_ invoke__">insert</span>(o.<span class="hljs-title function_ invoke__">get</span>() &amp; &amp;new_good_candidates);
 						}
 					}
 				}
 			}
 		}
 
-		// Remove all keys that can be written as the disjoint-bitwise-or of two other
-		// keys, as they're redundant. This means if e.g., A and BC are present, then
-		// remove ABC. But if only AB and BC are present, then do *not* remove ABC (as AB
-		// and BC are not disjoint)
-		let mut redundant_keys = Set::new();
-		let new_garbled_keys = new_mappings.keys().copied().collect::&lt;Set&lt;_&gt;&gt;();
-		for (i, &amp;garbled1) in new_garbled_keys.iter().enumerate() {
-			for &amp;garbled2 in new_garbled_keys.iter().skip(i + 1) {
-				if (garbled1 &amp; garbled2).n_on != 0 {
-					continue;
+		<span class="hljs-comment">// Remove all keys that can be written as the disjoint-bitwise-or of two other</span>
+		<span class="hljs-comment">// keys, as they&#x27;re redundant. This means if e.g., A and BC are present, then</span>
+		<span class="hljs-comment">// remove ABC. But if only AB and BC are present, then do *not* remove ABC (as AB</span>
+		<span class="hljs-comment">// and BC are not disjoint)</span>
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">redundant_keys</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_garbled_keys</span> = new_mappings.<span class="hljs-title function_ invoke__">keys</span>().<span class="hljs-title function_ invoke__">copied</span>().collect::&lt;Set&lt;_&gt;&gt;();
+		<span class="hljs-title function_ invoke__">for</span> (i, &amp;garbled1) <span class="hljs-keyword">in</span> new_garbled_keys.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">for</span> &amp;garbled2 <span class="hljs-keyword">in</span> new_garbled_keys.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+				<span class="hljs-title function_ invoke__">if</span> (garbled1 &amp; garbled2).n_on != <span class="hljs-number">0</span> {
+					<span class="hljs-keyword">continue</span>;
 				}
-				let segment_union = garbled1 | garbled2;
-				if new_garbled_keys.contains(&amp;segment_union) {
-					redundant_keys.insert(segment_union);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">segment_union</span> = garbled1 | garbled2;
+				<span class="hljs-keyword">if</span> new_garbled_keys.<span class="hljs-title function_ invoke__">contains</span>(&amp;segment_union) {
+					redundant_keys.<span class="hljs-title function_ invoke__">insert</span>(segment_union);
 				}
 			}
 		}
 
-		for k in &amp;redundant_keys {
-			new_mappings.remove(k);
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">k</span> <span class="hljs-keyword">in</span> &amp;redundant_keys {
+			new_mappings.<span class="hljs-title function_ invoke__">remove</span>(k);
 		}
 
-		if mappings.len() == N_SEGMENTS &amp;&amp; mappings.values().all(|m| m.len() == 1) {
-			return Ok(mappings
-				.into_iter()
-				.map(|(k, v)| (k, v.iter().next().copied().unwrap()))
-				.collect());
-		} else if mappings == new_mappings {
-			return Err(mappings);
+		<span class="hljs-keyword">if</span> mappings.<span class="hljs-title function_ invoke__">len</span>() == N_SEGMENTS &amp;&amp; mappings.<span class="hljs-title function_ invoke__">values</span>().<span class="hljs-title function_ invoke__">all</span>(|m| m.<span class="hljs-title function_ invoke__">len</span>() == <span class="hljs-number">1</span>) {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Ok</span>(mappings
+				.<span class="hljs-title function_ invoke__">into_iter</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(|(k, v)| (k, v.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">next</span>().<span class="hljs-title function_ invoke__">copied</span>().<span class="hljs-title function_ invoke__">unwrap</span>()))
+				.<span class="hljs-title function_ invoke__">collect</span>());
+		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> mappings == new_mappings {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Err</span>(mappings);
 		}
 
 		mappings = new_mappings;
 	}
 }
 
-fn apply_mapping_to_garbled_digit(mapping: &amp;Map&lt;Digit, Digit&gt;, garbled_digit: Digit) -&gt; usize {
-	let mut result = Digit::new([false; 7]);
-	for (&amp;k, &amp;v) in mapping {
-		if (garbled_digit &amp; k).n_on &gt; 0 {
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_mapping_to_garbled_digit</span>(mapping: &amp;Map&lt;Digit, Digit&gt;, garbled_digit: Digit) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">result</span> = Digit::<span class="hljs-title function_ invoke__">new</span>([<span class="hljs-literal">false</span>; <span class="hljs-number">7</span>]);
+	<span class="hljs-title function_ invoke__">for</span> (&amp;k, &amp;v) <span class="hljs-keyword">in</span> mapping {
+		<span class="hljs-title function_ invoke__">if</span> (garbled_digit &amp; k).n_on &gt; <span class="hljs-number">0</span> {
 			result = result | v;
 		}
 	}
-	result.into()
+	result.<span class="hljs-title function_ invoke__">into</span>()
 }
 
-fn read_input(input: &amp;str) -&gt; Vec&lt;(Vec&lt;Digit&gt;, Vec&lt;Digit&gt;)&gt; {
-	fn whitespace_sepd_strs_to_digits(strs: &amp;str) -&gt; Vec&lt;Digit&gt; {
-		strs.trim()
-			.split_ascii_whitespace()
-			.map(Digit::from_str)
-			.collect()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;(<span class="hljs-type">Vec</span>&lt;Digit&gt;, <span class="hljs-type">Vec</span>&lt;Digit&gt;)&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">whitespace_sepd_strs_to_digits</span>(strs: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;Digit&gt; {
+		strs.<span class="hljs-title function_ invoke__">trim</span>()
+			.<span class="hljs-title function_ invoke__">split_ascii_whitespace</span>()
+			.<span class="hljs-title function_ invoke__">map</span>(Digit::from_str)
+			.<span class="hljs-title function_ invoke__">collect</span>()
 	}
 	input
-		.lines()
-		.filter_map(|line| {
-			let line = line.trim();
-			if line.is_empty() {
-				return None;
+		.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">filter_map</span>(|line| {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">line</span> = line.<span class="hljs-title function_ invoke__">trim</span>();
+			<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">is_empty</span>() {
+				<span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>;
 			}
-			let mut in_out = line.split('|');
-			let in_digits = whitespace_sepd_strs_to_digits(in_out.next()?);
-			let out_digits = whitespace_sepd_strs_to_digits(in_out.next()?);
-			Some((in_digits, out_digits))
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">in_out</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;|&#x27;</span>);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">in_digits</span> = <span class="hljs-title function_ invoke__">whitespace_sepd_strs_to_digits</span>(in_out.<span class="hljs-title function_ invoke__">next</span>()?);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">out_digits</span> = <span class="hljs-title function_ invoke__">whitespace_sepd_strs_to_digits</span>(in_out.<span class="hljs-title function_ invoke__">next</span>()?);
+			<span class="hljs-title function_ invoke__">Some</span>((in_digits, out_digits))
 		})
-		.collect()
+		.<span class="hljs-title function_ invoke__">collect</span>()
 }
 
-fn translate_line_to_digits&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
-	idod: (impl Iterator&lt;Item = D&gt;, impl Iterator&lt;Item = D&gt;),
-) -&gt; Option&lt;Vec&lt;usize&gt;&gt; {
-	let (in_digits, out_digits) = idod;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">translate_line_to_digits</span>&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
+	idod: (<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;, <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;),
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt; {
+	<span class="hljs-keyword">let</span> (in_digits, out_digits) = idod;
 
-	let mapping = get_mapping_from_garbled_digits(in_digits).ok()?;
-	Some(
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">mapping</span> = <span class="hljs-title function_ invoke__">get_mapping_from_garbled_digits</span>(in_digits).<span class="hljs-title function_ invoke__">ok</span>()?;
+	<span class="hljs-title function_ invoke__">Some</span>(
 		out_digits
-			.map(|d| apply_mapping_to_garbled_digit(&amp;mapping, *d.borrow()))
-			.collect(),
+			.<span class="hljs-title function_ invoke__">map</span>(|d| <span class="hljs-title function_ invoke__">apply_mapping_to_garbled_digit</span>(&amp;mapping, *d.<span class="hljs-title function_ invoke__">borrow</span>()))
+			.<span class="hljs-title function_ invoke__">collect</span>(),
 	)
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let in_out_lines = read_input(input);
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">in_out_lines</span> = <span class="hljs-title function_ invoke__">read_input</span>(input);
 
-	let output_digits = in_out_lines
-		.iter()
-		.map(|(in_d, out_d)| translate_line_to_digits((in_d.iter(), out_d.iter())))
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
-		.unwrap();
-	(8, (pt1(output_digits.iter()), pt2(output_digits.iter()))).into()
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">output_digits</span> = in_out_lines
+		.<span class="hljs-title function_ invoke__">iter</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|(in_d, out_d)| <span class="hljs-title function_ invoke__">translate_line_to_digits</span>((in_d.<span class="hljs-title function_ invoke__">iter</span>(), out_d.<span class="hljs-title function_ invoke__">iter</span>())))
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
+		.<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">8</span>, (<span class="hljs-title function_ invoke__">pt1</span>(output_digits.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(output_digits.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1&lt;Nums: AsRef&lt;[usize]&gt;&gt;(out_digits: impl Iterator&lt;Item = Nums&gt;) -&gt; usize {
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;Nums: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(out_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = Nums&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	out_digits
-		.map(|v| {
-			v.as_ref()
-				.iter()
-				.filter(|&amp;n| [1, 4, 7, 8].contains(n))
-				.count()
+		.<span class="hljs-title function_ invoke__">map</span>(|v| {
+			v.<span class="hljs-title function_ invoke__">as_ref</span>()
+				.<span class="hljs-title function_ invoke__">iter</span>()
+				.<span class="hljs-title function_ invoke__">filter</span>(|&amp;n| [<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>].<span class="hljs-title function_ invoke__">contains</span>(n))
+				.<span class="hljs-title function_ invoke__">count</span>()
 		})
-		.sum()
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2&lt;Nums: AsRef&lt;[usize]&gt;&gt;(out_digits: impl Iterator&lt;Item = Nums&gt;) -&gt; usize {
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;Nums: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(out_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = Nums&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	out_digits
-		.map(|v| {
-			v.as_ref()
-				.iter()
-				.rev()
-				.enumerate()
-				.map(|(pow10, &amp;val)| val * 10_usize.pow(u32::try_from(pow10).unwrap()))
-				.sum::&lt;usize&gt;()
+		.<span class="hljs-title function_ invoke__">map</span>(|v| {
+			v.<span class="hljs-title function_ invoke__">as_ref</span>()
+				.<span class="hljs-title function_ invoke__">iter</span>()
+				.<span class="hljs-title function_ invoke__">rev</span>()
+				.<span class="hljs-title function_ invoke__">enumerate</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(|(pow10, &amp;val)| val * <span class="hljs-number">10_usize</span>.<span class="hljs-title function_ invoke__">pow</span>(<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(pow10).<span class="hljs-title function_ invoke__">unwrap</span>()))
+				.sum::&lt;<span class="hljs-type">usize</span>&gt;()
 		})
-		.sum()
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 8, ans: (237, 1_009_098));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">8</span>, ans: (<span class="hljs-number">237</span>, <span class="hljs-number">1_009_098</span>));
 	}
 }</code></pre>
 </div>
@@ -1425,305 +1425,305 @@ mod test {
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::collections::{btree_map::Entry as MapEntry, BTreeMap as Map, BTreeSet as Set};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::collections::{btree_map::Entry <span class="hljs-keyword">as</span> MapEntry, BTreeMap <span class="hljs-keyword">as</span> Map, BTreeSet <span class="hljs-keyword">as</span> Set};
 
-const N_SEGMENTS: usize = 7;
-// end::setup[]
+<span class="hljs-keyword">const</span> N_SEGMENTS: <span class="hljs-type">usize</span> = <span class="hljs-number">7</span>;
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::digit[]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-struct Digit {
-	segments: [bool; N_SEGMENTS],
-	n_on: usize,
+<span class="hljs-comment">// tag::digit[]</span>
+<span class="hljs-meta">#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Digit</span> {
+	segments: [<span class="hljs-type">bool</span>; N_SEGMENTS],
+	n_on: <span class="hljs-type">usize</span>,
 }
 
-impl Digit {
-	fn new(segments: [bool; N_SEGMENTS]) -&gt; Self {
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(segments: [<span class="hljs-type">bool</span>; N_SEGMENTS]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
 			segments,
-			n_on: segments.iter().filter(|&amp;&amp;b| b).count(),
+			n_on: segments.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">filter</span>(|&amp;&amp;b| b).<span class="hljs-title function_ invoke__">count</span>(),
 		}
 	}
 
-	fn from_str(s: &amp;str) -&gt; Self {
-		let mut segments = [false; N_SEGMENTS];
-		for c in s.bytes() {
-			let i = c - b'a';
-			segments[usize::from(i)] = true;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">segments</span> = [<span class="hljs-literal">false</span>; N_SEGMENTS];
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">bytes</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">i</span> = c - <span class="hljs-string">b&#x27;a&#x27;</span>;
+			segments[<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(i)] = <span class="hljs-literal">true</span>;
 		}
-		Self::new(segments)
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(segments)
 	}
 
-	fn _bin_op(self, rhs: Self, f: impl Fn(bool, bool) -&gt; bool) -&gt; Self {
-		Self::new(self.segments.zip(rhs.segments).map(|(x, y)| f(x, y)))
-	}
-}
-
-impl std::ops::BitOr for Digit {
-	type Output = Self;
-	fn bitor(self, rhs: Self) -&gt; Self::Output {
-		self._bin_op(rhs, |x, y| x | y)
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">_bin_op</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>, f: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Fn</span>(<span class="hljs-type">bool</span>, <span class="hljs-type">bool</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.segments.<span class="hljs-title function_ invoke__">zip</span>(rhs.segments).<span class="hljs-title function_ invoke__">map</span>(|(x, y)| <span class="hljs-title function_ invoke__">f</span>(x, y)))
 	}
 }
 
-impl std::ops::BitAnd for Digit {
-	type Output = Self;
-	fn bitand(self, rhs: Self) -&gt; Self::Output {
-		self._bin_op(rhs, |x, y| x &amp; y)
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::BitOr <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">bitor</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">self</span>._bin_op(rhs, |x, y| x | y)
 	}
 }
 
-impl std::ops::Not for Digit {
-	type Output = Self;
-	fn not(self) -&gt; Self::Output {
-		Self::new(self.segments.map(|b| !b))
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::BitAnd <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">bitand</span>(<span class="hljs-keyword">self</span>, rhs: <span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">self</span>._bin_op(rhs, |x, y| x &amp; y)
 	}
 }
 
-impl From&lt;usize&gt; for Digit {
-	fn from(n: usize) -&gt; Self {
-		let segments = match n {
-			/*
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::ops::Not <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">type</span> <span class="hljs-title class_">Output</span> = <span class="hljs-keyword">Self</span>;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">not</span>(<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span>::Output {
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-keyword">self</span>.segments.<span class="hljs-title function_ invoke__">map</span>(|b| !b))
+	}
+}
+
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;<span class="hljs-type">usize</span>&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">Digit</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = <span class="hljs-keyword">match</span> n {
+			<span class="hljs-comment">/*
 			-----[A, B, C, D, E, F, G]
-			*/
-			0 =&gt; [1, 1, 1, 0, 1, 1, 1],
-			1 =&gt; [0, 0, 1, 0, 0, 1, 0],
-			2 =&gt; [1, 0, 1, 1, 1, 0, 1],
-			3 =&gt; [1, 0, 1, 1, 0, 1, 1],
-			4 =&gt; [0, 1, 1, 1, 0, 1, 0],
-			5 =&gt; [1, 1, 0, 1, 0, 1, 1],
-			6 =&gt; [1, 1, 0, 1, 1, 1, 1],
-			7 =&gt; [1, 0, 1, 0, 0, 1, 0],
-			8 =&gt; [1, 1, 1, 1, 1, 1, 1],
-			9 =&gt; [1, 1, 1, 1, 0, 1, 1],
-			_ =&gt; panic!("Cannot make digit for n={}", n),
+			*/</span>
+			<span class="hljs-number">0</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">1</span> =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">2</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">3</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">4</span> =&gt; [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">5</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">6</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">7</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+			<span class="hljs-number">8</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			<span class="hljs-number">9</span> =&gt; [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+			_ =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;Cannot make digit for n={}&quot;</span>, n),
 		};
-		let segments = segments.map(|i| i != 0);
-		Self::new(segments)
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = segments.<span class="hljs-title function_ invoke__">map</span>(|i| i != <span class="hljs-number">0</span>);
+		<span class="hljs-keyword">Self</span>::<span class="hljs-title function_ invoke__">new</span>(segments)
 	}
 }
 
-impl From&lt;Digit&gt; for usize {
-	fn from(digit: Digit) -&gt; Self {
-		let segments = digit.segments.map(u8::from);
-		match segments {
-			/*
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">From</span>&lt;Digit&gt; <span class="hljs-keyword">for</span> <span class="hljs-title class_">usize</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from</span>(digit: Digit) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">segments</span> = digit.segments.<span class="hljs-title function_ invoke__">map</span>(<span class="hljs-type">u8</span>::from);
+		<span class="hljs-keyword">match</span> segments {
+			<span class="hljs-comment">/*
 			[A, B, C, D, E, F, G]
-			*/
-			[1, 1, 1, 0, 1, 1, 1] =&gt; 0,
-			[0, 0, 1, 0, 0, 1, 0] =&gt; 1,
-			[1, 0, 1, 1, 1, 0, 1] =&gt; 2,
-			[1, 0, 1, 1, 0, 1, 1] =&gt; 3,
-			[0, 1, 1, 1, 0, 1, 0] =&gt; 4,
-			[1, 1, 0, 1, 0, 1, 1] =&gt; 5,
-			[1, 1, 0, 1, 1, 1, 1] =&gt; 6,
-			[1, 0, 1, 0, 0, 1, 0] =&gt; 7,
-			[1, 1, 1, 1, 1, 1, 1] =&gt; 8,
-			[1, 1, 1, 1, 0, 1, 1] =&gt; 9,
-			_ =&gt; panic!("Digit {:?} is not valid", digit),
+			*/</span>
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">0</span>,
+			[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">1</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">2</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">3</span>,
+			[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">4</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">5</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">6</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>] =&gt; <span class="hljs-number">7</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">8</span>,
+			[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>] =&gt; <span class="hljs-number">9</span>,
+			_ =&gt; <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;Digit {:?} is not valid&quot;</span>, digit),
 		}
 	}
 }
-// end::digit[]
+<span class="hljs-comment">// end::digit[]</span>
 
-// tag::setup[]
-fn get_mapping_from_garbled_digits&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
-	garbled_digits: impl Iterator&lt;Item = D&gt;,
-) -&gt; Result&lt;Map&lt;Digit, Digit&gt;, Map&lt;Digit, Set&lt;Digit&gt;&gt;&gt; {
-	let mut mappings = Map::new();
+<span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_mapping_from_garbled_digits</span>&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
+	garbled_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;Map&lt;Digit, Digit&gt;, Map&lt;Digit, Set&lt;Digit&gt;&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">mappings</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
 	{
-		let mut grouped_by_n_on = Map::new();
-		for n in 0..=9 {
-			let digit = Digit::from(n);
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grouped_by_n_on</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">n</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..=<span class="hljs-number">9</span> {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">digit</span> = Digit::<span class="hljs-title function_ invoke__">from</span>(n);
 			grouped_by_n_on
-				.entry(digit.n_on)
-				.or_insert_with(Set::new)
-				.insert(digit);
+				.<span class="hljs-title function_ invoke__">entry</span>(digit.n_on)
+				.<span class="hljs-title function_ invoke__">or_insert_with</span>(Set::new)
+				.<span class="hljs-title function_ invoke__">insert</span>(digit);
 		}
 
-		for gd in garbled_digits {
-			let gd = *gd.borrow();
-			let digits_w_same_n_segments = &amp;grouped_by_n_on[&amp;gd.n_on];
-			mappings.insert(gd, digits_w_same_n_segments.clone());
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">gd</span> <span class="hljs-keyword">in</span> garbled_digits {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">gd</span> = *gd.<span class="hljs-title function_ invoke__">borrow</span>();
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">digits_w_same_n_segments</span> = &amp;grouped_by_n_on[&amp;gd.n_on];
+			mappings.<span class="hljs-title function_ invoke__">insert</span>(gd, digits_w_same_n_segments.<span class="hljs-title function_ invoke__">clone</span>());
 		}
 	}
 
-	let identity: &amp;dyn Fn(Digit) -&gt; _ = &amp;(|x| x);
-	let bitwise_not: &amp;dyn Fn(Digit) -&gt; _ = &amp;(|x| !x);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">identity</span>: &amp;<span class="hljs-keyword">dyn</span> <span class="hljs-title function_ invoke__">Fn</span>(Digit) <span class="hljs-punctuation">-&gt;</span> _ = &amp;(|x| x);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">bitwise_not</span>: &amp;<span class="hljs-keyword">dyn</span> <span class="hljs-title function_ invoke__">Fn</span>(Digit) <span class="hljs-punctuation">-&gt;</span> _ = &amp;(|x| !x);
 
-	loop {
-		let mut new_mappings = Map::new();
+	<span class="hljs-keyword">loop</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_mappings</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
-		for (i, (&amp;garbled1, choices1)) in mappings.iter().enumerate() {
-			for (&amp;garbled2, choices2) in mappings.iter().skip(i + 1) {
-				for (op1, op2) in [
+		<span class="hljs-title function_ invoke__">for</span> (i, (&amp;garbled1, choices1)) <span class="hljs-keyword">in</span> mappings.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-title function_ invoke__">for</span> (&amp;garbled2, choices2) <span class="hljs-keyword">in</span> mappings.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+				<span class="hljs-title function_ invoke__">for</span> (op1, op2) <span class="hljs-keyword">in</span> [
 					(identity, identity),
 					(identity, bitwise_not),
 					(bitwise_not, identity),
 				] {
-					let new_garbled = op1(garbled1) &amp; op2(garbled2);
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">new_garbled</span> = <span class="hljs-title function_ invoke__">op1</span>(garbled1) &amp; <span class="hljs-title function_ invoke__">op2</span>(garbled2);
 
-					if new_garbled.n_on == 0 {
-						continue;
+					<span class="hljs-keyword">if</span> new_garbled.n_on == <span class="hljs-number">0</span> {
+						<span class="hljs-keyword">continue</span>;
 					}
 
-					let mut new_good_candidates = Set::new();
-					for &amp;good_digit1 in choices1 {
-						for &amp;good_digit2 in choices2 {
-							let candidate = op1(good_digit1) &amp; op2(good_digit2);
-							if candidate.n_on == new_garbled.n_on {
-								new_good_candidates.insert(candidate);
+					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_good_candidates</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+					<span class="hljs-keyword">for</span> &amp;good_digit1 <span class="hljs-keyword">in</span> choices1 {
+						<span class="hljs-keyword">for</span> &amp;good_digit2 <span class="hljs-keyword">in</span> choices2 {
+							<span class="hljs-keyword">let</span> <span class="hljs-variable">candidate</span> = <span class="hljs-title function_ invoke__">op1</span>(good_digit1) &amp; <span class="hljs-title function_ invoke__">op2</span>(good_digit2);
+							<span class="hljs-keyword">if</span> candidate.n_on == new_garbled.n_on {
+								new_good_candidates.<span class="hljs-title function_ invoke__">insert</span>(candidate);
 							}
 						}
 					}
 
-					match new_mappings.entry(new_garbled) {
-						MapEntry::Vacant(v) =&gt; {
-							v.insert(new_good_candidates);
+					<span class="hljs-keyword">match</span> new_mappings.<span class="hljs-title function_ invoke__">entry</span>(new_garbled) {
+						MapEntry::<span class="hljs-title function_ invoke__">Vacant</span>(v) =&gt; {
+							v.<span class="hljs-title function_ invoke__">insert</span>(new_good_candidates);
 						}
-						MapEntry::Occupied(mut o) =&gt; {
-							o.insert(o.get() &amp; &amp;new_good_candidates);
+						MapEntry::<span class="hljs-title function_ invoke__">Occupied</span>(<span class="hljs-keyword">mut</span> o) =&gt; {
+							o.<span class="hljs-title function_ invoke__">insert</span>(o.<span class="hljs-title function_ invoke__">get</span>() &amp; &amp;new_good_candidates);
 						}
 					}
 				}
 			}
 		}
 
-		// Remove all keys that can be written as the disjoint-bitwise-or of two other
-		// keys, as they're redundant. This means if e.g., A and BC are present, then
-		// remove ABC. But if only AB and BC are present, then do *not* remove ABC (as AB
-		// and BC are not disjoint)
-		let mut redundant_keys = Set::new();
-		let new_garbled_keys = new_mappings.keys().copied().collect::&lt;Set&lt;_&gt;&gt;();
-		for (i, &amp;garbled1) in new_garbled_keys.iter().enumerate() {
-			for &amp;garbled2 in new_garbled_keys.iter().skip(i + 1) {
-				if (garbled1 &amp; garbled2).n_on != 0 {
-					continue;
+		<span class="hljs-comment">// Remove all keys that can be written as the disjoint-bitwise-or of two other</span>
+		<span class="hljs-comment">// keys, as they&#x27;re redundant. This means if e.g., A and BC are present, then</span>
+		<span class="hljs-comment">// remove ABC. But if only AB and BC are present, then do *not* remove ABC (as AB</span>
+		<span class="hljs-comment">// and BC are not disjoint)</span>
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">redundant_keys</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_garbled_keys</span> = new_mappings.<span class="hljs-title function_ invoke__">keys</span>().<span class="hljs-title function_ invoke__">copied</span>().collect::&lt;Set&lt;_&gt;&gt;();
+		<span class="hljs-title function_ invoke__">for</span> (i, &amp;garbled1) <span class="hljs-keyword">in</span> new_garbled_keys.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">for</span> &amp;garbled2 <span class="hljs-keyword">in</span> new_garbled_keys.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+				<span class="hljs-title function_ invoke__">if</span> (garbled1 &amp; garbled2).n_on != <span class="hljs-number">0</span> {
+					<span class="hljs-keyword">continue</span>;
 				}
-				let segment_union = garbled1 | garbled2;
-				if new_garbled_keys.contains(&amp;segment_union) {
-					redundant_keys.insert(segment_union);
+				<span class="hljs-keyword">let</span> <span class="hljs-variable">segment_union</span> = garbled1 | garbled2;
+				<span class="hljs-keyword">if</span> new_garbled_keys.<span class="hljs-title function_ invoke__">contains</span>(&amp;segment_union) {
+					redundant_keys.<span class="hljs-title function_ invoke__">insert</span>(segment_union);
 				}
 			}
 		}
 
-		for k in &amp;redundant_keys {
-			new_mappings.remove(k);
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">k</span> <span class="hljs-keyword">in</span> &amp;redundant_keys {
+			new_mappings.<span class="hljs-title function_ invoke__">remove</span>(k);
 		}
 
-		if mappings.len() == N_SEGMENTS &amp;&amp; mappings.values().all(|m| m.len() == 1) {
-			return Ok(mappings
-				.into_iter()
-				.map(|(k, v)| (k, v.iter().next().copied().unwrap()))
-				.collect());
-		} else if mappings == new_mappings {
-			return Err(mappings);
+		<span class="hljs-keyword">if</span> mappings.<span class="hljs-title function_ invoke__">len</span>() == N_SEGMENTS &amp;&amp; mappings.<span class="hljs-title function_ invoke__">values</span>().<span class="hljs-title function_ invoke__">all</span>(|m| m.<span class="hljs-title function_ invoke__">len</span>() == <span class="hljs-number">1</span>) {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Ok</span>(mappings
+				.<span class="hljs-title function_ invoke__">into_iter</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(|(k, v)| (k, v.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">next</span>().<span class="hljs-title function_ invoke__">copied</span>().<span class="hljs-title function_ invoke__">unwrap</span>()))
+				.<span class="hljs-title function_ invoke__">collect</span>());
+		} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> mappings == new_mappings {
+			<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Err</span>(mappings);
 		}
 
 		mappings = new_mappings;
 	}
 }
 
-fn apply_mapping_to_garbled_digit(mapping: &amp;Map&lt;Digit, Digit&gt;, garbled_digit: Digit) -&gt; usize {
-	let mut result = Digit::new([false; 7]);
-	for (&amp;k, &amp;v) in mapping {
-		if (garbled_digit &amp; k).n_on &gt; 0 {
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_mapping_to_garbled_digit</span>(mapping: &amp;Map&lt;Digit, Digit&gt;, garbled_digit: Digit) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">result</span> = Digit::<span class="hljs-title function_ invoke__">new</span>([<span class="hljs-literal">false</span>; <span class="hljs-number">7</span>]);
+	<span class="hljs-title function_ invoke__">for</span> (&amp;k, &amp;v) <span class="hljs-keyword">in</span> mapping {
+		<span class="hljs-title function_ invoke__">if</span> (garbled_digit &amp; k).n_on &gt; <span class="hljs-number">0</span> {
 			result = result | v;
 		}
 	}
-	result.into()
+	result.<span class="hljs-title function_ invoke__">into</span>()
 }
 
-fn read_input(input: &amp;str) -&gt; Vec&lt;(Vec&lt;Digit&gt;, Vec&lt;Digit&gt;)&gt; {
-	fn whitespace_sepd_strs_to_digits(strs: &amp;str) -&gt; Vec&lt;Digit&gt; {
-		strs.trim()
-			.split_ascii_whitespace()
-			.map(Digit::from_str)
-			.collect()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;(<span class="hljs-type">Vec</span>&lt;Digit&gt;, <span class="hljs-type">Vec</span>&lt;Digit&gt;)&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">whitespace_sepd_strs_to_digits</span>(strs: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;Digit&gt; {
+		strs.<span class="hljs-title function_ invoke__">trim</span>()
+			.<span class="hljs-title function_ invoke__">split_ascii_whitespace</span>()
+			.<span class="hljs-title function_ invoke__">map</span>(Digit::from_str)
+			.<span class="hljs-title function_ invoke__">collect</span>()
 	}
 	input
-		.lines()
-		.filter_map(|line| {
-			let line = line.trim();
-			if line.is_empty() {
-				return None;
+		.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">filter_map</span>(|line| {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">line</span> = line.<span class="hljs-title function_ invoke__">trim</span>();
+			<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">is_empty</span>() {
+				<span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>;
 			}
-			let mut in_out = line.split('|');
-			let in_digits = whitespace_sepd_strs_to_digits(in_out.next()?);
-			let out_digits = whitespace_sepd_strs_to_digits(in_out.next()?);
-			Some((in_digits, out_digits))
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">in_out</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;|&#x27;</span>);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">in_digits</span> = <span class="hljs-title function_ invoke__">whitespace_sepd_strs_to_digits</span>(in_out.<span class="hljs-title function_ invoke__">next</span>()?);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">out_digits</span> = <span class="hljs-title function_ invoke__">whitespace_sepd_strs_to_digits</span>(in_out.<span class="hljs-title function_ invoke__">next</span>()?);
+			<span class="hljs-title function_ invoke__">Some</span>((in_digits, out_digits))
 		})
-		.collect()
+		.<span class="hljs-title function_ invoke__">collect</span>()
 }
 
-fn translate_line_to_digits&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
-	idod: (impl Iterator&lt;Item = D&gt;, impl Iterator&lt;Item = D&gt;),
-) -&gt; Option&lt;Vec&lt;usize&gt;&gt; {
-	let (in_digits, out_digits) = idod;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">translate_line_to_digits</span>&lt;D: std::borrow::Borrow&lt;Digit&gt;&gt;(
+	idod: (<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;, <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = D&gt;),
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt; {
+	<span class="hljs-keyword">let</span> (in_digits, out_digits) = idod;
 
-	let mapping = get_mapping_from_garbled_digits(in_digits).ok()?;
-	Some(
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">mapping</span> = <span class="hljs-title function_ invoke__">get_mapping_from_garbled_digits</span>(in_digits).<span class="hljs-title function_ invoke__">ok</span>()?;
+	<span class="hljs-title function_ invoke__">Some</span>(
 		out_digits
-			.map(|d| apply_mapping_to_garbled_digit(&amp;mapping, *d.borrow()))
-			.collect(),
+			.<span class="hljs-title function_ invoke__">map</span>(|d| <span class="hljs-title function_ invoke__">apply_mapping_to_garbled_digit</span>(&amp;mapping, *d.<span class="hljs-title function_ invoke__">borrow</span>()))
+			.<span class="hljs-title function_ invoke__">collect</span>(),
 	)
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let in_out_lines = read_input(input);
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">in_out_lines</span> = <span class="hljs-title function_ invoke__">read_input</span>(input);
 
-	let output_digits = in_out_lines
-		.iter()
-		.map(|(in_d, out_d)| translate_line_to_digits((in_d.iter(), out_d.iter())))
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
-		.unwrap();
-	(8, (pt1(output_digits.iter()), pt2(output_digits.iter()))).into()
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">output_digits</span> = in_out_lines
+		.<span class="hljs-title function_ invoke__">iter</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|(in_d, out_d)| <span class="hljs-title function_ invoke__">translate_line_to_digits</span>((in_d.<span class="hljs-title function_ invoke__">iter</span>(), out_d.<span class="hljs-title function_ invoke__">iter</span>())))
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
+		.<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">8</span>, (<span class="hljs-title function_ invoke__">pt1</span>(output_digits.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(output_digits.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1&lt;Nums: AsRef&lt;[usize]&gt;&gt;(out_digits: impl Iterator&lt;Item = Nums&gt;) -&gt; usize {
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;Nums: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(out_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = Nums&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	out_digits
-		.map(|v| {
-			v.as_ref()
-				.iter()
-				.filter(|&amp;n| [1, 4, 7, 8].contains(n))
-				.count()
+		.<span class="hljs-title function_ invoke__">map</span>(|v| {
+			v.<span class="hljs-title function_ invoke__">as_ref</span>()
+				.<span class="hljs-title function_ invoke__">iter</span>()
+				.<span class="hljs-title function_ invoke__">filter</span>(|&amp;n| [<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>].<span class="hljs-title function_ invoke__">contains</span>(n))
+				.<span class="hljs-title function_ invoke__">count</span>()
 		})
-		.sum()
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2&lt;Nums: AsRef&lt;[usize]&gt;&gt;(out_digits: impl Iterator&lt;Item = Nums&gt;) -&gt; usize {
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;Nums: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(out_digits: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = Nums&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	out_digits
-		.map(|v| {
-			v.as_ref()
-				.iter()
-				.rev()
-				.enumerate()
-				.map(|(pow10, &amp;val)| val * 10_usize.pow(u32::try_from(pow10).unwrap()))
-				.sum::&lt;usize&gt;()
+		.<span class="hljs-title function_ invoke__">map</span>(|v| {
+			v.<span class="hljs-title function_ invoke__">as_ref</span>()
+				.<span class="hljs-title function_ invoke__">iter</span>()
+				.<span class="hljs-title function_ invoke__">rev</span>()
+				.<span class="hljs-title function_ invoke__">enumerate</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(|(pow10, &amp;val)| val * <span class="hljs-number">10_usize</span>.<span class="hljs-title function_ invoke__">pow</span>(<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(pow10).<span class="hljs-title function_ invoke__">unwrap</span>()))
+				.sum::&lt;<span class="hljs-type">usize</span>&gt;()
 		})
-		.sum()
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 8, ans: (237, 1_009_098));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">8</span>, ans: (<span class="hljs-number">237</span>, <span class="hljs-number">1_009_098</span>));
 	}
 }</code></pre>
 </div>

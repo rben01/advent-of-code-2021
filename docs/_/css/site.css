@@ -2020,7 +2020,7 @@ h6 {
 	overflow-wrap: normal;
 }
 .ui-icon,
-.icon > i.fa,
+span.icon > i.fa, /* spans are inline. admonition block icons are in td.icon */
 .has-ui-icon::after {
 	display: inline-block;
 	width: 1em;

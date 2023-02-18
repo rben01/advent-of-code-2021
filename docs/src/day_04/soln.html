@@ -25,7 +25,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
+      <a class="navbar-item" href="/advent_of_code_2021">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav" type="button"
         title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
@@ -444,188 +444,188 @@ If one of those counts hit zero, then every number in that row/column has been d
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use num::{integer::div_mod_floor, Integer};
-use std::{
-	collections::{BTreeMap as Map, BTreeSet as Set},
-	str::FromStr,
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> num::{integer::div_mod_floor, Integer};
+<span class="hljs-keyword">use</span> std::{
+	collections::{BTreeMap <span class="hljs-keyword">as</span> Map, BTreeSet <span class="hljs-keyword">as</span> Set},
+	<span class="hljs-type">str</span>::FromStr,
 };
 
-#[derive(Debug)]
-struct BoardProgress {
-	rows: Vec&lt;usize&gt;,
-	cols: Vec&lt;usize&gt;,
-	has_won: bool,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">BoardProgress</span> {
+	rows: <span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;,
+	cols: <span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;,
+	has_won: <span class="hljs-type">bool</span>,
 }
 
-impl BoardProgress {
-	fn new(n_rows: usize, n_cols: usize) -&gt; Self {
-		let rows = vec![n_cols; n_rows];
-		let cols = vec![n_rows; n_cols];
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">BoardProgress</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(n_rows: <span class="hljs-type">usize</span>, n_cols: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">rows</span> = <span class="hljs-built_in">vec!</span>[n_cols; n_rows];
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">cols</span> = <span class="hljs-built_in">vec!</span>[n_rows; n_cols];
+		<span class="hljs-keyword">Self</span> {
 			rows,
 			cols,
-			has_won: false,
+			has_won: <span class="hljs-literal">false</span>,
 		}
 	}
 
-	fn handle_entry(&amp;mut self, row: usize, col: usize) {
-		if self.has_won {
-			return;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">handle_entry</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, row: <span class="hljs-type">usize</span>, col: <span class="hljs-type">usize</span>) {
+		<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.has_won {
+			<span class="hljs-keyword">return</span>;
 		}
 
-		self.rows[row] -= 1;
-		self.cols[col] -= 1;
+		<span class="hljs-keyword">self</span>.rows[row] -= <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">self</span>.cols[col] -= <span class="hljs-number">1</span>;
 
-		if self.rows[row] == 0 || self.cols[col] == 0 {
-			self.has_won = true;
+		<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.rows[row] == <span class="hljs-number">0</span> || <span class="hljs-keyword">self</span>.cols[col] == <span class="hljs-number">0</span> {
+			<span class="hljs-keyword">self</span>.has_won = <span class="hljs-literal">true</span>;
 		}
 	}
 }
 
-#[derive(Debug)]
-struct Board&lt;T: Integer&gt; {
-	grid: Map&lt;T, (usize, usize)&gt;,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Board</span>&lt;T: Integer&gt; {
+	grid: Map&lt;T, (<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>)&gt;,
 	progress: BoardProgress,
 }
 
-impl&lt;T: Integer + std::iter::Sum + Copy&gt; Board&lt;T&gt; {
-	fn new(nums: &amp;[T], n_cols: usize) -&gt; Self {
-		let n_rows = nums.len() / n_cols;
-		assert_eq!(n_rows * n_cols, nums.len());
+<span class="hljs-keyword">impl</span>&lt;T: Integer + std::iter::Sum + <span class="hljs-built_in">Copy</span>&gt; Board&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(nums: &amp;[T], n_cols: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">n_rows</span> = nums.<span class="hljs-title function_ invoke__">len</span>() / n_cols;
+		<span class="hljs-built_in">assert_eq!</span>(n_rows * n_cols, nums.<span class="hljs-title function_ invoke__">len</span>());
 
-		let mut grid = Map::new();
-		for (i, &amp;x) in nums.iter().enumerate() {
-			let (r, c) = div_mod_floor(i, n_cols);
-			grid.insert(x, (r, c));
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-title function_ invoke__">for</span> (i, &amp;x) <span class="hljs-keyword">in</span> nums.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> (r, c) = <span class="hljs-title function_ invoke__">div_mod_floor</span>(i, n_cols);
+			grid.<span class="hljs-title function_ invoke__">insert</span>(x, (r, c));
 		}
-		Self {
+		<span class="hljs-keyword">Self</span> {
 			grid,
-			progress: BoardProgress::new(n_rows, n_cols),
+			progress: BoardProgress::<span class="hljs-title function_ invoke__">new</span>(n_rows, n_cols),
 		}
 	}
 
-	fn play_number(&amp;mut self, n: T) {
-		let (r, c) = match self.grid.remove(&amp;n) {
-			Some(coords) =&gt; coords,
-			None =&gt; return,
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">play_number</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, n: T) {
+		<span class="hljs-keyword">let</span> (r, c) = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.grid.<span class="hljs-title function_ invoke__">remove</span>(&amp;n) {
+			<span class="hljs-title function_ invoke__">Some</span>(coords) =&gt; coords,
+			<span class="hljs-literal">None</span> =&gt; <span class="hljs-keyword">return</span>,
 		};
-		self.progress.handle_entry(r, c);
+		<span class="hljs-keyword">self</span>.progress.<span class="hljs-title function_ invoke__">handle_entry</span>(r, c);
 	}
 
-	fn has_won(&amp;self) -&gt; bool {
-		self.progress.has_won
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">has_won</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span> {
+		<span class="hljs-keyword">self</span>.progress.has_won
 	}
 
-	fn get_ans(&amp;self, winning_num: T) -&gt; T {
-		let unmarked_sum = self.grid.keys().copied().sum::&lt;T&gt;();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>(&amp;<span class="hljs-keyword">self</span>, winning_num: T) <span class="hljs-punctuation">-&gt;</span> T {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">unmarked_sum</span> = <span class="hljs-keyword">self</span>.grid.<span class="hljs-title function_ invoke__">keys</span>().<span class="hljs-title function_ invoke__">copied</span>().sum::&lt;T&gt;();
 		winning_num * unmarked_sum
 	}
 }
 
-struct Game&lt;T: Integer&gt; {
-	boards: Vec&lt;Board&lt;T&gt;&gt;,
-	numbers: Vec&lt;T&gt;,
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Game</span>&lt;T: Integer&gt; {
+	boards: <span class="hljs-type">Vec</span>&lt;Board&lt;T&gt;&gt;,
+	numbers: <span class="hljs-type">Vec</span>&lt;T&gt;,
 }
 
-impl&lt;T: Integer + std::iter::Sum + Copy + FromStr + std::fmt::Debug&gt; Game&lt;T&gt; {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut lines = s.lines().chain(std::iter::once(""));
-		let nums = lines
-			.next()?
-			.split(',')
-			.map(|s| s.parse::&lt;T&gt;().ok())
-			.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?;
+<span class="hljs-keyword">impl</span>&lt;T: Integer + std::iter::Sum + <span class="hljs-built_in">Copy</span> + FromStr + std::fmt::<span class="hljs-built_in">Debug</span>&gt; Game&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">chain</span>(std::iter::<span class="hljs-title function_ invoke__">once</span>(<span class="hljs-string">&quot;&quot;</span>));
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = lines
+			.<span class="hljs-title function_ invoke__">next</span>()?
+			.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
+			.<span class="hljs-title function_ invoke__">map</span>(|s| s.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>())
+			.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
 
-		let mut boards = vec![];
-		let mut this_board = vec![];
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">boards</span> = <span class="hljs-built_in">vec!</span>[];
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">this_board</span> = <span class="hljs-built_in">vec!</span>[];
 
-		let mut n_cols = None;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n_cols</span> = <span class="hljs-literal">None</span>;
 
-		for line in lines {
-			if line.is_empty() {
-				if !this_board.is_empty() {
-					let board = Board::new(this_board.as_slice(), n_cols.unwrap());
-					boards.push(board);
-					this_board.clear();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> lines {
+			<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">is_empty</span>() {
+				<span class="hljs-keyword">if</span> !this_board.<span class="hljs-title function_ invoke__">is_empty</span>() {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">board</span> = Board::<span class="hljs-title function_ invoke__">new</span>(this_board.<span class="hljs-title function_ invoke__">as_slice</span>(), n_cols.<span class="hljs-title function_ invoke__">unwrap</span>());
+					boards.<span class="hljs-title function_ invoke__">push</span>(board);
+					this_board.<span class="hljs-title function_ invoke__">clear</span>();
 				}
-			} else {
-				for num in line.split_whitespace().map(|s| s.parse::&lt;T&gt;().ok()) {
-					let num = num?;
-					this_board.push(num);
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">num</span> <span class="hljs-keyword">in</span> line.<span class="hljs-title function_ invoke__">split_whitespace</span>().<span class="hljs-title function_ invoke__">map</span>(|s| s.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()) {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">num</span> = num?;
+					this_board.<span class="hljs-title function_ invoke__">push</span>(num);
 				}
-				if matches!(n_cols, None) {
-					n_cols = Some(this_board.len());
+				<span class="hljs-keyword">if</span> matches!(n_cols, <span class="hljs-literal">None</span>) {
+					n_cols = <span class="hljs-title function_ invoke__">Some</span>(this_board.<span class="hljs-title function_ invoke__">len</span>());
 				}
 			}
 		}
 
-		Some(Self {
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
 			boards,
 			numbers: nums,
 		})
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;i32, i32&gt; {
-	let [game1, game2] = [0; 2].map(|_| Game::from_str(input).unwrap());
-	(4, (pt1(game1), pt2(game2))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> [game1, game2] = [<span class="hljs-number">0</span>; <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|_| Game::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>());
+	(<span class="hljs-number">4</span>, (<span class="hljs-title function_ invoke__">pt1</span>(game1), <span class="hljs-title function_ invoke__">pt2</span>(game2))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;i32, i32&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(mut game: Game&lt;i32&gt;) -&gt; i32 {
-	for &amp;num in &amp;game.numbers {
-		for board in &amp;mut game.boards {
-			board.play_number(num);
-			if board.has_won() {
-				return board.get_ans(num);
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(<span class="hljs-keyword">mut</span> game: Game&lt;<span class="hljs-type">i32</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
+	<span class="hljs-keyword">for</span> &amp;num <span class="hljs-keyword">in</span> &amp;game.numbers {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">board</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">mut</span> game.boards {
+			board.<span class="hljs-title function_ invoke__">play_number</span>(num);
+			<span class="hljs-keyword">if</span> board.<span class="hljs-title function_ invoke__">has_won</span>() {
+				<span class="hljs-keyword">return</span> board.<span class="hljs-title function_ invoke__">get_ans</span>(num);
 			}
 		}
 	}
-	unreachable!();
+	<span class="hljs-built_in">unreachable!</span>();
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2(mut game: Game&lt;i32&gt;) -&gt; i32 {
-	let mut ongoing_game_idxs = (0..game.boards.len()).collect::&lt;Set&lt;_&gt;&gt;();
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(<span class="hljs-keyword">mut</span> game: Game&lt;<span class="hljs-type">i32</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">ongoing_game_idxs</span> = (<span class="hljs-number">0</span>..game.boards.<span class="hljs-title function_ invoke__">len</span>()).collect::&lt;Set&lt;_&gt;&gt;();
 
-	for &amp;num in &amp;game.numbers {
-		for (board_idx, board) in game.boards.iter_mut().enumerate() {
-			let already_won = !ongoing_game_idxs.contains(&amp;board_idx);
-			if already_won {
-				continue;
+	<span class="hljs-keyword">for</span> &amp;num <span class="hljs-keyword">in</span> &amp;game.numbers {
+		<span class="hljs-title function_ invoke__">for</span> (board_idx, board) <span class="hljs-keyword">in</span> game.boards.<span class="hljs-title function_ invoke__">iter_mut</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">already_won</span> = !ongoing_game_idxs.<span class="hljs-title function_ invoke__">contains</span>(&amp;board_idx);
+			<span class="hljs-keyword">if</span> already_won {
+				<span class="hljs-keyword">continue</span>;
 			}
 
-			board.play_number(num);
-			if board.has_won() {
-				if ongoing_game_idxs.len() == 1 {
-					return board.get_ans(num);
+			board.<span class="hljs-title function_ invoke__">play_number</span>(num);
+			<span class="hljs-keyword">if</span> board.<span class="hljs-title function_ invoke__">has_won</span>() {
+				<span class="hljs-keyword">if</span> ongoing_game_idxs.<span class="hljs-title function_ invoke__">len</span>() == <span class="hljs-number">1</span> {
+					<span class="hljs-keyword">return</span> board.<span class="hljs-title function_ invoke__">get_ans</span>(num);
 				}
 
-				ongoing_game_idxs.remove(&amp;board_idx);
+				ongoing_game_idxs.<span class="hljs-title function_ invoke__">remove</span>(&amp;board_idx);
 			}
 		}
 	}
-	unreachable!();
+	<span class="hljs-built_in">unreachable!</span>();
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 4, ans: (4512, 1924));
-		test_input!(include_str!("input.txt"), day: 4, ans: (87456, 15561));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">4</span>, ans: (<span class="hljs-number">4512</span>, <span class="hljs-number">1924</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">4</span>, ans: (<span class="hljs-number">87456</span>, <span class="hljs-number">15561</span>));
 	}
 }</code></pre>
 </div>
@@ -640,188 +640,188 @@ mod test {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use num::{integer::div_mod_floor, Integer};
-use std::{
-	collections::{BTreeMap as Map, BTreeSet as Set},
-	str::FromStr,
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> num::{integer::div_mod_floor, Integer};
+<span class="hljs-keyword">use</span> std::{
+	collections::{BTreeMap <span class="hljs-keyword">as</span> Map, BTreeSet <span class="hljs-keyword">as</span> Set},
+	<span class="hljs-type">str</span>::FromStr,
 };
 
-#[derive(Debug)]
-struct BoardProgress {
-	rows: Vec&lt;usize&gt;,
-	cols: Vec&lt;usize&gt;,
-	has_won: bool,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">BoardProgress</span> {
+	rows: <span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;,
+	cols: <span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;,
+	has_won: <span class="hljs-type">bool</span>,
 }
 
-impl BoardProgress {
-	fn new(n_rows: usize, n_cols: usize) -&gt; Self {
-		let rows = vec![n_cols; n_rows];
-		let cols = vec![n_rows; n_cols];
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">BoardProgress</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(n_rows: <span class="hljs-type">usize</span>, n_cols: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">rows</span> = <span class="hljs-built_in">vec!</span>[n_cols; n_rows];
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">cols</span> = <span class="hljs-built_in">vec!</span>[n_rows; n_cols];
+		<span class="hljs-keyword">Self</span> {
 			rows,
 			cols,
-			has_won: false,
+			has_won: <span class="hljs-literal">false</span>,
 		}
 	}
 
-	fn handle_entry(&amp;mut self, row: usize, col: usize) {
-		if self.has_won {
-			return;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">handle_entry</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, row: <span class="hljs-type">usize</span>, col: <span class="hljs-type">usize</span>) {
+		<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.has_won {
+			<span class="hljs-keyword">return</span>;
 		}
 
-		self.rows[row] -= 1;
-		self.cols[col] -= 1;
+		<span class="hljs-keyword">self</span>.rows[row] -= <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">self</span>.cols[col] -= <span class="hljs-number">1</span>;
 
-		if self.rows[row] == 0 || self.cols[col] == 0 {
-			self.has_won = true;
+		<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.rows[row] == <span class="hljs-number">0</span> || <span class="hljs-keyword">self</span>.cols[col] == <span class="hljs-number">0</span> {
+			<span class="hljs-keyword">self</span>.has_won = <span class="hljs-literal">true</span>;
 		}
 	}
 }
 
-#[derive(Debug)]
-struct Board&lt;T: Integer&gt; {
-	grid: Map&lt;T, (usize, usize)&gt;,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Board</span>&lt;T: Integer&gt; {
+	grid: Map&lt;T, (<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>)&gt;,
 	progress: BoardProgress,
 }
 
-impl&lt;T: Integer + std::iter::Sum + Copy&gt; Board&lt;T&gt; {
-	fn new(nums: &amp;[T], n_cols: usize) -&gt; Self {
-		let n_rows = nums.len() / n_cols;
-		assert_eq!(n_rows * n_cols, nums.len());
+<span class="hljs-keyword">impl</span>&lt;T: Integer + std::iter::Sum + <span class="hljs-built_in">Copy</span>&gt; Board&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(nums: &amp;[T], n_cols: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">n_rows</span> = nums.<span class="hljs-title function_ invoke__">len</span>() / n_cols;
+		<span class="hljs-built_in">assert_eq!</span>(n_rows * n_cols, nums.<span class="hljs-title function_ invoke__">len</span>());
 
-		let mut grid = Map::new();
-		for (i, &amp;x) in nums.iter().enumerate() {
-			let (r, c) = div_mod_floor(i, n_cols);
-			grid.insert(x, (r, c));
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-title function_ invoke__">for</span> (i, &amp;x) <span class="hljs-keyword">in</span> nums.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> (r, c) = <span class="hljs-title function_ invoke__">div_mod_floor</span>(i, n_cols);
+			grid.<span class="hljs-title function_ invoke__">insert</span>(x, (r, c));
 		}
-		Self {
+		<span class="hljs-keyword">Self</span> {
 			grid,
-			progress: BoardProgress::new(n_rows, n_cols),
+			progress: BoardProgress::<span class="hljs-title function_ invoke__">new</span>(n_rows, n_cols),
 		}
 	}
 
-	fn play_number(&amp;mut self, n: T) {
-		let (r, c) = match self.grid.remove(&amp;n) {
-			Some(coords) =&gt; coords,
-			None =&gt; return,
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">play_number</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, n: T) {
+		<span class="hljs-keyword">let</span> (r, c) = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.grid.<span class="hljs-title function_ invoke__">remove</span>(&amp;n) {
+			<span class="hljs-title function_ invoke__">Some</span>(coords) =&gt; coords,
+			<span class="hljs-literal">None</span> =&gt; <span class="hljs-keyword">return</span>,
 		};
-		self.progress.handle_entry(r, c);
+		<span class="hljs-keyword">self</span>.progress.<span class="hljs-title function_ invoke__">handle_entry</span>(r, c);
 	}
 
-	fn has_won(&amp;self) -&gt; bool {
-		self.progress.has_won
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">has_won</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span> {
+		<span class="hljs-keyword">self</span>.progress.has_won
 	}
 
-	fn get_ans(&amp;self, winning_num: T) -&gt; T {
-		let unmarked_sum = self.grid.keys().copied().sum::&lt;T&gt;();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>(&amp;<span class="hljs-keyword">self</span>, winning_num: T) <span class="hljs-punctuation">-&gt;</span> T {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">unmarked_sum</span> = <span class="hljs-keyword">self</span>.grid.<span class="hljs-title function_ invoke__">keys</span>().<span class="hljs-title function_ invoke__">copied</span>().sum::&lt;T&gt;();
 		winning_num * unmarked_sum
 	}
 }
 
-struct Game&lt;T: Integer&gt; {
-	boards: Vec&lt;Board&lt;T&gt;&gt;,
-	numbers: Vec&lt;T&gt;,
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Game</span>&lt;T: Integer&gt; {
+	boards: <span class="hljs-type">Vec</span>&lt;Board&lt;T&gt;&gt;,
+	numbers: <span class="hljs-type">Vec</span>&lt;T&gt;,
 }
 
-impl&lt;T: Integer + std::iter::Sum + Copy + FromStr + std::fmt::Debug&gt; Game&lt;T&gt; {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut lines = s.lines().chain(std::iter::once(""));
-		let nums = lines
-			.next()?
-			.split(',')
-			.map(|s| s.parse::&lt;T&gt;().ok())
-			.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?;
+<span class="hljs-keyword">impl</span>&lt;T: Integer + std::iter::Sum + <span class="hljs-built_in">Copy</span> + FromStr + std::fmt::<span class="hljs-built_in">Debug</span>&gt; Game&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">chain</span>(std::iter::<span class="hljs-title function_ invoke__">once</span>(<span class="hljs-string">&quot;&quot;</span>));
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = lines
+			.<span class="hljs-title function_ invoke__">next</span>()?
+			.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
+			.<span class="hljs-title function_ invoke__">map</span>(|s| s.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>())
+			.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
 
-		let mut boards = vec![];
-		let mut this_board = vec![];
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">boards</span> = <span class="hljs-built_in">vec!</span>[];
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">this_board</span> = <span class="hljs-built_in">vec!</span>[];
 
-		let mut n_cols = None;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n_cols</span> = <span class="hljs-literal">None</span>;
 
-		for line in lines {
-			if line.is_empty() {
-				if !this_board.is_empty() {
-					let board = Board::new(this_board.as_slice(), n_cols.unwrap());
-					boards.push(board);
-					this_board.clear();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> lines {
+			<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">is_empty</span>() {
+				<span class="hljs-keyword">if</span> !this_board.<span class="hljs-title function_ invoke__">is_empty</span>() {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">board</span> = Board::<span class="hljs-title function_ invoke__">new</span>(this_board.<span class="hljs-title function_ invoke__">as_slice</span>(), n_cols.<span class="hljs-title function_ invoke__">unwrap</span>());
+					boards.<span class="hljs-title function_ invoke__">push</span>(board);
+					this_board.<span class="hljs-title function_ invoke__">clear</span>();
 				}
-			} else {
-				for num in line.split_whitespace().map(|s| s.parse::&lt;T&gt;().ok()) {
-					let num = num?;
-					this_board.push(num);
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">num</span> <span class="hljs-keyword">in</span> line.<span class="hljs-title function_ invoke__">split_whitespace</span>().<span class="hljs-title function_ invoke__">map</span>(|s| s.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()) {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">num</span> = num?;
+					this_board.<span class="hljs-title function_ invoke__">push</span>(num);
 				}
-				if matches!(n_cols, None) {
-					n_cols = Some(this_board.len());
+				<span class="hljs-keyword">if</span> matches!(n_cols, <span class="hljs-literal">None</span>) {
+					n_cols = <span class="hljs-title function_ invoke__">Some</span>(this_board.<span class="hljs-title function_ invoke__">len</span>());
 				}
 			}
 		}
 
-		Some(Self {
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
 			boards,
 			numbers: nums,
 		})
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;i32, i32&gt; {
-	let [game1, game2] = [0; 2].map(|_| Game::from_str(input).unwrap());
-	(4, (pt1(game1), pt2(game2))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> [game1, game2] = [<span class="hljs-number">0</span>; <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|_| Game::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>());
+	(<span class="hljs-number">4</span>, (<span class="hljs-title function_ invoke__">pt1</span>(game1), <span class="hljs-title function_ invoke__">pt2</span>(game2))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;i32, i32&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(mut game: Game&lt;i32&gt;) -&gt; i32 {
-	for &amp;num in &amp;game.numbers {
-		for board in &amp;mut game.boards {
-			board.play_number(num);
-			if board.has_won() {
-				return board.get_ans(num);
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(<span class="hljs-keyword">mut</span> game: Game&lt;<span class="hljs-type">i32</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
+	<span class="hljs-keyword">for</span> &amp;num <span class="hljs-keyword">in</span> &amp;game.numbers {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">board</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">mut</span> game.boards {
+			board.<span class="hljs-title function_ invoke__">play_number</span>(num);
+			<span class="hljs-keyword">if</span> board.<span class="hljs-title function_ invoke__">has_won</span>() {
+				<span class="hljs-keyword">return</span> board.<span class="hljs-title function_ invoke__">get_ans</span>(num);
 			}
 		}
 	}
-	unreachable!();
+	<span class="hljs-built_in">unreachable!</span>();
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2(mut game: Game&lt;i32&gt;) -&gt; i32 {
-	let mut ongoing_game_idxs = (0..game.boards.len()).collect::&lt;Set&lt;_&gt;&gt;();
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(<span class="hljs-keyword">mut</span> game: Game&lt;<span class="hljs-type">i32</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">ongoing_game_idxs</span> = (<span class="hljs-number">0</span>..game.boards.<span class="hljs-title function_ invoke__">len</span>()).collect::&lt;Set&lt;_&gt;&gt;();
 
-	for &amp;num in &amp;game.numbers {
-		for (board_idx, board) in game.boards.iter_mut().enumerate() {
-			let already_won = !ongoing_game_idxs.contains(&amp;board_idx);
-			if already_won {
-				continue;
+	<span class="hljs-keyword">for</span> &amp;num <span class="hljs-keyword">in</span> &amp;game.numbers {
+		<span class="hljs-title function_ invoke__">for</span> (board_idx, board) <span class="hljs-keyword">in</span> game.boards.<span class="hljs-title function_ invoke__">iter_mut</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">already_won</span> = !ongoing_game_idxs.<span class="hljs-title function_ invoke__">contains</span>(&amp;board_idx);
+			<span class="hljs-keyword">if</span> already_won {
+				<span class="hljs-keyword">continue</span>;
 			}
 
-			board.play_number(num);
-			if board.has_won() {
-				if ongoing_game_idxs.len() == 1 {
-					return board.get_ans(num);
+			board.<span class="hljs-title function_ invoke__">play_number</span>(num);
+			<span class="hljs-keyword">if</span> board.<span class="hljs-title function_ invoke__">has_won</span>() {
+				<span class="hljs-keyword">if</span> ongoing_game_idxs.<span class="hljs-title function_ invoke__">len</span>() == <span class="hljs-number">1</span> {
+					<span class="hljs-keyword">return</span> board.<span class="hljs-title function_ invoke__">get_ans</span>(num);
 				}
 
-				ongoing_game_idxs.remove(&amp;board_idx);
+				ongoing_game_idxs.<span class="hljs-title function_ invoke__">remove</span>(&amp;board_idx);
 			}
 		}
 	}
-	unreachable!();
+	<span class="hljs-built_in">unreachable!</span>();
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 4, ans: (4512, 1924));
-		test_input!(include_str!("input.txt"), day: 4, ans: (87456, 15561));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">4</span>, ans: (<span class="hljs-number">4512</span>, <span class="hljs-number">1924</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">4</span>, ans: (<span class="hljs-number">87456</span>, <span class="hljs-number">15561</span>));
 	}
 }</code></pre>
 </div>
@@ -837,188 +837,188 @@ When the last un-won boards wins, we use it to compute the answer.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use num::{integer::div_mod_floor, Integer};
-use std::{
-	collections::{BTreeMap as Map, BTreeSet as Set},
-	str::FromStr,
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> num::{integer::div_mod_floor, Integer};
+<span class="hljs-keyword">use</span> std::{
+	collections::{BTreeMap <span class="hljs-keyword">as</span> Map, BTreeSet <span class="hljs-keyword">as</span> Set},
+	<span class="hljs-type">str</span>::FromStr,
 };
 
-#[derive(Debug)]
-struct BoardProgress {
-	rows: Vec&lt;usize&gt;,
-	cols: Vec&lt;usize&gt;,
-	has_won: bool,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">BoardProgress</span> {
+	rows: <span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;,
+	cols: <span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;,
+	has_won: <span class="hljs-type">bool</span>,
 }
 
-impl BoardProgress {
-	fn new(n_rows: usize, n_cols: usize) -&gt; Self {
-		let rows = vec![n_cols; n_rows];
-		let cols = vec![n_rows; n_cols];
-		Self {
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">BoardProgress</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(n_rows: <span class="hljs-type">usize</span>, n_cols: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">rows</span> = <span class="hljs-built_in">vec!</span>[n_cols; n_rows];
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">cols</span> = <span class="hljs-built_in">vec!</span>[n_rows; n_cols];
+		<span class="hljs-keyword">Self</span> {
 			rows,
 			cols,
-			has_won: false,
+			has_won: <span class="hljs-literal">false</span>,
 		}
 	}
 
-	fn handle_entry(&amp;mut self, row: usize, col: usize) {
-		if self.has_won {
-			return;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">handle_entry</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, row: <span class="hljs-type">usize</span>, col: <span class="hljs-type">usize</span>) {
+		<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.has_won {
+			<span class="hljs-keyword">return</span>;
 		}
 
-		self.rows[row] -= 1;
-		self.cols[col] -= 1;
+		<span class="hljs-keyword">self</span>.rows[row] -= <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">self</span>.cols[col] -= <span class="hljs-number">1</span>;
 
-		if self.rows[row] == 0 || self.cols[col] == 0 {
-			self.has_won = true;
+		<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.rows[row] == <span class="hljs-number">0</span> || <span class="hljs-keyword">self</span>.cols[col] == <span class="hljs-number">0</span> {
+			<span class="hljs-keyword">self</span>.has_won = <span class="hljs-literal">true</span>;
 		}
 	}
 }
 
-#[derive(Debug)]
-struct Board&lt;T: Integer&gt; {
-	grid: Map&lt;T, (usize, usize)&gt;,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Board</span>&lt;T: Integer&gt; {
+	grid: Map&lt;T, (<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>)&gt;,
 	progress: BoardProgress,
 }
 
-impl&lt;T: Integer + std::iter::Sum + Copy&gt; Board&lt;T&gt; {
-	fn new(nums: &amp;[T], n_cols: usize) -&gt; Self {
-		let n_rows = nums.len() / n_cols;
-		assert_eq!(n_rows * n_cols, nums.len());
+<span class="hljs-keyword">impl</span>&lt;T: Integer + std::iter::Sum + <span class="hljs-built_in">Copy</span>&gt; Board&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(nums: &amp;[T], n_cols: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">n_rows</span> = nums.<span class="hljs-title function_ invoke__">len</span>() / n_cols;
+		<span class="hljs-built_in">assert_eq!</span>(n_rows * n_cols, nums.<span class="hljs-title function_ invoke__">len</span>());
 
-		let mut grid = Map::new();
-		for (i, &amp;x) in nums.iter().enumerate() {
-			let (r, c) = div_mod_floor(i, n_cols);
-			grid.insert(x, (r, c));
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-title function_ invoke__">for</span> (i, &amp;x) <span class="hljs-keyword">in</span> nums.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> (r, c) = <span class="hljs-title function_ invoke__">div_mod_floor</span>(i, n_cols);
+			grid.<span class="hljs-title function_ invoke__">insert</span>(x, (r, c));
 		}
-		Self {
+		<span class="hljs-keyword">Self</span> {
 			grid,
-			progress: BoardProgress::new(n_rows, n_cols),
+			progress: BoardProgress::<span class="hljs-title function_ invoke__">new</span>(n_rows, n_cols),
 		}
 	}
 
-	fn play_number(&amp;mut self, n: T) {
-		let (r, c) = match self.grid.remove(&amp;n) {
-			Some(coords) =&gt; coords,
-			None =&gt; return,
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">play_number</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, n: T) {
+		<span class="hljs-keyword">let</span> (r, c) = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.grid.<span class="hljs-title function_ invoke__">remove</span>(&amp;n) {
+			<span class="hljs-title function_ invoke__">Some</span>(coords) =&gt; coords,
+			<span class="hljs-literal">None</span> =&gt; <span class="hljs-keyword">return</span>,
 		};
-		self.progress.handle_entry(r, c);
+		<span class="hljs-keyword">self</span>.progress.<span class="hljs-title function_ invoke__">handle_entry</span>(r, c);
 	}
 
-	fn has_won(&amp;self) -&gt; bool {
-		self.progress.has_won
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">has_won</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span> {
+		<span class="hljs-keyword">self</span>.progress.has_won
 	}
 
-	fn get_ans(&amp;self, winning_num: T) -&gt; T {
-		let unmarked_sum = self.grid.keys().copied().sum::&lt;T&gt;();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>(&amp;<span class="hljs-keyword">self</span>, winning_num: T) <span class="hljs-punctuation">-&gt;</span> T {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">unmarked_sum</span> = <span class="hljs-keyword">self</span>.grid.<span class="hljs-title function_ invoke__">keys</span>().<span class="hljs-title function_ invoke__">copied</span>().sum::&lt;T&gt;();
 		winning_num * unmarked_sum
 	}
 }
 
-struct Game&lt;T: Integer&gt; {
-	boards: Vec&lt;Board&lt;T&gt;&gt;,
-	numbers: Vec&lt;T&gt;,
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Game</span>&lt;T: Integer&gt; {
+	boards: <span class="hljs-type">Vec</span>&lt;Board&lt;T&gt;&gt;,
+	numbers: <span class="hljs-type">Vec</span>&lt;T&gt;,
 }
 
-impl&lt;T: Integer + std::iter::Sum + Copy + FromStr + std::fmt::Debug&gt; Game&lt;T&gt; {
-	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
-		let mut lines = s.lines().chain(std::iter::once(""));
-		let nums = lines
-			.next()?
-			.split(',')
-			.map(|s| s.parse::&lt;T&gt;().ok())
-			.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?;
+<span class="hljs-keyword">impl</span>&lt;T: Integer + std::iter::Sum + <span class="hljs-built_in">Copy</span> + FromStr + std::fmt::<span class="hljs-built_in">Debug</span>&gt; Game&lt;T&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">chain</span>(std::iter::<span class="hljs-title function_ invoke__">once</span>(<span class="hljs-string">&quot;&quot;</span>));
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = lines
+			.<span class="hljs-title function_ invoke__">next</span>()?
+			.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
+			.<span class="hljs-title function_ invoke__">map</span>(|s| s.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>())
+			.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
 
-		let mut boards = vec![];
-		let mut this_board = vec![];
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">boards</span> = <span class="hljs-built_in">vec!</span>[];
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">this_board</span> = <span class="hljs-built_in">vec!</span>[];
 
-		let mut n_cols = None;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n_cols</span> = <span class="hljs-literal">None</span>;
 
-		for line in lines {
-			if line.is_empty() {
-				if !this_board.is_empty() {
-					let board = Board::new(this_board.as_slice(), n_cols.unwrap());
-					boards.push(board);
-					this_board.clear();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> lines {
+			<span class="hljs-keyword">if</span> line.<span class="hljs-title function_ invoke__">is_empty</span>() {
+				<span class="hljs-keyword">if</span> !this_board.<span class="hljs-title function_ invoke__">is_empty</span>() {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">board</span> = Board::<span class="hljs-title function_ invoke__">new</span>(this_board.<span class="hljs-title function_ invoke__">as_slice</span>(), n_cols.<span class="hljs-title function_ invoke__">unwrap</span>());
+					boards.<span class="hljs-title function_ invoke__">push</span>(board);
+					this_board.<span class="hljs-title function_ invoke__">clear</span>();
 				}
-			} else {
-				for num in line.split_whitespace().map(|s| s.parse::&lt;T&gt;().ok()) {
-					let num = num?;
-					this_board.push(num);
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">num</span> <span class="hljs-keyword">in</span> line.<span class="hljs-title function_ invoke__">split_whitespace</span>().<span class="hljs-title function_ invoke__">map</span>(|s| s.parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>()) {
+					<span class="hljs-keyword">let</span> <span class="hljs-variable">num</span> = num?;
+					this_board.<span class="hljs-title function_ invoke__">push</span>(num);
 				}
-				if matches!(n_cols, None) {
-					n_cols = Some(this_board.len());
+				<span class="hljs-keyword">if</span> matches!(n_cols, <span class="hljs-literal">None</span>) {
+					n_cols = <span class="hljs-title function_ invoke__">Some</span>(this_board.<span class="hljs-title function_ invoke__">len</span>());
 				}
 			}
 		}
 
-		Some(Self {
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
 			boards,
 			numbers: nums,
 		})
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;i32, i32&gt; {
-	let [game1, game2] = [0; 2].map(|_| Game::from_str(input).unwrap());
-	(4, (pt1(game1), pt2(game2))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> [game1, game2] = [<span class="hljs-number">0</span>; <span class="hljs-number">2</span>].<span class="hljs-title function_ invoke__">map</span>(|_| Game::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>());
+	(<span class="hljs-number">4</span>, (<span class="hljs-title function_ invoke__">pt1</span>(game1), <span class="hljs-title function_ invoke__">pt2</span>(game2))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;i32, i32&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(mut game: Game&lt;i32&gt;) -&gt; i32 {
-	for &amp;num in &amp;game.numbers {
-		for board in &amp;mut game.boards {
-			board.play_number(num);
-			if board.has_won() {
-				return board.get_ans(num);
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(<span class="hljs-keyword">mut</span> game: Game&lt;<span class="hljs-type">i32</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
+	<span class="hljs-keyword">for</span> &amp;num <span class="hljs-keyword">in</span> &amp;game.numbers {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">board</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">mut</span> game.boards {
+			board.<span class="hljs-title function_ invoke__">play_number</span>(num);
+			<span class="hljs-keyword">if</span> board.<span class="hljs-title function_ invoke__">has_won</span>() {
+				<span class="hljs-keyword">return</span> board.<span class="hljs-title function_ invoke__">get_ans</span>(num);
 			}
 		}
 	}
-	unreachable!();
+	<span class="hljs-built_in">unreachable!</span>();
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2(mut game: Game&lt;i32&gt;) -&gt; i32 {
-	let mut ongoing_game_idxs = (0..game.boards.len()).collect::&lt;Set&lt;_&gt;&gt;();
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(<span class="hljs-keyword">mut</span> game: Game&lt;<span class="hljs-type">i32</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">ongoing_game_idxs</span> = (<span class="hljs-number">0</span>..game.boards.<span class="hljs-title function_ invoke__">len</span>()).collect::&lt;Set&lt;_&gt;&gt;();
 
-	for &amp;num in &amp;game.numbers {
-		for (board_idx, board) in game.boards.iter_mut().enumerate() {
-			let already_won = !ongoing_game_idxs.contains(&amp;board_idx);
-			if already_won {
-				continue;
+	<span class="hljs-keyword">for</span> &amp;num <span class="hljs-keyword">in</span> &amp;game.numbers {
+		<span class="hljs-title function_ invoke__">for</span> (board_idx, board) <span class="hljs-keyword">in</span> game.boards.<span class="hljs-title function_ invoke__">iter_mut</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">already_won</span> = !ongoing_game_idxs.<span class="hljs-title function_ invoke__">contains</span>(&amp;board_idx);
+			<span class="hljs-keyword">if</span> already_won {
+				<span class="hljs-keyword">continue</span>;
 			}
 
-			board.play_number(num);
-			if board.has_won() {
-				if ongoing_game_idxs.len() == 1 {
-					return board.get_ans(num);
+			board.<span class="hljs-title function_ invoke__">play_number</span>(num);
+			<span class="hljs-keyword">if</span> board.<span class="hljs-title function_ invoke__">has_won</span>() {
+				<span class="hljs-keyword">if</span> ongoing_game_idxs.<span class="hljs-title function_ invoke__">len</span>() == <span class="hljs-number">1</span> {
+					<span class="hljs-keyword">return</span> board.<span class="hljs-title function_ invoke__">get_ans</span>(num);
 				}
 
-				ongoing_game_idxs.remove(&amp;board_idx);
+				ongoing_game_idxs.<span class="hljs-title function_ invoke__">remove</span>(&amp;board_idx);
 			}
 		}
 	}
-	unreachable!();
+	<span class="hljs-built_in">unreachable!</span>();
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 4, ans: (4512, 1924));
-		test_input!(include_str!("input.txt"), day: 4, ans: (87456, 15561));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">4</span>, ans: (<span class="hljs-number">4512</span>, <span class="hljs-number">1924</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">4</span>, ans: (<span class="hljs-number">87456</span>, <span class="hljs-number">15561</span>));
 	}
 }</code></pre>
 </div>

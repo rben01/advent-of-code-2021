@@ -35,7 +35,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
+      <a class="navbar-item" href="/advent_of_code_2021">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav" type="button"
         title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
@@ -425,121 +425,121 @@
 <h2 id="_setup"><a class="anchor" href="#_setup"></a>Setup</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>First, we read the input into a list of lines of the form \(((x_1, y_1), (x_2, y_2))\).
+<p>First, we read the input into a list of lines of the form <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>y</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo separator="true">,</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>2</mn></msub><mo separator="true">,</mo><msub><mi>y</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">((x_1, y_1), (x_2, y_2))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">((</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">))</span></span></span></span>.
 We also define the helpful <code>range_between(a, b)</code> function, which returns the (nonempty!) range of integers between <code>a</code> and <code>b</code>, inclusive.
 The range is ascending if and only if <code>a &lt; b</code>.
 (This is different from <code>a..=b</code>, which is empty if <code>a &gt; b</code>.)</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use num::Integer;
-use regex::Regex;
-use std::{collections::BTreeMap as Map, str::FromStr};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> num::Integer;
+<span class="hljs-keyword">use</span> regex::Regex;
+<span class="hljs-keyword">use</span> std::{collections::BTreeMap <span class="hljs-keyword">as</span> Map, <span class="hljs-type">str</span>::FromStr};
 
-#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-struct Point&lt;T&gt;(T, T);
-struct EndpointPair&lt;T: Integer&gt;(Point&lt;T&gt;, Point&lt;T&gt;);
-type PointCounter&lt;T&gt; = Map&lt;Point&lt;T&gt;, usize&gt;;
+<span class="hljs-meta">#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span>&lt;T&gt;(T, T);
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">EndpointPair</span>&lt;T: Integer&gt;(Point&lt;T&gt;, Point&lt;T&gt;);
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">PointCounter</span>&lt;T&gt; = Map&lt;Point&lt;T&gt;, <span class="hljs-type">usize</span>&gt;;
 
-fn get_lines&lt;T: Integer + FromStr&gt;(input: &amp;str) -&gt; Option&lt;Vec&lt;EndpointPair&lt;T&gt;&gt;&gt; {
-	let line_re = Regex::new(r"(\d+),(\d+)\s*-&gt;\s*(\d+),(\d+)").ok()?;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_lines</span>&lt;T: Integer + FromStr&gt;(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;EndpointPair&lt;T&gt;&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">line_re</span> = Regex::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">r&quot;(\d+),(\d+)\s*-&gt;\s*(\d+),(\d+)&quot;</span>).<span class="hljs-title function_ invoke__">ok</span>()?;
 	input
-		.lines()
-		.map(|line| {
-			let caps = line_re.captures(line)?;
-			let [x1, y1, x2, y2] = [1, 2, 3, 4].map(|i| caps.get(i)?.as_str().parse::&lt;T&gt;().ok());
-			Some(EndpointPair(Point(x1?, y1?), Point(x2?, y2?)))
+		.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|line| {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">caps</span> = line_re.<span class="hljs-title function_ invoke__">captures</span>(line)?;
+			<span class="hljs-keyword">let</span> [x1, y1, x2, y2] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>].<span class="hljs-title function_ invoke__">map</span>(|i| caps.<span class="hljs-title function_ invoke__">get</span>(i)?.<span class="hljs-title function_ invoke__">as_str</span>().parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>());
+			<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1?, y1?), <span class="hljs-title function_ invoke__">Point</span>(x2?, y2?)))
 		})
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
 }
 
-fn range_between(a: i32, b: i32) -&gt; num::iter::RangeStepInclusive&lt;i32&gt; {
-	let step = if a &lt; b { 1 } else { -1 };
-	num::range_step_inclusive(a, b, step)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">range_between</span>(a: <span class="hljs-type">i32</span>, b: <span class="hljs-type">i32</span>) <span class="hljs-punctuation">-&gt;</span> num::iter::RangeStepInclusive&lt;<span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">step</span> = <span class="hljs-keyword">if</span> a &lt; b { <span class="hljs-number">1</span> } <span class="hljs-keyword">else</span> { -<span class="hljs-number">1</span> };
+	num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(a, b, step)
 }
 
-fn get_ans&lt;T&gt;(counter: &amp;PointCounter&lt;T&gt;) -&gt; usize {
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>&lt;T&gt;(counter: &amp;PointCounter&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	counter
-		.values()
-		.map(|count| if *count &gt;= 2 { 1 } else { 0 })
-		.sum()
+		.<span class="hljs-title function_ invoke__">values</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|count| <span class="hljs-keyword">if</span> *count &gt;= <span class="hljs-number">2</span> { <span class="hljs-number">1</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">0</span> })
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let endpoints = get_lines(input).unwrap();
-	(5, (pt1(&amp;endpoints), pt2(&amp;endpoints))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">endpoints</span> = <span class="hljs-title function_ invoke__">get_lines</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">5</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;endpoints), <span class="hljs-title function_ invoke__">pt2</span>(&amp;endpoints))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	let input = include_str!("input.txt");
-	ans_for_input(input)
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">input</span> = <span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>);
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(input)
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn get_hv_point_counts(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; PointCounter&lt;i32&gt; {
-	let mut counter = Map::new();
-	for &amp;EndpointPair(Point(x1, y1), Point(x2, y2)) in endpoints {
-		if x1 != x2 &amp;&amp; y1 != y2 {
-			continue;
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_hv_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
+		<span class="hljs-keyword">if</span> x1 != x2 &amp;&amp; y1 != y2 {
+			<span class="hljs-keyword">continue</span>;
 		}
-		for x in range_between(x1, x2) {
-			for y in range_between(y1, y2) {
-				*counter.entry(Point(x, y)).or_default() += 1;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">x</span> <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(x1, x2) {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">y</span> <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(y1, y2) {
+				*counter.<span class="hljs-title function_ invoke__">entry</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
 			}
 		}
 	}
 	counter
 }
 
-fn pt1(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; usize {
-	get_ans(&amp;get_hv_point_counts(endpoints))
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;<span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints))
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn get_diag_point_counts(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; PointCounter&lt;i32&gt; {
-	let mut counter = Map::new();
-	for &amp;EndpointPair(Point(x1, y1), Point(x2, y2)) in endpoints {
-		if (x1 - x2).abs() != (y1 - y2).abs() {
-			continue;
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_diag_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
+		<span class="hljs-title function_ invoke__">if</span> (x1 - x2).<span class="hljs-title function_ invoke__">abs</span>() != (y1 - y2).<span class="hljs-title function_ invoke__">abs</span>() {
+			<span class="hljs-keyword">continue</span>;
 		}
 
-		for (x, y) in range_between(x1, x2).zip(range_between(y1, y2)) {
-			*counter.entry(Point(x, y)).or_default() += 1;
+		<span class="hljs-title function_ invoke__">for</span> (x, y) <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(x1, x2).<span class="hljs-title function_ invoke__">zip</span>(<span class="hljs-title function_ invoke__">range_between</span>(y1, y2)) {
+			*counter.<span class="hljs-title function_ invoke__">entry</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
 		}
 	}
 
 	counter
 }
 
-fn pt2(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; usize {
-	let hv_counter = get_hv_point_counts(endpoints);
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">hv_counter</span> = <span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints);
 
-	let all_counter = {
-		let mut diag_counter = get_diag_point_counts(endpoints);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">all_counter</span> = {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">diag_counter</span> = <span class="hljs-title function_ invoke__">get_diag_point_counts</span>(endpoints);
 
-		for (k, v) in hv_counter {
-			*diag_counter.entry(k).or_default() += v;
+		<span class="hljs-title function_ invoke__">for</span> (k, v) <span class="hljs-keyword">in</span> hv_counter {
+			*diag_counter.<span class="hljs-title function_ invoke__">entry</span>(k).<span class="hljs-title function_ invoke__">or_default</span>() += v;
 		}
 
 		diag_counter
 	};
-	get_ans(&amp;all_counter)
+	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;all_counter)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 5, ans: (5, 12));
-		test_input!(include_str!("input.txt"), day: 5, ans: (5576, 18144));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5</span>, <span class="hljs-number">12</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5576</span>, <span class="hljs-number">18144</span>));
 	}
 }</code></pre>
 </div>
@@ -551,119 +551,119 @@ mod test {
 <div class="sectionbody">
 <div class="paragraph">
 <p>Part 1 asks us to count how many times each point belongs to some horizontal or vertical line.
-These are lines \(((x_1, y_1), (x_2, y_2))\) for which \(x_1 = x_2\) or \(y_1 = y_2\).
+These are lines <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>y</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo separator="true">,</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>2</mn></msub><mo separator="true">,</mo><msub><mi>y</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">((x_1, y_1), (x_2, y_2))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">((</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">))</span></span></span></span> for which <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_1 = x_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> or <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mn>1</mn></msub><mo>=</mo><msub><mi>y</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">y_1 = y_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.
 Such a line&#8217;s points are the Cartesian “product” of the ranges <code>range_between(x1, x2)</code> and <code>range_between(y1, y2)</code> (“product” in quotes because one of those ranges has length 1, so it&#8217;s not much of a product).</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use num::Integer;
-use regex::Regex;
-use std::{collections::BTreeMap as Map, str::FromStr};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> num::Integer;
+<span class="hljs-keyword">use</span> regex::Regex;
+<span class="hljs-keyword">use</span> std::{collections::BTreeMap <span class="hljs-keyword">as</span> Map, <span class="hljs-type">str</span>::FromStr};
 
-#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-struct Point&lt;T&gt;(T, T);
-struct EndpointPair&lt;T: Integer&gt;(Point&lt;T&gt;, Point&lt;T&gt;);
-type PointCounter&lt;T&gt; = Map&lt;Point&lt;T&gt;, usize&gt;;
+<span class="hljs-meta">#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span>&lt;T&gt;(T, T);
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">EndpointPair</span>&lt;T: Integer&gt;(Point&lt;T&gt;, Point&lt;T&gt;);
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">PointCounter</span>&lt;T&gt; = Map&lt;Point&lt;T&gt;, <span class="hljs-type">usize</span>&gt;;
 
-fn get_lines&lt;T: Integer + FromStr&gt;(input: &amp;str) -&gt; Option&lt;Vec&lt;EndpointPair&lt;T&gt;&gt;&gt; {
-	let line_re = Regex::new(r"(\d+),(\d+)\s*-&gt;\s*(\d+),(\d+)").ok()?;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_lines</span>&lt;T: Integer + FromStr&gt;(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;EndpointPair&lt;T&gt;&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">line_re</span> = Regex::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">r&quot;(\d+),(\d+)\s*-&gt;\s*(\d+),(\d+)&quot;</span>).<span class="hljs-title function_ invoke__">ok</span>()?;
 	input
-		.lines()
-		.map(|line| {
-			let caps = line_re.captures(line)?;
-			let [x1, y1, x2, y2] = [1, 2, 3, 4].map(|i| caps.get(i)?.as_str().parse::&lt;T&gt;().ok());
-			Some(EndpointPair(Point(x1?, y1?), Point(x2?, y2?)))
+		.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|line| {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">caps</span> = line_re.<span class="hljs-title function_ invoke__">captures</span>(line)?;
+			<span class="hljs-keyword">let</span> [x1, y1, x2, y2] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>].<span class="hljs-title function_ invoke__">map</span>(|i| caps.<span class="hljs-title function_ invoke__">get</span>(i)?.<span class="hljs-title function_ invoke__">as_str</span>().parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>());
+			<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1?, y1?), <span class="hljs-title function_ invoke__">Point</span>(x2?, y2?)))
 		})
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
 }
 
-fn range_between(a: i32, b: i32) -&gt; num::iter::RangeStepInclusive&lt;i32&gt; {
-	let step = if a &lt; b { 1 } else { -1 };
-	num::range_step_inclusive(a, b, step)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">range_between</span>(a: <span class="hljs-type">i32</span>, b: <span class="hljs-type">i32</span>) <span class="hljs-punctuation">-&gt;</span> num::iter::RangeStepInclusive&lt;<span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">step</span> = <span class="hljs-keyword">if</span> a &lt; b { <span class="hljs-number">1</span> } <span class="hljs-keyword">else</span> { -<span class="hljs-number">1</span> };
+	num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(a, b, step)
 }
 
-fn get_ans&lt;T&gt;(counter: &amp;PointCounter&lt;T&gt;) -&gt; usize {
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>&lt;T&gt;(counter: &amp;PointCounter&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	counter
-		.values()
-		.map(|count| if *count &gt;= 2 { 1 } else { 0 })
-		.sum()
+		.<span class="hljs-title function_ invoke__">values</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|count| <span class="hljs-keyword">if</span> *count &gt;= <span class="hljs-number">2</span> { <span class="hljs-number">1</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">0</span> })
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let endpoints = get_lines(input).unwrap();
-	(5, (pt1(&amp;endpoints), pt2(&amp;endpoints))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">endpoints</span> = <span class="hljs-title function_ invoke__">get_lines</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">5</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;endpoints), <span class="hljs-title function_ invoke__">pt2</span>(&amp;endpoints))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	let input = include_str!("input.txt");
-	ans_for_input(input)
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">input</span> = <span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>);
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(input)
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn get_hv_point_counts(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; PointCounter&lt;i32&gt; {
-	let mut counter = Map::new();
-	for &amp;EndpointPair(Point(x1, y1), Point(x2, y2)) in endpoints {
-		if x1 != x2 &amp;&amp; y1 != y2 {
-			continue;
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_hv_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
+		<span class="hljs-keyword">if</span> x1 != x2 &amp;&amp; y1 != y2 {
+			<span class="hljs-keyword">continue</span>;
 		}
-		for x in range_between(x1, x2) {
-			for y in range_between(y1, y2) {
-				*counter.entry(Point(x, y)).or_default() += 1;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">x</span> <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(x1, x2) {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">y</span> <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(y1, y2) {
+				*counter.<span class="hljs-title function_ invoke__">entry</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
 			}
 		}
 	}
 	counter
 }
 
-fn pt1(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; usize {
-	get_ans(&amp;get_hv_point_counts(endpoints))
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;<span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints))
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn get_diag_point_counts(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; PointCounter&lt;i32&gt; {
-	let mut counter = Map::new();
-	for &amp;EndpointPair(Point(x1, y1), Point(x2, y2)) in endpoints {
-		if (x1 - x2).abs() != (y1 - y2).abs() {
-			continue;
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_diag_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
+		<span class="hljs-title function_ invoke__">if</span> (x1 - x2).<span class="hljs-title function_ invoke__">abs</span>() != (y1 - y2).<span class="hljs-title function_ invoke__">abs</span>() {
+			<span class="hljs-keyword">continue</span>;
 		}
 
-		for (x, y) in range_between(x1, x2).zip(range_between(y1, y2)) {
-			*counter.entry(Point(x, y)).or_default() += 1;
+		<span class="hljs-title function_ invoke__">for</span> (x, y) <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(x1, x2).<span class="hljs-title function_ invoke__">zip</span>(<span class="hljs-title function_ invoke__">range_between</span>(y1, y2)) {
+			*counter.<span class="hljs-title function_ invoke__">entry</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
 		}
 	}
 
 	counter
 }
 
-fn pt2(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; usize {
-	let hv_counter = get_hv_point_counts(endpoints);
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">hv_counter</span> = <span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints);
 
-	let all_counter = {
-		let mut diag_counter = get_diag_point_counts(endpoints);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">all_counter</span> = {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">diag_counter</span> = <span class="hljs-title function_ invoke__">get_diag_point_counts</span>(endpoints);
 
-		for (k, v) in hv_counter {
-			*diag_counter.entry(k).or_default() += v;
+		<span class="hljs-title function_ invoke__">for</span> (k, v) <span class="hljs-keyword">in</span> hv_counter {
+			*diag_counter.<span class="hljs-title function_ invoke__">entry</span>(k).<span class="hljs-title function_ invoke__">or_default</span>() += v;
 		}
 
 		diag_counter
 	};
-	get_ans(&amp;all_counter)
+	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;all_counter)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 5, ans: (5, 12));
-		test_input!(include_str!("input.txt"), day: 5, ans: (5576, 18144));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5</span>, <span class="hljs-number">12</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5576</span>, <span class="hljs-number">18144</span>));
 	}
 }</code></pre>
 </div>
@@ -674,121 +674,121 @@ mod test {
 <h2 id="_part_2"><a class="anchor" href="#_part_2"></a>Part 2</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Part 2 asks us to count how many times each point belongs to either a horizontal line, a vertical line, or a \(45^\circ\) diagonal line (whose slope must be \(\pm1\)).
+<p>Part 2 asks us to count how many times each point belongs to either a horizontal line, a vertical line, or a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><msup><mn>5</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">45^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6741em;"></span><span class="mord">4</span><span class="mord"><span class="mord">5</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span> diagonal line (whose slope must be <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\pm1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mord">1</span></span></span></span>).
 We already found the points on horizontal and vertical lines in Part 1.
-Diagonal lines are lines \(((x_1, y_1), (x_2, y_2))\) whose points \( (x_k,y_k)\) satisfy \(|x_k-x_1|=|y_k-y_1|\) with \(x_k\) between \(x_1\) and \(x_2\) and \(y_k\) between \(y_k\) and \(y_2\) (inclusive).
-Since the \(k\)<sup>th</sup> element of <code>range_between(a, b)</code> is \(k\) away from \(a\), the points of the diagonal line in question are in fact simply the elements of <code>range_between(x1, x2).zip(range_between(y1, y2))</code>.</p>
+Diagonal lines are lines <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>y</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo separator="true">,</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>2</mn></msub><mo separator="true">,</mo><msub><mi>y</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">((x_1, y_1), (x_2, y_2))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">((</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">))</span></span></span></span> whose points <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mi>k</mi></msub><mo separator="true">,</mo><msub><mi>y</mi><mi>k</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x_k,y_k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> satisfy <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∣</mi><msub><mi>x</mi><mi>k</mi></msub><mo>−</mo><msub><mi>x</mi><mn>1</mn></msub><mi mathvariant="normal">∣</mi><mo>=</mo><mi mathvariant="normal">∣</mi><msub><mi>y</mi><mi>k</mi></msub><mo>−</mo><msub><mi>y</mi><mn>1</mn></msub><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">|x_k-x_1|=|y_k-y_1|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span></span></span></span> with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">x_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> between <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">y_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> between <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">y_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">y_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> (inclusive).
+Since the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span><sup>th</sup> element of <code>range_between(a, b)</code> is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> away from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">a</span></span></span></span>, the points of the diagonal line in question are in fact simply the elements of <code>range_between(x1, x2).zip(range_between(y1, y2))</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use num::Integer;
-use regex::Regex;
-use std::{collections::BTreeMap as Map, str::FromStr};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> num::Integer;
+<span class="hljs-keyword">use</span> regex::Regex;
+<span class="hljs-keyword">use</span> std::{collections::BTreeMap <span class="hljs-keyword">as</span> Map, <span class="hljs-type">str</span>::FromStr};
 
-#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
-struct Point&lt;T&gt;(T, T);
-struct EndpointPair&lt;T: Integer&gt;(Point&lt;T&gt;, Point&lt;T&gt;);
-type PointCounter&lt;T&gt; = Map&lt;Point&lt;T&gt;, usize&gt;;
+<span class="hljs-meta">#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span>&lt;T&gt;(T, T);
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">EndpointPair</span>&lt;T: Integer&gt;(Point&lt;T&gt;, Point&lt;T&gt;);
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">PointCounter</span>&lt;T&gt; = Map&lt;Point&lt;T&gt;, <span class="hljs-type">usize</span>&gt;;
 
-fn get_lines&lt;T: Integer + FromStr&gt;(input: &amp;str) -&gt; Option&lt;Vec&lt;EndpointPair&lt;T&gt;&gt;&gt; {
-	let line_re = Regex::new(r"(\d+),(\d+)\s*-&gt;\s*(\d+),(\d+)").ok()?;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_lines</span>&lt;T: Integer + FromStr&gt;(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;EndpointPair&lt;T&gt;&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">line_re</span> = Regex::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">r&quot;(\d+),(\d+)\s*-&gt;\s*(\d+),(\d+)&quot;</span>).<span class="hljs-title function_ invoke__">ok</span>()?;
 	input
-		.lines()
-		.map(|line| {
-			let caps = line_re.captures(line)?;
-			let [x1, y1, x2, y2] = [1, 2, 3, 4].map(|i| caps.get(i)?.as_str().parse::&lt;T&gt;().ok());
-			Some(EndpointPair(Point(x1?, y1?), Point(x2?, y2?)))
+		.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|line| {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">caps</span> = line_re.<span class="hljs-title function_ invoke__">captures</span>(line)?;
+			<span class="hljs-keyword">let</span> [x1, y1, x2, y2] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>].<span class="hljs-title function_ invoke__">map</span>(|i| caps.<span class="hljs-title function_ invoke__">get</span>(i)?.<span class="hljs-title function_ invoke__">as_str</span>().parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>());
+			<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1?, y1?), <span class="hljs-title function_ invoke__">Point</span>(x2?, y2?)))
 		})
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
 }
 
-fn range_between(a: i32, b: i32) -&gt; num::iter::RangeStepInclusive&lt;i32&gt; {
-	let step = if a &lt; b { 1 } else { -1 };
-	num::range_step_inclusive(a, b, step)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">range_between</span>(a: <span class="hljs-type">i32</span>, b: <span class="hljs-type">i32</span>) <span class="hljs-punctuation">-&gt;</span> num::iter::RangeStepInclusive&lt;<span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">step</span> = <span class="hljs-keyword">if</span> a &lt; b { <span class="hljs-number">1</span> } <span class="hljs-keyword">else</span> { -<span class="hljs-number">1</span> };
+	num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(a, b, step)
 }
 
-fn get_ans&lt;T&gt;(counter: &amp;PointCounter&lt;T&gt;) -&gt; usize {
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>&lt;T&gt;(counter: &amp;PointCounter&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	counter
-		.values()
-		.map(|count| if *count &gt;= 2 { 1 } else { 0 })
-		.sum()
+		.<span class="hljs-title function_ invoke__">values</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|count| <span class="hljs-keyword">if</span> *count &gt;= <span class="hljs-number">2</span> { <span class="hljs-number">1</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">0</span> })
+		.<span class="hljs-title function_ invoke__">sum</span>()
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let endpoints = get_lines(input).unwrap();
-	(5, (pt1(&amp;endpoints), pt2(&amp;endpoints))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">endpoints</span> = <span class="hljs-title function_ invoke__">get_lines</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">5</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;endpoints), <span class="hljs-title function_ invoke__">pt2</span>(&amp;endpoints))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	let input = include_str!("input.txt");
-	ans_for_input(input)
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">input</span> = <span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>);
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(input)
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn get_hv_point_counts(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; PointCounter&lt;i32&gt; {
-	let mut counter = Map::new();
-	for &amp;EndpointPair(Point(x1, y1), Point(x2, y2)) in endpoints {
-		if x1 != x2 &amp;&amp; y1 != y2 {
-			continue;
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_hv_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
+		<span class="hljs-keyword">if</span> x1 != x2 &amp;&amp; y1 != y2 {
+			<span class="hljs-keyword">continue</span>;
 		}
-		for x in range_between(x1, x2) {
-			for y in range_between(y1, y2) {
-				*counter.entry(Point(x, y)).or_default() += 1;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">x</span> <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(x1, x2) {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">y</span> <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(y1, y2) {
+				*counter.<span class="hljs-title function_ invoke__">entry</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
 			}
 		}
 	}
 	counter
 }
 
-fn pt1(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; usize {
-	get_ans(&amp;get_hv_point_counts(endpoints))
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;<span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints))
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn get_diag_point_counts(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; PointCounter&lt;i32&gt; {
-	let mut counter = Map::new();
-	for &amp;EndpointPair(Point(x1, y1), Point(x2, y2)) in endpoints {
-		if (x1 - x2).abs() != (y1 - y2).abs() {
-			continue;
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_diag_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
+		<span class="hljs-title function_ invoke__">if</span> (x1 - x2).<span class="hljs-title function_ invoke__">abs</span>() != (y1 - y2).<span class="hljs-title function_ invoke__">abs</span>() {
+			<span class="hljs-keyword">continue</span>;
 		}
 
-		for (x, y) in range_between(x1, x2).zip(range_between(y1, y2)) {
-			*counter.entry(Point(x, y)).or_default() += 1;
+		<span class="hljs-title function_ invoke__">for</span> (x, y) <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(x1, x2).<span class="hljs-title function_ invoke__">zip</span>(<span class="hljs-title function_ invoke__">range_between</span>(y1, y2)) {
+			*counter.<span class="hljs-title function_ invoke__">entry</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
 		}
 	}
 
 	counter
 }
 
-fn pt2(endpoints: &amp;[EndpointPair&lt;i32&gt;]) -&gt; usize {
-	let hv_counter = get_hv_point_counts(endpoints);
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">hv_counter</span> = <span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints);
 
-	let all_counter = {
-		let mut diag_counter = get_diag_point_counts(endpoints);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">all_counter</span> = {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">diag_counter</span> = <span class="hljs-title function_ invoke__">get_diag_point_counts</span>(endpoints);
 
-		for (k, v) in hv_counter {
-			*diag_counter.entry(k).or_default() += v;
+		<span class="hljs-title function_ invoke__">for</span> (k, v) <span class="hljs-keyword">in</span> hv_counter {
+			*diag_counter.<span class="hljs-title function_ invoke__">entry</span>(k).<span class="hljs-title function_ invoke__">or_default</span>() += v;
 		}
 
 		diag_counter
 	};
-	get_ans(&amp;all_counter)
+	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;all_counter)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 5, ans: (5, 12));
-		test_input!(include_str!("input.txt"), day: 5, ans: (5576, 18144));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5</span>, <span class="hljs-number">12</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5576</span>, <span class="hljs-number">18144</span>));
 	}
 }</code></pre>
 </div>

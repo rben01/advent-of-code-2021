@@ -25,7 +25,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
+      <a class="navbar-item" href="/advent_of_code_2021">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav" type="button"
         title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
@@ -430,154 +430,154 @@ We don&#8217;t actually maintain a stack in the code; we merely use the call sta
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::collections::BTreeMap as Map;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::collections::BTreeMap <span class="hljs-keyword">as</span> Map;
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-enum CaveKind {
+<span class="hljs-meta">#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">CaveKind</span> {
 	Big,
 	Small,
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Cave&lt;'a&gt; {
-	name: &amp;'a str,
+<span class="hljs-meta">#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Cave</span>&lt;<span class="hljs-symbol">&#x27;a</span>&gt; {
+	name: &amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>,
 	kind: CaveKind,
 }
 
-impl&lt;'a&gt; Cave&lt;'a&gt; {
-	fn new(name: &amp;'a str) -&gt; Self {
-		let is_small = name.chars().map(|c| c.is_ascii_lowercase()).all(|b| b);
-		let kind = if is_small {
+<span class="hljs-keyword">impl</span>&lt;<span class="hljs-symbol">&#x27;a</span>&gt; Cave&lt;<span class="hljs-symbol">&#x27;a</span>&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(name: &amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">is_small</span> = name.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">map</span>(|c| c.<span class="hljs-title function_ invoke__">is_ascii_lowercase</span>()).<span class="hljs-title function_ invoke__">all</span>(|b| b);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">kind</span> = <span class="hljs-keyword">if</span> is_small {
 			CaveKind::Small
-		} else {
+		} <span class="hljs-keyword">else</span> {
 			CaveKind::Big
 		};
-		Self { name, kind }
+		<span class="hljs-keyword">Self</span> { name, kind }
 	}
 }
 
-#[derive(Debug)]
-struct CaveSystem&lt;'a&gt; {
-	edges: Map&lt;&amp;'a str, Vec&lt;Cave&lt;'a&gt;&gt;&gt;,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">CaveSystem</span>&lt;<span class="hljs-symbol">&#x27;a</span>&gt; {
+	edges: Map&lt;&amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>, <span class="hljs-type">Vec</span>&lt;Cave&lt;<span class="hljs-symbol">&#x27;a</span>&gt;&gt;&gt;,
 }
 
-impl&lt;'a&gt; CaveSystem&lt;'a&gt; {
-	fn from_str(input: &amp;'a str) -&gt; Option&lt;Self&gt; {
-		let mut edges = Map::new();
-		for line in input.lines() {
-			let mut splat = line.split('-');
-			let left = splat.next()?;
-			let right = splat.next()?;
+<span class="hljs-keyword">impl</span>&lt;<span class="hljs-symbol">&#x27;a</span>&gt; CaveSystem&lt;<span class="hljs-symbol">&#x27;a</span>&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(input: &amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">edges</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> input.<span class="hljs-title function_ invoke__">lines</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">splat</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;-&#x27;</span>);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">left</span> = splat.<span class="hljs-title function_ invoke__">next</span>()?;
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">right</span> = splat.<span class="hljs-title function_ invoke__">next</span>()?;
 
-			for (orig, dest) in [(left, right), (right, left)] {
-				if orig != "end" &amp;&amp; dest != "start" {
+			<span class="hljs-title function_ invoke__">for</span> (orig, dest) <span class="hljs-keyword">in</span> [(left, right), (right, left)] {
+				<span class="hljs-keyword">if</span> orig != <span class="hljs-string">&quot;end&quot;</span> &amp;&amp; dest != <span class="hljs-string">&quot;start&quot;</span> {
 					edges
-						.entry(orig)
-						.or_insert_with(Vec::new)
-						.push(Cave::new(dest));
+						.<span class="hljs-title function_ invoke__">entry</span>(orig)
+						.<span class="hljs-title function_ invoke__">or_insert_with</span>(<span class="hljs-type">Vec</span>::new)
+						.<span class="hljs-title function_ invoke__">push</span>(Cave::<span class="hljs-title function_ invoke__">new</span>(dest));
 				}
 			}
 		}
 
-		Some(Self { edges })
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { edges })
 	}
 }
 
-impl&lt;'a&gt; CaveSystem&lt;'a&gt; {
-	fn traverse_helper(
-		&amp;'a self,
-		curr_cave: &amp;'a str,
-		n_finished: &amp;mut usize,
-		cave_visit_counts: &amp;mut Map&lt;&amp;'a str, usize&gt;,
-		can_visit_one_small_cave_twice: bool,
-		has_visited_a_small_cave_twice: bool,
+<span class="hljs-keyword">impl</span>&lt;<span class="hljs-symbol">&#x27;a</span>&gt; CaveSystem&lt;<span class="hljs-symbol">&#x27;a</span>&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">traverse_helper</span>(
+		&amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-keyword">self</span>,
+		curr_cave: &amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>,
+		n_finished: &amp;<span class="hljs-keyword">mut</span> <span class="hljs-type">usize</span>,
+		cave_visit_counts: &amp;<span class="hljs-keyword">mut</span> Map&lt;&amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>, <span class="hljs-type">usize</span>&gt;,
+		can_visit_one_small_cave_twice: <span class="hljs-type">bool</span>,
+		has_visited_a_small_cave_twice: <span class="hljs-type">bool</span>,
 	) {
-		for next_cave in &amp;self.edges[curr_cave] {
-			if next_cave.name == "end" {
-				*n_finished += 1;
-				continue;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">next_cave</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.edges[curr_cave] {
+			<span class="hljs-keyword">if</span> next_cave.name == <span class="hljs-string">&quot;end&quot;</span> {
+				*n_finished += <span class="hljs-number">1</span>;
+				<span class="hljs-keyword">continue</span>;
 			}
 
-			let this_dest_n_visits = cave_visit_counts.entry(next_cave.name).or_insert(0);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">this_dest_n_visits</span> = cave_visit_counts.<span class="hljs-title function_ invoke__">entry</span>(next_cave.name).<span class="hljs-title function_ invoke__">or_insert</span>(<span class="hljs-number">0</span>);
 
-			let is_small_cave = next_cave.kind == CaveKind::Small;
-			if is_small_cave
-				&amp;&amp; (*this_dest_n_visits &gt;= 1
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">is_small_cave</span> = next_cave.kind == CaveKind::Small;
+			<span class="hljs-keyword">if</span> is_small_cave
+				&amp;&amp; (*this_dest_n_visits &gt;= <span class="hljs-number">1</span>
 					&amp;&amp; (!can_visit_one_small_cave_twice || has_visited_a_small_cave_twice))
 			{
-				continue;
+				<span class="hljs-keyword">continue</span>;
 			}
 
-			*this_dest_n_visits += 1;
-			let n_visits = *this_dest_n_visits;
+			*this_dest_n_visits += <span class="hljs-number">1</span>;
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">n_visits</span> = *this_dest_n_visits;
 
-			self.traverse_helper(
+			<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">traverse_helper</span>(
 				next_cave.name,
 				n_finished,
 				cave_visit_counts,
 				can_visit_one_small_cave_twice,
-				has_visited_a_small_cave_twice || is_small_cave &amp;&amp; n_visits &gt;= 2,
+				has_visited_a_small_cave_twice || is_small_cave &amp;&amp; n_visits &gt;= <span class="hljs-number">2</span>,
 			);
 
-			// "un-visit" this cave for the next loop iteration
+			<span class="hljs-comment">// &quot;un-visit&quot; this cave for the next loop iteration</span>
 			cave_visit_counts
-				.entry(next_cave.name)
-				.and_modify(|v| *v -= 1);
+				.<span class="hljs-title function_ invoke__">entry</span>(next_cave.name)
+				.<span class="hljs-title function_ invoke__">and_modify</span>(|v| *v -= <span class="hljs-number">1</span>);
 		}
 	}
 
-	fn traverse(&amp;'a self, can_visit_one_small_cave_twice: bool) -&gt; usize {
-		let mut n_finished = 0;
-		let mut cave_visit_counts = Map::new();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">traverse</span>(&amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-keyword">self</span>, can_visit_one_small_cave_twice: <span class="hljs-type">bool</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n_finished</span> = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">cave_visit_counts</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
-		self.traverse_helper(
-			"start",
-			&amp;mut n_finished,
-			&amp;mut cave_visit_counts,
+		<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">traverse_helper</span>(
+			<span class="hljs-string">&quot;start&quot;</span>,
+			&amp;<span class="hljs-keyword">mut</span> n_finished,
+			&amp;<span class="hljs-keyword">mut</span> cave_visit_counts,
 			can_visit_one_small_cave_twice,
-			false,
+			<span class="hljs-literal">false</span>,
 		);
 
 		n_finished
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let cave_system = CaveSystem::from_str(input).unwrap();
-	(12, (pt1(&amp;cave_system), pt2(&amp;cave_system))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">cave_system</span> = CaveSystem::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">12</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;cave_system), <span class="hljs-title function_ invoke__">pt2</span>(&amp;cave_system))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(cave: &amp;CaveSystem) -&gt; usize {
-	cave.traverse(false)
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(cave: &amp;CaveSystem) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	cave.<span class="hljs-title function_ invoke__">traverse</span>(<span class="hljs-literal">false</span>)
 }
 
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2(cave: &amp;CaveSystem) -&gt; usize {
-	cave.traverse(true)
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(cave: &amp;CaveSystem) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	cave.<span class="hljs-title function_ invoke__">traverse</span>(<span class="hljs-literal">true</span>)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input_1.txt"), day: 12, ans: (10, 36));
-		test_input!(include_str!("sample_input_2.txt"), day: 12, ans: (19, 103));
-		test_input!(include_str!("sample_input_3.txt"), day: 12, ans: (226, 3509));
-		test_input!(include_str!("input.txt"), day: 12, ans: (3738, 120_506));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input_1.txt&quot;</span>), day: <span class="hljs-number">12</span>, ans: (<span class="hljs-number">10</span>, <span class="hljs-number">36</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input_2.txt&quot;</span>), day: <span class="hljs-number">12</span>, ans: (<span class="hljs-number">19</span>, <span class="hljs-number">103</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input_3.txt&quot;</span>), day: <span class="hljs-number">12</span>, ans: (<span class="hljs-number">226</span>, <span class="hljs-number">3509</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">12</span>, ans: (<span class="hljs-number">3738</span>, <span class="hljs-number">120_506</span>));
 	}
 }</code></pre>
 </div>
@@ -596,154 +596,154 @@ But this wrinkle was already handled in the Setup section; we switch the behavio
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
-use std::collections::BTreeMap as Map;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
+<span class="hljs-keyword">use</span> std::collections::BTreeMap <span class="hljs-keyword">as</span> Map;
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-enum CaveKind {
+<span class="hljs-meta">#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">CaveKind</span> {
 	Big,
 	Small,
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-struct Cave&lt;'a&gt; {
-	name: &amp;'a str,
+<span class="hljs-meta">#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Cave</span>&lt;<span class="hljs-symbol">&#x27;a</span>&gt; {
+	name: &amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>,
 	kind: CaveKind,
 }
 
-impl&lt;'a&gt; Cave&lt;'a&gt; {
-	fn new(name: &amp;'a str) -&gt; Self {
-		let is_small = name.chars().map(|c| c.is_ascii_lowercase()).all(|b| b);
-		let kind = if is_small {
+<span class="hljs-keyword">impl</span>&lt;<span class="hljs-symbol">&#x27;a</span>&gt; Cave&lt;<span class="hljs-symbol">&#x27;a</span>&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(name: &amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">is_small</span> = name.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">map</span>(|c| c.<span class="hljs-title function_ invoke__">is_ascii_lowercase</span>()).<span class="hljs-title function_ invoke__">all</span>(|b| b);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">kind</span> = <span class="hljs-keyword">if</span> is_small {
 			CaveKind::Small
-		} else {
+		} <span class="hljs-keyword">else</span> {
 			CaveKind::Big
 		};
-		Self { name, kind }
+		<span class="hljs-keyword">Self</span> { name, kind }
 	}
 }
 
-#[derive(Debug)]
-struct CaveSystem&lt;'a&gt; {
-	edges: Map&lt;&amp;'a str, Vec&lt;Cave&lt;'a&gt;&gt;&gt;,
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">CaveSystem</span>&lt;<span class="hljs-symbol">&#x27;a</span>&gt; {
+	edges: Map&lt;&amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>, <span class="hljs-type">Vec</span>&lt;Cave&lt;<span class="hljs-symbol">&#x27;a</span>&gt;&gt;&gt;,
 }
 
-impl&lt;'a&gt; CaveSystem&lt;'a&gt; {
-	fn from_str(input: &amp;'a str) -&gt; Option&lt;Self&gt; {
-		let mut edges = Map::new();
-		for line in input.lines() {
-			let mut splat = line.split('-');
-			let left = splat.next()?;
-			let right = splat.next()?;
+<span class="hljs-keyword">impl</span>&lt;<span class="hljs-symbol">&#x27;a</span>&gt; CaveSystem&lt;<span class="hljs-symbol">&#x27;a</span>&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(input: &amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">edges</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> input.<span class="hljs-title function_ invoke__">lines</span>() {
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">splat</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;-&#x27;</span>);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">left</span> = splat.<span class="hljs-title function_ invoke__">next</span>()?;
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">right</span> = splat.<span class="hljs-title function_ invoke__">next</span>()?;
 
-			for (orig, dest) in [(left, right), (right, left)] {
-				if orig != "end" &amp;&amp; dest != "start" {
+			<span class="hljs-title function_ invoke__">for</span> (orig, dest) <span class="hljs-keyword">in</span> [(left, right), (right, left)] {
+				<span class="hljs-keyword">if</span> orig != <span class="hljs-string">&quot;end&quot;</span> &amp;&amp; dest != <span class="hljs-string">&quot;start&quot;</span> {
 					edges
-						.entry(orig)
-						.or_insert_with(Vec::new)
-						.push(Cave::new(dest));
+						.<span class="hljs-title function_ invoke__">entry</span>(orig)
+						.<span class="hljs-title function_ invoke__">or_insert_with</span>(<span class="hljs-type">Vec</span>::new)
+						.<span class="hljs-title function_ invoke__">push</span>(Cave::<span class="hljs-title function_ invoke__">new</span>(dest));
 				}
 			}
 		}
 
-		Some(Self { edges })
+		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { edges })
 	}
 }
 
-impl&lt;'a&gt; CaveSystem&lt;'a&gt; {
-	fn traverse_helper(
-		&amp;'a self,
-		curr_cave: &amp;'a str,
-		n_finished: &amp;mut usize,
-		cave_visit_counts: &amp;mut Map&lt;&amp;'a str, usize&gt;,
-		can_visit_one_small_cave_twice: bool,
-		has_visited_a_small_cave_twice: bool,
+<span class="hljs-keyword">impl</span>&lt;<span class="hljs-symbol">&#x27;a</span>&gt; CaveSystem&lt;<span class="hljs-symbol">&#x27;a</span>&gt; {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">traverse_helper</span>(
+		&amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-keyword">self</span>,
+		curr_cave: &amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>,
+		n_finished: &amp;<span class="hljs-keyword">mut</span> <span class="hljs-type">usize</span>,
+		cave_visit_counts: &amp;<span class="hljs-keyword">mut</span> Map&lt;&amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-type">str</span>, <span class="hljs-type">usize</span>&gt;,
+		can_visit_one_small_cave_twice: <span class="hljs-type">bool</span>,
+		has_visited_a_small_cave_twice: <span class="hljs-type">bool</span>,
 	) {
-		for next_cave in &amp;self.edges[curr_cave] {
-			if next_cave.name == "end" {
-				*n_finished += 1;
-				continue;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">next_cave</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.edges[curr_cave] {
+			<span class="hljs-keyword">if</span> next_cave.name == <span class="hljs-string">&quot;end&quot;</span> {
+				*n_finished += <span class="hljs-number">1</span>;
+				<span class="hljs-keyword">continue</span>;
 			}
 
-			let this_dest_n_visits = cave_visit_counts.entry(next_cave.name).or_insert(0);
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">this_dest_n_visits</span> = cave_visit_counts.<span class="hljs-title function_ invoke__">entry</span>(next_cave.name).<span class="hljs-title function_ invoke__">or_insert</span>(<span class="hljs-number">0</span>);
 
-			let is_small_cave = next_cave.kind == CaveKind::Small;
-			if is_small_cave
-				&amp;&amp; (*this_dest_n_visits &gt;= 1
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">is_small_cave</span> = next_cave.kind == CaveKind::Small;
+			<span class="hljs-keyword">if</span> is_small_cave
+				&amp;&amp; (*this_dest_n_visits &gt;= <span class="hljs-number">1</span>
 					&amp;&amp; (!can_visit_one_small_cave_twice || has_visited_a_small_cave_twice))
 			{
-				continue;
+				<span class="hljs-keyword">continue</span>;
 			}
 
-			*this_dest_n_visits += 1;
-			let n_visits = *this_dest_n_visits;
+			*this_dest_n_visits += <span class="hljs-number">1</span>;
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">n_visits</span> = *this_dest_n_visits;
 
-			self.traverse_helper(
+			<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">traverse_helper</span>(
 				next_cave.name,
 				n_finished,
 				cave_visit_counts,
 				can_visit_one_small_cave_twice,
-				has_visited_a_small_cave_twice || is_small_cave &amp;&amp; n_visits &gt;= 2,
+				has_visited_a_small_cave_twice || is_small_cave &amp;&amp; n_visits &gt;= <span class="hljs-number">2</span>,
 			);
 
-			// "un-visit" this cave for the next loop iteration
+			<span class="hljs-comment">// &quot;un-visit&quot; this cave for the next loop iteration</span>
 			cave_visit_counts
-				.entry(next_cave.name)
-				.and_modify(|v| *v -= 1);
+				.<span class="hljs-title function_ invoke__">entry</span>(next_cave.name)
+				.<span class="hljs-title function_ invoke__">and_modify</span>(|v| *v -= <span class="hljs-number">1</span>);
 		}
 	}
 
-	fn traverse(&amp;'a self, can_visit_one_small_cave_twice: bool) -&gt; usize {
-		let mut n_finished = 0;
-		let mut cave_visit_counts = Map::new();
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">traverse</span>(&amp;<span class="hljs-symbol">&#x27;a</span> <span class="hljs-keyword">self</span>, can_visit_one_small_cave_twice: <span class="hljs-type">bool</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n_finished</span> = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">cave_visit_counts</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 
-		self.traverse_helper(
-			"start",
-			&amp;mut n_finished,
-			&amp;mut cave_visit_counts,
+		<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">traverse_helper</span>(
+			<span class="hljs-string">&quot;start&quot;</span>,
+			&amp;<span class="hljs-keyword">mut</span> n_finished,
+			&amp;<span class="hljs-keyword">mut</span> cave_visit_counts,
 			can_visit_one_small_cave_twice,
-			false,
+			<span class="hljs-literal">false</span>,
 		);
 
 		n_finished
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let cave_system = CaveSystem::from_str(input).unwrap();
-	(12, (pt1(&amp;cave_system), pt2(&amp;cave_system))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">cave_system</span> = CaveSystem::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">12</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;cave_system), <span class="hljs-title function_ invoke__">pt2</span>(&amp;cave_system))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(cave: &amp;CaveSystem) -&gt; usize {
-	cave.traverse(false)
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(cave: &amp;CaveSystem) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	cave.<span class="hljs-title function_ invoke__">traverse</span>(<span class="hljs-literal">false</span>)
 }
 
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn pt2(cave: &amp;CaveSystem) -&gt; usize {
-	cave.traverse(true)
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(cave: &amp;CaveSystem) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	cave.<span class="hljs-title function_ invoke__">traverse</span>(<span class="hljs-literal">true</span>)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input_1.txt"), day: 12, ans: (10, 36));
-		test_input!(include_str!("sample_input_2.txt"), day: 12, ans: (19, 103));
-		test_input!(include_str!("sample_input_3.txt"), day: 12, ans: (226, 3509));
-		test_input!(include_str!("input.txt"), day: 12, ans: (3738, 120_506));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input_1.txt&quot;</span>), day: <span class="hljs-number">12</span>, ans: (<span class="hljs-number">10</span>, <span class="hljs-number">36</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input_2.txt&quot;</span>), day: <span class="hljs-number">12</span>, ans: (<span class="hljs-number">19</span>, <span class="hljs-number">103</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input_3.txt&quot;</span>), day: <span class="hljs-number">12</span>, ans: (<span class="hljs-number">226</span>, <span class="hljs-number">3509</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">12</span>, ans: (<span class="hljs-number">3738</span>, <span class="hljs-number">120_506</span>));
 	}
 }</code></pre>
 </div>

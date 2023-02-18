@@ -35,7 +35,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
+      <a class="navbar-item" href="/advent_of_code_2021">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav" type="button"
         title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
@@ -432,118 +432,118 @@ For example, given <code>10011</code>, we compute <code>[1, 0, 0, 1, 1] .* [16, 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::{utils::to_decimal, Answer};
-use ndarray::prelude::*;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::{utils::to_decimal, Answer};
+<span class="hljs-keyword">use</span> ndarray::prelude::*;
 
-fn read_input(input: &amp;str) -&gt; Option&lt;ndarray::Array2&lt;bool&gt;&gt; {
-	let mut lines = input.lines();
-	let mut bit_vec = Vec::new();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;ndarray::Array2&lt;<span class="hljs-type">bool</span>&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = input.<span class="hljs-title function_ invoke__">lines</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">bit_vec</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
 
-	let first_line = lines.next()?;
-	let line_length = first_line.len();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">first_line</span> = lines.<span class="hljs-title function_ invoke__">next</span>()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">line_length</span> = first_line.<span class="hljs-title function_ invoke__">len</span>();
 
-	for line in std::iter::once(first_line).chain(lines) {
-		for c in line.bytes() {
-			bit_vec.push(c == b'1');
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> std::iter::<span class="hljs-title function_ invoke__">once</span>(first_line).<span class="hljs-title function_ invoke__">chain</span>(lines) {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> line.<span class="hljs-title function_ invoke__">bytes</span>() {
+			bit_vec.<span class="hljs-title function_ invoke__">push</span>(c == <span class="hljs-string">b&#x27;1&#x27;</span>);
 		}
 	}
 
-	let n_lines = bit_vec.len() / line_length;
-	Array2::from_shape_vec((n_lines, line_length), bit_vec).ok()
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_lines</span> = bit_vec.<span class="hljs-title function_ invoke__">len</span>() / line_length;
+	Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((n_lines, line_length), bit_vec).<span class="hljs-title function_ invoke__">ok</span>()
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;u32, u32&gt; {
-	let mat = read_input(input).unwrap();
-	(3, (pt1(&amp;mat), pt2(&amp;mat))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">u32</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">mat</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">3</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;mat), <span class="hljs-title function_ invoke__">pt2</span>(&amp;mat))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;u32, u32&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">u32</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(mat: &amp;Array2&lt;bool&gt;) -&gt; u32 {
-	let (n_rows, n_cols) = mat.dim();
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(mat: &amp;Array2&lt;<span class="hljs-type">bool</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = mat.<span class="hljs-title function_ invoke__">dim</span>();
 
-	let n_ones = mat.map(|x| usize::from(*x)).sum_axis(Axis(0));
-	let n_zeros = n_ones.map(|n| n_rows - n);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_ones</span> = mat.<span class="hljs-title function_ invoke__">map</span>(|x| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(*x)).<span class="hljs-title function_ invoke__">sum_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>));
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_zeros</span> = n_ones.<span class="hljs-title function_ invoke__">map</span>(|n| n_rows - n);
 
-	let col_has_more_ones_than_zeros = ndarray::Zip::from(&amp;n_ones)
-		.and(&amp;n_zeros)
-		.map_collect(|n_o, n_z| n_o &gt; n_z)
-		.into_shape((n_cols,))
-		.unwrap();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">col_has_more_ones_than_zeros</span> = ndarray::Zip::<span class="hljs-title function_ invoke__">from</span>(&amp;n_ones)
+		.<span class="hljs-title function_ invoke__">and</span>(&amp;n_zeros)
+		.<span class="hljs-title function_ invoke__">map_collect</span>(|n_o, n_z| n_o &gt; n_z)
+		.<span class="hljs-title function_ invoke__">into_shape</span>((n_cols,))
+		.<span class="hljs-title function_ invoke__">unwrap</span>();
 
-	let gamma_rate = to_decimal(col_has_more_ones_than_zeros.to_vec());
-	let epsilon_rate = (2u32.pow(u32::try_from(n_cols).unwrap()) - 1) - gamma_rate;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">gamma_rate</span> = <span class="hljs-title function_ invoke__">to_decimal</span>(col_has_more_ones_than_zeros.<span class="hljs-title function_ invoke__">to_vec</span>());
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">epsilon_rate</span> = (<span class="hljs-number">2u32</span>.<span class="hljs-title function_ invoke__">pow</span>(<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(n_cols).<span class="hljs-title function_ invoke__">unwrap</span>()) - <span class="hljs-number">1</span>) - gamma_rate;
 
 	gamma_rate * epsilon_rate
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn value_of_line_chosen_by_criterion(
-	mat: &amp;Array2&lt;bool&gt;,
-	cmp_predicate: impl Fn(usize, usize) -&gt; bool,
-) -&gt; u32 {
-	let (n_rows, n_cols) = mat.dim();
-	let mut candidates = Array1::&lt;_&gt;::from_shape_simple_fn((n_rows,), || true);
-	for i in 0..n_cols {
-		let n_candidates_remaining = candidates.mapv(|c| if c { 1usize } else { 0 }).sum();
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">value_of_line_chosen_by_criterion</span>(
+	mat: &amp;Array2&lt;<span class="hljs-type">bool</span>&gt;,
+	cmp_predicate: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Fn</span>(<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span>,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = mat.<span class="hljs-title function_ invoke__">dim</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">candidates</span> = Array1::&lt;_&gt;::<span class="hljs-title function_ invoke__">from_shape_simple_fn</span>((n_rows,), || <span class="hljs-literal">true</span>);
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_cols {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">n_candidates_remaining</span> = candidates.<span class="hljs-title function_ invoke__">mapv</span>(|c| <span class="hljs-keyword">if</span> c { <span class="hljs-number">1usize</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">0</span> }).<span class="hljs-title function_ invoke__">sum</span>();
 
-		if n_candidates_remaining == 1 {
-			break;
+		<span class="hljs-keyword">if</span> n_candidates_remaining == <span class="hljs-number">1</span> {
+			<span class="hljs-keyword">break</span>;
 		}
 
-		let column = mat.index_axis(Axis(1), i);
-		let digit_sum = column
-			.iter()
-			.enumerate()
-			.filter_map(|(i, &amp;x)| {
-				if candidates[[i]] {
-					Some(usize::from(x))
-				} else {
-					None
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">column</span> = mat.<span class="hljs-title function_ invoke__">index_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">1</span>), i);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">digit_sum</span> = column
+			.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">enumerate</span>()
+			.<span class="hljs-title function_ invoke__">filter_map</span>(|(i, &amp;x)| {
+				<span class="hljs-keyword">if</span> candidates[[i]] {
+					<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(x))
+				} <span class="hljs-keyword">else</span> {
+					<span class="hljs-literal">None</span>
 				}
 			})
-			.sum::&lt;usize&gt;();
+			.sum::&lt;<span class="hljs-type">usize</span>&gt;();
 
-		let most_common_digit = cmp_predicate(2 * digit_sum, n_candidates_remaining);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">most_common_digit</span> = <span class="hljs-title function_ invoke__">cmp_predicate</span>(<span class="hljs-number">2</span> * digit_sum, n_candidates_remaining);
 
-		candidates = ndarray::Zip::from(&amp;candidates)
-			.and(&amp;column)
-			.map_collect(|&amp;candidate, &amp;digit| candidate &amp;&amp; digit == most_common_digit);
+		candidates = ndarray::Zip::<span class="hljs-title function_ invoke__">from</span>(&amp;candidates)
+			.<span class="hljs-title function_ invoke__">and</span>(&amp;column)
+			.<span class="hljs-title function_ invoke__">map_collect</span>(|&amp;candidate, &amp;digit| candidate &amp;&amp; digit == most_common_digit);
 	}
 
-	let index = candidates
-		.into_iter()
-		.enumerate()
-		.find_map(|(i, x)| if x { Some(i) } else { None })
-		.unwrap();
-	let line = mat.index_axis(Axis(0), index);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">index</span> = candidates
+		.<span class="hljs-title function_ invoke__">into_iter</span>()
+		.<span class="hljs-title function_ invoke__">enumerate</span>()
+		.<span class="hljs-title function_ invoke__">find_map</span>(|(i, x)| <span class="hljs-keyword">if</span> x { <span class="hljs-title function_ invoke__">Some</span>(i) } <span class="hljs-keyword">else</span> { <span class="hljs-literal">None</span> })
+		.<span class="hljs-title function_ invoke__">unwrap</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">line</span> = mat.<span class="hljs-title function_ invoke__">index_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>), index);
 
-	to_decimal(line.to_vec())
+	<span class="hljs-title function_ invoke__">to_decimal</span>(line.<span class="hljs-title function_ invoke__">to_vec</span>())
 }
 
-fn pt2(mat: &amp;Array2&lt;bool&gt;) -&gt; u32 {
-	let [oxy_rate, co2_rate] =
-		[|x, y| x &gt;= y, |x, y| x &lt; y].map(|op| value_of_line_chosen_by_criterion(mat, op));
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(mat: &amp;Array2&lt;<span class="hljs-type">bool</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> [oxy_rate, co2_rate] =
+		[|x, y| x &gt;= y, |x, y| x &lt; y].<span class="hljs-title function_ invoke__">map</span>(|op| <span class="hljs-title function_ invoke__">value_of_line_chosen_by_criterion</span>(mat, op));
 
 	oxy_rate * co2_rate
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 3, ans: (198, 230));
-		test_input!(include_str!("input.txt"), day: 3, ans: (2_743_844, 6_677_951));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">3</span>, ans: (<span class="hljs-number">198</span>, <span class="hljs-number">230</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">3</span>, ans: (<span class="hljs-number">2_743_844</span>, <span class="hljs-number">6_677_951</span>));
 	}
 }</code></pre>
 </div>
@@ -554,129 +554,129 @@ mod test {
 <h2 id="_part_1"><a class="anchor" href="#_part_1"></a>Part 1</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We are asked to find two numbers, <code>gamma_rate</code> (\(\gamma\)) and <code>epsilon_rate</code> (\(\varepsilon\)).
-\(\gamma\) is the value of the binary number whose \(k\)<sup>th</sup> digit is the most common digit in column \(k\) of the array of values.
-\(\varepsilon\) is computed using the same idea, but with the least common digit instead.
+<p>We are asked to find two numbers, <code>gamma_rate</code> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span></span></span></span>) and <code>epsilon_rate</code> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi></mrow><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span></span></span></span>).
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span></span></span></span> is the value of the binary number whose <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span><sup>th</sup> digit is the most common digit in column <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> of the array of values.
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi></mrow><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span></span></span></span> is computed using the same idea, but with the least common digit instead.
 (It is assumed that there will be no ties.)</p>
 </div>
 <div class="paragraph">
-<p>Since there are only two digits to choose from, the most common digit and the least common digit in each column will be opposites, and so \(\gamma + \varepsilon = \text{all 1s} = 2^{\text{\texttt{line\textunderscore{}width}}}-1\).
-In other words we don&#8217;t need to compute \(\varepsilon\) “the long way”; once we have \(\gamma\), we immediately have \(\varepsilon\).</p>
+<p>Since there are only two digits to choose from, the most common digit and the least common digit in each column will be opposites, and so <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>+</mo><mi>ε</mi><mo>=</mo><mtext>all 1s</mtext><mo>=</mo><msup><mn>2</mn><mrow><mtext mathvariant="monospace">line_</mtext><mrow></mrow><mtext mathvariant="monospace">width</mtext></mrow></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\gamma + \varepsilon = \text{all 1s} = 2^{\text{\texttt{line\textunderscore{}width}}}-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">all 1s</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8741em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7908em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord text mtight"><span class="mord texttt mtight">line_</span><span class="mord mtight"></span><span class="mord texttt mtight">width</span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>.
+In other words we don&#8217;t need to compute <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi></mrow><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span></span></span></span> “the long way”; once we have <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span></span></span></span>, we immediately have <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi></mrow><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ε</span></span></span></span>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::{utils::to_decimal, Answer};
-use ndarray::prelude::*;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::{utils::to_decimal, Answer};
+<span class="hljs-keyword">use</span> ndarray::prelude::*;
 
-fn read_input(input: &amp;str) -&gt; Option&lt;ndarray::Array2&lt;bool&gt;&gt; {
-	let mut lines = input.lines();
-	let mut bit_vec = Vec::new();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;ndarray::Array2&lt;<span class="hljs-type">bool</span>&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = input.<span class="hljs-title function_ invoke__">lines</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">bit_vec</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
 
-	let first_line = lines.next()?;
-	let line_length = first_line.len();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">first_line</span> = lines.<span class="hljs-title function_ invoke__">next</span>()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">line_length</span> = first_line.<span class="hljs-title function_ invoke__">len</span>();
 
-	for line in std::iter::once(first_line).chain(lines) {
-		for c in line.bytes() {
-			bit_vec.push(c == b'1');
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> std::iter::<span class="hljs-title function_ invoke__">once</span>(first_line).<span class="hljs-title function_ invoke__">chain</span>(lines) {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> line.<span class="hljs-title function_ invoke__">bytes</span>() {
+			bit_vec.<span class="hljs-title function_ invoke__">push</span>(c == <span class="hljs-string">b&#x27;1&#x27;</span>);
 		}
 	}
 
-	let n_lines = bit_vec.len() / line_length;
-	Array2::from_shape_vec((n_lines, line_length), bit_vec).ok()
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_lines</span> = bit_vec.<span class="hljs-title function_ invoke__">len</span>() / line_length;
+	Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((n_lines, line_length), bit_vec).<span class="hljs-title function_ invoke__">ok</span>()
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;u32, u32&gt; {
-	let mat = read_input(input).unwrap();
-	(3, (pt1(&amp;mat), pt2(&amp;mat))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">u32</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">mat</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">3</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;mat), <span class="hljs-title function_ invoke__">pt2</span>(&amp;mat))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;u32, u32&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">u32</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(mat: &amp;Array2&lt;bool&gt;) -&gt; u32 {
-	let (n_rows, n_cols) = mat.dim();
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(mat: &amp;Array2&lt;<span class="hljs-type">bool</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = mat.<span class="hljs-title function_ invoke__">dim</span>();
 
-	let n_ones = mat.map(|x| usize::from(*x)).sum_axis(Axis(0));
-	let n_zeros = n_ones.map(|n| n_rows - n);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_ones</span> = mat.<span class="hljs-title function_ invoke__">map</span>(|x| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(*x)).<span class="hljs-title function_ invoke__">sum_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>));
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_zeros</span> = n_ones.<span class="hljs-title function_ invoke__">map</span>(|n| n_rows - n);
 
-	let col_has_more_ones_than_zeros = ndarray::Zip::from(&amp;n_ones)
-		.and(&amp;n_zeros)
-		.map_collect(|n_o, n_z| n_o &gt; n_z)
-		.into_shape((n_cols,))
-		.unwrap();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">col_has_more_ones_than_zeros</span> = ndarray::Zip::<span class="hljs-title function_ invoke__">from</span>(&amp;n_ones)
+		.<span class="hljs-title function_ invoke__">and</span>(&amp;n_zeros)
+		.<span class="hljs-title function_ invoke__">map_collect</span>(|n_o, n_z| n_o &gt; n_z)
+		.<span class="hljs-title function_ invoke__">into_shape</span>((n_cols,))
+		.<span class="hljs-title function_ invoke__">unwrap</span>();
 
-	let gamma_rate = to_decimal(col_has_more_ones_than_zeros.to_vec());
-	let epsilon_rate = (2u32.pow(u32::try_from(n_cols).unwrap()) - 1) - gamma_rate;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">gamma_rate</span> = <span class="hljs-title function_ invoke__">to_decimal</span>(col_has_more_ones_than_zeros.<span class="hljs-title function_ invoke__">to_vec</span>());
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">epsilon_rate</span> = (<span class="hljs-number">2u32</span>.<span class="hljs-title function_ invoke__">pow</span>(<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(n_cols).<span class="hljs-title function_ invoke__">unwrap</span>()) - <span class="hljs-number">1</span>) - gamma_rate;
 
 	gamma_rate * epsilon_rate
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn value_of_line_chosen_by_criterion(
-	mat: &amp;Array2&lt;bool&gt;,
-	cmp_predicate: impl Fn(usize, usize) -&gt; bool,
-) -&gt; u32 {
-	let (n_rows, n_cols) = mat.dim();
-	let mut candidates = Array1::&lt;_&gt;::from_shape_simple_fn((n_rows,), || true);
-	for i in 0..n_cols {
-		let n_candidates_remaining = candidates.mapv(|c| if c { 1usize } else { 0 }).sum();
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">value_of_line_chosen_by_criterion</span>(
+	mat: &amp;Array2&lt;<span class="hljs-type">bool</span>&gt;,
+	cmp_predicate: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Fn</span>(<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span>,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = mat.<span class="hljs-title function_ invoke__">dim</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">candidates</span> = Array1::&lt;_&gt;::<span class="hljs-title function_ invoke__">from_shape_simple_fn</span>((n_rows,), || <span class="hljs-literal">true</span>);
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_cols {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">n_candidates_remaining</span> = candidates.<span class="hljs-title function_ invoke__">mapv</span>(|c| <span class="hljs-keyword">if</span> c { <span class="hljs-number">1usize</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">0</span> }).<span class="hljs-title function_ invoke__">sum</span>();
 
-		if n_candidates_remaining == 1 {
-			break;
+		<span class="hljs-keyword">if</span> n_candidates_remaining == <span class="hljs-number">1</span> {
+			<span class="hljs-keyword">break</span>;
 		}
 
-		let column = mat.index_axis(Axis(1), i);
-		let digit_sum = column
-			.iter()
-			.enumerate()
-			.filter_map(|(i, &amp;x)| {
-				if candidates[[i]] {
-					Some(usize::from(x))
-				} else {
-					None
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">column</span> = mat.<span class="hljs-title function_ invoke__">index_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">1</span>), i);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">digit_sum</span> = column
+			.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">enumerate</span>()
+			.<span class="hljs-title function_ invoke__">filter_map</span>(|(i, &amp;x)| {
+				<span class="hljs-keyword">if</span> candidates[[i]] {
+					<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(x))
+				} <span class="hljs-keyword">else</span> {
+					<span class="hljs-literal">None</span>
 				}
 			})
-			.sum::&lt;usize&gt;();
+			.sum::&lt;<span class="hljs-type">usize</span>&gt;();
 
-		let most_common_digit = cmp_predicate(2 * digit_sum, n_candidates_remaining);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">most_common_digit</span> = <span class="hljs-title function_ invoke__">cmp_predicate</span>(<span class="hljs-number">2</span> * digit_sum, n_candidates_remaining);
 
-		candidates = ndarray::Zip::from(&amp;candidates)
-			.and(&amp;column)
-			.map_collect(|&amp;candidate, &amp;digit| candidate &amp;&amp; digit == most_common_digit);
+		candidates = ndarray::Zip::<span class="hljs-title function_ invoke__">from</span>(&amp;candidates)
+			.<span class="hljs-title function_ invoke__">and</span>(&amp;column)
+			.<span class="hljs-title function_ invoke__">map_collect</span>(|&amp;candidate, &amp;digit| candidate &amp;&amp; digit == most_common_digit);
 	}
 
-	let index = candidates
-		.into_iter()
-		.enumerate()
-		.find_map(|(i, x)| if x { Some(i) } else { None })
-		.unwrap();
-	let line = mat.index_axis(Axis(0), index);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">index</span> = candidates
+		.<span class="hljs-title function_ invoke__">into_iter</span>()
+		.<span class="hljs-title function_ invoke__">enumerate</span>()
+		.<span class="hljs-title function_ invoke__">find_map</span>(|(i, x)| <span class="hljs-keyword">if</span> x { <span class="hljs-title function_ invoke__">Some</span>(i) } <span class="hljs-keyword">else</span> { <span class="hljs-literal">None</span> })
+		.<span class="hljs-title function_ invoke__">unwrap</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">line</span> = mat.<span class="hljs-title function_ invoke__">index_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>), index);
 
-	to_decimal(line.to_vec())
+	<span class="hljs-title function_ invoke__">to_decimal</span>(line.<span class="hljs-title function_ invoke__">to_vec</span>())
 }
 
-fn pt2(mat: &amp;Array2&lt;bool&gt;) -&gt; u32 {
-	let [oxy_rate, co2_rate] =
-		[|x, y| x &gt;= y, |x, y| x &lt; y].map(|op| value_of_line_chosen_by_criterion(mat, op));
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(mat: &amp;Array2&lt;<span class="hljs-type">bool</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> [oxy_rate, co2_rate] =
+		[|x, y| x &gt;= y, |x, y| x &lt; y].<span class="hljs-title function_ invoke__">map</span>(|op| <span class="hljs-title function_ invoke__">value_of_line_chosen_by_criterion</span>(mat, op));
 
 	oxy_rate * co2_rate
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 3, ans: (198, 230));
-		test_input!(include_str!("input.txt"), day: 3, ans: (2_743_844, 6_677_951));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">3</span>, ans: (<span class="hljs-number">198</span>, <span class="hljs-number">230</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">3</span>, ans: (<span class="hljs-number">2_743_844</span>, <span class="hljs-number">6_677_951</span>));
 	}
 }</code></pre>
 </div>
@@ -696,15 +696,15 @@ The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
 <p>Initialize the list of candidate values to the full list of rows in <code>elems</code> as defined above.</p>
 </li>
 <li>
-<p>With \(k\) ranging from the leftmost column index in <code>elems</code> to the rightmost column index (most significant digit to least):</p>
+<p>With <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> ranging from the leftmost column index in <code>elems</code> to the rightmost column index (most significant digit to least):</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Successively narrow down the list of candidates by keeping only those remaining candidates whose \(k\)<sup>th</sup> digit is the most common \(k\)<sup>th</sup> digit of the remaining candidates, with a tie between 0 and 1 going to 1.</p>
+<p>Successively narrow down the list of candidates by keeping only those remaining candidates whose <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span><sup>th</sup> digit is the most common <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span><sup>th</sup> digit of the remaining candidates, with a tie between 0 and 1 going to 1.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>For instance, when \(k=5\), then keep only the remaining candidates whose 5<sup>th</sup> digit is the most common 5<sup>th</sup> digit (0 or 1, ties going to 1) of all remaining candidates at that stage.</p>
+<p>For instance, when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">k=5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span>, then keep only the remaining candidates whose 5<sup>th</sup> digit is the most common 5<sup>th</sup> digit (0 or 1, ties going to 1) of all remaining candidates at that stage.</p>
 </li>
 </ul>
 </div>
@@ -723,118 +723,118 @@ The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::{utils::to_decimal, Answer};
-use ndarray::prelude::*;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::{utils::to_decimal, Answer};
+<span class="hljs-keyword">use</span> ndarray::prelude::*;
 
-fn read_input(input: &amp;str) -&gt; Option&lt;ndarray::Array2&lt;bool&gt;&gt; {
-	let mut lines = input.lines();
-	let mut bit_vec = Vec::new();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;ndarray::Array2&lt;<span class="hljs-type">bool</span>&gt;&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = input.<span class="hljs-title function_ invoke__">lines</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">bit_vec</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
 
-	let first_line = lines.next()?;
-	let line_length = first_line.len();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">first_line</span> = lines.<span class="hljs-title function_ invoke__">next</span>()?;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">line_length</span> = first_line.<span class="hljs-title function_ invoke__">len</span>();
 
-	for line in std::iter::once(first_line).chain(lines) {
-		for c in line.bytes() {
-			bit_vec.push(c == b'1');
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> std::iter::<span class="hljs-title function_ invoke__">once</span>(first_line).<span class="hljs-title function_ invoke__">chain</span>(lines) {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> line.<span class="hljs-title function_ invoke__">bytes</span>() {
+			bit_vec.<span class="hljs-title function_ invoke__">push</span>(c == <span class="hljs-string">b&#x27;1&#x27;</span>);
 		}
 	}
 
-	let n_lines = bit_vec.len() / line_length;
-	Array2::from_shape_vec((n_lines, line_length), bit_vec).ok()
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_lines</span> = bit_vec.<span class="hljs-title function_ invoke__">len</span>() / line_length;
+	Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((n_lines, line_length), bit_vec).<span class="hljs-title function_ invoke__">ok</span>()
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;u32, u32&gt; {
-	let mat = read_input(input).unwrap();
-	(3, (pt1(&amp;mat), pt2(&amp;mat))).into()
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">u32</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">mat</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
+	(<span class="hljs-number">3</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;mat), <span class="hljs-title function_ invoke__">pt2</span>(&amp;mat))).<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;u32, u32&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">u32</span>, <span class="hljs-type">u32</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(mat: &amp;Array2&lt;bool&gt;) -&gt; u32 {
-	let (n_rows, n_cols) = mat.dim();
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(mat: &amp;Array2&lt;<span class="hljs-type">bool</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = mat.<span class="hljs-title function_ invoke__">dim</span>();
 
-	let n_ones = mat.map(|x| usize::from(*x)).sum_axis(Axis(0));
-	let n_zeros = n_ones.map(|n| n_rows - n);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_ones</span> = mat.<span class="hljs-title function_ invoke__">map</span>(|x| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(*x)).<span class="hljs-title function_ invoke__">sum_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>));
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">n_zeros</span> = n_ones.<span class="hljs-title function_ invoke__">map</span>(|n| n_rows - n);
 
-	let col_has_more_ones_than_zeros = ndarray::Zip::from(&amp;n_ones)
-		.and(&amp;n_zeros)
-		.map_collect(|n_o, n_z| n_o &gt; n_z)
-		.into_shape((n_cols,))
-		.unwrap();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">col_has_more_ones_than_zeros</span> = ndarray::Zip::<span class="hljs-title function_ invoke__">from</span>(&amp;n_ones)
+		.<span class="hljs-title function_ invoke__">and</span>(&amp;n_zeros)
+		.<span class="hljs-title function_ invoke__">map_collect</span>(|n_o, n_z| n_o &gt; n_z)
+		.<span class="hljs-title function_ invoke__">into_shape</span>((n_cols,))
+		.<span class="hljs-title function_ invoke__">unwrap</span>();
 
-	let gamma_rate = to_decimal(col_has_more_ones_than_zeros.to_vec());
-	let epsilon_rate = (2u32.pow(u32::try_from(n_cols).unwrap()) - 1) - gamma_rate;
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">gamma_rate</span> = <span class="hljs-title function_ invoke__">to_decimal</span>(col_has_more_ones_than_zeros.<span class="hljs-title function_ invoke__">to_vec</span>());
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">epsilon_rate</span> = (<span class="hljs-number">2u32</span>.<span class="hljs-title function_ invoke__">pow</span>(<span class="hljs-type">u32</span>::<span class="hljs-title function_ invoke__">try_from</span>(n_cols).<span class="hljs-title function_ invoke__">unwrap</span>()) - <span class="hljs-number">1</span>) - gamma_rate;
 
 	gamma_rate * epsilon_rate
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-fn value_of_line_chosen_by_criterion(
-	mat: &amp;Array2&lt;bool&gt;,
-	cmp_predicate: impl Fn(usize, usize) -&gt; bool,
-) -&gt; u32 {
-	let (n_rows, n_cols) = mat.dim();
-	let mut candidates = Array1::&lt;_&gt;::from_shape_simple_fn((n_rows,), || true);
-	for i in 0..n_cols {
-		let n_candidates_remaining = candidates.mapv(|c| if c { 1usize } else { 0 }).sum();
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">value_of_line_chosen_by_criterion</span>(
+	mat: &amp;Array2&lt;<span class="hljs-type">bool</span>&gt;,
+	cmp_predicate: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Fn</span>(<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span>,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> (n_rows, n_cols) = mat.<span class="hljs-title function_ invoke__">dim</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">candidates</span> = Array1::&lt;_&gt;::<span class="hljs-title function_ invoke__">from_shape_simple_fn</span>((n_rows,), || <span class="hljs-literal">true</span>);
+	<span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_cols {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">n_candidates_remaining</span> = candidates.<span class="hljs-title function_ invoke__">mapv</span>(|c| <span class="hljs-keyword">if</span> c { <span class="hljs-number">1usize</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">0</span> }).<span class="hljs-title function_ invoke__">sum</span>();
 
-		if n_candidates_remaining == 1 {
-			break;
+		<span class="hljs-keyword">if</span> n_candidates_remaining == <span class="hljs-number">1</span> {
+			<span class="hljs-keyword">break</span>;
 		}
 
-		let column = mat.index_axis(Axis(1), i);
-		let digit_sum = column
-			.iter()
-			.enumerate()
-			.filter_map(|(i, &amp;x)| {
-				if candidates[[i]] {
-					Some(usize::from(x))
-				} else {
-					None
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">column</span> = mat.<span class="hljs-title function_ invoke__">index_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">1</span>), i);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">digit_sum</span> = column
+			.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">enumerate</span>()
+			.<span class="hljs-title function_ invoke__">filter_map</span>(|(i, &amp;x)| {
+				<span class="hljs-keyword">if</span> candidates[[i]] {
+					<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(x))
+				} <span class="hljs-keyword">else</span> {
+					<span class="hljs-literal">None</span>
 				}
 			})
-			.sum::&lt;usize&gt;();
+			.sum::&lt;<span class="hljs-type">usize</span>&gt;();
 
-		let most_common_digit = cmp_predicate(2 * digit_sum, n_candidates_remaining);
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">most_common_digit</span> = <span class="hljs-title function_ invoke__">cmp_predicate</span>(<span class="hljs-number">2</span> * digit_sum, n_candidates_remaining);
 
-		candidates = ndarray::Zip::from(&amp;candidates)
-			.and(&amp;column)
-			.map_collect(|&amp;candidate, &amp;digit| candidate &amp;&amp; digit == most_common_digit);
+		candidates = ndarray::Zip::<span class="hljs-title function_ invoke__">from</span>(&amp;candidates)
+			.<span class="hljs-title function_ invoke__">and</span>(&amp;column)
+			.<span class="hljs-title function_ invoke__">map_collect</span>(|&amp;candidate, &amp;digit| candidate &amp;&amp; digit == most_common_digit);
 	}
 
-	let index = candidates
-		.into_iter()
-		.enumerate()
-		.find_map(|(i, x)| if x { Some(i) } else { None })
-		.unwrap();
-	let line = mat.index_axis(Axis(0), index);
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">index</span> = candidates
+		.<span class="hljs-title function_ invoke__">into_iter</span>()
+		.<span class="hljs-title function_ invoke__">enumerate</span>()
+		.<span class="hljs-title function_ invoke__">find_map</span>(|(i, x)| <span class="hljs-keyword">if</span> x { <span class="hljs-title function_ invoke__">Some</span>(i) } <span class="hljs-keyword">else</span> { <span class="hljs-literal">None</span> })
+		.<span class="hljs-title function_ invoke__">unwrap</span>();
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">line</span> = mat.<span class="hljs-title function_ invoke__">index_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>), index);
 
-	to_decimal(line.to_vec())
+	<span class="hljs-title function_ invoke__">to_decimal</span>(line.<span class="hljs-title function_ invoke__">to_vec</span>())
 }
 
-fn pt2(mat: &amp;Array2&lt;bool&gt;) -&gt; u32 {
-	let [oxy_rate, co2_rate] =
-		[|x, y| x &gt;= y, |x, y| x &lt; y].map(|op| value_of_line_chosen_by_criterion(mat, op));
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(mat: &amp;Array2&lt;<span class="hljs-type">bool</span>&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> {
+	<span class="hljs-keyword">let</span> [oxy_rate, co2_rate] =
+		[|x, y| x &gt;= y, |x, y| x &lt; y].<span class="hljs-title function_ invoke__">map</span>(|op| <span class="hljs-title function_ invoke__">value_of_line_chosen_by_criterion</span>(mat, op));
 
 	oxy_rate * co2_rate
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("sample_input.txt"), day: 3, ans: (198, 230));
-		test_input!(include_str!("input.txt"), day: 3, ans: (2_743_844, 6_677_951));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">3</span>, ans: (<span class="hljs-number">198</span>, <span class="hljs-number">230</span>));
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">3</span>, ans: (<span class="hljs-number">2_743_844</span>, <span class="hljs-number">6_677_951</span>));
 	}
 }</code></pre>
 </div>

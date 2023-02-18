@@ -35,7 +35,7 @@
   <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
+      <a class="navbar-item" href="/advent_of_code_2021">Robert Bennett — Advent of Code 2021</a>
       <button class="navbar-burger" data-target="topbar-nav" type="button"
         title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
@@ -427,8 +427,8 @@ My first attempt at this actually went through every possible sequence.
 With a three-sided die, and games ranging in length from (say) 50 to 100 rolls, this was clearly computationally infeasible.</p>
 </div>
 <div class="paragraph">
-<p>To improve upon this, we note that while there are \(3^3=27\) ways to roll a three-sided die three times, there are only seven possible outcomes: the numbers 3 through 9.
-By precomputing the number of ways these sums can be rolled each turn, and then weighting each outcome by the number of ways it can be rolled, we cut down the base of the exponent by a factor of \(\frac{27}{7}\), bringing the problem well into the realm of what is computationally feasible.</p>
+<p>To improve upon this, we note that while there are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>3</mn></msup><mo>=</mo><mn>27</mn></mrow><annotation encoding="application/x-tex">3^3=27</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">27</span></span></span></span> ways to roll a three-sided die three times, there are only seven possible outcomes: the numbers 3 through 9.
+By precomputing the number of ways these sums can be rolled each turn, and then weighting each outcome by the number of ways it can be rolled, we cut down the base of the exponent by a factor of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>27</mn><mn>7</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{27}{7}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">7</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">27</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>, bringing the problem well into the realm of what is computationally feasible.</p>
 </div>
 <hr>
 </div>
@@ -440,115 +440,115 @@ By precomputing the number of ways these sums can be rolled each turn, and then 
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
 
-type Players = [Player; 2];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Players</span> = [Player; <span class="hljs-number">2</span>];
 
-fn read_input(s: &amp;str) -&gt; Option&lt;Players&gt; {
-	s.lines()
-		.map(|line| {
-			line.split(':')
-				.nth_back(0)?
-				.trim()
-				.parse()
-				.ok()
-				.map(Player::new)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Players&gt; {
+	s.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|line| {
+			line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;:&#x27;</span>)
+				.<span class="hljs-title function_ invoke__">nth_back</span>(<span class="hljs-number">0</span>)?
+				.<span class="hljs-title function_ invoke__">trim</span>()
+				.<span class="hljs-title function_ invoke__">parse</span>()
+				.<span class="hljs-title function_ invoke__">ok</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(Player::new)
 		})
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?
-		.try_into()
-		.ok()
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?
+		.<span class="hljs-title function_ invoke__">try_into</span>()
+		.<span class="hljs-title function_ invoke__">ok</span>()
 }
 
-struct Board {
-	size: usize,
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Board</span> {
+	size: <span class="hljs-type">usize</span>,
 }
 
-#[derive(Debug, Clone, Copy)]
-struct Player {
-	score: usize,
-	position: usize,
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Player</span> {
+	score: <span class="hljs-type">usize</span>,
+	position: <span class="hljs-type">usize</span>,
 }
 
-impl Player {
-	fn new(pos: usize) -&gt; Self {
-		Self {
-			score: 0,
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Player</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(pos: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			score: <span class="hljs-number">0</span>,
 			position: pos,
 		}
 	}
 
-	fn roll_value(&amp;mut self, board: &amp;Board, value: usize) {
-		let new_pos = ((self.position + value - 1) % board.size) + 1;
-		self.position = new_pos;
-		self.score += new_pos;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">roll_value</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, board: &amp;Board, value: <span class="hljs-type">usize</span>) {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_pos</span> = ((<span class="hljs-keyword">self</span>.position + value - <span class="hljs-number">1</span>) % board.size) + <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">self</span>.position = new_pos;
+		<span class="hljs-keyword">self</span>.score += new_pos;
 	}
 
-	fn roll_deterministic_die(&amp;mut self, board: &amp;Board, die: &amp;mut DeterministicDie) {
-		let move_dist = (0..3).map(|_| die.roll()).sum::&lt;usize&gt;();
-		self.roll_value(board, move_dist);
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">roll_deterministic_die</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, board: &amp;Board, die: &amp;<span class="hljs-keyword">mut</span> DeterministicDie) {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">move_dist</span> = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">map</span>(|_| die.<span class="hljs-title function_ invoke__">roll</span>()).sum::&lt;<span class="hljs-type">usize</span>&gt;();
+		<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">roll_value</span>(board, move_dist);
 	}
 }
 
-#[derive(Clone, Copy)]
-struct DeterministicDie {
-	next: usize,
-	min: usize,
-	max: usize,
-	n_rolls: usize,
+<span class="hljs-meta">#[derive(Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">DeterministicDie</span> {
+	next: <span class="hljs-type">usize</span>,
+	min: <span class="hljs-type">usize</span>,
+	max: <span class="hljs-type">usize</span>,
+	n_rolls: <span class="hljs-type">usize</span>,
 }
 
-impl DeterministicDie {
-	fn new(min: usize, max: usize) -&gt; Self {
-		Self {
-			next: 1,
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">DeterministicDie</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(min: <span class="hljs-type">usize</span>, max: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			next: <span class="hljs-number">1</span>,
 			min,
 			max,
-			n_rolls: 0,
+			n_rolls: <span class="hljs-number">0</span>,
 		}
 	}
 
-	fn roll(&amp;mut self) -&gt; usize {
-		if self.next &gt; self.max {
-			self.next = self.min;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">roll</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.next &gt; <span class="hljs-keyword">self</span>.max {
+			<span class="hljs-keyword">self</span>.next = <span class="hljs-keyword">self</span>.min;
 		}
-		let ret = self.next;
-		self.next += 1;
-		self.n_rolls += 1;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">ret</span> = <span class="hljs-keyword">self</span>.next;
+		<span class="hljs-keyword">self</span>.next += <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">self</span>.n_rolls += <span class="hljs-number">1</span>;
 		ret
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let board = Board { size: 10 };
-	let players = read_input(input).unwrap();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">board</span> = Board { size: <span class="hljs-number">10</span> };
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">players</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
 
 	(
-		21,
+		<span class="hljs-number">21</span>,
 		(
-			pt1(players, &amp;board, DeterministicDie::new(1, 10)),
-			pt2(players),
+			<span class="hljs-title function_ invoke__">pt1</span>(players, &amp;board, DeterministicDie::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>)),
+			<span class="hljs-title function_ invoke__">pt2</span>(players),
 		),
 	)
-		.into()
+		.<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(mut players: Players, board: &amp;Board, die: DeterministicDie) -&gt; usize {
-	let mut die = die;
-	let mut loser = players[1];
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(<span class="hljs-keyword">mut</span> players: Players, board: &amp;Board, die: DeterministicDie) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">die</span> = die;
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">loser</span> = players[<span class="hljs-number">1</span>];
 
-	'game: loop {
-		for player in &amp;mut players {
-			player.roll_deterministic_die(board, &amp;mut die);
+	<span class="hljs-symbol">&#x27;game</span>: <span class="hljs-keyword">loop</span> {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">player</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">mut</span> players {
+			player.<span class="hljs-title function_ invoke__">roll_deterministic_die</span>(board, &amp;<span class="hljs-keyword">mut</span> die);
 
-			if player.score &gt;= 1000 {
-				break 'game;
+			<span class="hljs-keyword">if</span> player.score &gt;= <span class="hljs-number">1000</span> {
+				<span class="hljs-keyword">break</span> <span class="hljs-symbol">&#x27;game</span>;
 			}
 			loser = *player;
 		}
@@ -556,72 +556,72 @@ fn pt1(mut players: Players, board: &amp;Board, die: DeterministicDie) -&gt; usi
 
 	die.n_rolls * loser.score
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-#[derive(Debug)]
-struct Turn {
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Turn</span> {
 	players: Players,
-	is_p0s_turn: bool,
-	n_ways: usize,
+	is_p0s_turn: <span class="hljs-type">bool</span>,
+	n_ways: <span class="hljs-type">usize</span>,
 }
 
-fn play_quantum_dice(
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">play_quantum_dice</span>(
 	players: Players,
 	board: &amp;Board,
-	die_n_faces: usize,
-	n_rolls_per_turn: usize,
-	win_threshold: usize,
-) -&gt; [usize; 2] {
-	let mut tally = [0; 2];
-	let mut turn_stack = vec![Turn {
+	die_n_faces: <span class="hljs-type">usize</span>,
+	n_rolls_per_turn: <span class="hljs-type">usize</span>,
+	win_threshold: <span class="hljs-type">usize</span>,
+) <span class="hljs-punctuation">-&gt;</span> [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>] {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">tally</span> = [<span class="hljs-number">0</span>; <span class="hljs-number">2</span>];
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">turn_stack</span> = <span class="hljs-built_in">vec!</span>[Turn {
 		players,
-		is_p0s_turn: true,
-		n_ways: 1,
+		is_p0s_turn: <span class="hljs-literal">true</span>,
+		n_ways: <span class="hljs-number">1</span>,
 	}];
 
-	// Pairs of `(dice sum, # ways)`
-	let outcome_counts: [(usize, usize); 7] = {
-		let max_sum = die_n_faces * n_rolls_per_turn;
-		let mut counts = vec![0; max_sum + 1];
+	<span class="hljs-comment">// Pairs of `(dice sum, # ways)`</span>
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">outcome_counts</span>: [(<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>); <span class="hljs-number">7</span>] = {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">max_sum</span> = die_n_faces * n_rolls_per_turn;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counts</span> = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">0</span>; max_sum + <span class="hljs-number">1</span>];
 
-		for r1 in 1..=die_n_faces {
-			for r2 in 1..=die_n_faces {
-				for r3 in 1..=die_n_faces {
-					counts[r1 + r2 + r3] += 1;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">r1</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=die_n_faces {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">r2</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=die_n_faces {
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">r3</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=die_n_faces {
+					counts[r1 + r2 + r3] += <span class="hljs-number">1</span>;
 				}
 			}
 		}
 
 		counts
-			.iter()
-			.enumerate()
-			.filter_map(|(i, &amp;c)| if c &gt; 0 { Some((i, c)) } else { None })
-			.collect::&lt;Vec&lt;_&gt;&gt;()
-			.try_into()
-			.unwrap()
+			.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">enumerate</span>()
+			.<span class="hljs-title function_ invoke__">filter_map</span>(|(i, &amp;c)| <span class="hljs-keyword">if</span> c &gt; <span class="hljs-number">0</span> { <span class="hljs-title function_ invoke__">Some</span>((i, c)) } <span class="hljs-keyword">else</span> { <span class="hljs-literal">None</span> })
+			.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;()
+			.<span class="hljs-title function_ invoke__">try_into</span>()
+			.<span class="hljs-title function_ invoke__">unwrap</span>()
 	};
 
-	while let Some(Turn {
+	<span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(Turn {
 		players,
 		is_p0s_turn,
 		n_ways: n_ways_to_have_gotten_here,
-	}) = turn_stack.pop()
+	}) = turn_stack.<span class="hljs-title function_ invoke__">pop</span>()
 	{
-		let player_index = if is_p0s_turn { 0 } else { 1 };
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">player_index</span> = <span class="hljs-keyword">if</span> is_p0s_turn { <span class="hljs-number">0</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">1</span> };
 
-		for (roll_value, n_ways_to_roll_this) in outcome_counts {
-			let n_ways_to_get_here = n_ways_to_have_gotten_here * n_ways_to_roll_this;
+		<span class="hljs-title function_ invoke__">for</span> (roll_value, n_ways_to_roll_this) <span class="hljs-keyword">in</span> outcome_counts {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">n_ways_to_get_here</span> = n_ways_to_have_gotten_here * n_ways_to_roll_this;
 
-			let mut player = players[player_index];
-			player.roll_value(board, roll_value);
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">player</span> = players[player_index];
+			player.<span class="hljs-title function_ invoke__">roll_value</span>(board, roll_value);
 
-			if player.score &gt;= win_threshold {
+			<span class="hljs-keyword">if</span> player.score &gt;= win_threshold {
 				tally[player_index] += n_ways_to_get_here;
-			} else {
-				let mut players = players;
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">players</span> = players;
 				players[player_index] = player;
-				turn_stack.push(Turn {
+				turn_stack.<span class="hljs-title function_ invoke__">push</span>(Turn {
 					players,
 					is_p0s_turn: !is_p0s_turn,
 					n_ways: n_ways_to_get_here,
@@ -633,20 +633,20 @@ fn play_quantum_dice(
 	tally
 }
 
-fn pt2(players: Players) -&gt; usize {
-	let [p1_n_wins, p2_n_wins] = play_quantum_dice(players, &amp;Board { size: 10 }, 3, 3, 21);
-	p1_n_wins.max(p2_n_wins)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(players: Players) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> [p1_n_wins, p2_n_wins] = <span class="hljs-title function_ invoke__">play_quantum_dice</span>(players, &amp;Board { size: <span class="hljs-number">10</span> }, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">21</span>);
+	p1_n_wins.<span class="hljs-title function_ invoke__">max</span>(p2_n_wins)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 21, ans: (757_770, 712_381_680_443_927));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">21</span>, ans: (<span class="hljs-number">757_770</span>, <span class="hljs-number">712_381_680_443_927</span>));
 	}
 }</code></pre>
 </div>
@@ -662,115 +662,115 @@ mod test {
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
 
-type Players = [Player; 2];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Players</span> = [Player; <span class="hljs-number">2</span>];
 
-fn read_input(s: &amp;str) -&gt; Option&lt;Players&gt; {
-	s.lines()
-		.map(|line| {
-			line.split(':')
-				.nth_back(0)?
-				.trim()
-				.parse()
-				.ok()
-				.map(Player::new)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Players&gt; {
+	s.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|line| {
+			line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;:&#x27;</span>)
+				.<span class="hljs-title function_ invoke__">nth_back</span>(<span class="hljs-number">0</span>)?
+				.<span class="hljs-title function_ invoke__">trim</span>()
+				.<span class="hljs-title function_ invoke__">parse</span>()
+				.<span class="hljs-title function_ invoke__">ok</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(Player::new)
 		})
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?
-		.try_into()
-		.ok()
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?
+		.<span class="hljs-title function_ invoke__">try_into</span>()
+		.<span class="hljs-title function_ invoke__">ok</span>()
 }
 
-struct Board {
-	size: usize,
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Board</span> {
+	size: <span class="hljs-type">usize</span>,
 }
 
-#[derive(Debug, Clone, Copy)]
-struct Player {
-	score: usize,
-	position: usize,
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Player</span> {
+	score: <span class="hljs-type">usize</span>,
+	position: <span class="hljs-type">usize</span>,
 }
 
-impl Player {
-	fn new(pos: usize) -&gt; Self {
-		Self {
-			score: 0,
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Player</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(pos: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			score: <span class="hljs-number">0</span>,
 			position: pos,
 		}
 	}
 
-	fn roll_value(&amp;mut self, board: &amp;Board, value: usize) {
-		let new_pos = ((self.position + value - 1) % board.size) + 1;
-		self.position = new_pos;
-		self.score += new_pos;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">roll_value</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, board: &amp;Board, value: <span class="hljs-type">usize</span>) {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_pos</span> = ((<span class="hljs-keyword">self</span>.position + value - <span class="hljs-number">1</span>) % board.size) + <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">self</span>.position = new_pos;
+		<span class="hljs-keyword">self</span>.score += new_pos;
 	}
 
-	fn roll_deterministic_die(&amp;mut self, board: &amp;Board, die: &amp;mut DeterministicDie) {
-		let move_dist = (0..3).map(|_| die.roll()).sum::&lt;usize&gt;();
-		self.roll_value(board, move_dist);
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">roll_deterministic_die</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, board: &amp;Board, die: &amp;<span class="hljs-keyword">mut</span> DeterministicDie) {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">move_dist</span> = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">map</span>(|_| die.<span class="hljs-title function_ invoke__">roll</span>()).sum::&lt;<span class="hljs-type">usize</span>&gt;();
+		<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">roll_value</span>(board, move_dist);
 	}
 }
 
-#[derive(Clone, Copy)]
-struct DeterministicDie {
-	next: usize,
-	min: usize,
-	max: usize,
-	n_rolls: usize,
+<span class="hljs-meta">#[derive(Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">DeterministicDie</span> {
+	next: <span class="hljs-type">usize</span>,
+	min: <span class="hljs-type">usize</span>,
+	max: <span class="hljs-type">usize</span>,
+	n_rolls: <span class="hljs-type">usize</span>,
 }
 
-impl DeterministicDie {
-	fn new(min: usize, max: usize) -&gt; Self {
-		Self {
-			next: 1,
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">DeterministicDie</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(min: <span class="hljs-type">usize</span>, max: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			next: <span class="hljs-number">1</span>,
 			min,
 			max,
-			n_rolls: 0,
+			n_rolls: <span class="hljs-number">0</span>,
 		}
 	}
 
-	fn roll(&amp;mut self) -&gt; usize {
-		if self.next &gt; self.max {
-			self.next = self.min;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">roll</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.next &gt; <span class="hljs-keyword">self</span>.max {
+			<span class="hljs-keyword">self</span>.next = <span class="hljs-keyword">self</span>.min;
 		}
-		let ret = self.next;
-		self.next += 1;
-		self.n_rolls += 1;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">ret</span> = <span class="hljs-keyword">self</span>.next;
+		<span class="hljs-keyword">self</span>.next += <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">self</span>.n_rolls += <span class="hljs-number">1</span>;
 		ret
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let board = Board { size: 10 };
-	let players = read_input(input).unwrap();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">board</span> = Board { size: <span class="hljs-number">10</span> };
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">players</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
 
 	(
-		21,
+		<span class="hljs-number">21</span>,
 		(
-			pt1(players, &amp;board, DeterministicDie::new(1, 10)),
-			pt2(players),
+			<span class="hljs-title function_ invoke__">pt1</span>(players, &amp;board, DeterministicDie::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>)),
+			<span class="hljs-title function_ invoke__">pt2</span>(players),
 		),
 	)
-		.into()
+		.<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(mut players: Players, board: &amp;Board, die: DeterministicDie) -&gt; usize {
-	let mut die = die;
-	let mut loser = players[1];
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(<span class="hljs-keyword">mut</span> players: Players, board: &amp;Board, die: DeterministicDie) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">die</span> = die;
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">loser</span> = players[<span class="hljs-number">1</span>];
 
-	'game: loop {
-		for player in &amp;mut players {
-			player.roll_deterministic_die(board, &amp;mut die);
+	<span class="hljs-symbol">&#x27;game</span>: <span class="hljs-keyword">loop</span> {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">player</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">mut</span> players {
+			player.<span class="hljs-title function_ invoke__">roll_deterministic_die</span>(board, &amp;<span class="hljs-keyword">mut</span> die);
 
-			if player.score &gt;= 1000 {
-				break 'game;
+			<span class="hljs-keyword">if</span> player.score &gt;= <span class="hljs-number">1000</span> {
+				<span class="hljs-keyword">break</span> <span class="hljs-symbol">&#x27;game</span>;
 			}
 			loser = *player;
 		}
@@ -778,72 +778,72 @@ fn pt1(mut players: Players, board: &amp;Board, die: DeterministicDie) -&gt; usi
 
 	die.n_rolls * loser.score
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-#[derive(Debug)]
-struct Turn {
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Turn</span> {
 	players: Players,
-	is_p0s_turn: bool,
-	n_ways: usize,
+	is_p0s_turn: <span class="hljs-type">bool</span>,
+	n_ways: <span class="hljs-type">usize</span>,
 }
 
-fn play_quantum_dice(
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">play_quantum_dice</span>(
 	players: Players,
 	board: &amp;Board,
-	die_n_faces: usize,
-	n_rolls_per_turn: usize,
-	win_threshold: usize,
-) -&gt; [usize; 2] {
-	let mut tally = [0; 2];
-	let mut turn_stack = vec![Turn {
+	die_n_faces: <span class="hljs-type">usize</span>,
+	n_rolls_per_turn: <span class="hljs-type">usize</span>,
+	win_threshold: <span class="hljs-type">usize</span>,
+) <span class="hljs-punctuation">-&gt;</span> [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>] {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">tally</span> = [<span class="hljs-number">0</span>; <span class="hljs-number">2</span>];
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">turn_stack</span> = <span class="hljs-built_in">vec!</span>[Turn {
 		players,
-		is_p0s_turn: true,
-		n_ways: 1,
+		is_p0s_turn: <span class="hljs-literal">true</span>,
+		n_ways: <span class="hljs-number">1</span>,
 	}];
 
-	// Pairs of `(dice sum, # ways)`
-	let outcome_counts: [(usize, usize); 7] = {
-		let max_sum = die_n_faces * n_rolls_per_turn;
-		let mut counts = vec![0; max_sum + 1];
+	<span class="hljs-comment">// Pairs of `(dice sum, # ways)`</span>
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">outcome_counts</span>: [(<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>); <span class="hljs-number">7</span>] = {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">max_sum</span> = die_n_faces * n_rolls_per_turn;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counts</span> = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">0</span>; max_sum + <span class="hljs-number">1</span>];
 
-		for r1 in 1..=die_n_faces {
-			for r2 in 1..=die_n_faces {
-				for r3 in 1..=die_n_faces {
-					counts[r1 + r2 + r3] += 1;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">r1</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=die_n_faces {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">r2</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=die_n_faces {
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">r3</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=die_n_faces {
+					counts[r1 + r2 + r3] += <span class="hljs-number">1</span>;
 				}
 			}
 		}
 
 		counts
-			.iter()
-			.enumerate()
-			.filter_map(|(i, &amp;c)| if c &gt; 0 { Some((i, c)) } else { None })
-			.collect::&lt;Vec&lt;_&gt;&gt;()
-			.try_into()
-			.unwrap()
+			.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">enumerate</span>()
+			.<span class="hljs-title function_ invoke__">filter_map</span>(|(i, &amp;c)| <span class="hljs-keyword">if</span> c &gt; <span class="hljs-number">0</span> { <span class="hljs-title function_ invoke__">Some</span>((i, c)) } <span class="hljs-keyword">else</span> { <span class="hljs-literal">None</span> })
+			.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;()
+			.<span class="hljs-title function_ invoke__">try_into</span>()
+			.<span class="hljs-title function_ invoke__">unwrap</span>()
 	};
 
-	while let Some(Turn {
+	<span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(Turn {
 		players,
 		is_p0s_turn,
 		n_ways: n_ways_to_have_gotten_here,
-	}) = turn_stack.pop()
+	}) = turn_stack.<span class="hljs-title function_ invoke__">pop</span>()
 	{
-		let player_index = if is_p0s_turn { 0 } else { 1 };
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">player_index</span> = <span class="hljs-keyword">if</span> is_p0s_turn { <span class="hljs-number">0</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">1</span> };
 
-		for (roll_value, n_ways_to_roll_this) in outcome_counts {
-			let n_ways_to_get_here = n_ways_to_have_gotten_here * n_ways_to_roll_this;
+		<span class="hljs-title function_ invoke__">for</span> (roll_value, n_ways_to_roll_this) <span class="hljs-keyword">in</span> outcome_counts {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">n_ways_to_get_here</span> = n_ways_to_have_gotten_here * n_ways_to_roll_this;
 
-			let mut player = players[player_index];
-			player.roll_value(board, roll_value);
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">player</span> = players[player_index];
+			player.<span class="hljs-title function_ invoke__">roll_value</span>(board, roll_value);
 
-			if player.score &gt;= win_threshold {
+			<span class="hljs-keyword">if</span> player.score &gt;= win_threshold {
 				tally[player_index] += n_ways_to_get_here;
-			} else {
-				let mut players = players;
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">players</span> = players;
 				players[player_index] = player;
-				turn_stack.push(Turn {
+				turn_stack.<span class="hljs-title function_ invoke__">push</span>(Turn {
 					players,
 					is_p0s_turn: !is_p0s_turn,
 					n_ways: n_ways_to_get_here,
@@ -855,20 +855,20 @@ fn play_quantum_dice(
 	tally
 }
 
-fn pt2(players: Players) -&gt; usize {
-	let [p1_n_wins, p2_n_wins] = play_quantum_dice(players, &amp;Board { size: 10 }, 3, 3, 21);
-	p1_n_wins.max(p2_n_wins)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(players: Players) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> [p1_n_wins, p2_n_wins] = <span class="hljs-title function_ invoke__">play_quantum_dice</span>(players, &amp;Board { size: <span class="hljs-number">10</span> }, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">21</span>);
+	p1_n_wins.<span class="hljs-title function_ invoke__">max</span>(p2_n_wins)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 21, ans: (757_770, 712_381_680_443_927));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">21</span>, ans: (<span class="hljs-number">757_770</span>, <span class="hljs-number">712_381_680_443_927</span>));
 	}
 }</code></pre>
 </div>
@@ -884,115 +884,115 @@ mod test {
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
-use crate::Answer;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
+<span class="hljs-keyword">use</span> crate::Answer;
 
-type Players = [Player; 2];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Players</span> = [Player; <span class="hljs-number">2</span>];
 
-fn read_input(s: &amp;str) -&gt; Option&lt;Players&gt; {
-	s.lines()
-		.map(|line| {
-			line.split(':')
-				.nth_back(0)?
-				.trim()
-				.parse()
-				.ok()
-				.map(Player::new)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Players&gt; {
+	s.<span class="hljs-title function_ invoke__">lines</span>()
+		.<span class="hljs-title function_ invoke__">map</span>(|line| {
+			line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;:&#x27;</span>)
+				.<span class="hljs-title function_ invoke__">nth_back</span>(<span class="hljs-number">0</span>)?
+				.<span class="hljs-title function_ invoke__">trim</span>()
+				.<span class="hljs-title function_ invoke__">parse</span>()
+				.<span class="hljs-title function_ invoke__">ok</span>()
+				.<span class="hljs-title function_ invoke__">map</span>(Player::new)
 		})
-		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()?
-		.try_into()
-		.ok()
+		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?
+		.<span class="hljs-title function_ invoke__">try_into</span>()
+		.<span class="hljs-title function_ invoke__">ok</span>()
 }
 
-struct Board {
-	size: usize,
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Board</span> {
+	size: <span class="hljs-type">usize</span>,
 }
 
-#[derive(Debug, Clone, Copy)]
-struct Player {
-	score: usize,
-	position: usize,
+<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Player</span> {
+	score: <span class="hljs-type">usize</span>,
+	position: <span class="hljs-type">usize</span>,
 }
 
-impl Player {
-	fn new(pos: usize) -&gt; Self {
-		Self {
-			score: 0,
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Player</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(pos: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			score: <span class="hljs-number">0</span>,
 			position: pos,
 		}
 	}
 
-	fn roll_value(&amp;mut self, board: &amp;Board, value: usize) {
-		let new_pos = ((self.position + value - 1) % board.size) + 1;
-		self.position = new_pos;
-		self.score += new_pos;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">roll_value</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, board: &amp;Board, value: <span class="hljs-type">usize</span>) {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_pos</span> = ((<span class="hljs-keyword">self</span>.position + value - <span class="hljs-number">1</span>) % board.size) + <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">self</span>.position = new_pos;
+		<span class="hljs-keyword">self</span>.score += new_pos;
 	}
 
-	fn roll_deterministic_die(&amp;mut self, board: &amp;Board, die: &amp;mut DeterministicDie) {
-		let move_dist = (0..3).map(|_| die.roll()).sum::&lt;usize&gt;();
-		self.roll_value(board, move_dist);
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">roll_deterministic_die</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, board: &amp;Board, die: &amp;<span class="hljs-keyword">mut</span> DeterministicDie) {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">move_dist</span> = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">map</span>(|_| die.<span class="hljs-title function_ invoke__">roll</span>()).sum::&lt;<span class="hljs-type">usize</span>&gt;();
+		<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">roll_value</span>(board, move_dist);
 	}
 }
 
-#[derive(Clone, Copy)]
-struct DeterministicDie {
-	next: usize,
-	min: usize,
-	max: usize,
-	n_rolls: usize,
+<span class="hljs-meta">#[derive(Clone, Copy)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">DeterministicDie</span> {
+	next: <span class="hljs-type">usize</span>,
+	min: <span class="hljs-type">usize</span>,
+	max: <span class="hljs-type">usize</span>,
+	n_rolls: <span class="hljs-type">usize</span>,
 }
 
-impl DeterministicDie {
-	fn new(min: usize, max: usize) -&gt; Self {
-		Self {
-			next: 1,
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">DeterministicDie</span> {
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new</span>(min: <span class="hljs-type">usize</span>, max: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+		<span class="hljs-keyword">Self</span> {
+			next: <span class="hljs-number">1</span>,
 			min,
 			max,
-			n_rolls: 0,
+			n_rolls: <span class="hljs-number">0</span>,
 		}
 	}
 
-	fn roll(&amp;mut self) -&gt; usize {
-		if self.next &gt; self.max {
-			self.next = self.min;
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">roll</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+		<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.next &gt; <span class="hljs-keyword">self</span>.max {
+			<span class="hljs-keyword">self</span>.next = <span class="hljs-keyword">self</span>.min;
 		}
-		let ret = self.next;
-		self.next += 1;
-		self.n_rolls += 1;
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">ret</span> = <span class="hljs-keyword">self</span>.next;
+		<span class="hljs-keyword">self</span>.next += <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">self</span>.n_rolls += <span class="hljs-number">1</span>;
 		ret
 	}
 }
 
-fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
-	let board = Board { size: 10 };
-	let players = read_input(input).unwrap();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">board</span> = Board { size: <span class="hljs-number">10</span> };
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">players</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
 
 	(
-		21,
+		<span class="hljs-number">21</span>,
 		(
-			pt1(players, &amp;board, DeterministicDie::new(1, 10)),
-			pt2(players),
+			<span class="hljs-title function_ invoke__">pt1</span>(players, &amp;board, DeterministicDie::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>)),
+			<span class="hljs-title function_ invoke__">pt2</span>(players),
 		),
 	)
-		.into()
+		.<span class="hljs-title function_ invoke__">into</span>()
 }
 
-pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
-	ans_for_input(include_str!("input.txt"))
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
+	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
 }
-// end::setup[]
+<span class="hljs-comment">// end::setup[]</span>
 
-// tag::pt1[]
-fn pt1(mut players: Players, board: &amp;Board, die: DeterministicDie) -&gt; usize {
-	let mut die = die;
-	let mut loser = players[1];
+<span class="hljs-comment">// tag::pt1[]</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(<span class="hljs-keyword">mut</span> players: Players, board: &amp;Board, die: DeterministicDie) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">die</span> = die;
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">loser</span> = players[<span class="hljs-number">1</span>];
 
-	'game: loop {
-		for player in &amp;mut players {
-			player.roll_deterministic_die(board, &amp;mut die);
+	<span class="hljs-symbol">&#x27;game</span>: <span class="hljs-keyword">loop</span> {
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">player</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">mut</span> players {
+			player.<span class="hljs-title function_ invoke__">roll_deterministic_die</span>(board, &amp;<span class="hljs-keyword">mut</span> die);
 
-			if player.score &gt;= 1000 {
-				break 'game;
+			<span class="hljs-keyword">if</span> player.score &gt;= <span class="hljs-number">1000</span> {
+				<span class="hljs-keyword">break</span> <span class="hljs-symbol">&#x27;game</span>;
 			}
 			loser = *player;
 		}
@@ -1000,72 +1000,72 @@ fn pt1(mut players: Players, board: &amp;Board, die: DeterministicDie) -&gt; usi
 
 	die.n_rolls * loser.score
 }
-// end::pt1[]
+<span class="hljs-comment">// end::pt1[]</span>
 
-// tag::pt2[]
-#[derive(Debug)]
-struct Turn {
+<span class="hljs-comment">// tag::pt2[]</span>
+<span class="hljs-meta">#[derive(Debug)]</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Turn</span> {
 	players: Players,
-	is_p0s_turn: bool,
-	n_ways: usize,
+	is_p0s_turn: <span class="hljs-type">bool</span>,
+	n_ways: <span class="hljs-type">usize</span>,
 }
 
-fn play_quantum_dice(
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">play_quantum_dice</span>(
 	players: Players,
 	board: &amp;Board,
-	die_n_faces: usize,
-	n_rolls_per_turn: usize,
-	win_threshold: usize,
-) -&gt; [usize; 2] {
-	let mut tally = [0; 2];
-	let mut turn_stack = vec![Turn {
+	die_n_faces: <span class="hljs-type">usize</span>,
+	n_rolls_per_turn: <span class="hljs-type">usize</span>,
+	win_threshold: <span class="hljs-type">usize</span>,
+) <span class="hljs-punctuation">-&gt;</span> [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>] {
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">tally</span> = [<span class="hljs-number">0</span>; <span class="hljs-number">2</span>];
+	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">turn_stack</span> = <span class="hljs-built_in">vec!</span>[Turn {
 		players,
-		is_p0s_turn: true,
-		n_ways: 1,
+		is_p0s_turn: <span class="hljs-literal">true</span>,
+		n_ways: <span class="hljs-number">1</span>,
 	}];
 
-	// Pairs of `(dice sum, # ways)`
-	let outcome_counts: [(usize, usize); 7] = {
-		let max_sum = die_n_faces * n_rolls_per_turn;
-		let mut counts = vec![0; max_sum + 1];
+	<span class="hljs-comment">// Pairs of `(dice sum, # ways)`</span>
+	<span class="hljs-keyword">let</span> <span class="hljs-variable">outcome_counts</span>: [(<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>); <span class="hljs-number">7</span>] = {
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">max_sum</span> = die_n_faces * n_rolls_per_turn;
+		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counts</span> = <span class="hljs-built_in">vec!</span>[<span class="hljs-number">0</span>; max_sum + <span class="hljs-number">1</span>];
 
-		for r1 in 1..=die_n_faces {
-			for r2 in 1..=die_n_faces {
-				for r3 in 1..=die_n_faces {
-					counts[r1 + r2 + r3] += 1;
+		<span class="hljs-keyword">for</span> <span class="hljs-variable">r1</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=die_n_faces {
+			<span class="hljs-keyword">for</span> <span class="hljs-variable">r2</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=die_n_faces {
+				<span class="hljs-keyword">for</span> <span class="hljs-variable">r3</span> <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>..=die_n_faces {
+					counts[r1 + r2 + r3] += <span class="hljs-number">1</span>;
 				}
 			}
 		}
 
 		counts
-			.iter()
-			.enumerate()
-			.filter_map(|(i, &amp;c)| if c &gt; 0 { Some((i, c)) } else { None })
-			.collect::&lt;Vec&lt;_&gt;&gt;()
-			.try_into()
-			.unwrap()
+			.<span class="hljs-title function_ invoke__">iter</span>()
+			.<span class="hljs-title function_ invoke__">enumerate</span>()
+			.<span class="hljs-title function_ invoke__">filter_map</span>(|(i, &amp;c)| <span class="hljs-keyword">if</span> c &gt; <span class="hljs-number">0</span> { <span class="hljs-title function_ invoke__">Some</span>((i, c)) } <span class="hljs-keyword">else</span> { <span class="hljs-literal">None</span> })
+			.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;()
+			.<span class="hljs-title function_ invoke__">try_into</span>()
+			.<span class="hljs-title function_ invoke__">unwrap</span>()
 	};
 
-	while let Some(Turn {
+	<span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(Turn {
 		players,
 		is_p0s_turn,
 		n_ways: n_ways_to_have_gotten_here,
-	}) = turn_stack.pop()
+	}) = turn_stack.<span class="hljs-title function_ invoke__">pop</span>()
 	{
-		let player_index = if is_p0s_turn { 0 } else { 1 };
+		<span class="hljs-keyword">let</span> <span class="hljs-variable">player_index</span> = <span class="hljs-keyword">if</span> is_p0s_turn { <span class="hljs-number">0</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">1</span> };
 
-		for (roll_value, n_ways_to_roll_this) in outcome_counts {
-			let n_ways_to_get_here = n_ways_to_have_gotten_here * n_ways_to_roll_this;
+		<span class="hljs-title function_ invoke__">for</span> (roll_value, n_ways_to_roll_this) <span class="hljs-keyword">in</span> outcome_counts {
+			<span class="hljs-keyword">let</span> <span class="hljs-variable">n_ways_to_get_here</span> = n_ways_to_have_gotten_here * n_ways_to_roll_this;
 
-			let mut player = players[player_index];
-			player.roll_value(board, roll_value);
+			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">player</span> = players[player_index];
+			player.<span class="hljs-title function_ invoke__">roll_value</span>(board, roll_value);
 
-			if player.score &gt;= win_threshold {
+			<span class="hljs-keyword">if</span> player.score &gt;= win_threshold {
 				tally[player_index] += n_ways_to_get_here;
-			} else {
-				let mut players = players;
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">players</span> = players;
 				players[player_index] = player;
-				turn_stack.push(Turn {
+				turn_stack.<span class="hljs-title function_ invoke__">push</span>(Turn {
 					players,
 					is_p0s_turn: !is_p0s_turn,
 					n_ways: n_ways_to_get_here,
@@ -1077,20 +1077,20 @@ fn play_quantum_dice(
 	tally
 }
 
-fn pt2(players: Players) -&gt; usize {
-	let [p1_n_wins, p2_n_wins] = play_quantum_dice(players, &amp;Board { size: 10 }, 3, 3, 21);
-	p1_n_wins.max(p2_n_wins)
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(players: Players) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+	<span class="hljs-keyword">let</span> [p1_n_wins, p2_n_wins] = <span class="hljs-title function_ invoke__">play_quantum_dice</span>(players, &amp;Board { size: <span class="hljs-number">10</span> }, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">21</span>);
+	p1_n_wins.<span class="hljs-title function_ invoke__">max</span>(p2_n_wins)
 }
-// end::pt2[]
+<span class="hljs-comment">// end::pt2[]</span>
 
-#[cfg(test)]
-mod test {
-	use super::*;
-	use crate::test_input;
+<span class="hljs-meta">#[cfg(test)]</span>
+<span class="hljs-keyword">mod</span> test {
+	<span class="hljs-keyword">use</span> super::*;
+	<span class="hljs-keyword">use</span> crate::test_input;
 
-	#[test]
-	fn test() {
-		test_input!(include_str!("input.txt"), day: 21, ans: (757_770, 712_381_680_443_927));
+	<span class="hljs-meta">#[test]</span>
+	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
+		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">21</span>, ans: (<span class="hljs-number">757_770</span>, <span class="hljs-number">712_381_680_443_927</span>));
 	}
 }</code></pre>
 </div>
