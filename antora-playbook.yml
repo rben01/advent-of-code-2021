@@ -1,7 +1,7 @@
 site:
   robots: allow
   title: Robert Bennett — Advent of Code 2021
-  url: /
+  url: /advent-of-code-2021
 
 content:
   sources:
