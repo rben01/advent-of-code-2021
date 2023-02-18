@@ -14,8 +14,9 @@ output:
 ui:
   bundle:
     # url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
-    # url: https://github.com/rben01/antora-ui/releases/latest/download/ui-bundle.zip
-    url: ~/Documents/CloudDocs/Documents/Coding/Projects/Antora Theme/src
+    url: https://github.com/rben01/antora-ui/releases/latest/download/ui-bundle.zip
+    # url: ~/Documents/CloudDocs/Documents/Coding/Projects/Antora Theme/src
+    snapshot: true
 
 urls:
   html_extension_style: drop
@@ -28,6 +29,7 @@ asciidoc:
   extensions:
     - "./lib/adoc-extensions.js"
   attributes:
+    # icons: font
     src-dir: src
     source-highlighter: highlightjs-ext
     hide-uri-scheme: true

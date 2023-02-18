@@ -9,12 +9,16 @@
 	--bold-font-weight: 650;
 	--header-bar-height: 3rem;
 	--toolbar-height: 2.5rem;
+	/* the more padding, the smaller the corresponding icons */
+	--menu-icon-padding: 0.65rem;
+	--home-icon-padding: 0.6rem;
 
 	--default-transition-duration: 0.125s;
 	--default-transition-timing-function: ease;
 	--default-transition: all var(--default-transition-duration)
 			var(--default-transition-timing-function),
 		visibility 0s, display 0s;
+	--nav-item-toggle-transition-duration: 0.08s; /* a tad shorter than the default transition */
 	--scroll-behavior: smooth;
 
 	--default-bg-color: white;
@@ -267,8 +271,8 @@
 		--admon-tip-shadow-color: rgb(155 155 0 / 0.8);
 		--admon-tip-icon-color: #2d9332;
 		--admon-warning-icon-color: #fdbb06;
-		--admon-caution-icon-color: #fa783c;
-		--admon-important-icon-color: #df2929;
+		--admon-caution-icon-color: #e25f22;
+		--admon-important-icon-color: #b41f1f;
 		--conum-text-color: rgb(29, 29, 29);
 		--conum-bg-color: rgb(224, 224, 224);
 		--hdlist-table-row-border-color: #444;
@@ -301,6 +305,8 @@
 @media screen and (prefers-reduced-motion) {
 	:root {
 		--default-transition: none;
+		--default-transition-duration: 0;
+		--nav-item-toggle-transition-duration: 0;
 		--scroll-behavior: auto;
 	}
 }
@@ -367,7 +373,7 @@ th {
 	/* font-weight: var(--bold-font-weight); */
 	font-variation-settings: "wght" var(--bold-font-weight);
 }
-:is(b, dt, strong, th) > :is(code, pre) {
+:is(b, dt, strong, th, h1, h2, h3, h4, h5, h6) > :is(code, pre) {
 	font-weight: 700;
 }
 sub,
@@ -419,6 +425,14 @@ object[type="image/svg+xml"]:not([width]) {
 ::-ms-input-placeholder,
 ::placeholder {
 	opacity: 0.5;
+}
+.katex-display {
+	overflow-x: scroll;
+	/* fixes bug in katex's stylesheet? */
+	padding-top: 4px;
+}
+.katex-display .katex-html {
+	overflow-y: hidden;
 }
 
 @media screen and (min-width: 1024px) {
@@ -597,16 +611,18 @@ html.is-clipped--nav {
 	top: -0.225em;
 	height: 1.35em;
 	width: 1em;
-	transition: transform 0.08s var(--default-transition-timing-function); /* a tad shorter than the default transition */
+	transition: transform 0.08s var(--default-transition-timing-function);
 }
-.nav-item-toggle .svg-icon > use {
-	fill: var(--icon-caret-color);
+.ui-icon.nav-item-toggle-caret {
+	clip-path: url(#icon-caret);
+	background-color: var(--icon-caret-color);
 }
-.nav-item > .nav-item-toggle {
+.nav .nav-item-toggle {
 	transition: var(--default-transition);
+	transform: rotate(90deg);
 }
 :is(.component, .nav-item).is-active > .nav-item-expander > .nav-item-toggle {
-	transform: translateY(0.2em) rotate(90deg);
+	transform: translateY(0.1em) rotate(180deg);
 }
 .nav-menu .nav-text {
 	position: relative;
@@ -814,38 +830,88 @@ html.is-clipped--nav {
 	height: var(--toolbar-height);
 	width: var(--toolbar-height);
 	margin-right: -0.25rem;
-	padding: 0.65rem;
+	padding: var(--menu-icon-padding);
 	position: relative;
-	top: -1px;
 }
 @media screen and (min-width: 1024px) {
 	.nav-toggle {
 		display: none;
 	}
 }
-.nav-toggle.is-active {
-	background: unset;
-	background-size: 41.5%;
+.toolbar .home-icon-duo,
+.nav-toggle .menu-icon-duo {
+	display: block;
+	position: relative;
 }
-.nav-toggle .svg-icon > use:is(.icon-menu, .icon-back) {
-	fill: var(--default-text-color);
+.nav-toggle .menu-icon-duo {
+	width: 100%;
+	height: 100%;
 }
-.nav-toggle.is-active .svg-icon > use.icon-menu {
-	display: none;
+.nav-toggle .icon-menu-pair {
+	background-color: var(--default-text-color);
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	transition: opacity var(--default-transition-duration)
+		var(--default-transition-timing-function);
 }
-.nav-toggle:not(.is-active) .svg-icon > use.icon-back {
-	display: none;
+.nav-toggle .menu-icon-duo,
+.toolbar .home-icon-duo {
+	transition: transform var(--default-transition-duration)
+		var(--default-transition-timing-function);
+}
+.nav-toggle:hover .menu-icon-duo,
+.toolbar .home-link:hover .home-icon-duo {
+	transform: translate(55%, 55%) scale(1.1) translate(-50%, -50%);
+}
+.nav-toggle .icon-menu {
+	clip-path: url(#icon-menu);
+}
+.nav-toggle .icon-close {
+	clip-path: url(#icon-close);
+}
+.nav-toggle.is-active .icon-menu {
+	opacity: 0;
+}
+.nav-toggle:not(.is-active) .icon-close {
+	opacity: 0;
 }
 .home-link {
 	position: relative;
+	top: -1px;
 	display: inline-block;
-	height: 1.25rem;
-	width: 1.25rem;
-	margin: calc(0.625rem - 6px) 0.4rem 0.625rem 0.625rem;
+	height: var(--toolbar-height);
+	width: var(--toolbar-height);
+	padding: var(--home-icon-padding);
 	/* unset transition in order to make the hover transition on the svg icon itself work */
 	transition: none;
 }
-.home-link .svg-icon > use.icon-home {
+.toolbar .home-icon-duo {
+	width: 100%;
+	height: 100%;
+}
+.home-link .icon-home {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+.home-link :is(.icon-home-filled, .icon-home-outline) {
+	background: var(--default-text-color);
+}
+.home-link .icon-home-filled {
+	clip-path: url(#icon-home-filled);
+	opacity: 0;
+	transition: opacity var(--default-transition-duration)
+		var(--default-transition-timing-function);
+}
+.home-link .icon-home-outline {
+	clip-path: url(#icon-home-outline);
+}
+.home-link:is(.is-current, :hover) .icon-home-filled {
+	opacity: 1;
+}
+/* .home-link .svg-icon > use.icon-home {
 	fill: var(--default-text-color);
 	stroke: none;
 }
@@ -855,7 +921,7 @@ html.is-clipped--nav {
 }
 .home-link:is(.is-current, :hover) .svg-icon > use.icon-home-filled {
 	opacity: 1;
-}
+} */
 .edit-this-page {
 	display: none;
 	padding-right: 0.5rem;
@@ -877,6 +943,9 @@ html.is-clipped--nav {
 @media screen and (min-width: 1024px) {
 	.breadcrumbs {
 		display: block;
+		position: relative;
+		/* fixes rotunda variable's weird baseline */
+		top: 1px;
 	}
 }
 a + .breadcrumbs {
@@ -1139,26 +1208,6 @@ h6 {
 .doc :is(h1, h2, h3, h4, h5, h6) .anchor:is(a:hover, a:hover:visited) {
 	color: var(--link-hover-color);
 }
-.doc :is(h2) .anchor::before {
-	font-size: 0.95rem;
-	content: "H₁";
-}
-.doc :is(h3) .anchor::before {
-	font-size: 0.875rem;
-	content: "H₂";
-}
-.doc :is(h4) .anchor::before {
-	font-size: 0.8rem;
-	content: "H₃";
-}
-.doc :is(h5) .anchor::before {
-	font-size: 0.725rem;
-	content: "H₄";
-}
-.doc :is(h6) .anchor::before {
-	font-size: 0.65rem;
-	content: "H₅";
-}
 .doc :is(dl, p) {
 	margin: 0;
 }
@@ -1203,8 +1252,11 @@ h6 {
 	hyphens: none;
 	font-style: normal;
 }
-.doc :is(.colist > table code, p code, thead code) {
+:is(.doc :is(.colist > table, p, .content, thead, #footnotes) code):not(.doc a code) {
 	color: var(--code-text-color);
+}
+
+:is(.doc :is(.colist > table, p, .content, thead, #footnotes) code) {
 	background: var(--code-parent-bg-color);
 	border-radius: 0.25em;
 	border: 1px solid var(--inline-code-border-color);
@@ -1506,7 +1558,7 @@ h6 {
 	max-width: 100%;
 	vertical-align: middle;
 }
-.doc .image:not(.left):not(.right) > img {
+.doc .sectionbody > .paragraph .image:not(.left):not(.right) > img {
 	margin-top: -0.2em;
 }
 .doc .videoblock iframe {
@@ -1748,7 +1800,7 @@ h6 {
 .doc :is(.listingblock.wrap, .tableblock) pre {
 	white-space: pre-wrap;
 }
-.doc :is(.listingblock pre:not(.highlight), .literalblock pre, pre.highlight code) {
+.doc :is(.listingblock pre:not(.highlight), .literalblock pre, pre.highlight code, ) {
 	background: var(--code-parent-bg-color);
 	border: 1px solid var(--code-parent-border-color);
 	border-radius: 3px;
@@ -1872,6 +1924,9 @@ h6 {
 	font-size: 0.88889rem;
 	margin: 0.25rem 0 -0.25rem;
 }
+.doc .colist > table > tbody {
+	vertical-align: text-top;
+}
 .doc .colist > table > :is(tbody > tr, tr) > :first-child {
 	padding: 0.25em 0.5rem 0;
 	vertical-align: top;
@@ -1880,10 +1935,10 @@ h6 {
 	padding: 0.25rem 0;
 }
 .doc .conum[data-value] {
+	font-family: var(--font-family);
 	border: 1px solid;
 	border-radius: 100%;
 	display: inline-block;
-	font-family: Roboto, sans-serif;
 	font-size: 0.75rem;
 	font-style: normal;
 	line-height: 1.2;
@@ -1892,9 +1947,13 @@ h6 {
 	height: 1.25em;
 	letter-spacing: -0.25ex;
 	text-indent: -0.25ex;
+	margin-right: 0.5em;
+	transform: translateY(-0.15em);
 }
 .doc .conum[data-value]::after {
 	content: attr(data-value);
+	position: relative;
+	top: 0.1em;
 }
 .doc .conum[data-value] + b {
 	display: none;
@@ -1960,8 +2019,9 @@ h6 {
 	hyphens: none;
 	overflow-wrap: normal;
 }
-.doc .ui-icon,
-.doc .has-ui-icon::after {
+.ui-icon,
+.icon > i.fa,
+.has-ui-icon::after {
 	display: inline-block;
 	width: 1em;
 	height: 1em;
@@ -1976,11 +2036,11 @@ h6 {
 	content: "";
 }
 .ui-icon.nav-menu-icon {
-	clip-path: url(#icon-menu-clippath);
+	clip-path: url(#icon-menu);
 	top: 0.15em;
 	margin-right: 0.14em;
 }
-.ui-icon.icon-star {
+.ui-icon.dd .ui-icon.icon-star {
 	clip-path: url(#icon-star);
 	width: 0.85em;
 	height: 0.85em;
@@ -2156,6 +2216,16 @@ body {
 }
 .doc .github-logo {
 	top: 0.15em;
+}
+.icon > i.fa {
+	margin-right: 0.2em;
+	top: 0.1em;
+}
+.icon > i.fa.fa-star-half-o {
+	clip-path: url(#icon-half-star);
+}
+.icon > i.fa.fa-file-text-o {
+	clip-path: url(#icon-file-lines);
 }
 .navbar-brand .navbar-item:first-child {
 	/* nav bar items should always be white*/
@@ -2373,6 +2443,26 @@ body {
 	}
 }
 @media screen and (min-width: 769px) {
+	.doc :is(h2) .anchor::after {
+		font-size: 0.95rem;
+		content: "H₁";
+	}
+	.doc :is(h3) .anchor::before {
+		font-size: 0.875rem;
+		content: "H₂";
+	}
+	.doc :is(h4) .anchor::before {
+		font-size: 0.8rem;
+		content: "H₃";
+	}
+	.doc :is(h5) .anchor::before {
+		font-size: 0.725rem;
+		content: "H₄";
+	}
+	.doc :is(h6) .anchor::before {
+		font-size: 0.65rem;
+		content: "H₅";
+	}
 	.navbar-menu .search-result-dropdown-menu {
 		max-width: calc(100vw - 250px);
 	}

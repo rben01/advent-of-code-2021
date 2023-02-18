@@ -3,8 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-<meta name="viewport"
-	content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
 <title>Day 22: Reactor Reboot :: Robert Bennett — Advent of Code 2021</title>
         <link rel="prev" href="../day_21/soln">
         <link rel="next" href="../day_23/soln">
@@ -37,7 +36,8 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <a class="navbar-item" href="/">Robert Bennett — Advent of Code 2021</a>
-      <button class="navbar-burger" data-target="topbar-nav">
+      <button class="navbar-burger" data-target="topbar-nav" type="button"
+        title="Expand or collapse toolbar: a search bar and a collection of external links">
         <span></span>
         <span></span>
         <span></span>
@@ -65,17 +65,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" id="icon-mask-container" width="0" height="0">
 	<defs>
 		<clipPath id="icon-github" clipPathUnits="objectBoundingBox">
-			<path transform="scale(0.0102040816)" fill-rule="evenodd" clip-rule="evenodd"
+			<path transform="translate(.5 .5) scale(0.0102040816) translate(-49 -48)" clip-rule="evenodd"
 				d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z">
 			</path>
 		</clipPath>
-		<clipPath id="icon-menu-clippath" clipPathUnits="objectBoundingBox">
-			<circle cx=".1" cy=".1575" r=".06"></circle>
-			<path d="M.325 .1175h.65 v.08h-.65z"></path>
-			<circle cx=".25" cy=".4775" r=".06"></circle>
-			<path d="M.475 .4375h.5 v.08h-.5z"></path>
-			<circle cx=".25" cy=".7975" r=".06"></circle>
-			<path d="M.475 .7575h.5 v.08h-.5z"></path>
+		<clipPath id="icon-menu" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-256 -256)"
+				d="M64 144a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zM64 464a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48-208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z">
+			</path>
 		</clipPath>
 		<clipPath id="icon-external-link" clipPathUnits="objectBoundingBox">
 			<path transform="translate(.5 .5) scale(0.0017) translate(-256 -256)"
@@ -84,6 +81,14 @@
 		<clipPath id="icon-star" clipPathUnits="objectBoundingBox">
 			<path transform="translate(.5 .5) scale(0.001736) translate(-288 -256)"
 				d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+		</clipPath>
+		<clipPath id="icon-half-star" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001736) translate(-288 -256)"
+				d="M288 376.4l.1-.1 26.4 14.1 85.2 45.5-16.5-97.6-4.8-28.7 20.7-20.5 70.1-69.3-96.1-14.2-29.3-4.3-12.9-26.6L288.1 86.9l-.1 .3V376.4zm175.1 98.3c2 12-3 24.2-12.9 31.3s-23 8-33.8 2.3L288.1 439.8 159.8 508.3C149 514 135.9 513.1 126 506s-14.9-19.3-12.9-31.3L137.8 329 33.6 225.9c-8.6-8.5-11.7-21.2-7.9-32.7s13.7-19.9 25.7-21.7L195 150.3 259.4 18c5.4-11 16.5-18 28.8-18s23.4 7 28.8 18l64.3 132.3 143.6 21.2c12 1.8 22 10.2 25.7 21.7s.7 24.2-7.9 32.7L438.5 329l24.6 145.7z" />
+		</clipPath>
+		<clipPath id="icon-file-lines" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-192 -256)"
+				d="M64 464c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm56 256c-13.3 0-24 10.7-24 24s10.7 24 24 24H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H120z" />
 		</clipPath>
 		<clipPath id="icon-admon-caution" clipPathUnits="objectBoundingBox">
 			<path transform="translate(.5 .5) scale(0.001953125) translate(-224 -256)" d="M159.3 5.4c7.8-7.3 19.9-7.2 27.7
@@ -110,38 +115,30 @@
 			<path transform="translate(.5 .5) scale(0.001953125) translate(-256 -256)"
 				d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" />
 		</clipPath>
+		<clipPath id="icon-close" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-160 -256)"
+				d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z" />
+		</clipPath>
+		<clipPath id="icon-chevron" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-192 -256)"
+				d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" />
+		</clipPath>
+		<clipPath id="icon-caret" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-160 -256)"
+				d="M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z" />
+		</clipPath>
+		<clipPath id="icon-home-outline" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(.01) translate(-50 -50)"
+				d="M 49.417969 11.148438 A 2.50025 2.50025 0 0 0 48.353516 11.710938 L 19.773438 37.251953 L 9.7910156 46.171875 A 2.5 2.5 0 0 0 9.59375 49.701172 A 2.5 2.5 0 0 0 13.123047 49.900391 L 18.9375 44.705078 L 18.919922 86.458984 A 2.50025 2.50025 0 0 0 21.419922 88.960938 L 42.925781 88.960938 A 2.50025 2.50025 0 0 0 45.425781 86.462891 L 45.449219 63.794922 L 54.552734 63.794922 L 54.574219 86.462891 A 2.50025 2.50025 0 0 0 57.074219 88.960938 L 78.619141 88.960938 A 2.50025 2.50025 0 0 0 81.119141 86.462891 L 81.138672 44.738281 L 86.916016 49.900391 A 2.5 2.5 0 0 0 90.445312 49.701172 A 2.5 2.5 0 0 0 90.248047 46.171875 L 80.328125 37.308594 L 80.306641 37.287109 L 80.304688 37.287109 L 74.972656 32.521484 L 74.972656 16.6875 A 2.50025 2.50025 0 0 0 72.472656 14.1875 L 63.814453 14.1875 A 2.50025 2.50025 0 0 0 61.314453 16.6875 L 61.314453 20.316406 L 51.685547 11.710938 A 2.50025 2.50025 0 0 0 49.417969 11.148438 z M 50.019531 16.927734 L 62.146484 27.765625 A 2.50025 2.50025 0 0 0 62.148438 27.767578 L 70.806641 35.503906 L 76.138672 40.269531 L 76.121094 83.960938 L 59.572266 83.960938 L 59.550781 61.292969 A 2.50025 2.50025 0 0 0 57.050781 58.794922 L 42.951172 58.794922 A 2.50025 2.50025 0 0 0 40.451172 61.292969 L 40.427734 83.960938 L 23.921875 83.960938 L 23.939453 40.234375 L 50.019531 16.927734 z M 66.314453 19.1875 L 69.972656 19.1875 L 69.972656 28.052734 L 66.314453 24.785156 L 66.314453 24.783203 L 66.314453 19.1875 z " />
+		</clipPath>
+		<clipPath id="icon-home-filled" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(.01) translate(-50 -50)"
+				d="M 50.019531 11.074219 C 49.423735 11.074219 48.827938 11.286976 48.353516 11.710938 L 47.027344 12.896484 L 19.773438 37.251953 L 9.7910156 46.171875 A 2.5 2.5 0 0 0 9.59375 49.701172 A 2.5 2.5 0 0 0 13.123047 49.900391 L 18.9375 44.705078 L 18.919922 86.458984 C 18.918981 87.8404 20.038505 88.9608 21.419922 88.960938 L 42.925781 88.960938 C 44.305672 88.960801 45.424565 87.842781 45.425781 86.462891 L 45.449219 63.794922 L 54.552734 63.794922 L 54.574219 86.462891 C 54.575419 87.842781 55.694328 88.960801 57.074219 88.960938 L 78.619141 88.960938 C 79.999031 88.960801 81.117925 87.842781 81.119141 86.462891 L 81.138672 44.738281 L 86.916016 49.900391 A 2.5 2.5 0 0 0 90.445312 49.701172 A 2.5 2.5 0 0 0 90.248047 46.171875 L 80.314453 37.296875 L 80.306641 37.287109 L 80.304688 37.287109 L 74.972656 32.521484 L 74.972656 16.6875 C 74.972518 15.306846 73.85331 14.187638 72.472656 14.1875 L 63.814453 14.1875 C 62.4338 14.187638 61.314591 15.306846 61.314453 16.6875 L 61.314453 16.8125 L 61.314453 20.316406 L 55.660156 15.263672 L 51.685547 11.710938 C 51.211125 11.286976 50.615327 11.074219 50.019531 11.074219 z " />
+		</clipPath>
 	</defs>
-	<symbol viewBox="0 0 100 100" id="icon-back" class="svg-icon-template">
-		<path
-			d="m 50.000978,9.89975 -40.1010516,40.10025 40.1010516,40.10025 5.6556,-5.65551 -30.434757,-30.44194 h 64.878253 v -8.0056 H 25.221821 l 30.434757,-30.44001 z" />
-	</symbol>
-	<symbol viewBox="0 0 30 30" id="icon-caret" class="svg-icon-template">
-		<path d="m 10.18745,2.9998 14.0001,12.0002 -14.0001,12.0001 z" stroke-width="2" stroke-linecap="round"
-			stroke-linejoin="round" />
-	</symbol>
-	<symbol viewBox="0 0 30 30" id="icon-chevron">
-		<path
-			d="M 3.6699219,6.5898438 1.4550781,8.6152344 15,23.374272 28.544922,8.6152344 26.330078,6.5898438 15,18.759498 Z" />
-	</symbol>
 	<symbol viewBox="0 0 16 16" id="icon-clipboard">
 		<path fill-rule="evenodd"
 			d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z" />
-	</symbol>
-	<symbol viewBox="0 0 1 1" id="icon-home-filled" class="svg-icon-template icon-home">
-		<path
-			d="M.5002 .10747572875253811 L.10042786437626905 .4662178643762691 l.02671524585077328 .029770717813528465 l.06725688977295768 -.060354082044552726 v.44845 h.25506 v-.25166 H.5505 v.25166 h.25506 v-.44845 l.06725688977295768 .060354082044552726 l.02671524585077328 -.029770717813528465 l-.154812135623731 -.13892322952293115 V.1 h-.12657 V.21371495268001076 z" />
-	</symbol>
-	<symbol viewBox="0 0 1 1" id="icon-home-outline" class="svg-icon-template icon-home">
-		<path
-			d="M.5002 .10747572875253811 L.10042786437626905 .4662178643762691 l.02671524585077328 .029770717813528465 l.06725688977295768 -.060354082044552726 v.44845 h.25506 v-.25166 H.5505 v.25166 h.25506 v-.44845 l.06725688977295768 .060354082044552726 l.02671524585077328 -.029770717813528465 l-.154812135623731 -.13892322952293115 V.1 h-.12657 V.21371495268001076 z v.0565685424949238 L.65815 .30578331524901864 V.14 H.70472 V.2910051322295775 L.65815 .2492147727540948 v.0565685424949238 L.76556 .40216945463621206 V.8440845001452447 h-.17166 v-.25166 H.40946 v.25166 h-.17166 V.40216945463621206 L.5002 .16404427124746193 z " />
-	</symbol>
-	<symbol viewBox="0 0 1 1" id="icon-menu">
-		<circle cx=".1" cy=".1575" r=".06"></circle>
-		<path d="M.325 .1175h.65 v.08h-.65z"></path>
-		<circle cx=".25" cy=".4775" r=".06"></circle>
-		<path d="M.475 .4375h.5 v.08h-.5z"></path>
-		<circle cx=".25" cy=".7975" r=".06"></circle>
-		<path d="M.475 .7575h.5 v.08h-.5z"></path>
 	</symbol>
 </svg>
   <div class="body">
@@ -380,19 +377,17 @@
 </div>
 	<main class="article">
   <div class="toolbar" role="navigation">
-  <button class="nav-toggle">
-	<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1">
-		<title>Show or hide menu</title>
-		<use class="icon-menu" href="#icon-menu"></use>
-		<use class="icon-back" href="#icon-back"></use>
-	</svg>
+  <button class="nav-toggle" title="Show or hide menu" type="button">
+	<div class="menu-icon-duo">
+		<span class="ui-icon icon-menu-pair icon-menu"></span>
+		<span class="ui-icon icon-menu-pair icon-close"></span>
+	</div>
 </button>
     <a href="../../" class="home-link" title="Home">
-      <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon icon-home" viewBox="0 0 1 1">
-        <title>Home</title>
-        <use class="icon-home icon-home-filled" href="#icon-home-filled"></use>
-        <use class="icon-home icon-home-outline" href="#icon-home-outline"></use>
-      </svg>
+      <div class="home-icon-duo" title="Home">
+        <span class="ui-icon icon-home icon-home-outline"></span>
+        <span class="ui-icon icon-home icon-home-filled"></span>
+      </div>
     </a>
   <nav class="breadcrumbs" aria-label="breadcrumbs">
     <ul>
@@ -418,23 +413,23 @@
 	<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://adventofcode.com/2021/day/22" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span> Day #22 problem description</a> │ <a href="/_attachments/src/day_22/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span> Problem input</a></p>
+<p><a href="https://adventofcode.com/2021/day/22" target="^"><span class="icon"><i class="fa fa-star-half-o"></i></span>Day #22 problem description</a> │ <a href="/_attachments/src/day_22/input.txt" target="^"><span class="icon"><i class="fa fa-file-text-o"></i></span>Problem input</a></p>
 </div>
 <div class="paragraph">
-<p>This problem asks us to find the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>×</mo><mn>1</mn><mo>×</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1\times1\times1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> cubes — “small cubes” — in 3D space that remain after sequentially turning on and turning off the small cubes contained in a sequence of upright 3D rectangular prisms with integer coordinates; we&#8217;ll refer to these prisms as “boxes”.
+<p>This problem asks us to find the \(1\times1\times1\) cubes — “small cubes” — in 3D space that remain after sequentially turning on and turning off the small cubes contained in a sequence of upright 3D rectangular prisms with integer coordinates; we&#8217;ll refer to these prisms as “boxes”.
 We record which small cubes remain after each operation as a list of boxes containing those cubes; the question is then how to record the boxes that result after performing the sequence of additions and subtractions between boxes.
-In other words, if at stage <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>  the “on” cubes are contained in boxes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>B</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">B_1,\ldots,B_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, and we switch off the small cubes in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">B_{n+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8917em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span></span>, what set of boxes now contains the remaining “on” cubes?
-For simplicity, we&#8217;ll refer to the process of turning on the small cubes in a box <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span> as “adding” <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span>, and turning off the cubes in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span> as “subtracting” <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span>.</p>
+In other words, if at stage \(k\)  the “on” cubes are contained in boxes \(B_1,\ldots,B_n\), and we switch off the small cubes in \(B_{n+1}\), what set of boxes now contains the remaining “on” cubes?
+For simplicity, we&#8217;ll refer to the process of turning on the small cubes in a box \(B\) as “adding” \(B\), and turning off the cubes in \(B\) as “subtracting” \(B\).</p>
 </div>
 <div class="paragraph">
-<p>To subtract a single box <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">B_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> from another box <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">B_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, we first note that we only need to subtract the intersection <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>3</mn></msub><mo><mi mathvariant="normal">≔</mi></mo><msub><mi>B</mi><mn>1</mn></msub><mo>∩</mo><msub><mi>B</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">B_3\coloneqq B_1\cap B_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mop" style="position:relative;top:-0.0347em;">:</span></span><span class="mrel"><span class="mspace" style="margin-right:-0.0667em;"></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∩</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> of the two boxes from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">B_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.
-Then, to subtract <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">B_3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">B_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, we note that each maximal set of parallel edges of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">B_3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> divides the corresponding axis of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">B_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> into three (potentially empty) regions: the parts before, between, and after their endpoints.
-For instance, if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">B_3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> has edge <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><mi>y</mi><mo separator="true">,</mo><mi>z</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>2</mn></msub><mo separator="true">,</mo><mi>y</mi><mo separator="true">,</mo><mi>z</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">( (x_1,y,z) , (x_2,y,z) )</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">((</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">))</span></span></span></span> with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>&lt;</mo><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_1&lt;x_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, then this edge divides <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span> into three portions along the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>-axis: the parts less than <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, between <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, and greater than <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">x_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.
-Since each of the three axes is split into three regions by the subtraction, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">B_3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ultimately divides <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">B_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> into 27 smaller (but not necessarily “small”) boxes, exactly one of which is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">B_3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> itself.
-Hence <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub><mo>−</mo><msub><mi>B</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">B_1-B_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is just the list containing the other 26 boxes.</p>
+<p>To subtract a single box \(B_2\) from another box \(B_1\), we first note that we only need to subtract the intersection \(B_3\coloneqq B_1\cap B_2\) of the two boxes from \(B_1\).
+Then, to subtract \(B_3\) from \(B_1\), we note that each maximal set of parallel edges of \(B_3\) divides the corresponding axis of \(B_1\) into three (potentially empty) regions: the parts before, between, and after their endpoints.
+For instance, if \(B_3\) has edge \( ( (x_1,y,z) , (x_2,y,z) )\) with \(x_1&lt;x_2\), then this edge divides \(B\) into three portions along the \(x\)-axis: the parts less than \(x_1\), between \(x_1\) and \(x_2\), and greater than \(x_2\).
+Since each of the three axes is split into three regions by the subtraction, \(B_3\) ultimately divides \(B_1\) into 27 smaller (but not necessarily “small”) boxes, exactly one of which is \(B_3\) itself.
+Hence \(B_1-B_2\) is just the list containing the other 26 boxes.</p>
 </div>
 <div class="paragraph">
-<p>To subtract a single cube from the list of cubes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>B</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">B_1,\ldots,B_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, we simply subtract it from each <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">B_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> in turn, then collect all the resulting smaller boxes into a single list.
+<p>To subtract a single cube from the list of cubes \(B_1,\ldots,B_n\), we simply subtract it from each \(B_i\) in turn, then collect all the resulting smaller boxes into a single list.
 Hence, to improve performance, after each subtraction, we (greedily) recombine the 26 smaller boxes into as few larger boxes as possible; otherwise the list of boxes to subtract from would grow without bound.
 To recombine boxes, we simply take two boxes that have a face in common and write them as the union, and repeat this until no two boxes share a face.
 (Fewer boxes could probably be obtained with some sort of dynamic programming algorithm; this wasn&#8217;t deemed worth it.)</p>
@@ -449,104 +444,104 @@ To recombine boxes, we simply take two boxes that have a face in common and writ
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-<span class="hljs-keyword">use</span> std::fmt::{Display, Write};
+<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use std::fmt::{Display, Write};
 
-<span class="hljs-keyword">type</span> <span class="hljs-title class_">Span</span> = [<span class="hljs-type">i32</span>; <span class="hljs-number">2</span>];
+type Span = [i32; 2];
 
-<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Cuboid</span> {
+#[derive(Debug, Clone, Copy)]
+struct Cuboid {
 	x_range: Span,
 	y_range: Span,
 	z_range: Span,
 }
 
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">size</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">width</span>(span: Span) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-			<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">try_from</span>(span[<span class="hljs-number">1</span>] - span[<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>()
+impl Cuboid {
+	fn size(&amp;self) -&gt; usize {
+		fn width(span: Span) -&gt; usize {
+			usize::try_from(span[1] - span[0] + 1).unwrap()
 		}
-		<span class="hljs-keyword">let</span> &amp;Cuboid {
+		let &amp;Cuboid {
 			x_range,
 			y_range,
 			z_range,
-		} = <span class="hljs-keyword">self</span>;
+		} = self;
 
-		<span class="hljs-title function_ invoke__">width</span>(x_range) * <span class="hljs-title function_ invoke__">width</span>(y_range) * <span class="hljs-title function_ invoke__">width</span>(z_range)
+		width(x_range) * width(y_range) * width(z_range)
 	}
 }
 
-<span class="hljs-comment">// tag::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::fmt::Display <span class="hljs-keyword">for</span> <span class="hljs-title class_">Cuboid</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
-		<span class="hljs-keyword">let</span> [x0, x1] = &amp;<span class="hljs-keyword">self</span>.x_range;
-		<span class="hljs-keyword">let</span> [y0, y1] = &amp;<span class="hljs-keyword">self</span>.y_range;
-		<span class="hljs-keyword">let</span> [z0, z1] = &amp;<span class="hljs-keyword">self</span>.z_range;
-		<span class="hljs-built_in">write!</span>(f, <span class="hljs-string">&quot;{:?}-{:?},{:?}-{:?},{:?}-{:?}&quot;</span>, x0, x1, y0, y1, z0, z1)
+// tag::debugging[]
+impl std::fmt::Display for Cuboid {
+	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+		let [x0, x1] = &amp;self.x_range;
+		let [y0, y1] = &amp;self.y_range;
+		let [z0, z1] = &amp;self.z_range;
+		write!(f, "{:?}-{:?},{:?}-{:?},{:?}-{:?}", x0, x1, y0, y1, z0, z1)
 	}
 }
 
-<span class="hljs-comment">// end::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">intersection</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">span_intersection</span>(span1: Span, span2: Span) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Span&gt; {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">lower</span> = span1[<span class="hljs-number">0</span>].<span class="hljs-title function_ invoke__">max</span>(span2[<span class="hljs-number">0</span>]);
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">upper</span> = span1[<span class="hljs-number">1</span>].<span class="hljs-title function_ invoke__">min</span>(span2[<span class="hljs-number">1</span>]);
-			<span class="hljs-keyword">if</span> upper &lt; lower {
-				<span class="hljs-literal">None</span>
-			} <span class="hljs-keyword">else</span> {
-				<span class="hljs-title function_ invoke__">Some</span>([lower, upper])
+// end::debugging[]
+impl Cuboid {
+	fn intersection(&amp;self, other: &amp;Self) -&gt; Option&lt;Self&gt; {
+		fn span_intersection(span1: Span, span2: Span) -&gt; Option&lt;Span&gt; {
+			let lower = span1[0].max(span2[0]);
+			let upper = span1[1].min(span2[1]);
+			if upper &lt; lower {
+				None
+			} else {
+				Some([lower, upper])
 			}
 		}
 
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
-			x_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.x_range, other.x_range)?,
-			y_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.y_range, other.y_range)?,
-			z_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.z_range, other.z_range)?,
+		Some(Self {
+			x_range: span_intersection(self.x_range, other.x_range)?,
+			y_range: span_intersection(self.y_range, other.y_range)?,
+			z_range: span_intersection(self.z_range, other.z_range)?,
 		})
 	}
 
-	<span class="hljs-comment">/// `other` divides `self` into 3^3 = 27 (potentially empty) sub-cuboids. Of the 26</span>
-	<span class="hljs-comment">/// that aren&#x27;t `other`, we keep the nonempty ones. Once we&#x27;ve found them, we merge</span>
-	<span class="hljs-comment">/// them into as large cuboids as possible.</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">difference</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_spans</span>(my_span: Span, intersection_span: Span) <span class="hljs-punctuation">-&gt;</span> [<span class="hljs-type">Option</span>&lt;Span&gt;; <span class="hljs-number">3</span>] {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">span1</span> = <span class="hljs-keyword">if</span> my_span[<span class="hljs-number">0</span>] == intersection_span[<span class="hljs-number">0</span>] {
-				<span class="hljs-literal">None</span>
-			} <span class="hljs-keyword">else</span> {
-				<span class="hljs-title function_ invoke__">Some</span>([my_span[<span class="hljs-number">0</span>], intersection_span[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span>])
+	/// `other` divides `self` into 3^3 = 27 (potentially empty) sub-cuboids. Of the 26
+	/// that aren't `other`, we keep the nonempty ones. Once we've found them, we merge
+	/// them into as large cuboids as possible.
+	fn difference(&amp;self, other: &amp;Self) -&gt; Vec&lt;Self&gt; {
+		fn get_spans(my_span: Span, intersection_span: Span) -&gt; [Option&lt;Span&gt;; 3] {
+			let span1 = if my_span[0] == intersection_span[0] {
+				None
+			} else {
+				Some([my_span[0], intersection_span[0] - 1])
 			};
 
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">span2</span> = <span class="hljs-title function_ invoke__">Some</span>(intersection_span);
+			let span2 = Some(intersection_span);
 
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">span3</span> = <span class="hljs-keyword">if</span> intersection_span[<span class="hljs-number">1</span>] == my_span[<span class="hljs-number">1</span>] {
-				<span class="hljs-literal">None</span>
-			} <span class="hljs-keyword">else</span> {
-				<span class="hljs-title function_ invoke__">Some</span>([intersection_span[<span class="hljs-number">1</span>] + <span class="hljs-number">1</span>, my_span[<span class="hljs-number">1</span>]])
+			let span3 = if intersection_span[1] == my_span[1] {
+				None
+			} else {
+				Some([intersection_span[1] + 1, my_span[1]])
 			};
 
 			[span1, span2, span3]
 		}
 
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">intersection</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">intersection</span>(other) {
-			<span class="hljs-title function_ invoke__">Some</span>(c) =&gt; c,
-			<span class="hljs-literal">None</span> =&gt; <span class="hljs-keyword">return</span> <span class="hljs-built_in">vec!</span>[*<span class="hljs-keyword">self</span>],
+		let intersection = match self.intersection(other) {
+			Some(c) =&gt; c,
+			None =&gt; return vec![*self],
 		};
 
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">x_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.x_range, intersection.x_range);
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">y_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.y_range, intersection.y_range);
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">z_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.z_range, intersection.z_range);
+		let x_ranges = get_spans(self.x_range, intersection.x_range);
+		let y_ranges = get_spans(self.y_range, intersection.y_range);
+		let z_ranges = get_spans(self.z_range, intersection.z_range);
 
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">on_cuboids</span> = <span class="hljs-type">Vec</span>::&lt;<span class="hljs-keyword">Self</span>&gt;::<span class="hljs-title function_ invoke__">new</span>();
-		<span class="hljs-keyword">for</span> &amp;x_range <span class="hljs-keyword">in</span> x_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
-			<span class="hljs-keyword">for</span> &amp;y_range <span class="hljs-keyword">in</span> y_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
-				<span class="hljs-keyword">for</span> &amp;z_range <span class="hljs-keyword">in</span> z_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
-					<span class="hljs-keyword">if</span> x_range != intersection.x_range
+		let mut on_cuboids = Vec::&lt;Self&gt;::new();
+		for &amp;x_range in x_ranges.iter().flatten() {
+			for &amp;y_range in y_ranges.iter().flatten() {
+				for &amp;z_range in z_ranges.iter().flatten() {
+					if x_range != intersection.x_range
 						|| y_range != intersection.y_range
 						|| z_range != intersection.z_range
 					{
-						on_cuboids.<span class="hljs-title function_ invoke__">push</span>(Cuboid {
+						on_cuboids.push(Cuboid {
 							x_range,
 							y_range,
 							z_range,
@@ -556,90 +551,90 @@ To recombine boxes, we simply take two boxes that have a face in common and writ
 			}
 		}
 
-		<span class="hljs-comment">// Iteratively merge the split-up cuboids together, where possible. For instance,</span>
-		<span class="hljs-comment">// if the middle of a cuboid was removed, there are 26 small cuboids created, but they</span>
-		<span class="hljs-comment">// can be merged into six larger cuboids. This is done by looking for abutting</span>
-		<span class="hljs-comment">// cuboids with the same dimensions along their respective abutting faces and</span>
-		<span class="hljs-comment">// combining them into one cuboid.</span>
-		<span class="hljs-symbol">&#x27;merge</span>: <span class="hljs-keyword">loop</span> {
-			<span class="hljs-title function_ invoke__">for</span> (
+		// Iteratively merge the split-up cuboids together, where possible. For instance,
+		// if the middle of a cuboid was removed, there are 26 small cuboids created, but they
+		// can be merged into six larger cuboids. This is done by looking for abutting
+		// cuboids with the same dimensions along their respective abutting faces and
+		// combining them into one cuboid.
+		'merge: loop {
+			for (
 				i,
 				&amp;c1 @ Cuboid {
 					x_range,
 					y_range,
 					z_range,
 				},
-			) <span class="hljs-keyword">in</span> on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>()
+			) in on_cuboids.iter().enumerate()
 			{
-				<span class="hljs-title function_ invoke__">for</span> (j, &amp;c2) <span class="hljs-keyword">in</span> on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
-					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">cs</span> = [c1, c2];
-					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">merged_cuboid</span> = <span class="hljs-literal">None</span>;
-					<span class="hljs-keyword">if</span> y_range == c2.y_range &amp;&amp; z_range == c2.z_range {
-						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.x_range);
-						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].x_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].x_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
-							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
-								x_range: [cs[<span class="hljs-number">0</span>].x_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].x_range[<span class="hljs-number">1</span>]],
+				for (j, &amp;c2) in on_cuboids.iter().enumerate().skip(i + 1) {
+					let mut cs = [c1, c2];
+					let mut merged_cuboid = None;
+					if y_range == c2.y_range &amp;&amp; z_range == c2.z_range {
+						cs.sort_by_key(|c| c.x_range);
+						if cs[0].x_range[1] == cs[1].x_range[0] - 1 {
+							merged_cuboid = Some(Cuboid {
+								x_range: [cs[0].x_range[0], cs[1].x_range[1]],
 								y_range,
 								z_range,
 							});
 						}
-					} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> x_range == c2.x_range &amp;&amp; z_range == c2.z_range {
-						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.y_range);
-						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].y_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].y_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
-							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
+					} else if x_range == c2.x_range &amp;&amp; z_range == c2.z_range {
+						cs.sort_by_key(|c| c.y_range);
+						if cs[0].y_range[1] == cs[1].y_range[0] - 1 {
+							merged_cuboid = Some(Cuboid {
 								x_range,
-								y_range: [cs[<span class="hljs-number">0</span>].y_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].y_range[<span class="hljs-number">1</span>]],
+								y_range: [cs[0].y_range[0], cs[1].y_range[1]],
 								z_range,
 							});
 						}
-					} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> x_range == c2.x_range &amp;&amp; y_range == c2.y_range {
-						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.z_range);
-						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].z_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].z_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
-							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
+					} else if x_range == c2.x_range &amp;&amp; y_range == c2.y_range {
+						cs.sort_by_key(|c| c.z_range);
+						if cs[0].z_range[1] == cs[1].z_range[0] - 1 {
+							merged_cuboid = Some(Cuboid {
 								x_range,
 								y_range,
-								z_range: [cs[<span class="hljs-number">0</span>].z_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].z_range[<span class="hljs-number">1</span>]],
+								z_range: [cs[0].z_range[0], cs[1].z_range[1]],
 							});
 						}
 					}
 
-					<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(merged_cuboid) = merged_cuboid {
-						on_cuboids.<span class="hljs-title function_ invoke__">swap_remove</span>(j);
-						on_cuboids.<span class="hljs-title function_ invoke__">swap_remove</span>(i);
-						on_cuboids.<span class="hljs-title function_ invoke__">push</span>(merged_cuboid);
-						<span class="hljs-keyword">continue</span> <span class="hljs-symbol">&#x27;merge</span>;
+					if let Some(merged_cuboid) = merged_cuboid {
+						on_cuboids.swap_remove(j);
+						on_cuboids.swap_remove(i);
+						on_cuboids.push(merged_cuboid);
+						continue 'merge;
 					}
 				}
 			}
 
-			<span class="hljs-keyword">break</span>;
+			break;
 		}
 
 		on_cuboids
 	}
 }
 
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_coords_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">coords</span> = s.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);
+impl Cuboid {
+	fn from_coords_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		let mut coords = s.split(',');
 
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">comps</span> = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">filter_map</span>(|_| {
+		let mut comps = (0..3).filter_map(|_| {
 			coords
-				.<span class="hljs-title function_ invoke__">next</span>()?
-				.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;=&#x27;</span>)
-				.<span class="hljs-title function_ invoke__">nth_back</span>(<span class="hljs-number">0</span>)?
-				.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)
-				.<span class="hljs-title function_ invoke__">filter_map</span>(|splat| splat.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>())
-				.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;()
-				.<span class="hljs-title function_ invoke__">try_into</span>()
-				.<span class="hljs-title function_ invoke__">ok</span>()
+				.next()?
+				.split('=')
+				.nth_back(0)?
+				.split('.')
+				.filter_map(|splat| splat.parse().ok())
+				.collect::&lt;Vec&lt;_&gt;&gt;()
+				.try_into()
+				.ok()
 		});
 
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">x_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">y_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">z_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
+		let x_range = comps.next()?;
+		let y_range = comps.next()?;
+		let z_range = comps.next()?;
 
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
+		Some(Self {
 			x_range,
 			y_range,
 			z_range,
@@ -647,67 +642,67 @@ To recombine boxes, we simply take two boxes that have a face in common and writ
 	}
 }
 
-<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">State</span> {
+#[derive(Debug, Clone, Copy)]
+enum State {
 	On,
 	Off,
 }
 
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">State</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> s {
-			<span class="hljs-string">&quot;on&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::On,
-			<span class="hljs-string">&quot;off&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::Off,
-			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+impl State {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		Some(match s {
+			"on" =&gt; Self::On,
+			"off" =&gt; Self::Off,
+			_ =&gt; return None,
 		})
 	}
 }
 
-<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">RebootStep</span> {
+#[derive(Debug, Clone, Copy)]
+struct RebootStep {
 	state: State,
 	cuboid: Cuboid,
 }
 
-<span class="hljs-comment">// tag::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Display</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">RebootStep</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
-		f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.state {
-			State::On =&gt; <span class="hljs-string">&#x27;▲&#x27;</span>,
-			State::Off =&gt; <span class="hljs-string">&#x27;▽&#x27;</span>,
+// tag::debugging[]
+impl Display for RebootStep {
+	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+		f.write_char(match self.state {
+			State::On =&gt; '▲',
+			State::Off =&gt; '▽',
 		})?;
-		f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-string">&#x27; &#x27;</span>)?;
+		f.write_char(' ')?;
 
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">Cuboid</span> {
+		let Cuboid {
 			x_range,
 			y_range,
 			z_range,
-		} = &amp;<span class="hljs-keyword">self</span>.cuboid;
-		<span class="hljs-built_in">write!</span>(f, <span class="hljs-string">&quot;{:?} {:?} {:?}&quot;</span>, x_range, y_range, z_range)
+		} = &amp;self.cuboid;
+		write!(f, "{:?} {:?} {:?}", x_range, y_range, z_range)
 	}
 }
 
-<span class="hljs-comment">// end::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">RebootStep</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_line</span>(line: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">str_comps</span> = line.<span class="hljs-title function_ invoke__">split_ascii_whitespace</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">state</span> = State::<span class="hljs-title function_ invoke__">from_str</span>(str_comps.<span class="hljs-title function_ invoke__">next</span>()?)?;
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">cuboid</span> = Cuboid::<span class="hljs-title function_ invoke__">from_coords_str</span>(str_comps.<span class="hljs-title function_ invoke__">next</span>()?)?;
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { state, cuboid })
+// end::debugging[]
+impl RebootStep {
+	fn from_line(line: &amp;str) -&gt; Option&lt;Self&gt; {
+		let mut str_comps = line.split_ascii_whitespace();
+		let state = State::from_str(str_comps.next()?)?;
+		let cuboid = Cuboid::from_coords_str(str_comps.next()?)?;
+		Some(Self { state, cuboid })
 	}
 }
 
-<span class="hljs-meta">#[derive(Debug)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Grid</span> {
-	on_cuboids: <span class="hljs-type">Vec</span>&lt;Cuboid&gt;,
-	bounds: <span class="hljs-type">Option</span>&lt;Cuboid&gt;,
+#[derive(Debug)]
+struct Grid {
+	on_cuboids: Vec&lt;Cuboid&gt;,
+	bounds: Option&lt;Cuboid&gt;,
 }
 
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Grid</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new_with_size</span>(n: <span class="hljs-type">i32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+impl Grid {
+	fn new_with_size(n: i32) -&gt; Self {
 		Grid {
-			on_cuboids: <span class="hljs-built_in">vec!</span>[],
-			bounds: <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
+			on_cuboids: vec![],
+			bounds: Some(Cuboid {
 				x_range: [-n, n],
 				y_range: [-n, n],
 				z_range: [-n, n],
@@ -715,103 +710,103 @@ To recombine boxes, we simply take two boxes that have a face in common and writ
 		}
 	}
 
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new_unbounded</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+	fn new_unbounded() -&gt; Self {
 		Grid {
-			on_cuboids: <span class="hljs-built_in">vec!</span>[],
-			bounds: <span class="hljs-literal">None</span>,
+			on_cuboids: vec![],
+			bounds: None,
 		}
 	}
 
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_step</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, RebootStep { state, cuboid }: &amp;RebootStep) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;()&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">cuboid</span> = <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(bounds) = <span class="hljs-keyword">self</span>.bounds {
-			cuboid.<span class="hljs-title function_ invoke__">intersection</span>(&amp;bounds)?
-		} <span class="hljs-keyword">else</span> {
+	fn apply_step(&amp;mut self, RebootStep { state, cuboid }: &amp;RebootStep) -&gt; Option&lt;()&gt; {
+		let cuboid = if let Some(bounds) = self.bounds {
+			cuboid.intersection(&amp;bounds)?
+		} else {
 			*cuboid
 		};
 
-		<span class="hljs-keyword">match</span> state {
+		match state {
 			State::On =&gt; {
-				<span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">push</span>(cuboid);
+				self.on_cuboids.push(cuboid);
 			}
 			State::Off =&gt; {
-				<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">on_cuboids</span> = <span class="hljs-built_in">vec!</span>[];
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">my_cuboid</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.on_cuboids {
-					on_cuboids.<span class="hljs-title function_ invoke__">extend</span>(my_cuboid.<span class="hljs-title function_ invoke__">difference</span>(&amp;cuboid));
+				let mut on_cuboids = vec![];
+				for my_cuboid in &amp;self.on_cuboids {
+					on_cuboids.extend(my_cuboid.difference(&amp;cuboid));
 				}
-				<span class="hljs-keyword">self</span>.on_cuboids = on_cuboids;
+				self.on_cuboids = on_cuboids;
 			}
 		};
 
-		<span class="hljs-title function_ invoke__">Some</span>(())
+		Some(())
 	}
 
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">n_on</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">nonintersecting_cuboids</span> = <span class="hljs-built_in">vec!</span>[];
-		<span class="hljs-title function_ invoke__">for</span> (i, &amp;c1) <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
-			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">pieces</span> = <span class="hljs-built_in">vec!</span>[c1];
-			<span class="hljs-keyword">for</span> &amp;c2 <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+	fn n_on(&amp;self) -&gt; usize {
+		let mut nonintersecting_cuboids = vec![];
+		for (i, &amp;c1) in self.on_cuboids.iter().enumerate() {
+			let mut pieces = vec![c1];
+			for &amp;c2 in self.on_cuboids.iter().skip(i + 1) {
 				pieces = pieces
-					.<span class="hljs-title function_ invoke__">into_iter</span>()
-					.<span class="hljs-title function_ invoke__">flat_map</span>(|piece| piece.<span class="hljs-title function_ invoke__">difference</span>(&amp;c2))
-					.<span class="hljs-title function_ invoke__">collect</span>();
+					.into_iter()
+					.flat_map(|piece| piece.difference(&amp;c2))
+					.collect();
 			}
-			nonintersecting_cuboids.<span class="hljs-title function_ invoke__">extend</span>(pieces);
+			nonintersecting_cuboids.extend(pieces);
 		}
 
 		nonintersecting_cuboids
-			.<span class="hljs-title function_ invoke__">iter</span>()
-			.<span class="hljs-title function_ invoke__">fold</span>(<span class="hljs-number">0</span>, |accum, cuboid| accum + cuboid.<span class="hljs-title function_ invoke__">size</span>())
+			.iter()
+			.fold(0, |accum, cuboid| accum + cuboid.size())
 	}
 }
 
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;RebootStep&gt;&gt; {
+fn read_input(input: &amp;str) -&gt; Option&lt;Vec&lt;RebootStep&gt;&gt; {
 	input
-		.<span class="hljs-title function_ invoke__">lines</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(RebootStep::from_line)
-		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
+		.lines()
+		.map(RebootStep::from_line)
+		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
 }
 
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">steps</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">22</span>, (<span class="hljs-title function_ invoke__">pt1</span>(steps.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(steps.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
+	let steps = read_input(input).unwrap();
+	(22, (pt1(steps.iter()), pt2(steps.iter()))).into()
 }
 
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
+pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
 }
-<span class="hljs-comment">// end::setup[]</span>
+// end::setup[]
 
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = R&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Grid::<span class="hljs-title function_ invoke__">new_with_size</span>(<span class="hljs-number">50</span>);
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
-		grid.<span class="hljs-title function_ invoke__">apply_step</span>(step.<span class="hljs-title function_ invoke__">borrow</span>());
+// tag::pt1[]
+fn pt1&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: impl Iterator&lt;Item = R&gt;) -&gt; usize {
+	let mut grid = Grid::new_with_size(50);
+	for step in steps {
+		grid.apply_step(step.borrow());
 	}
 
-	grid.<span class="hljs-title function_ invoke__">n_on</span>()
+	grid.n_on()
 }
 
-<span class="hljs-comment">// end::pt1[]</span>
+// end::pt1[]
 
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = R&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Grid::<span class="hljs-title function_ invoke__">new_unbounded</span>();
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
-		grid.<span class="hljs-title function_ invoke__">apply_step</span>(step.<span class="hljs-title function_ invoke__">borrow</span>());
+// tag::pt2[]
+fn pt2&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: impl Iterator&lt;Item = R&gt;) -&gt; usize {
+	let mut grid = Grid::new_unbounded();
+	for step in steps {
+		grid.apply_step(step.borrow());
 	}
 
-	grid.<span class="hljs-title function_ invoke__">n_on</span>()
+	grid.n_on()
 }
-<span class="hljs-comment">// end::pt2[]</span>
+// end::pt2[]
 
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
 
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">22</span>, ans: (<span class="hljs-number">607_657</span>, <span class="hljs-number">1_187_742_789_778_677</span>));
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 22, ans: (607_657, 1_187_742_789_778_677));
 	}
 }</code></pre>
 </div>
@@ -832,104 +827,104 @@ In Part 2 this sequence occurs in an unbounded space, which is where the savings
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-<span class="hljs-keyword">use</span> std::fmt::{Display, Write};
+<pre class="highlight"><code class="language-rust" data-lang="rust">// tag::setup[]
+use crate::Answer;
+use std::fmt::{Display, Write};
 
-<span class="hljs-keyword">type</span> <span class="hljs-title class_">Span</span> = [<span class="hljs-type">i32</span>; <span class="hljs-number">2</span>];
+type Span = [i32; 2];
 
-<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Cuboid</span> {
+#[derive(Debug, Clone, Copy)]
+struct Cuboid {
 	x_range: Span,
 	y_range: Span,
 	z_range: Span,
 }
 
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">size</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">width</span>(span: Span) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-			<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">try_from</span>(span[<span class="hljs-number">1</span>] - span[<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">unwrap</span>()
+impl Cuboid {
+	fn size(&amp;self) -&gt; usize {
+		fn width(span: Span) -&gt; usize {
+			usize::try_from(span[1] - span[0] + 1).unwrap()
 		}
-		<span class="hljs-keyword">let</span> &amp;Cuboid {
+		let &amp;Cuboid {
 			x_range,
 			y_range,
 			z_range,
-		} = <span class="hljs-keyword">self</span>;
+		} = self;
 
-		<span class="hljs-title function_ invoke__">width</span>(x_range) * <span class="hljs-title function_ invoke__">width</span>(y_range) * <span class="hljs-title function_ invoke__">width</span>(z_range)
+		width(x_range) * width(y_range) * width(z_range)
 	}
 }
 
-<span class="hljs-comment">// tag::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">std</span>::fmt::Display <span class="hljs-keyword">for</span> <span class="hljs-title class_">Cuboid</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
-		<span class="hljs-keyword">let</span> [x0, x1] = &amp;<span class="hljs-keyword">self</span>.x_range;
-		<span class="hljs-keyword">let</span> [y0, y1] = &amp;<span class="hljs-keyword">self</span>.y_range;
-		<span class="hljs-keyword">let</span> [z0, z1] = &amp;<span class="hljs-keyword">self</span>.z_range;
-		<span class="hljs-built_in">write!</span>(f, <span class="hljs-string">&quot;{:?}-{:?},{:?}-{:?},{:?}-{:?}&quot;</span>, x0, x1, y0, y1, z0, z1)
+// tag::debugging[]
+impl std::fmt::Display for Cuboid {
+	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+		let [x0, x1] = &amp;self.x_range;
+		let [y0, y1] = &amp;self.y_range;
+		let [z0, z1] = &amp;self.z_range;
+		write!(f, "{:?}-{:?},{:?}-{:?},{:?}-{:?}", x0, x1, y0, y1, z0, z1)
 	}
 }
 
-<span class="hljs-comment">// end::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">intersection</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">span_intersection</span>(span1: Span, span2: Span) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Span&gt; {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">lower</span> = span1[<span class="hljs-number">0</span>].<span class="hljs-title function_ invoke__">max</span>(span2[<span class="hljs-number">0</span>]);
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">upper</span> = span1[<span class="hljs-number">1</span>].<span class="hljs-title function_ invoke__">min</span>(span2[<span class="hljs-number">1</span>]);
-			<span class="hljs-keyword">if</span> upper &lt; lower {
-				<span class="hljs-literal">None</span>
-			} <span class="hljs-keyword">else</span> {
-				<span class="hljs-title function_ invoke__">Some</span>([lower, upper])
+// end::debugging[]
+impl Cuboid {
+	fn intersection(&amp;self, other: &amp;Self) -&gt; Option&lt;Self&gt; {
+		fn span_intersection(span1: Span, span2: Span) -&gt; Option&lt;Span&gt; {
+			let lower = span1[0].max(span2[0]);
+			let upper = span1[1].min(span2[1]);
+			if upper &lt; lower {
+				None
+			} else {
+				Some([lower, upper])
 			}
 		}
 
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
-			x_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.x_range, other.x_range)?,
-			y_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.y_range, other.y_range)?,
-			z_range: <span class="hljs-title function_ invoke__">span_intersection</span>(<span class="hljs-keyword">self</span>.z_range, other.z_range)?,
+		Some(Self {
+			x_range: span_intersection(self.x_range, other.x_range)?,
+			y_range: span_intersection(self.y_range, other.y_range)?,
+			z_range: span_intersection(self.z_range, other.z_range)?,
 		})
 	}
 
-	<span class="hljs-comment">/// `other` divides `self` into 3^3 = 27 (potentially empty) sub-cuboids. Of the 26</span>
-	<span class="hljs-comment">/// that aren&#x27;t `other`, we keep the nonempty ones. Once we&#x27;ve found them, we merge</span>
-	<span class="hljs-comment">/// them into as large cuboids as possible.</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">difference</span>(&amp;<span class="hljs-keyword">self</span>, other: &amp;<span class="hljs-keyword">Self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_spans</span>(my_span: Span, intersection_span: Span) <span class="hljs-punctuation">-&gt;</span> [<span class="hljs-type">Option</span>&lt;Span&gt;; <span class="hljs-number">3</span>] {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">span1</span> = <span class="hljs-keyword">if</span> my_span[<span class="hljs-number">0</span>] == intersection_span[<span class="hljs-number">0</span>] {
-				<span class="hljs-literal">None</span>
-			} <span class="hljs-keyword">else</span> {
-				<span class="hljs-title function_ invoke__">Some</span>([my_span[<span class="hljs-number">0</span>], intersection_span[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span>])
+	/// `other` divides `self` into 3^3 = 27 (potentially empty) sub-cuboids. Of the 26
+	/// that aren't `other`, we keep the nonempty ones. Once we've found them, we merge
+	/// them into as large cuboids as possible.
+	fn difference(&amp;self, other: &amp;Self) -&gt; Vec&lt;Self&gt; {
+		fn get_spans(my_span: Span, intersection_span: Span) -&gt; [Option&lt;Span&gt;; 3] {
+			let span1 = if my_span[0] == intersection_span[0] {
+				None
+			} else {
+				Some([my_span[0], intersection_span[0] - 1])
 			};
 
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">span2</span> = <span class="hljs-title function_ invoke__">Some</span>(intersection_span);
+			let span2 = Some(intersection_span);
 
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">span3</span> = <span class="hljs-keyword">if</span> intersection_span[<span class="hljs-number">1</span>] == my_span[<span class="hljs-number">1</span>] {
-				<span class="hljs-literal">None</span>
-			} <span class="hljs-keyword">else</span> {
-				<span class="hljs-title function_ invoke__">Some</span>([intersection_span[<span class="hljs-number">1</span>] + <span class="hljs-number">1</span>, my_span[<span class="hljs-number">1</span>]])
+			let span3 = if intersection_span[1] == my_span[1] {
+				None
+			} else {
+				Some([intersection_span[1] + 1, my_span[1]])
 			};
 
 			[span1, span2, span3]
 		}
 
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">intersection</span> = <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">intersection</span>(other) {
-			<span class="hljs-title function_ invoke__">Some</span>(c) =&gt; c,
-			<span class="hljs-literal">None</span> =&gt; <span class="hljs-keyword">return</span> <span class="hljs-built_in">vec!</span>[*<span class="hljs-keyword">self</span>],
+		let intersection = match self.intersection(other) {
+			Some(c) =&gt; c,
+			None =&gt; return vec![*self],
 		};
 
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">x_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.x_range, intersection.x_range);
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">y_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.y_range, intersection.y_range);
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">z_ranges</span> = <span class="hljs-title function_ invoke__">get_spans</span>(<span class="hljs-keyword">self</span>.z_range, intersection.z_range);
+		let x_ranges = get_spans(self.x_range, intersection.x_range);
+		let y_ranges = get_spans(self.y_range, intersection.y_range);
+		let z_ranges = get_spans(self.z_range, intersection.z_range);
 
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">on_cuboids</span> = <span class="hljs-type">Vec</span>::&lt;<span class="hljs-keyword">Self</span>&gt;::<span class="hljs-title function_ invoke__">new</span>();
-		<span class="hljs-keyword">for</span> &amp;x_range <span class="hljs-keyword">in</span> x_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
-			<span class="hljs-keyword">for</span> &amp;y_range <span class="hljs-keyword">in</span> y_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
-				<span class="hljs-keyword">for</span> &amp;z_range <span class="hljs-keyword">in</span> z_ranges.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
-					<span class="hljs-keyword">if</span> x_range != intersection.x_range
+		let mut on_cuboids = Vec::&lt;Self&gt;::new();
+		for &amp;x_range in x_ranges.iter().flatten() {
+			for &amp;y_range in y_ranges.iter().flatten() {
+				for &amp;z_range in z_ranges.iter().flatten() {
+					if x_range != intersection.x_range
 						|| y_range != intersection.y_range
 						|| z_range != intersection.z_range
 					{
-						on_cuboids.<span class="hljs-title function_ invoke__">push</span>(Cuboid {
+						on_cuboids.push(Cuboid {
 							x_range,
 							y_range,
 							z_range,
@@ -939,90 +934,90 @@ In Part 2 this sequence occurs in an unbounded space, which is where the savings
 			}
 		}
 
-		<span class="hljs-comment">// Iteratively merge the split-up cuboids together, where possible. For instance,</span>
-		<span class="hljs-comment">// if the middle of a cuboid was removed, there are 26 small cuboids created, but they</span>
-		<span class="hljs-comment">// can be merged into six larger cuboids. This is done by looking for abutting</span>
-		<span class="hljs-comment">// cuboids with the same dimensions along their respective abutting faces and</span>
-		<span class="hljs-comment">// combining them into one cuboid.</span>
-		<span class="hljs-symbol">&#x27;merge</span>: <span class="hljs-keyword">loop</span> {
-			<span class="hljs-title function_ invoke__">for</span> (
+		// Iteratively merge the split-up cuboids together, where possible. For instance,
+		// if the middle of a cuboid was removed, there are 26 small cuboids created, but they
+		// can be merged into six larger cuboids. This is done by looking for abutting
+		// cuboids with the same dimensions along their respective abutting faces and
+		// combining them into one cuboid.
+		'merge: loop {
+			for (
 				i,
 				&amp;c1 @ Cuboid {
 					x_range,
 					y_range,
 					z_range,
 				},
-			) <span class="hljs-keyword">in</span> on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>()
+			) in on_cuboids.iter().enumerate()
 			{
-				<span class="hljs-title function_ invoke__">for</span> (j, &amp;c2) <span class="hljs-keyword">in</span> on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
-					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">cs</span> = [c1, c2];
-					<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">merged_cuboid</span> = <span class="hljs-literal">None</span>;
-					<span class="hljs-keyword">if</span> y_range == c2.y_range &amp;&amp; z_range == c2.z_range {
-						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.x_range);
-						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].x_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].x_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
-							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
-								x_range: [cs[<span class="hljs-number">0</span>].x_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].x_range[<span class="hljs-number">1</span>]],
+				for (j, &amp;c2) in on_cuboids.iter().enumerate().skip(i + 1) {
+					let mut cs = [c1, c2];
+					let mut merged_cuboid = None;
+					if y_range == c2.y_range &amp;&amp; z_range == c2.z_range {
+						cs.sort_by_key(|c| c.x_range);
+						if cs[0].x_range[1] == cs[1].x_range[0] - 1 {
+							merged_cuboid = Some(Cuboid {
+								x_range: [cs[0].x_range[0], cs[1].x_range[1]],
 								y_range,
 								z_range,
 							});
 						}
-					} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> x_range == c2.x_range &amp;&amp; z_range == c2.z_range {
-						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.y_range);
-						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].y_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].y_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
-							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
+					} else if x_range == c2.x_range &amp;&amp; z_range == c2.z_range {
+						cs.sort_by_key(|c| c.y_range);
+						if cs[0].y_range[1] == cs[1].y_range[0] - 1 {
+							merged_cuboid = Some(Cuboid {
 								x_range,
-								y_range: [cs[<span class="hljs-number">0</span>].y_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].y_range[<span class="hljs-number">1</span>]],
+								y_range: [cs[0].y_range[0], cs[1].y_range[1]],
 								z_range,
 							});
 						}
-					} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> x_range == c2.x_range &amp;&amp; y_range == c2.y_range {
-						cs.<span class="hljs-title function_ invoke__">sort_by_key</span>(|c| c.z_range);
-						<span class="hljs-keyword">if</span> cs[<span class="hljs-number">0</span>].z_range[<span class="hljs-number">1</span>] == cs[<span class="hljs-number">1</span>].z_range[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span> {
-							merged_cuboid = <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
+					} else if x_range == c2.x_range &amp;&amp; y_range == c2.y_range {
+						cs.sort_by_key(|c| c.z_range);
+						if cs[0].z_range[1] == cs[1].z_range[0] - 1 {
+							merged_cuboid = Some(Cuboid {
 								x_range,
 								y_range,
-								z_range: [cs[<span class="hljs-number">0</span>].z_range[<span class="hljs-number">0</span>], cs[<span class="hljs-number">1</span>].z_range[<span class="hljs-number">1</span>]],
+								z_range: [cs[0].z_range[0], cs[1].z_range[1]],
 							});
 						}
 					}
 
-					<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(merged_cuboid) = merged_cuboid {
-						on_cuboids.<span class="hljs-title function_ invoke__">swap_remove</span>(j);
-						on_cuboids.<span class="hljs-title function_ invoke__">swap_remove</span>(i);
-						on_cuboids.<span class="hljs-title function_ invoke__">push</span>(merged_cuboid);
-						<span class="hljs-keyword">continue</span> <span class="hljs-symbol">&#x27;merge</span>;
+					if let Some(merged_cuboid) = merged_cuboid {
+						on_cuboids.swap_remove(j);
+						on_cuboids.swap_remove(i);
+						on_cuboids.push(merged_cuboid);
+						continue 'merge;
 					}
 				}
 			}
 
-			<span class="hljs-keyword">break</span>;
+			break;
 		}
 
 		on_cuboids
 	}
 }
 
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Cuboid</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_coords_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">coords</span> = s.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>);
+impl Cuboid {
+	fn from_coords_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		let mut coords = s.split(',');
 
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">comps</span> = (<span class="hljs-number">0</span>..<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">filter_map</span>(|_| {
+		let mut comps = (0..3).filter_map(|_| {
 			coords
-				.<span class="hljs-title function_ invoke__">next</span>()?
-				.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;=&#x27;</span>)
-				.<span class="hljs-title function_ invoke__">nth_back</span>(<span class="hljs-number">0</span>)?
-				.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)
-				.<span class="hljs-title function_ invoke__">filter_map</span>(|splat| splat.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>())
-				.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;()
-				.<span class="hljs-title function_ invoke__">try_into</span>()
-				.<span class="hljs-title function_ invoke__">ok</span>()
+				.next()?
+				.split('=')
+				.nth_back(0)?
+				.split('.')
+				.filter_map(|splat| splat.parse().ok())
+				.collect::&lt;Vec&lt;_&gt;&gt;()
+				.try_into()
+				.ok()
 		});
 
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">x_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">y_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">z_range</span> = comps.<span class="hljs-title function_ invoke__">next</span>()?;
+		let x_range = comps.next()?;
+		let y_range = comps.next()?;
+		let z_range = comps.next()?;
 
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
+		Some(Self {
 			x_range,
 			y_range,
 			z_range,
@@ -1030,67 +1025,67 @@ In Part 2 this sequence occurs in an unbounded space, which is where the savings
 	}
 }
 
-<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">State</span> {
+#[derive(Debug, Clone, Copy)]
+enum State {
 	On,
 	Off,
 }
 
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">State</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> s {
-			<span class="hljs-string">&quot;on&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::On,
-			<span class="hljs-string">&quot;off&quot;</span> =&gt; <span class="hljs-keyword">Self</span>::Off,
-			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
+impl State {
+	fn from_str(s: &amp;str) -&gt; Option&lt;Self&gt; {
+		Some(match s {
+			"on" =&gt; Self::On,
+			"off" =&gt; Self::Off,
+			_ =&gt; return None,
 		})
 	}
 }
 
-<span class="hljs-meta">#[derive(Debug, Clone, Copy)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">RebootStep</span> {
+#[derive(Debug, Clone, Copy)]
+struct RebootStep {
 	state: State,
 	cuboid: Cuboid,
 }
 
-<span class="hljs-comment">// tag::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Display</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">RebootStep</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
-		f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.state {
-			State::On =&gt; <span class="hljs-string">&#x27;▲&#x27;</span>,
-			State::Off =&gt; <span class="hljs-string">&#x27;▽&#x27;</span>,
+// tag::debugging[]
+impl Display for RebootStep {
+	fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+		f.write_char(match self.state {
+			State::On =&gt; '▲',
+			State::Off =&gt; '▽',
 		})?;
-		f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-string">&#x27; &#x27;</span>)?;
+		f.write_char(' ')?;
 
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">Cuboid</span> {
+		let Cuboid {
 			x_range,
 			y_range,
 			z_range,
-		} = &amp;<span class="hljs-keyword">self</span>.cuboid;
-		<span class="hljs-built_in">write!</span>(f, <span class="hljs-string">&quot;{:?} {:?} {:?}&quot;</span>, x_range, y_range, z_range)
+		} = &amp;self.cuboid;
+		write!(f, "{:?} {:?} {:?}", x_range, y_range, z_range)
 	}
 }
 
-<span class="hljs-comment">// end::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">RebootStep</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_line</span>(line: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">str_comps</span> = line.<span class="hljs-title function_ invoke__">split_ascii_whitespace</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">state</span> = State::<span class="hljs-title function_ invoke__">from_str</span>(str_comps.<span class="hljs-title function_ invoke__">next</span>()?)?;
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">cuboid</span> = Cuboid::<span class="hljs-title function_ invoke__">from_coords_str</span>(str_comps.<span class="hljs-title function_ invoke__">next</span>()?)?;
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { state, cuboid })
+// end::debugging[]
+impl RebootStep {
+	fn from_line(line: &amp;str) -&gt; Option&lt;Self&gt; {
+		let mut str_comps = line.split_ascii_whitespace();
+		let state = State::from_str(str_comps.next()?)?;
+		let cuboid = Cuboid::from_coords_str(str_comps.next()?)?;
+		Some(Self { state, cuboid })
 	}
 }
 
-<span class="hljs-meta">#[derive(Debug)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Grid</span> {
-	on_cuboids: <span class="hljs-type">Vec</span>&lt;Cuboid&gt;,
-	bounds: <span class="hljs-type">Option</span>&lt;Cuboid&gt;,
+#[derive(Debug)]
+struct Grid {
+	on_cuboids: Vec&lt;Cuboid&gt;,
+	bounds: Option&lt;Cuboid&gt;,
 }
 
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Grid</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new_with_size</span>(n: <span class="hljs-type">i32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+impl Grid {
+	fn new_with_size(n: i32) -&gt; Self {
 		Grid {
-			on_cuboids: <span class="hljs-built_in">vec!</span>[],
-			bounds: <span class="hljs-title function_ invoke__">Some</span>(Cuboid {
+			on_cuboids: vec![],
+			bounds: Some(Cuboid {
 				x_range: [-n, n],
 				y_range: [-n, n],
 				z_range: [-n, n],
@@ -1098,103 +1093,103 @@ In Part 2 this sequence occurs in an unbounded space, which is where the savings
 		}
 	}
 
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">new_unbounded</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
+	fn new_unbounded() -&gt; Self {
 		Grid {
-			on_cuboids: <span class="hljs-built_in">vec!</span>[],
-			bounds: <span class="hljs-literal">None</span>,
+			on_cuboids: vec![],
+			bounds: None,
 		}
 	}
 
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_step</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, RebootStep { state, cuboid }: &amp;RebootStep) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;()&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">cuboid</span> = <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(bounds) = <span class="hljs-keyword">self</span>.bounds {
-			cuboid.<span class="hljs-title function_ invoke__">intersection</span>(&amp;bounds)?
-		} <span class="hljs-keyword">else</span> {
+	fn apply_step(&amp;mut self, RebootStep { state, cuboid }: &amp;RebootStep) -&gt; Option&lt;()&gt; {
+		let cuboid = if let Some(bounds) = self.bounds {
+			cuboid.intersection(&amp;bounds)?
+		} else {
 			*cuboid
 		};
 
-		<span class="hljs-keyword">match</span> state {
+		match state {
 			State::On =&gt; {
-				<span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">push</span>(cuboid);
+				self.on_cuboids.push(cuboid);
 			}
 			State::Off =&gt; {
-				<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">on_cuboids</span> = <span class="hljs-built_in">vec!</span>[];
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">my_cuboid</span> <span class="hljs-keyword">in</span> &amp;<span class="hljs-keyword">self</span>.on_cuboids {
-					on_cuboids.<span class="hljs-title function_ invoke__">extend</span>(my_cuboid.<span class="hljs-title function_ invoke__">difference</span>(&amp;cuboid));
+				let mut on_cuboids = vec![];
+				for my_cuboid in &amp;self.on_cuboids {
+					on_cuboids.extend(my_cuboid.difference(&amp;cuboid));
 				}
-				<span class="hljs-keyword">self</span>.on_cuboids = on_cuboids;
+				self.on_cuboids = on_cuboids;
 			}
 		};
 
-		<span class="hljs-title function_ invoke__">Some</span>(())
+		Some(())
 	}
 
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">n_on</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">nonintersecting_cuboids</span> = <span class="hljs-built_in">vec!</span>[];
-		<span class="hljs-title function_ invoke__">for</span> (i, &amp;c1) <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">enumerate</span>() {
-			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">pieces</span> = <span class="hljs-built_in">vec!</span>[c1];
-			<span class="hljs-keyword">for</span> &amp;c2 <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>.on_cuboids.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(i + <span class="hljs-number">1</span>) {
+	fn n_on(&amp;self) -&gt; usize {
+		let mut nonintersecting_cuboids = vec![];
+		for (i, &amp;c1) in self.on_cuboids.iter().enumerate() {
+			let mut pieces = vec![c1];
+			for &amp;c2 in self.on_cuboids.iter().skip(i + 1) {
 				pieces = pieces
-					.<span class="hljs-title function_ invoke__">into_iter</span>()
-					.<span class="hljs-title function_ invoke__">flat_map</span>(|piece| piece.<span class="hljs-title function_ invoke__">difference</span>(&amp;c2))
-					.<span class="hljs-title function_ invoke__">collect</span>();
+					.into_iter()
+					.flat_map(|piece| piece.difference(&amp;c2))
+					.collect();
 			}
-			nonintersecting_cuboids.<span class="hljs-title function_ invoke__">extend</span>(pieces);
+			nonintersecting_cuboids.extend(pieces);
 		}
 
 		nonintersecting_cuboids
-			.<span class="hljs-title function_ invoke__">iter</span>()
-			.<span class="hljs-title function_ invoke__">fold</span>(<span class="hljs-number">0</span>, |accum, cuboid| accum + cuboid.<span class="hljs-title function_ invoke__">size</span>())
+			.iter()
+			.fold(0, |accum, cuboid| accum + cuboid.size())
 	}
 }
 
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;RebootStep&gt;&gt; {
+fn read_input(input: &amp;str) -&gt; Option&lt;Vec&lt;RebootStep&gt;&gt; {
 	input
-		.<span class="hljs-title function_ invoke__">lines</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(RebootStep::from_line)
-		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
+		.lines()
+		.map(RebootStep::from_line)
+		.collect::&lt;Option&lt;Vec&lt;_&gt;&gt;&gt;()
 }
 
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">steps</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">22</span>, (<span class="hljs-title function_ invoke__">pt1</span>(steps.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(steps.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
+fn ans_for_input(input: &amp;str) -&gt; Answer&lt;usize, usize&gt; {
+	let steps = read_input(input).unwrap();
+	(22, (pt1(steps.iter()), pt2(steps.iter()))).into()
 }
 
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
+pub fn ans() -&gt; Answer&lt;usize, usize&gt; {
+	ans_for_input(include_str!("input.txt"))
 }
-<span class="hljs-comment">// end::setup[]</span>
+// end::setup[]
 
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = R&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Grid::<span class="hljs-title function_ invoke__">new_with_size</span>(<span class="hljs-number">50</span>);
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
-		grid.<span class="hljs-title function_ invoke__">apply_step</span>(step.<span class="hljs-title function_ invoke__">borrow</span>());
+// tag::pt1[]
+fn pt1&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: impl Iterator&lt;Item = R&gt;) -&gt; usize {
+	let mut grid = Grid::new_with_size(50);
+	for step in steps {
+		grid.apply_step(step.borrow());
 	}
 
-	grid.<span class="hljs-title function_ invoke__">n_on</span>()
+	grid.n_on()
 }
 
-<span class="hljs-comment">// end::pt1[]</span>
+// end::pt1[]
 
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = R&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">grid</span> = Grid::<span class="hljs-title function_ invoke__">new_unbounded</span>();
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
-		grid.<span class="hljs-title function_ invoke__">apply_step</span>(step.<span class="hljs-title function_ invoke__">borrow</span>());
+// tag::pt2[]
+fn pt2&lt;R: std::borrow::Borrow&lt;RebootStep&gt;&gt;(steps: impl Iterator&lt;Item = R&gt;) -&gt; usize {
+	let mut grid = Grid::new_unbounded();
+	for step in steps {
+		grid.apply_step(step.borrow());
 	}
 
-	grid.<span class="hljs-title function_ invoke__">n_on</span>()
+	grid.n_on()
 }
-<span class="hljs-comment">// end::pt2[]</span>
+// end::pt2[]
 
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_input;
 
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">22</span>, ans: (<span class="hljs-number">607_657</span>, <span class="hljs-number">1_187_742_789_778_677</span>));
+	#[test]
+	fn test() {
+		test_input!(include_str!("input.txt"), day: 22, ans: (607_657, 1_187_742_789_778_677));
 	}
 }</code></pre>
 </div>
@@ -1243,7 +1238,7 @@ In Part 2 this sequence occurs in an unbounded space, which is where the savings
 		// document.body directly, helps performance.
 		// https://atfzl.com/don-t-attach-tooltips-to-document-body
 		const footnoteHolder = document.createElement("div");
-		document.body.appendChild(footnoteHolder);
+		(document.querySelector('body .doc') ?? document.body).appendChild(footnoteHolder);
 
 		function showFootnoteBoxOnHover(elem) {
 			const FOOTNOTE_BOX_MAX_WIDTH = 400;
