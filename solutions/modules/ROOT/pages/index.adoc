@@ -44,7 +44,6 @@ include_source::./src/utils.rs[tag=code]
 
 include::../nav.adoc[]
 
-== Conclusion
 
 This was a lot of work, but a lot of fun, and I learned a ton, both about algorithms in general and about Rust.
 Looking forward to next year's Advent of Code!
