@@ -2389,13 +2389,14 @@ body {
 .navbar-dropdown {
 	/* position above the search window when both are shown */
 	z-index: 200;
+	overflow: hidden;
 }
 .navbar-dropdown .navbar-item {
 	padding-left: 1.3rem;
 	padding-right: 1.5rem;
 }
 .navbar-dropdown .navbar-item:last-child {
-	margin-bottom: 2px;
+	/* margin-bottom: 2px; */
 }
 .navbar-dropdown .navbar-item:hover {
 	background-color: var(--toolbar-bg-color);
