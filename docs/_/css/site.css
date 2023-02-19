@@ -2589,12 +2589,18 @@ body {
 	.navbar-end > .navbar-item {
 		color: #fff;
 	}
+	.navbar-end .navbar-item.has-dropdown .navbar-link,
+	.navbar-end .navbar-link,
+	.navbar-end > a.navbar-item:not(.navbar-external-link) {
+		border-bottom: 1px solid var(--header-bar-bg-colo);
+		transition: var(--default-transition);
+	}
 	.navbar-end .navbar-item.has-dropdown:hover .navbar-link,
 	.navbar-end .navbar-link:hover,
 	.navbar-end > a.navbar-item:not(.navbar-external-link):hover {
 		background: #fff;
 		color: #111;
-		border-bottom: 1px solid var(--table-border-color);
+		border-bottom-color: var(--table-border-color);
 	}
 	.navbar-end .navbar-link::after {
 		border-color: currentColor;
