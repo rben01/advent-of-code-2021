@@ -18,6 +18,9 @@ ui:
     # url: ~/Documents/CloudDocs/Documents/Coding/Projects/Antora Theme/src
     snapshot: true
 
+runtime:
+  fetch: true
+
 urls:
   html_extension_style: drop
 

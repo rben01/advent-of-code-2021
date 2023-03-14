@@ -1,11 +1,11 @@
 :root {
-	--font-family: "rotunda-variable", "Source Sans Pro", "Helvetica Neue", "Helvetica",
+	--font-family: "Inter var", "Source Sans Pro", "Helvetica Neue", "Helvetica",
 		sans-serif;
 	--header-font: var(--font-family);
-	--mono-font-family: "Iosevka RLTB Mono", monospace;
+	--mono-font-family: "Iosevka RLTB Alt Web", monospace;
 	--mono-font-size: 0.95em;
 	--body-letter-spacing: -0.03em;
-	--default-font-weight: 350;
+	--default-font-weight: 400;
 	--bold-font-weight: 650;
 	--header-bar-height: 3rem;
 	--toolbar-height: 2.5rem;
@@ -29,7 +29,7 @@
 	--toolbar-link-hover-color: #747474;
 	--toolbar-border-top-color: #e5e5e5;
 	--toolbar-border-top: 2px solid var(--toolbar-border-top-color);
-	--header-bar-bg-colo: #0970c4;
+	--header-bar-bg-color: #0970c4;
 	--navbar-bg-color: #f1f1f1;
 	--navbar-header-bg-color: #fafafa;
 	--navbar-shadow-color-1: #dedede;
@@ -173,7 +173,7 @@
 		--toolbar-text-color: #cccccc;
 		--toolbar-link-hover-color: #cbcbcb;
 		--toolbar-border-top-color: #202020;
-		--header-bar-bg-colo: #0967b4;
+		--header-bar-bg-color: #0967b4;
 		--navbar-bg-color: #161616;
 		--navbar-header-bg-color: #0f0f0f;
 		--navbar-shadow-color-1: #1a1a1a;
@@ -270,7 +270,7 @@
 		--admon-note-icon-color: #1b64b7;
 		--admon-tip-shadow-color: rgb(155 155 0 / 0.8);
 		--admon-tip-icon-color: #2d9332;
-		--admon-warning-icon-color: #fdbb06;
+		--admon-warning-icon-color: #dba000;
 		--admon-caution-icon-color: #e25f22;
 		--admon-important-icon-color: #b41f1f;
 		--conum-text-color: rgb(29, 29, 29);
@@ -318,7 +318,7 @@
 }
 html {
 	box-sizing: border-box;
-	font-size: 1.0625em;
+	font-size: 1.1625rem;
 	height: 100%;
 	scroll-behavior: var(--scroll-behavior);
 	background: var(--default-bg-color);
@@ -338,8 +338,12 @@ body {
 	margin: 0;
 	tab-size: 3;
 	overflow-wrap: break-word;
-	/* font-weight: var(--default-font-weight); */
-	font-variation-settings: "wght" var(--default-font-weight);
+	font-weight: var(--default-font-weight);
+
+	font-feature-settings: /* case-sensitive forms */ "case", /* open digits */ "ss01",
+		/* curved r when followed by round letter */ "ss03",
+		/* add bars to I and hook/tail to l */ "ss04";
+	/* font-variation-settings: "wght" var(--default-font-weight); */
 }
 .hidden {
 	visibility: hidden;
@@ -365,13 +369,14 @@ pre {
 	font-family: var(--mono-font-family);
 	font-size: var(--mono-font-size);
 	font-stretch: expanded;
+	font-feature-settings: normal;
 }
 b,
 dt,
 strong,
 th {
-	/* font-weight: var(--bold-font-weight); */
-	font-variation-settings: "wght" var(--bold-font-weight);
+	font-weight: var(--bold-font-weight);
+	/* font-variation-settings: "wght" var(--bold-font-weight); */
 }
 :is(b, dt, strong, th, h1, h2, h3, h4, h5, h6) > :is(code, pre) {
 	font-weight: 700;
@@ -393,8 +398,8 @@ em em {
 	font-style: normal;
 }
 strong strong {
-	/* font-weight: var(--default-font-weight); */
-	font-variation-settings: "wght" var(--default-font-weight);
+	font-weight: var(--default-font-weight);
+	/* font-variation-settings: "wght" var(--default-font-weight); */
 }
 button {
 	cursor: pointer;
@@ -526,8 +531,8 @@ html.is-clipped--nav {
 }
 :is(.nav-panel-menu, .nav-panel-explore)
 	:is(.component.is-current > .title, .is-current-path > .nav-item-expander) {
-	/* font-weight: var(--bold-font-weight); */
-	font-variation-settings: "wght" var(--bold-font-weight);
+	font-weight: var(--bold-font-weight);
+	/* font-variation-settings: "wght" var(--bold-font-weight); */
 }
 .component.is-current-page > .title,
 .final-depth > .nav-text {
@@ -538,20 +543,20 @@ html.is-clipped--nav {
 	padding: 0.5rem 0.75rem;
 	line-height: 1.35;
 	position: relative;
-	/* font-weight: 400; */
-	font-variation-settings: "wght" 400;
+	font-weight: 400;
+	/* font-variation-settings: "wght" 400; */
 }
 .nav-menu h3.title {
-	/* font-weight: 400; */
-	font-variation-settings: "wght" 400;
+	font-weight: 400;
+	/* font-variation-settings: "wght" 400; */
 	color: var(--navbar-text-color);
 	font-size: inherit;
 	margin: 0;
 	padding: 0.25em 0 0.125em;
 }
 .nav-menu h3.title.is-current-page {
-	/* font-weight: var(); */
-	font-variation-settings: "wght" var(--bold-font-weight);
+	font-weight: var(--bold-font-weight);
+	/* font-variation-settings: "wght" var(--bold-font-weight); */
 }
 .nav-menu h3.title a {
 	text-decoration: underline;
@@ -608,7 +613,7 @@ html.is-clipped--nav {
 	padding: 0.2rem;
 	padding-left: 0;
 	position: relative;
-	top: -0.225em;
+	top: -0.125em;
 	height: 1.35em;
 	width: 1em;
 	transition: transform 0.08s var(--default-transition-timing-function);
@@ -622,11 +627,10 @@ html.is-clipped--nav {
 	transform: rotate(90deg);
 }
 :is(.component, .nav-item).is-active > .nav-item-expander > .nav-item-toggle {
-	transform: translateY(0.1em) rotate(180deg);
+	transform: translate(-0.1em, 0.25em) rotate(180deg);
 }
 .nav-menu .nav-text {
 	position: relative;
-	top: 0.12em;
 }
 .nav .nav-list a {
 	text-decoration: underline;
@@ -741,8 +745,8 @@ html.is-clipped--nav {
 	margin-bottom: 0.75rem;
 }
 .nav-panel-explore .component .title {
-	/* font-weight: var(); */
-	font-variation-settings: "wght" var(--default-font-weight);
+	font-weight: var(--default-font-weight);
+	/* font-variation-settings: "wght" var(--default-font-weight); */
 }
 .nav-panel-explore .nav-explore-expanders {
 	display: flex;
@@ -861,9 +865,11 @@ html.is-clipped--nav {
 	transition: transform var(--default-transition-duration)
 		var(--default-transition-timing-function);
 }
-.nav-toggle:hover .menu-icon-duo,
-.toolbar .home-link:hover .home-icon-duo {
+.nav-toggle:hover .menu-icon-duo {
 	transform: translate(55%, 55%) scale(1.1) translate(-50%, -50%);
+}
+.toolbar .home-link:hover .home-icon-duo {
+	transform: translate(60%, 60%) scale(1.2) translate(-50%, -50%);
 }
 .nav-toggle .icon-menu {
 	clip-path: url(#icon-menu);
@@ -944,8 +950,6 @@ html.is-clipped--nav {
 	.breadcrumbs {
 		display: block;
 		position: relative;
-		/* fixes rotunda variable's weird baseline */
-		top: 1px;
 	}
 }
 a + .breadcrumbs {
@@ -1036,8 +1040,8 @@ a + .breadcrumbs {
 .toc .toc-menu h3 {
 	color: var(--toc-title-color);
 	font-size: 0.88889rem;
-	/* font-weight: 500; */
-	font-variation-settings: "wght" 500;
+	font-weight: 500;
+	/* font-variation-settings: "wght" 500; */
 	line-height: 1.3;
 	margin: 0 -0.5px;
 	padding-bottom: 0.25rem;
@@ -1118,8 +1122,8 @@ a + .breadcrumbs {
 	margin: 0 auto;
 	max-width: 40rem;
 	padding: 0 1rem 4rem;
-	/* font-weight: var(--default-font-weight); */
-	font-variation-settings: "wght" var(--default-font-weight);
+	font-weight: var(--default-font-weight);
+	/* font-variation-settings: "wght" var(--default-font-weight); */
 }
 @media screen and (min-width: 1024px) {
 	.doc {
@@ -1142,8 +1146,8 @@ h6 {
 
 .doc :is(h1, h2, h3, h4, h5, h6) {
 	color: var(--header-text-color);
-	/* font-weight: 400; */
-	font-variation-settings: "wght" 400;
+	font-weight: 400;
+	/* font-variation-settings: "wght" 400; */
 	hyphens: none;
 	line-height: 1.3;
 	margin: 1rem 0 0;
@@ -1194,8 +1198,8 @@ h6 {
 }
 .doc h3:not(.discrete),
 .doc h4:not(.discrete) {
-	/* font-weight: 500; */
-	font-variation-settings: "wght" 500;
+	font-weight: 500;
+	/* font-variation-settings: "wght" 500; */
 }
 .doc :is(h1, h2, h3, h4, h5, h6) .anchor:is(a, a:visited) {
 	color: var(--link-text-color);
@@ -1203,7 +1207,8 @@ h6 {
 	text-decoration: none;
 	width: 3ex;
 	margin-left: -1.75rem;
-	font-variation-settings: "wght" 400;
+	font-weight: 400;
+	/* font-variation-settings: "wght" 400; */
 }
 .doc :is(h1, h2, h3, h4, h5, h6) .anchor:is(a:hover, a:hover:visited) {
 	color: var(--link-hover-color);
@@ -1312,6 +1317,7 @@ h6 {
 		.imageblock,
 		.listingblock,
 		.literalblock,
+		.openblock,
 		.olist,
 		.paragraph,
 		.partintro,
@@ -1325,6 +1331,30 @@ h6 {
 		hr
 	) {
 	margin: 0.8rem 0 0;
+}
+.doc
+	li
+	> :is(
+		.dlist,
+		.exampleblock,
+		.hdlist,
+		.imageblock,
+		.listingblock,
+		.literalblock,
+		.openblock,
+		.olist,
+		.paragraph,
+		.partintro,
+		.quoteblock,
+		.sidebarblock,
+		.tabs,
+		.ulist,
+		.verseblock,
+		.videoblock,
+		details,
+		hr
+	) {
+	margin: 0.4rem 0 0;
 }
 .doc dd .listingblock {
 	margin: 0 0 1rem;
@@ -1457,8 +1487,8 @@ h6 {
 	padding: 0 0.5rem 0 0.35rem;
 	height: 1.25rem;
 	line-height: 1;
-	/* font-weight: 500; */
-	font-variation-settings: "wght" 500;
+	font-weight: 500;
+	/* font-variation-settings: "wght" 500; */
 	text-transform: uppercase;
 	border-radius: 0.45rem;
 	transform: translate(-0.5rem, -50%);
@@ -1482,8 +1512,6 @@ h6 {
 	width: 0.9em;
 	text-align: center;
 	margin-right: 0.35rem;
-	position: relative;
-	bottom: 0.025em;
 }
 
 .doc .admonitionblock.caution .icon {
@@ -1508,8 +1536,6 @@ h6 {
 
 .doc .admonitionblock.note .icon i::before {
 	clip-path: url(#icon-admon-note);
-	position: relative;
-	bottom: 0.025em;
 }
 
 .doc .admonitionblock.tip .icon {
@@ -1536,8 +1562,6 @@ h6 {
 
 .doc .admonitionblock .icon i::after {
 	content: attr(title);
-	position: relative;
-	top: 0.125em;
 	padding-left: calc(0.5rem - 0.1rem);
 	/* matches the padding-right 0.5rem above, minus a bit for visual symmetry */
 }
@@ -1702,8 +1726,8 @@ h6 {
 	color: var(--title-text-color);
 	font-size: 0.88889rem;
 	font-style: italic;
-	/* font-weight: 500; */
-	font-variation-settings: "wght" 500;
+	font-weight: 500;
+	/* font-variation-settings: "wght" 500; */
 	hyphens: none;
 	letter-spacing: 0.01em;
 	padding-bottom: 0.075rem;
@@ -1716,8 +1740,8 @@ h6 {
 }
 .doc :is(.olist, .ulist, .dlist, .hdlist) .title {
 	font-style: italic;
-	/* font-weight: 500; */
-	font-variation-settings: "wght" 500;
+	font-weight: 500;
+	/* font-variation-settings: "wght" 500; */
 	margin-bottom: 0.25rem;
 }
 .doc .imageblock .title {
@@ -1791,8 +1815,8 @@ h6 {
 }
 .doc .sidebarblock > .content > .title {
 	font-size: 1.25rem;
-	/* font-weight: 500; */
-	font-variation-settings: "wght" 500;
+	font-weight: 500;
+	/* font-variation-settings: "wght" 500; */
 	line-height: 1.3;
 	margin-bottom: -0.3em;
 	text-align: center;
@@ -1916,8 +1940,8 @@ h6 {
 	padding-top: 0;
 }
 .doc td.hdlist1 {
-	/* font-weight: 500; */
-	font-variation-settings: "wght" 500;
+	font-weight: 500;
+	/* font-variation-settings: "wght" 500; */
 	padding-right: 0.25rem;
 }
 .doc td.hdlist2 {
@@ -1955,8 +1979,6 @@ h6 {
 }
 .doc .conum[data-value]::after {
 	content: attr(data-value);
-	position: relative;
-	top: 0.1em;
 }
 .doc .conum[data-value] + b {
 	display: none;
@@ -1985,10 +2007,12 @@ h6 {
 	border-radius: 0.25em;
 	box-shadow: 0 1px 0 var(--kbd-not-keyseq-box-shadow-color),
 		inset 0 0 0 0.1em var(--kbd-not-keyseq-box-shadow-alt-color);
-	padding: 0.25em 0.5em;
+	padding: 0.225em 0.45em;
 	vertical-align: text-bottom;
 	white-space: nowrap;
 	color: var(--kbd-not-keyseq-text-color);
+	position: relative;
+	top: 0.05625em; /* 1/4 of padding-bottom */
 }
 .doc :is(.keyseq, kbd) {
 	line-height: 1;
@@ -2011,8 +2035,8 @@ h6 {
 .doc .menuseq i.caret::before {
 	content: "\203a";
 	font-size: 1.1em;
-	/* font-weight: 500; */
-	font-variation-settings: "wght" 500;
+	font-weight: 500;
+	/* font-variation-settings: "wght" 500; */
 	line-height: 0.90909;
 }
 .doc :not(pre).nowrap {
@@ -2144,8 +2168,8 @@ nav.pagination .next::before {
 	content: "Next";
 }
 nav.pagination a {
-	/* font-weight: 500; */
-	font-variation-settings: "wght" 500;
+	font-weight: 500;
+	/* font-variation-settings: "wght" 500; */
 	line-height: 1.3;
 	position: relative;
 }
@@ -2171,7 +2195,7 @@ body {
 	padding-top: var(--header-bar-height);
 }
 .navbar {
-	background: var(--header-bar-bg-colo);
+	background: var(--header-bar-bg-color);
 	color: var(--default-text-color);
 	font-size: 0.88889rem;
 	/* this is a hack to hide the 1px strip of pixels on iOS */
@@ -2197,8 +2221,8 @@ body {
 .site-logo {
 	background-color: currentColor;
 	/* no transition because it's already synced to currentColor, which itself
-	transitions.
-	If we had a transition here, it would lag behind the currentColor transition */
+	transitions. If we had a transition here, it would lag behind the currentColor
+	transition */
 	transition: none;
 	display: inline-block;
 	width: 1em;
@@ -2224,11 +2248,11 @@ body {
 	position: relative;
 }
 .doc .github-logo {
-	top: 0.15em;
+	top: 0.125em;
 }
 .navbar-item .site-logo {
 	position: relative;
-	top: 0.15em;
+	top: 0.1em;
 }
 .icon > i.fa {
 	margin-right: 0.2em;
@@ -2249,7 +2273,7 @@ body {
 	flex-wrap: wrap;
 	line-height: 1;
 	display: inline-block;
-	padding-top: 0.3em;
+	padding-top: 0.1em;
 }
 .navbar-brand .navbar-item:first-child a {
 	color: inherit;
@@ -2274,7 +2298,7 @@ body {
 	border: 1px solid var(--search-border-color);
 	border-radius: 0.1em;
 	line-height: 1;
-	padding: 0.45em 0.35em 0.35em;
+	padding: 0.35em;
 }
 #search-input:disabled {
 	background-color: var(--search-border-color);
@@ -2400,8 +2424,6 @@ body {
 .navbar-dropdown .navbar-item {
 	padding-left: 1.3rem;
 	padding-right: 1.5rem;
-	position: relative;
-	top: 0.1em;
 }
 .navbar-dropdown .navbar-item:hover {
 	background-color: var(--toolbar-bg-color);
@@ -2523,9 +2545,23 @@ body {
 		overscroll-behavior: none;
 		padding: 0.5rem 0;
 		border-bottom: 1px solid var(--table-border-color);
+		transition-property: opacity, transform, visibility, z-index, clip-path;
+		transition-duration: var(--default-transition-duration);
+		transition-timing-function: var(--default-transition-timing-function);
+		clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 	}
+
 	.navbar-menu:not(.is-active) {
-		display: none;
+		visibility: hidden;
+		opacity: 0;
+		transform: translateY(-50px);
+		clip-path: polygon(
+			0% calc(0% + var(--header-bar-height)),
+			100% calc(0% + var(--header-bar-height)),
+			100% 100%,
+			0% 100%
+		);
+		z-index: -100;
 	}
 	.navbar-menu :is(.navbar-link, a.navbar-item):hover {
 		background: var(--table-bg-color);
@@ -2578,7 +2614,7 @@ body {
 		display: block;
 	}
 	.navbar-link::after {
-		border-width: 0 0 1px 1px;
+		border-width: 0 0 1.5px 1.5px;
 		border-style: solid;
 		content: "";
 		display: block;
@@ -2598,7 +2634,7 @@ body {
 	.navbar-end .navbar-item.has-dropdown .navbar-link,
 	.navbar-end .navbar-link,
 	.navbar-end > a.navbar-item:not(.navbar-external-link) {
-		border-bottom: 1px solid var(--header-bar-bg-colo);
+		border-bottom: 1px solid var(--header-bar-bg-color);
 		transition: var(--default-transition);
 	}
 	.navbar-end .navbar-item.has-dropdown:hover .navbar-link,

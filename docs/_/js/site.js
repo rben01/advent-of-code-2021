@@ -125,12 +125,13 @@
 					})(e, ".nav-text"));
 			e && ((e.style.cursor = "pointer"), e.addEventListener("click", n.bind(t)));
 		}),
-		e &&
-			e.querySelector(".context").addEventListener("click", function () {
-				h(c, "[data-panel]").forEach(function (e) {
-					e.classList.toggle("is-active");
-				});
-			}),
+		// This used to toggle the nav bar on tap, but that's not necessary anymore
+		// e &&
+		// 	e.querySelector(".context").addEventListener("click", function () {
+		// 		h(c, "[data-panel]").forEach(function (e) {
+		// 			e.classList.toggle("is-active");
+		// 		});
+		// 	}),
 		l.querySelector('.nav-link[href^="#"]')) &&
 		(window.location.hash && t(), window.addEventListener("hashchange", t));
 })();
