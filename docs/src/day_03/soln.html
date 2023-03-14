@@ -10,8 +10,8 @@
     <meta name="generator" content="Antora 3.1.2">
 <link rel="stylesheet" href="../../_/css/site.css" />
 <link rel="stylesheet" href="../../_/css/code-syntax-highlight.css" />
-<link rel="stylesheet" href="https://use.typekit.net/fnd4xvj.css" />
 <link rel="stylesheet" href="https://iosevka-rltb.pages.dev/dist/iosevka-rltb-mono/iosevka-rltb-mono-cloudflare.css">
+<link rel="stylesheet" href="https://use.typekit.net/fnd4xvj.css" />
 <meta name="theme-color" content="#0970c4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0967b4" media="(prefers-color-scheme: dark)">
 <script>var uiRootPath = '../../_';</script>
@@ -101,6 +101,10 @@
 		<clipPath id="icon-user-home" clipPathUnits="objectBoundingBox">
 			<path transform="translate(.5 .5) scale(0.0017361111) translate(-288 -256)"
 				d="M570.69,236.27,512,184.44V48a16,16,0,0,0-16-16H432a16,16,0,0,0-16,16V99.67L314.78,10.3C308.5,4.61,296.53,0,288,0s-20.46,4.61-26.74,10.3l-256,226A18.27,18.27,0,0,0,0,248.2a18.64,18.64,0,0,0,4.09,10.71L25.5,282.7a21.14,21.14,0,0,0,12,5.3,21.67,21.67,0,0,0,10.69-4.11l15.9-14V480a32,32,0,0,0,32,32H480a32,32,0,0,0,32-32V269.88l15.91,14A21.94,21.94,0,0,0,538.63,288a20.89,20.89,0,0,0,11.87-5.31l21.41-23.81A21.64,21.64,0,0,0,576,248.19,21,21,0,0,0,570.69,236.27ZM288,176a64,64,0,1,1-64,64A64,64,0,0,1,288,176ZM400,448H176a16,16,0,0,1-16-16,96,96,0,0,1,96-96h64a96,96,0,0,1,96,96A16,16,0,0,1,400,448Z" />
+		</clipPath>
+		<clipPath id="icon-file-pdf" clipPathUnits="objectBoundingBox">
+			<path transform="translate(.5 .5) scale(0.001953125) translate(-192 -256)"
+				d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5-17.2-10.5-28.7-25-36.8-46.3 3.9-16.1 10.1-40.6 5.4-56-4.2-26.2-37.8-23.6-42.6-5.9-4.4 16.1-.4 38.5 7 67.1-10 23.9-24.9 56-35.4 74.4-20 10.3-47 26.2-51 46.2-3.3 15.8 26 55.2 76.1-31.2 22.4-7.4 46.8-16.5 68.4-20.1 18.9 10.2 41 17 55.8 17 25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7 8.3 15.1 18.9 27.2 30.1 35.5-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z" />
 		</clipPath>
 		<clipPath id="icon-admon-caution" clipPathUnits="objectBoundingBox">
 			<path transform="translate(.5 .5) scale(0.001953125) translate(-224 -256)" d="M159.3 5.4c7.8-7.3 19.9-7.2 27.7
@@ -921,20 +925,20 @@ The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
 			const footnoteHtml = footnoteClone.innerHTML.replace(/^\s*\.\s*/, "");
 
 			footnoteP.innerHTML = footnoteHtml;
+			footnoteBox.style.display = "block";
 			footnoteBox.style.right = null;
 			footnoteBox.style.left = "0px";
 			footnoteBox.style.top = "0px";
 
-			const elemRect = elem.getBoundingClientRect();
 			const bodyRect = document.body.getBoundingClientRect();
-
-			footnoteBox.style.display = "block";
+			const elemRect = elem.getBoundingClientRect();
+			const footnoteRect = footnoteBox.getBoundingClientRect();
 
 			let tx = false;
 			let ty = false;
 
 			if (elemRect.left - FOOTNOTE_BOX_MAX_WIDTH < 10) {
-				const px = -bodyRect.left + 10;
+				const px = Math.max(-bodyRect.left, elemRect.left - footnoteRect.width + 10) + 10;
 				footnoteBox.style.left = `${px}px`;
 
 				tx = true;
@@ -943,14 +947,12 @@ The procedure to find the <code>oxy_rate</code> is as follows:<br></p>
 				footnoteBox.style.left = `${px}px`;
 			}
 
-			const footnoteRect = footnoteBox.getBoundingClientRect();
-
 			const windowHeight = document.documentElement.clientHeight;
 			if (elemRect.top + footnoteRect.height > windowHeight) {
 				const py = -10 + window.scrollY + windowHeight;
 				footnoteBox.style.top = `${py}px`;
 			} else {
-				const py = elemRect.top - bodyRect.top;
+				const py = -5 + elemRect.top - bodyRect.top;
 				footnoteBox.style.top = `${py}px`;
 
 				ty = true;
