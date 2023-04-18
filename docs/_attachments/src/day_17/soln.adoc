@@ -33,7 +33,7 @@ It has no problem running on a target area of `x=1000000..1001000, y=-1000000..-
 include_source::mod.rs[tag=setup_main]
 --
 
-.The Math
+== The Math
 Because stem:[x] decreases by 1 each tick until it hits 0, and stem:[y] decreases by 1 each tick forever, we have the following equations for the stem:[x]- and stem:[y]-coordinates at time stem:[t] of a projectile fired with an initial velocity of stem:[ (v_x, v_y)].
 (Derivations are left to the reader, but a helpful fact is that stem:[1+2+\ldots+n=\frac{1}{2}n(n+1)].)
 
