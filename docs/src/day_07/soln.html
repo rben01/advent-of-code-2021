@@ -449,8 +449,7 @@ In both parts, we aim to minimize an <a href="https://en.wikipedia.org/wiki/Norm
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::{utils::abs_diff, Answer};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::{utils::abs_diff, Answer};
 
 <span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt; {
 	s.<span class="hljs-title function_ invoke__">trim</span>()
@@ -466,53 +465,6 @@ In both parts, we aim to minimize an <a href="https://en.wikipedia.org/wiki/Norm
 
 <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
 	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>().<span class="hljs-title function_ invoke__">to_vec</span>();
-	nums.<span class="hljs-title function_ invoke__">sort_unstable</span>();
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_below</span> = nums[nums.<span class="hljs-title function_ invoke__">len</span>() / <span class="hljs-number">2</span>];
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_above</span> = nums[<span class="hljs-number">1</span> + (nums.<span class="hljs-title function_ invoke__">len</span>() - <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>];
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">median</span> = (datum_below + datum_above) / <span class="hljs-number">2</span>;
-	nums.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|&amp;n| <span class="hljs-title function_ invoke__">abs_diff</span>(n, median)).<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">cost</span>(mean: <span class="hljs-type">usize</span>, nums: &amp;[<span class="hljs-type">usize</span>]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-		nums.<span class="hljs-title function_ invoke__">iter</span>()
-			.<span class="hljs-title function_ invoke__">map</span>(|&amp;n| {
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">diff</span> = <span class="hljs-title function_ invoke__">abs_diff</span>(n, mean);
-				diff * (diff + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>
-			})
-			.<span class="hljs-title function_ invoke__">sum</span>()
-	}
-
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>();
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">sum</span> = nums.<span class="hljs-title function_ invoke__">iter</span>().sum::&lt;<span class="hljs-type">usize</span>&gt;();
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">len</span> = nums.<span class="hljs-title function_ invoke__">len</span>();
-
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_down</span> = sum / len;
-
-	<span class="hljs-keyword">if</span> sum % len == <span class="hljs-number">0</span> {
-		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums)
-	} <span class="hljs-keyword">else</span> {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_up</span> = (sum - <span class="hljs-number">1</span>) / len + <span class="hljs-number">1</span>;
-		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums).<span class="hljs-title function_ invoke__">min</span>(<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_up, nums))
-	}
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">7</span>, ans: (<span class="hljs-number">328_187</span>, <span class="hljs-number">91_257_582</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -532,70 +484,13 @@ If you are not at the median and move towards it, you are moving toward at least
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::{utils::abs_diff, Answer};
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt; {
-	s.<span class="hljs-title function_ invoke__">trim</span>()
-		.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
-		.<span class="hljs-title function_ invoke__">map</span>(|n| n.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>())
-		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">7</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;nums), <span class="hljs-title function_ invoke__">pt2</span>(&amp;nums))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>().<span class="hljs-title function_ invoke__">to_vec</span>();
 	nums.<span class="hljs-title function_ invoke__">sort_unstable</span>();
 	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_below</span> = nums[nums.<span class="hljs-title function_ invoke__">len</span>() / <span class="hljs-number">2</span>];
 	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_above</span> = nums[<span class="hljs-number">1</span> + (nums.<span class="hljs-title function_ invoke__">len</span>() - <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>];
 	<span class="hljs-keyword">let</span> <span class="hljs-variable">median</span> = (datum_below + datum_above) / <span class="hljs-number">2</span>;
 	nums.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|&amp;n| <span class="hljs-title function_ invoke__">abs_diff</span>(n, median)).<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">cost</span>(mean: <span class="hljs-type">usize</span>, nums: &amp;[<span class="hljs-type">usize</span>]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-		nums.<span class="hljs-title function_ invoke__">iter</span>()
-			.<span class="hljs-title function_ invoke__">map</span>(|&amp;n| {
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">diff</span> = <span class="hljs-title function_ invoke__">abs_diff</span>(n, mean);
-				diff * (diff + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>
-			})
-			.<span class="hljs-title function_ invoke__">sum</span>()
-	}
-
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>();
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">sum</span> = nums.<span class="hljs-title function_ invoke__">iter</span>().sum::&lt;<span class="hljs-type">usize</span>&gt;();
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">len</span> = nums.<span class="hljs-title function_ invoke__">len</span>();
-
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_down</span> = sum / len;
-
-	<span class="hljs-keyword">if</span> sum % len == <span class="hljs-number">0</span> {
-		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums)
-	} <span class="hljs-keyword">else</span> {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_up</span> = (sum - <span class="hljs-number">1</span>) / len + <span class="hljs-number">1</span>;
-		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums).<span class="hljs-title function_ invoke__">min</span>(<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_up, nums))
-	}
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">7</span>, ans: (<span class="hljs-number">328_187</span>, <span class="hljs-number">91_257_582</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -617,37 +512,7 @@ This works because the error is concave up, i.e., a local minimum is the global 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::{utils::abs_diff, Answer};
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt; {
-	s.<span class="hljs-title function_ invoke__">trim</span>()
-		.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
-		.<span class="hljs-title function_ invoke__">map</span>(|n| n.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>())
-		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">7</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;nums), <span class="hljs-title function_ invoke__">pt2</span>(&amp;nums))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">nums</span> = nums.<span class="hljs-title function_ invoke__">as_ref</span>().<span class="hljs-title function_ invoke__">to_vec</span>();
-	nums.<span class="hljs-title function_ invoke__">sort_unstable</span>();
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_below</span> = nums[nums.<span class="hljs-title function_ invoke__">len</span>() / <span class="hljs-number">2</span>];
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">datum_above</span> = nums[<span class="hljs-number">1</span> + (nums.<span class="hljs-title function_ invoke__">len</span>() - <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>];
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">median</span> = (datum_below + datum_above) / <span class="hljs-number">2</span>;
-	nums.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">map</span>(|&amp;n| <span class="hljs-title function_ invoke__">abs_diff</span>(n, median)).<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;V: <span class="hljs-built_in">AsRef</span>&lt;[<span class="hljs-type">usize</span>]&gt;&gt;(nums: V) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">cost</span>(mean: <span class="hljs-type">usize</span>, nums: &amp;[<span class="hljs-type">usize</span>]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 		nums.<span class="hljs-title function_ invoke__">iter</span>()
 			.<span class="hljs-title function_ invoke__">map</span>(|&amp;n| {
@@ -668,18 +533,6 @@ This works because the error is concave up, i.e., a local minimum is the global 
 	} <span class="hljs-keyword">else</span> {
 		<span class="hljs-keyword">let</span> <span class="hljs-variable">mean_rounded_up</span> = (sum - <span class="hljs-number">1</span>) / len + <span class="hljs-number">1</span>;
 		<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_down, nums).<span class="hljs-title function_ invoke__">min</span>(<span class="hljs-title function_ invoke__">cost</span>(mean_rounded_up, nums))
-	}
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">7</span>, ans: (<span class="hljs-number">328_187</span>, <span class="hljs-number">91_257_582</span>));
 	}
 }</code></pre>
 </div>

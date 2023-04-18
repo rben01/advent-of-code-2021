@@ -438,8 +438,7 @@ If we make it to the end of the input without match-and-popping everything — i
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::Answer;
 
 <span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq)]</span>
 <span class="hljs-keyword">enum</span> <span class="hljs-title class_">Brace</span> {
@@ -560,68 +559,6 @@ If we make it to the end of the input without match-and-popping everything — i
 
 <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
 	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;P: std::borrow::Borrow&lt;ParseResult&gt;&gt;(prs: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = P&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">use</span> Brace::*;
-	prs.<span class="hljs-title function_ invoke__">filter_map</span>(|r| {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">r</span> = r.<span class="hljs-title function_ invoke__">borrow</span>();
-		<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Err</span>(TokenizationErr::<span class="hljs-title function_ invoke__">Corrupted</span>(t)) = r {
-			<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> t.brace {
-				Paren =&gt; <span class="hljs-number">3</span>,
-				Square =&gt; <span class="hljs-number">57</span>,
-				Curly =&gt; <span class="hljs-number">1197</span>,
-				Angle =&gt; <span class="hljs-number">25137</span>,
-			})
-		} <span class="hljs-keyword">else</span> {
-			<span class="hljs-literal">None</span>
-		}
-	})
-	.<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;P: std::borrow::Borrow&lt;ParseResult&gt;&gt;(prs: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = P&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">use</span> Brace::*;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">scores</span> = prs
-		.<span class="hljs-title function_ invoke__">filter_map</span>(|r| {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">r</span> = r.<span class="hljs-title function_ invoke__">borrow</span>();
-			<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Err</span>(TokenizationErr::<span class="hljs-title function_ invoke__">Incomplete</span>(tokens)) = r {
-				<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">score</span> = <span class="hljs-number">0_usize</span>;
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">t</span> <span class="hljs-keyword">in</span> tokens {
-					score *= <span class="hljs-number">5</span>;
-					<span class="hljs-keyword">let</span> <span class="hljs-variable">token_score</span> = <span class="hljs-keyword">match</span> t.brace {
-						Paren =&gt; <span class="hljs-number">1</span>,
-						Square =&gt; <span class="hljs-number">2</span>,
-						Curly =&gt; <span class="hljs-number">3</span>,
-						Angle =&gt; <span class="hljs-number">4</span>,
-					};
-					score += token_score;
-				}
-				<span class="hljs-title function_ invoke__">Some</span>(score)
-			} <span class="hljs-keyword">else</span> {
-				<span class="hljs-literal">None</span>
-			}
-		})
-		.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
-
-	scores.<span class="hljs-title function_ invoke__">sort_unstable</span>();
-	scores[scores.<span class="hljs-title function_ invoke__">len</span>() / <span class="hljs-number">2</span>]
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">10</span>, ans: (<span class="hljs-number">167_379</span>, <span class="hljs-number">2_776_842_859</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -636,133 +573,7 @@ If we make it to the end of the input without match-and-popping everything — i
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-
-<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq)]</span>
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Brace</span> {
-	Paren,
-	Square,
-	Curly,
-	Angle,
-}
-
-<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq)]</span>
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Orientation</span> {
-	Left,
-	Right,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Orientation</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">flip</span>(<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
-		<span class="hljs-keyword">use</span> Orientation::*;
-		<span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span> {
-			Left =&gt; Right,
-			Right =&gt; Left,
-		}
-	}
-}
-
-<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Token</span> {
-	brace: Brace,
-	orientation: Orientation,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Token</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_char</span>(c: <span class="hljs-type">char</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">use</span> Brace::*;
-		<span class="hljs-keyword">use</span> Orientation::*;
-
-		<span class="hljs-keyword">let</span> (orientation, brace) = <span class="hljs-keyword">match</span> c {
-			<span class="hljs-string">&#x27;(&#x27;</span> =&gt; (Left, Paren),
-			<span class="hljs-string">&#x27;)&#x27;</span> =&gt; (Right, Paren),
-			<span class="hljs-string">&#x27;[&#x27;</span> =&gt; (Left, Square),
-			<span class="hljs-string">&#x27;]&#x27;</span> =&gt; (Right, Square),
-			<span class="hljs-string">&#x27;{&#x27;</span> =&gt; (Left, Curly),
-			<span class="hljs-string">&#x27;}&#x27;</span> =&gt; (Right, Curly),
-			<span class="hljs-string">&#x27;&lt;&#x27;</span> =&gt; (Left, Angle),
-			<span class="hljs-string">&#x27;&gt;&#x27;</span> =&gt; (Right, Angle),
-			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
-		};
-
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { brace, orientation })
-	}
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">flip</span>(<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
-		<span class="hljs-keyword">Self</span> {
-			orientation: <span class="hljs-keyword">self</span>.orientation.<span class="hljs-title function_ invoke__">flip</span>(),
-			..<span class="hljs-keyword">self</span>
-		}
-	}
-}
-
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">TokenizationErr</span> {
-	<span class="hljs-title function_ invoke__">Corrupted</span>(Token),
-	<span class="hljs-title function_ invoke__">Incomplete</span>(<span class="hljs-type">Vec</span>&lt;Token&gt;),
-}
-
-<span class="hljs-keyword">type</span> <span class="hljs-title class_">ParseResult</span> = <span class="hljs-type">Result</span>&lt;(), TokenizationErr&gt;;
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">parse_line</span>&lt;T: std::borrow::Borrow&lt;Token&gt;&gt;(line: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = T&gt;) <span class="hljs-punctuation">-&gt;</span> ParseResult {
-	<span class="hljs-keyword">use</span> Orientation::*;
-
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">token_stack</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">curr</span> <span class="hljs-keyword">in</span> line {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">curr</span> = *curr.<span class="hljs-title function_ invoke__">borrow</span>();
-		<span class="hljs-keyword">match</span> token_stack.<span class="hljs-title function_ invoke__">last</span>() {
-			<span class="hljs-literal">None</span> =&gt; {
-				token_stack.<span class="hljs-title function_ invoke__">push</span>(curr);
-			}
-			<span class="hljs-title function_ invoke__">Some</span>(&amp;prev) =&gt; {
-				<span class="hljs-keyword">if</span> prev.orientation == Left &amp;&amp; curr.orientation == Right {
-					<span class="hljs-keyword">if</span> prev.brace != curr.brace {
-						<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Err</span>(TokenizationErr::<span class="hljs-title function_ invoke__">Corrupted</span>(curr));
-					}
-					token_stack.<span class="hljs-title function_ invoke__">pop</span>();
-				} <span class="hljs-keyword">else</span> {
-					token_stack.<span class="hljs-title function_ invoke__">push</span>(curr);
-				}
-			}
-		}
-	}
-
-	<span class="hljs-keyword">if</span> !token_stack.<span class="hljs-title function_ invoke__">is_empty</span>() {
-		<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Err</span>(TokenizationErr::<span class="hljs-title function_ invoke__">Incomplete</span>(
-			token_stack.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">rev</span>().<span class="hljs-title function_ invoke__">map</span>(|t| t.<span class="hljs-title function_ invoke__">flip</span>()).<span class="hljs-title function_ invoke__">collect</span>(),
-		));
-	}
-
-	<span class="hljs-title function_ invoke__">Ok</span>(())
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">Vec</span>&lt;Token&gt;&gt;&gt; {
-	input
-		.<span class="hljs-title function_ invoke__">lines</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|line| {
-			line.<span class="hljs-title function_ invoke__">trim</span>()
-				.<span class="hljs-title function_ invoke__">chars</span>()
-				.<span class="hljs-title function_ invoke__">map</span>(Token::from_char)
-				.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
-		})
-		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">tokens</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">parsed_lines</span> = tokens
-		.<span class="hljs-title function_ invoke__">iter</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|v| <span class="hljs-title function_ invoke__">parse_line</span>(v.<span class="hljs-title function_ invoke__">iter</span>()))
-		.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
-	(<span class="hljs-number">10</span>, (<span class="hljs-title function_ invoke__">pt1</span>(parsed_lines.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(parsed_lines.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;P: std::borrow::Borrow&lt;ParseResult&gt;&gt;(prs: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = P&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;P: std::borrow::Borrow&lt;ParseResult&gt;&gt;(prs: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = P&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-keyword">use</span> Brace::*;
 	prs.<span class="hljs-title function_ invoke__">filter_map</span>(|r| {
 		<span class="hljs-keyword">let</span> <span class="hljs-variable">r</span> = r.<span class="hljs-title function_ invoke__">borrow</span>();
@@ -778,48 +589,6 @@ If we make it to the end of the input without match-and-popping everything — i
 		}
 	})
 	.<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;P: std::borrow::Borrow&lt;ParseResult&gt;&gt;(prs: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = P&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">use</span> Brace::*;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">scores</span> = prs
-		.<span class="hljs-title function_ invoke__">filter_map</span>(|r| {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">r</span> = r.<span class="hljs-title function_ invoke__">borrow</span>();
-			<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Err</span>(TokenizationErr::<span class="hljs-title function_ invoke__">Incomplete</span>(tokens)) = r {
-				<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">score</span> = <span class="hljs-number">0_usize</span>;
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">t</span> <span class="hljs-keyword">in</span> tokens {
-					score *= <span class="hljs-number">5</span>;
-					<span class="hljs-keyword">let</span> <span class="hljs-variable">token_score</span> = <span class="hljs-keyword">match</span> t.brace {
-						Paren =&gt; <span class="hljs-number">1</span>,
-						Square =&gt; <span class="hljs-number">2</span>,
-						Curly =&gt; <span class="hljs-number">3</span>,
-						Angle =&gt; <span class="hljs-number">4</span>,
-					};
-					score += token_score;
-				}
-				<span class="hljs-title function_ invoke__">Some</span>(score)
-			} <span class="hljs-keyword">else</span> {
-				<span class="hljs-literal">None</span>
-			}
-		})
-		.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
-
-	scores.<span class="hljs-title function_ invoke__">sort_unstable</span>();
-	scores[scores.<span class="hljs-title function_ invoke__">len</span>() / <span class="hljs-number">2</span>]
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">10</span>, ans: (<span class="hljs-number">167_379</span>, <span class="hljs-number">2_776_842_859</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -834,153 +603,7 @@ If we make it to the end of the input without match-and-popping everything — i
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-
-<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq)]</span>
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Brace</span> {
-	Paren,
-	Square,
-	Curly,
-	Angle,
-}
-
-<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq)]</span>
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Orientation</span> {
-	Left,
-	Right,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Orientation</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">flip</span>(<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
-		<span class="hljs-keyword">use</span> Orientation::*;
-		<span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span> {
-			Left =&gt; Right,
-			Right =&gt; Left,
-		}
-	}
-}
-
-<span class="hljs-meta">#[derive(Clone, Copy, Debug, PartialEq, Eq)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Token</span> {
-	brace: Brace,
-	orientation: Orientation,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Token</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_char</span>(c: <span class="hljs-type">char</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">use</span> Brace::*;
-		<span class="hljs-keyword">use</span> Orientation::*;
-
-		<span class="hljs-keyword">let</span> (orientation, brace) = <span class="hljs-keyword">match</span> c {
-			<span class="hljs-string">&#x27;(&#x27;</span> =&gt; (Left, Paren),
-			<span class="hljs-string">&#x27;)&#x27;</span> =&gt; (Right, Paren),
-			<span class="hljs-string">&#x27;[&#x27;</span> =&gt; (Left, Square),
-			<span class="hljs-string">&#x27;]&#x27;</span> =&gt; (Right, Square),
-			<span class="hljs-string">&#x27;{&#x27;</span> =&gt; (Left, Curly),
-			<span class="hljs-string">&#x27;}&#x27;</span> =&gt; (Right, Curly),
-			<span class="hljs-string">&#x27;&lt;&#x27;</span> =&gt; (Left, Angle),
-			<span class="hljs-string">&#x27;&gt;&#x27;</span> =&gt; (Right, Angle),
-			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
-		};
-
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { brace, orientation })
-	}
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">flip</span>(<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> {
-		<span class="hljs-keyword">Self</span> {
-			orientation: <span class="hljs-keyword">self</span>.orientation.<span class="hljs-title function_ invoke__">flip</span>(),
-			..<span class="hljs-keyword">self</span>
-		}
-	}
-}
-
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">TokenizationErr</span> {
-	<span class="hljs-title function_ invoke__">Corrupted</span>(Token),
-	<span class="hljs-title function_ invoke__">Incomplete</span>(<span class="hljs-type">Vec</span>&lt;Token&gt;),
-}
-
-<span class="hljs-keyword">type</span> <span class="hljs-title class_">ParseResult</span> = <span class="hljs-type">Result</span>&lt;(), TokenizationErr&gt;;
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">parse_line</span>&lt;T: std::borrow::Borrow&lt;Token&gt;&gt;(line: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = T&gt;) <span class="hljs-punctuation">-&gt;</span> ParseResult {
-	<span class="hljs-keyword">use</span> Orientation::*;
-
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">token_stack</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">curr</span> <span class="hljs-keyword">in</span> line {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">curr</span> = *curr.<span class="hljs-title function_ invoke__">borrow</span>();
-		<span class="hljs-keyword">match</span> token_stack.<span class="hljs-title function_ invoke__">last</span>() {
-			<span class="hljs-literal">None</span> =&gt; {
-				token_stack.<span class="hljs-title function_ invoke__">push</span>(curr);
-			}
-			<span class="hljs-title function_ invoke__">Some</span>(&amp;prev) =&gt; {
-				<span class="hljs-keyword">if</span> prev.orientation == Left &amp;&amp; curr.orientation == Right {
-					<span class="hljs-keyword">if</span> prev.brace != curr.brace {
-						<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Err</span>(TokenizationErr::<span class="hljs-title function_ invoke__">Corrupted</span>(curr));
-					}
-					token_stack.<span class="hljs-title function_ invoke__">pop</span>();
-				} <span class="hljs-keyword">else</span> {
-					token_stack.<span class="hljs-title function_ invoke__">push</span>(curr);
-				}
-			}
-		}
-	}
-
-	<span class="hljs-keyword">if</span> !token_stack.<span class="hljs-title function_ invoke__">is_empty</span>() {
-		<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">Err</span>(TokenizationErr::<span class="hljs-title function_ invoke__">Incomplete</span>(
-			token_stack.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">rev</span>().<span class="hljs-title function_ invoke__">map</span>(|t| t.<span class="hljs-title function_ invoke__">flip</span>()).<span class="hljs-title function_ invoke__">collect</span>(),
-		));
-	}
-
-	<span class="hljs-title function_ invoke__">Ok</span>(())
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">Vec</span>&lt;Token&gt;&gt;&gt; {
-	input
-		.<span class="hljs-title function_ invoke__">lines</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|line| {
-			line.<span class="hljs-title function_ invoke__">trim</span>()
-				.<span class="hljs-title function_ invoke__">chars</span>()
-				.<span class="hljs-title function_ invoke__">map</span>(Token::from_char)
-				.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
-		})
-		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">tokens</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">parsed_lines</span> = tokens
-		.<span class="hljs-title function_ invoke__">iter</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|v| <span class="hljs-title function_ invoke__">parse_line</span>(v.<span class="hljs-title function_ invoke__">iter</span>()))
-		.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
-	(<span class="hljs-number">10</span>, (<span class="hljs-title function_ invoke__">pt1</span>(parsed_lines.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(parsed_lines.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;P: std::borrow::Borrow&lt;ParseResult&gt;&gt;(prs: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = P&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">use</span> Brace::*;
-	prs.<span class="hljs-title function_ invoke__">filter_map</span>(|r| {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">r</span> = r.<span class="hljs-title function_ invoke__">borrow</span>();
-		<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Err</span>(TokenizationErr::<span class="hljs-title function_ invoke__">Corrupted</span>(t)) = r {
-			<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> t.brace {
-				Paren =&gt; <span class="hljs-number">3</span>,
-				Square =&gt; <span class="hljs-number">57</span>,
-				Curly =&gt; <span class="hljs-number">1197</span>,
-				Angle =&gt; <span class="hljs-number">25137</span>,
-			})
-		} <span class="hljs-keyword">else</span> {
-			<span class="hljs-literal">None</span>
-		}
-	})
-	.<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;P: std::borrow::Borrow&lt;ParseResult&gt;&gt;(prs: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = P&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;P: std::borrow::Borrow&lt;ParseResult&gt;&gt;(prs: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = P&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-keyword">use</span> Brace::*;
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">scores</span> = prs
 		.<span class="hljs-title function_ invoke__">filter_map</span>(|r| {
@@ -1006,18 +629,6 @@ If we make it to the end of the input without match-and-popping everything — i
 
 	scores.<span class="hljs-title function_ invoke__">sort_unstable</span>();
 	scores[scores.<span class="hljs-title function_ invoke__">len</span>() / <span class="hljs-number">2</span>]
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">10</span>, ans: (<span class="hljs-number">167_379</span>, <span class="hljs-number">2_776_842_859</span>));
-	}
 }</code></pre>
 </div>
 </div>

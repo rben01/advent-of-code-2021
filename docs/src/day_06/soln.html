@@ -447,8 +447,7 @@ In one case we have to also add to said values.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::Answer;
 
 <span class="hljs-keyword">const</span> N_TIMERS: <span class="hljs-type">usize</span> = <span class="hljs-number">9</span>;
 <span class="hljs-keyword">type</span> <span class="hljs-title class_">Timers</span> = [<span class="hljs-type">usize</span>; N_TIMERS];
@@ -494,31 +493,6 @@ In one case we have to also add to said values.</p>
 
 <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
 	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(timers: &amp;Timers) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-title function_ invoke__">tick</span>(<span class="hljs-number">80</span>, timers).<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(timers: &amp;Timers) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-title function_ invoke__">tick</span>(<span class="hljs-number">256</span>, timers).<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">6</span>, ans: (<span class="hljs-number">5934</span>, <span class="hljs-number">26_984_457_539</span>));
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">6</span>, ans: (<span class="hljs-number">372_984</span>, <span class="hljs-number">1_681_503_251_694</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -533,78 +507,11 @@ In one case we have to also add to said values.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-
-<span class="hljs-keyword">const</span> N_TIMERS: <span class="hljs-type">usize</span> = <span class="hljs-number">9</span>;
-<span class="hljs-keyword">type</span> <span class="hljs-title class_">Timers</span> = [<span class="hljs-type">usize</span>; N_TIMERS];
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;Timers&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">timers</span> = [<span class="hljs-number">0</span>; N_TIMERS];
-
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">nums</span> = input
-		.<span class="hljs-title function_ invoke__">trim</span>()
-		.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
-		.<span class="hljs-title function_ invoke__">map</span>(|s| s.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>())
-		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt;&gt;&gt;()?;
-
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">num</span> <span class="hljs-keyword">in</span> nums {
-		timers[num] += <span class="hljs-number">1</span>;
-	}
-
-	<span class="hljs-title function_ invoke__">Some</span>(timers)
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick_in_place</span>(timers: &amp;<span class="hljs-keyword">mut</span> Timers) {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">initial</span> = timers[<span class="hljs-number">0</span>];
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..(N_TIMERS - <span class="hljs-number">1</span>) {
-		timers[i] = timers[i + <span class="hljs-number">1</span>];
-	}
-	timers[<span class="hljs-number">8</span>] = initial;
-	timers[<span class="hljs-number">6</span>] += initial;
-}
-
-<span class="hljs-comment">// [usize; 9] implements Copy</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick</span>(n_times: <span class="hljs-type">usize</span>, timers: &amp;Timers) <span class="hljs-punctuation">-&gt;</span> Timers {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">timers</span> = *timers;
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_times {
-		<span class="hljs-title function_ invoke__">tick_in_place</span>(&amp;<span class="hljs-keyword">mut</span> timers);
-	}
-	timers
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">timers</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">6</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;timers), <span class="hljs-title function_ invoke__">pt2</span>(&amp;timers))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(timers: &amp;Timers) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(timers: &amp;Timers) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-title function_ invoke__">tick</span>(<span class="hljs-number">80</span>, timers).<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">sum</span>()
 }
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
 <span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(timers: &amp;Timers) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-title function_ invoke__">tick</span>(<span class="hljs-number">256</span>, timers).<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">6</span>, ans: (<span class="hljs-number">5934</span>, <span class="hljs-number">26_984_457_539</span>));
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">6</span>, ans: (<span class="hljs-number">372_984</span>, <span class="hljs-number">1_681_503_251_694</span>));
-	}
 }</code></pre>
 </div>
 </div>

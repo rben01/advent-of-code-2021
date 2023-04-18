@@ -480,8 +480,7 @@ This was the first problem of this year&#8217;s Advent of Code that I thought it
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::Answer;
 <span class="hljs-keyword">use</span> std::collections::BTreeMap <span class="hljs-keyword">as</span> Map;
 
 <span class="hljs-meta">#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
@@ -627,32 +626,6 @@ This was the first problem of this year&#8217;s Advent of Code that I thought it
 
 <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
 	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(polymer: &amp;Polymer) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-title function_ invoke__">get_ans</span>(polymer, <span class="hljs-number">10</span>)
-}
-
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(polymer: &amp;Polymer) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-title function_ invoke__">get_ans</span>(polymer, <span class="hljs-number">40</span>)
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">14</span>, ans: (<span class="hljs-number">1588</span>, <span class="hljs-number">2_188_189_693_529</span>));
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">14</span>, ans: (<span class="hljs-number">2937</span>, <span class="hljs-number">3_390_034_818_249</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -667,179 +640,12 @@ This was the first problem of this year&#8217;s Advent of Code that I thought it
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-<span class="hljs-keyword">use</span> std::collections::BTreeMap <span class="hljs-keyword">as</span> Map;
-
-<span class="hljs-meta">#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]</span>
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Position</span> {
-	Start,
-	Middle,
-	End,
-}
-
-<span class="hljs-meta">#[derive(Debug)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Polymer</span> {
-	template: <span class="hljs-type">String</span>,
-	mapping: Map&lt;(<span class="hljs-type">char</span>, <span class="hljs-type">char</span>), <span class="hljs-type">char</span>&gt;,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Polymer</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = s.<span class="hljs-title function_ invoke__">lines</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">template</span> = lines.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">to_owned</span>();
-		lines.<span class="hljs-title function_ invoke__">next</span>()?;
-
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">mapping</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> lines {
-			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">splat</span> = line.<span class="hljs-title function_ invoke__">split</span>(<span class="hljs-string">&quot; -&gt; &quot;</span>);
-
-			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">outer_chars</span> = splat.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">chars</span>();
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">left</span> = outer_chars.<span class="hljs-title function_ invoke__">next</span>()?;
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">right</span> = outer_chars.<span class="hljs-title function_ invoke__">next</span>()?;
-
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">inner</span> = splat.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">next</span>()?;
-			mapping.<span class="hljs-title function_ invoke__">insert</span>((left, right), inner);
-		}
-
-		<span class="hljs-title function_ invoke__">Some</span>(Polymer { template, mapping })
-	}
-
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_initial_char_pair_counts</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> Map&lt;(<span class="hljs-type">char</span>, <span class="hljs-type">char</span>, Position), <span class="hljs-type">usize</span>&gt; {
-		<span class="hljs-keyword">use</span> Position::*;
-
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">ans</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
-
-		<span class="hljs-comment">// Iterate over adjacent pairs of chars. The last index iterated is `n_pairs - 1`</span>
-		<span class="hljs-comment">// with `n_pairs == self.template.len() - 1`</span>
-		<span class="hljs-title function_ invoke__">for</span> (i, (c1, c2)) <span class="hljs-keyword">in</span> <span class="hljs-keyword">self</span>
-			.template
-			.<span class="hljs-title function_ invoke__">chars</span>()
-			.<span class="hljs-title function_ invoke__">zip</span>(<span class="hljs-keyword">self</span>.template.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">skip</span>(<span class="hljs-number">1</span>))
-			.<span class="hljs-title function_ invoke__">enumerate</span>()
-		{
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">position</span> = <span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span> {
-				Start
-			} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> i == <span class="hljs-keyword">self</span>.template.<span class="hljs-title function_ invoke__">len</span>() - <span class="hljs-number">2</span> {
-				End
-			} <span class="hljs-keyword">else</span> {
-				Middle
-			};
-
-			*ans.<span class="hljs-title function_ invoke__">entry</span>((c1, c2, position)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
-		}
-		ans
-	}
-
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">apply_n_times</span>(&amp;<span class="hljs-keyword">self</span>, n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> Map&lt;(<span class="hljs-type">char</span>, <span class="hljs-type">char</span>, Position), <span class="hljs-type">usize</span>&gt; {
-		<span class="hljs-keyword">use</span> Position::*;
-
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">pair_counts</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">get_initial_char_pair_counts</span>();
-
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">pair_counts_vec</span> = pair_counts
-				.<span class="hljs-title function_ invoke__">iter</span>()
-				.<span class="hljs-title function_ invoke__">filter_map</span>(|(&amp;k, &amp;v)| <span class="hljs-keyword">if</span> v &gt; <span class="hljs-number">0</span> { <span class="hljs-title function_ invoke__">Some</span>((k, v)) } <span class="hljs-keyword">else</span> { <span class="hljs-literal">None</span> })
-				.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
-
-			<span class="hljs-title function_ invoke__">for</span> (key, count) <span class="hljs-keyword">in</span> pair_counts_vec {
-				<span class="hljs-keyword">let</span> (c1, c2, position) = key;
-				<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(&amp;c) = <span class="hljs-keyword">self</span>.mapping.<span class="hljs-title function_ invoke__">get</span>(&amp;(c1, c2)) {
-					<span class="hljs-keyword">let</span> <span class="hljs-variable">first_pos</span> = <span class="hljs-keyword">match</span> position {
-						Start =&gt; Start,
-						_ =&gt; Middle,
-					};
-					<span class="hljs-keyword">let</span> <span class="hljs-variable">second_pos</span> = <span class="hljs-keyword">match</span> position {
-						End =&gt; End,
-						_ =&gt; Middle,
-					};
-
-					*pair_counts.<span class="hljs-title function_ invoke__">entry</span>((c1, c, first_pos)).<span class="hljs-title function_ invoke__">or_default</span>() += count;
-					*pair_counts.<span class="hljs-title function_ invoke__">entry</span>((c, c2, second_pos)).<span class="hljs-title function_ invoke__">or_default</span>() += count;
-
-					*pair_counts.<span class="hljs-title function_ invoke__">get_mut</span>(&amp;key).<span class="hljs-title function_ invoke__">unwrap</span>() -= count;
-				}
-			}
-		}
-
-		pair_counts
-	}
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>(polymer: &amp;Polymer, n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">use</span> Position::*;
-
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">char_pair_counts</span> = polymer.<span class="hljs-title function_ invoke__">apply_n_times</span>(n);
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">char_counts</span> = {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">char_counts_2x</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
-		<span class="hljs-title function_ invoke__">for</span> ((c1, c2, position), count) <span class="hljs-keyword">in</span> char_pair_counts {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">c1_multiplier</span> = <span class="hljs-keyword">match</span> position {
-				Start =&gt; <span class="hljs-number">2</span>,
-				_ =&gt; <span class="hljs-number">1</span>,
-			};
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">c2_multiplier</span> = <span class="hljs-keyword">match</span> position {
-				End =&gt; <span class="hljs-number">2</span>,
-				_ =&gt; <span class="hljs-number">1</span>,
-			};
-
-			<span class="hljs-title function_ invoke__">for</span> (c, mult) <span class="hljs-keyword">in</span> [(c1, c1_multiplier), (c2, c2_multiplier)] {
-				*char_counts_2x.<span class="hljs-title function_ invoke__">entry</span>(c).<span class="hljs-title function_ invoke__">or_insert</span>(<span class="hljs-number">0</span>) += mult * count;
-			}
-		}
-
-		char_counts_2x
-			.<span class="hljs-title function_ invoke__">into_iter</span>()
-			.<span class="hljs-title function_ invoke__">map</span>(|(k, v)| (k, v / <span class="hljs-number">2</span>))
-			.collect::&lt;Map&lt;_, _&gt;&gt;()
-	};
-
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">max_count</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">min_count</span> = <span class="hljs-type">usize</span>::MAX;
-	<span class="hljs-keyword">for</span> &amp;count <span class="hljs-keyword">in</span> char_counts.<span class="hljs-title function_ invoke__">values</span>() {
-		<span class="hljs-keyword">if</span> count &lt; min_count {
-			min_count = count;
-		}
-		<span class="hljs-keyword">if</span> count &gt; max_count {
-			max_count = count;
-		}
-	}
-
-	max_count - min_count
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">polymer</span> = Polymer::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">14</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;polymer), <span class="hljs-title function_ invoke__">pt2</span>(&amp;polymer))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(polymer: &amp;Polymer) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(polymer: &amp;Polymer) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-title function_ invoke__">get_ans</span>(polymer, <span class="hljs-number">10</span>)
 }
 
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
 <span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(polymer: &amp;Polymer) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-title function_ invoke__">get_ans</span>(polymer, <span class="hljs-number">40</span>)
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">14</span>, ans: (<span class="hljs-number">1588</span>, <span class="hljs-number">2_188_189_693_529</span>));
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">14</span>, ans: (<span class="hljs-number">2937</span>, <span class="hljs-number">3_390_034_818_249</span>));
-	}
 }</code></pre>
 </div>
 </div>

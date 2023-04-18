@@ -465,8 +465,7 @@ Since the exterior starts out as all-off, it remains either all-on or all-off fo
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::{utils::to_decimal, Answer};
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::{utils::to_decimal, Answer};
 <span class="hljs-keyword">use</span> ndarray::prelude::*;
 <span class="hljs-keyword">use</span> std::fmt::{Display, Write};
 
@@ -479,21 +478,6 @@ Since the exterior starts out as all-off, it remains either all-on or all-off fo
 	algo: <span class="hljs-type">Vec</span>&lt;Bit&gt;,
 }
 
-<span class="hljs-comment">// tag::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Display</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">Image</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
-		<span class="hljs-built_in">writeln!</span>(f, <span class="hljs-string">&quot;outer: {}&quot;</span>, <span class="hljs-keyword">self</span>.surrounding)?;
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-keyword">self</span>.mat.<span class="hljs-title function_ invoke__">nrows</span>() {
-			<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-keyword">self</span>.mat.<span class="hljs-title function_ invoke__">ncols</span>() {
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">bit</span> = <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.mat[[r, c]] { <span class="hljs-string">&#x27;#&#x27;</span> } <span class="hljs-keyword">else</span> { <span class="hljs-string">&#x27;.&#x27;</span> };
-				f.<span class="hljs-title function_ invoke__">write_char</span>(bit)?;
-			}
-			f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-string">&#x27;\n&#x27;</span>)?;
-		}
-		<span class="hljs-title function_ invoke__">Ok</span>(())
-	}
-}
-<span class="hljs-comment">// end::debugging[]</span>
 <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Image</span> {
 	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
 		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = s.<span class="hljs-title function_ invoke__">lines</span>();
@@ -595,32 +579,6 @@ Since the exterior starts out as all-off, it remains either all-on or all-off fo
 
 <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
 	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(im: Image) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">im</span> = im;
-	im.<span class="hljs-title function_ invoke__">tick_n_times</span>(<span class="hljs-number">2</span>);
-	im.mat.<span class="hljs-title function_ invoke__">map</span>(|&amp;bit| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(bit)).<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(im: Image) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">im</span> = im;
-	im.<span class="hljs-title function_ invoke__">tick_n_times</span>(<span class="hljs-number">50</span>);
-	im.mat.<span class="hljs-title function_ invoke__">map</span>(|&amp;bit| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(bit)).<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">//end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">20</span>, ans: (<span class="hljs-number">5432</span>, <span class="hljs-number">16016</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -637,162 +595,15 @@ Since the exterior starts out as all-off, it remains either all-on or all-off fo
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::{utils::to_decimal, Answer};
-<span class="hljs-keyword">use</span> ndarray::prelude::*;
-<span class="hljs-keyword">use</span> std::fmt::{Display, Write};
-
-<span class="hljs-keyword">type</span> <span class="hljs-title class_">Bit</span> = <span class="hljs-type">bool</span>;
-
-<span class="hljs-meta">#[derive(Debug, Clone)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Image</span> {
-	mat: Array2&lt;Bit&gt;,
-	surrounding: Bit,
-	algo: <span class="hljs-type">Vec</span>&lt;Bit&gt;,
-}
-
-<span class="hljs-comment">// tag::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Display</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">Image</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">fmt</span>(&amp;<span class="hljs-keyword">self</span>, f: &amp;<span class="hljs-keyword">mut</span> std::fmt::Formatter&lt;<span class="hljs-symbol">&#x27;_</span>&gt;) <span class="hljs-punctuation">-&gt;</span> std::fmt::<span class="hljs-type">Result</span> {
-		<span class="hljs-built_in">writeln!</span>(f, <span class="hljs-string">&quot;outer: {}&quot;</span>, <span class="hljs-keyword">self</span>.surrounding)?;
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-keyword">self</span>.mat.<span class="hljs-title function_ invoke__">nrows</span>() {
-			<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..<span class="hljs-keyword">self</span>.mat.<span class="hljs-title function_ invoke__">ncols</span>() {
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">bit</span> = <span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.mat[[r, c]] { <span class="hljs-string">&#x27;#&#x27;</span> } <span class="hljs-keyword">else</span> { <span class="hljs-string">&#x27;.&#x27;</span> };
-				f.<span class="hljs-title function_ invoke__">write_char</span>(bit)?;
-			}
-			f.<span class="hljs-title function_ invoke__">write_char</span>(<span class="hljs-string">&#x27;\n&#x27;</span>)?;
-		}
-		<span class="hljs-title function_ invoke__">Ok</span>(())
-	}
-}
-<span class="hljs-comment">// end::debugging[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Image</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">lines</span> = s.<span class="hljs-title function_ invoke__">lines</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">algo</span> = lines
-			.<span class="hljs-title function_ invoke__">next</span>()?
-			.<span class="hljs-title function_ invoke__">chars</span>()
-			.<span class="hljs-title function_ invoke__">map</span>(|c| <span class="hljs-keyword">match</span> c {
-				<span class="hljs-string">&#x27;#&#x27;</span> =&gt; <span class="hljs-literal">true</span>,
-				<span class="hljs-string">&#x27;.&#x27;</span> =&gt; <span class="hljs-literal">false</span>,
-				_ =&gt; <span class="hljs-built_in">unreachable!</span>(),
-			})
-			.<span class="hljs-title function_ invoke__">collect</span>();
-
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">data</span> = lines
-			.<span class="hljs-title function_ invoke__">flat_map</span>(|line| {
-				line.<span class="hljs-title function_ invoke__">trim</span>().<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">map</span>(|c| <span class="hljs-keyword">match</span> c {
-					<span class="hljs-string">&#x27;#&#x27;</span> =&gt; <span class="hljs-literal">true</span>,
-					<span class="hljs-string">&#x27;.&#x27;</span> =&gt; <span class="hljs-literal">false</span>,
-					_ =&gt; <span class="hljs-built_in">unreachable!</span>(),
-				})
-			})
-			.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
-
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">n_cols</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">nth_back</span>(<span class="hljs-number">0</span>)?.<span class="hljs-title function_ invoke__">trim</span>().<span class="hljs-title function_ invoke__">len</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">n_rows</span> = data.<span class="hljs-title function_ invoke__">len</span>() / n_cols;
-
-		<span class="hljs-built_in">assert_eq!</span>(n_rows * n_cols, data.<span class="hljs-title function_ invoke__">len</span>());
-
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> {
-			mat: Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((n_rows, n_cols), data).<span class="hljs-title function_ invoke__">unwrap</span>(),
-			surrounding: <span class="hljs-literal">false</span>,
-			algo,
-		})
-	}
-
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">new_surrounding</span> = {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">index</span> = <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">try_from</span>(<span class="hljs-title function_ invoke__">to_decimal</span>([<span class="hljs-keyword">self</span>.surrounding; <span class="hljs-number">9</span>])).<span class="hljs-title function_ invoke__">unwrap</span>();
-			<span class="hljs-keyword">self</span>.algo[index]
-		};
-
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">grown_mat</span> =
-			Array2::<span class="hljs-title function_ invoke__">from_shape_fn</span>((<span class="hljs-keyword">self</span>.mat.<span class="hljs-title function_ invoke__">nrows</span>() + <span class="hljs-number">2</span>, <span class="hljs-keyword">self</span>.mat.<span class="hljs-title function_ invoke__">ncols</span>() + <span class="hljs-number">2</span>), |(r, c)| {
-				<span class="hljs-keyword">if</span> r &lt; <span class="hljs-number">1</span> || r &gt; <span class="hljs-keyword">self</span>.mat.<span class="hljs-title function_ invoke__">nrows</span>() || c &lt; <span class="hljs-number">1</span> || c &gt; <span class="hljs-keyword">self</span>.mat.<span class="hljs-title function_ invoke__">ncols</span>() {
-					<span class="hljs-keyword">self</span>.surrounding
-				} <span class="hljs-keyword">else</span> {
-					<span class="hljs-keyword">self</span>.mat[[r - <span class="hljs-number">1</span>, c - <span class="hljs-number">1</span>]]
-				}
-			});
-
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_mat</span> = Array2::<span class="hljs-title function_ invoke__">from_shape_simple_fn</span>(grown_mat.<span class="hljs-title function_ invoke__">dim</span>(), || <span class="hljs-literal">false</span>);
-
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">center_row</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..grown_mat.<span class="hljs-title function_ invoke__">nrows</span>() {
-			<span class="hljs-keyword">for</span> <span class="hljs-variable">center_col</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..grown_mat.<span class="hljs-title function_ invoke__">ncols</span>() {
-				<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">surrounding_pixels</span> = <span class="hljs-built_in">vec!</span>[];
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">surrounding_rows</span> = [
-					center_row.<span class="hljs-title function_ invoke__">checked_sub</span>(<span class="hljs-number">1</span>),
-					<span class="hljs-title function_ invoke__">Some</span>(center_row),
-					(center_row + <span class="hljs-number">1</span> &lt; grown_mat.<span class="hljs-title function_ invoke__">nrows</span>()).<span class="hljs-title function_ invoke__">then_some</span>(center_row + <span class="hljs-number">1</span>),
-				];
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">surrounding_cols</span> = [
-					center_col.<span class="hljs-title function_ invoke__">checked_sub</span>(<span class="hljs-number">1</span>),
-					<span class="hljs-title function_ invoke__">Some</span>(center_col),
-					(center_col + <span class="hljs-number">1</span> &lt; grown_mat.<span class="hljs-title function_ invoke__">ncols</span>()).<span class="hljs-title function_ invoke__">then_some</span>(center_col + <span class="hljs-number">1</span>),
-				];
-
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">row</span> <span class="hljs-keyword">in</span> surrounding_rows {
-					<span class="hljs-keyword">for</span> <span class="hljs-variable">col</span> <span class="hljs-keyword">in</span> surrounding_cols {
-						<span class="hljs-keyword">let</span> <span class="hljs-variable">bit</span> = <span class="hljs-keyword">match</span> [row, col] {
-							[<span class="hljs-title function_ invoke__">Some</span>(r), <span class="hljs-title function_ invoke__">Some</span>(c)] =&gt; grown_mat[[r, c]],
-							_ =&gt; <span class="hljs-keyword">self</span>.surrounding,
-						};
-						surrounding_pixels.<span class="hljs-title function_ invoke__">push</span>(bit);
-					}
-				}
-
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">replacement</span> =
-					<span class="hljs-keyword">self</span>.algo[<span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">try_from</span>(<span class="hljs-title function_ invoke__">to_decimal</span>(surrounding_pixels)).<span class="hljs-title function_ invoke__">unwrap</span>()];
-				new_mat[[center_row, center_col]] = replacement;
-			}
-		}
-
-		<span class="hljs-keyword">self</span>.mat = new_mat;
-		<span class="hljs-keyword">self</span>.surrounding = new_surrounding;
-	}
-
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick_n_times</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, n: <span class="hljs-type">usize</span>) {
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n {
-			<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">tick</span>();
-		}
-	}
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">im1</span> = Image::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">im2</span> = im1.<span class="hljs-title function_ invoke__">clone</span>();
-	(<span class="hljs-number">20</span>, (<span class="hljs-title function_ invoke__">pt1</span>(im1), <span class="hljs-title function_ invoke__">pt2</span>(im2))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(im: Image) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(im: Image) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">im</span> = im;
 	im.<span class="hljs-title function_ invoke__">tick_n_times</span>(<span class="hljs-number">2</span>);
 	im.mat.<span class="hljs-title function_ invoke__">map</span>(|&amp;bit| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(bit)).<span class="hljs-title function_ invoke__">sum</span>()
 }
-<span class="hljs-comment">// end::pt1[]</span>
-<span class="hljs-comment">// tag::pt2[]</span>
 <span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(im: Image) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">im</span> = im;
 	im.<span class="hljs-title function_ invoke__">tick_n_times</span>(<span class="hljs-number">50</span>);
 	im.mat.<span class="hljs-title function_ invoke__">map</span>(|&amp;bit| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">from</span>(bit)).<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">//end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">20</span>, ans: (<span class="hljs-number">5432</span>, <span class="hljs-number">16016</span>));
-	}
 }</code></pre>
 </div>
 </div>

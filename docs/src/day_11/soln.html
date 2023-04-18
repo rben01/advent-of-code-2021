@@ -436,8 +436,7 @@ There is no algorithmic interestingness to them.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::Answer;
 <span class="hljs-keyword">use</span> ndarray::prelude::*;
 
 <span class="hljs-meta">#[derive(Clone, Debug)]</span>
@@ -528,43 +527,6 @@ There is no algorithmic interestingness to them.</p>
 
 <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
 	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick</span>(<span class="hljs-keyword">mut</span> octopi: Octopi, n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n_flashes</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n {
-		n_flashes += octopi.<span class="hljs-title function_ invoke__">tick_in_place_and_count_flashes</span>();
-	}
-	n_flashes
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(octopi: Octopi) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-title function_ invoke__">tick</span>(octopi, <span class="hljs-number">100</span>)
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(<span class="hljs-keyword">mut</span> octopi: Octopi) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">while</span> octopi.arr.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">any</span>(|&amp;val| val != <span class="hljs-number">0</span>) {
-		octopi.<span class="hljs-title function_ invoke__">tick_in_place_and_count_flashes</span>();
-		n += <span class="hljs-number">1</span>;
-	}
-	n
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">11</span>, ans: (<span class="hljs-number">1617</span>, <span class="hljs-number">258</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -579,103 +541,7 @@ There is no algorithmic interestingness to them.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-<span class="hljs-keyword">use</span> ndarray::prelude::*;
-
-<span class="hljs-meta">#[derive(Clone, Debug)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Octopi</span> {
-	arr: Array2&lt;<span class="hljs-type">usize</span>&gt;,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Octopi</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">data</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">width</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">len</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">height</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">count</span>();
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">lines</span>() {
-			data.<span class="hljs-title function_ invoke__">extend</span>(
-				line.<span class="hljs-title function_ invoke__">trim</span>()
-					.<span class="hljs-title function_ invoke__">chars</span>()
-					.<span class="hljs-title function_ invoke__">map</span>(|c| c.<span class="hljs-title function_ invoke__">to_digit</span>(<span class="hljs-number">10</span>).<span class="hljs-title function_ invoke__">and_then</span>(|d| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">try_from</span>(d).<span class="hljs-title function_ invoke__">ok</span>())),
-			);
-		}
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">data</span> = data.<span class="hljs-title function_ invoke__">into_iter</span>().collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">arr</span> = Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((width, height), data).<span class="hljs-title function_ invoke__">ok</span>()?;
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { arr })
-	}
-
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick_in_place_and_count_flashes</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-		<span class="hljs-comment">// We use equality with FLASH_THRESH to mean &quot;will flash right now&quot;, whereas being</span>
-		<span class="hljs-comment">// greater than FLASH_THRESH means &quot;has already flashed (and won&#x27;t flash again)&quot;</span>
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">flash_thresh</span> = <span class="hljs-number">10</span>;
-
-		<span class="hljs-keyword">let</span> (n_rows, n_cols) = <span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">dim</span>();
-
-		<span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">mapv_inplace</span>(|x| x + <span class="hljs-number">1</span>);
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n_flashes</span> = <span class="hljs-number">0</span>;
-
-		<span class="hljs-keyword">loop</span> {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">flashing_octopi_idxs</span> = (<span class="hljs-number">0</span>..n_rows)
-				.<span class="hljs-title function_ invoke__">flat_map</span>(|r| {
-					<span class="hljs-keyword">let</span> <span class="hljs-variable">arr</span> = &amp;<span class="hljs-keyword">self</span>.arr;
-					(<span class="hljs-number">0</span>..n_cols).<span class="hljs-title function_ invoke__">filter_map</span>(<span class="hljs-keyword">move</span> |c| {
-						<span class="hljs-keyword">let</span> <span class="hljs-variable">idx</span> = [r, c];
-						<span class="hljs-keyword">let</span> <span class="hljs-variable">val</span> = &amp;arr[idx];
-						(*val == flash_thresh).<span class="hljs-title function_ invoke__">then_some</span>(idx)
-					})
-				})
-				.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
-
-			<span class="hljs-keyword">if</span> flashing_octopi_idxs.<span class="hljs-title function_ invoke__">is_empty</span>() {
-				<span class="hljs-keyword">break</span>;
-			}
-
-			n_flashes += flashing_octopi_idxs.<span class="hljs-title function_ invoke__">len</span>();
-
-			<span class="hljs-keyword">for</span> [base_row, base_col] <span class="hljs-keyword">in</span> flashing_octopi_idxs {
-				<span class="hljs-keyword">self</span>.arr[[base_row, base_col]] += <span class="hljs-number">1</span>;
-
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">rows</span> = [
-					base_row.<span class="hljs-title function_ invoke__">checked_sub</span>(<span class="hljs-number">1</span>),
-					<span class="hljs-title function_ invoke__">Some</span>(base_row),
-					(base_row + <span class="hljs-number">1</span> &lt; n_rows).<span class="hljs-title function_ invoke__">then_some</span>(base_row + <span class="hljs-number">1</span>),
-				];
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">cols</span> = [
-					base_col.<span class="hljs-title function_ invoke__">checked_sub</span>(<span class="hljs-number">1</span>),
-					<span class="hljs-title function_ invoke__">Some</span>(base_col),
-					(base_col + <span class="hljs-number">1</span> &lt; n_rows).<span class="hljs-title function_ invoke__">then_some</span>(base_col + <span class="hljs-number">1</span>),
-				];
-
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">row</span> <span class="hljs-keyword">in</span> rows.<span class="hljs-title function_ invoke__">into_iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
-					<span class="hljs-keyword">for</span> <span class="hljs-variable">col</span> <span class="hljs-keyword">in</span> cols.<span class="hljs-title function_ invoke__">into_iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
-						<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.arr[[row, col]] &lt; flash_thresh {
-							<span class="hljs-keyword">self</span>.arr[[row, col]] += <span class="hljs-number">1</span>;
-						}
-					}
-				}
-			}
-		}
-
-		<span class="hljs-keyword">self</span>.arr
-			.<span class="hljs-title function_ invoke__">mapv_inplace</span>(|val| <span class="hljs-keyword">if</span> val &gt;= flash_thresh { <span class="hljs-number">0</span> } <span class="hljs-keyword">else</span> { val });
-
-		n_flashes
-	}
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">octopi</span> = Octopi::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">11</span>, (<span class="hljs-title function_ invoke__">pt1</span>(octopi.<span class="hljs-title function_ invoke__">clone</span>()), <span class="hljs-title function_ invoke__">pt2</span>(octopi))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick</span>(<span class="hljs-keyword">mut</span> octopi: Octopi, n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick</span>(<span class="hljs-keyword">mut</span> octopi: Octopi, n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n_flashes</span> = <span class="hljs-number">0</span>;
 	<span class="hljs-keyword">for</span> <span class="hljs-variable">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n {
 		n_flashes += octopi.<span class="hljs-title function_ invoke__">tick_in_place_and_count_flashes</span>();
@@ -685,29 +551,6 @@ There is no algorithmic interestingness to them.</p>
 
 <span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(octopi: Octopi) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-title function_ invoke__">tick</span>(octopi, <span class="hljs-number">100</span>)
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(<span class="hljs-keyword">mut</span> octopi: Octopi) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">while</span> octopi.arr.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">any</span>(|&amp;val| val != <span class="hljs-number">0</span>) {
-		octopi.<span class="hljs-title function_ invoke__">tick_in_place_and_count_flashes</span>();
-		n += <span class="hljs-number">1</span>;
-	}
-	n
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">11</span>, ans: (<span class="hljs-number">1617</span>, <span class="hljs-number">258</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -722,135 +565,13 @@ There is no algorithmic interestingness to them.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-<span class="hljs-keyword">use</span> ndarray::prelude::*;
-
-<span class="hljs-meta">#[derive(Clone, Debug)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Octopi</span> {
-	arr: Array2&lt;<span class="hljs-type">usize</span>&gt;,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Octopi</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">data</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">width</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">len</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">height</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">count</span>();
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">lines</span>() {
-			data.<span class="hljs-title function_ invoke__">extend</span>(
-				line.<span class="hljs-title function_ invoke__">trim</span>()
-					.<span class="hljs-title function_ invoke__">chars</span>()
-					.<span class="hljs-title function_ invoke__">map</span>(|c| c.<span class="hljs-title function_ invoke__">to_digit</span>(<span class="hljs-number">10</span>).<span class="hljs-title function_ invoke__">and_then</span>(|d| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">try_from</span>(d).<span class="hljs-title function_ invoke__">ok</span>())),
-			);
-		}
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">data</span> = data.<span class="hljs-title function_ invoke__">into_iter</span>().collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">arr</span> = Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((width, height), data).<span class="hljs-title function_ invoke__">ok</span>()?;
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { arr })
-	}
-
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick_in_place_and_count_flashes</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-		<span class="hljs-comment">// We use equality with FLASH_THRESH to mean &quot;will flash right now&quot;, whereas being</span>
-		<span class="hljs-comment">// greater than FLASH_THRESH means &quot;has already flashed (and won&#x27;t flash again)&quot;</span>
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">flash_thresh</span> = <span class="hljs-number">10</span>;
-
-		<span class="hljs-keyword">let</span> (n_rows, n_cols) = <span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">dim</span>();
-
-		<span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">mapv_inplace</span>(|x| x + <span class="hljs-number">1</span>);
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n_flashes</span> = <span class="hljs-number">0</span>;
-
-		<span class="hljs-keyword">loop</span> {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">flashing_octopi_idxs</span> = (<span class="hljs-number">0</span>..n_rows)
-				.<span class="hljs-title function_ invoke__">flat_map</span>(|r| {
-					<span class="hljs-keyword">let</span> <span class="hljs-variable">arr</span> = &amp;<span class="hljs-keyword">self</span>.arr;
-					(<span class="hljs-number">0</span>..n_cols).<span class="hljs-title function_ invoke__">filter_map</span>(<span class="hljs-keyword">move</span> |c| {
-						<span class="hljs-keyword">let</span> <span class="hljs-variable">idx</span> = [r, c];
-						<span class="hljs-keyword">let</span> <span class="hljs-variable">val</span> = &amp;arr[idx];
-						(*val == flash_thresh).<span class="hljs-title function_ invoke__">then_some</span>(idx)
-					})
-				})
-				.collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;();
-
-			<span class="hljs-keyword">if</span> flashing_octopi_idxs.<span class="hljs-title function_ invoke__">is_empty</span>() {
-				<span class="hljs-keyword">break</span>;
-			}
-
-			n_flashes += flashing_octopi_idxs.<span class="hljs-title function_ invoke__">len</span>();
-
-			<span class="hljs-keyword">for</span> [base_row, base_col] <span class="hljs-keyword">in</span> flashing_octopi_idxs {
-				<span class="hljs-keyword">self</span>.arr[[base_row, base_col]] += <span class="hljs-number">1</span>;
-
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">rows</span> = [
-					base_row.<span class="hljs-title function_ invoke__">checked_sub</span>(<span class="hljs-number">1</span>),
-					<span class="hljs-title function_ invoke__">Some</span>(base_row),
-					(base_row + <span class="hljs-number">1</span> &lt; n_rows).<span class="hljs-title function_ invoke__">then_some</span>(base_row + <span class="hljs-number">1</span>),
-				];
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">cols</span> = [
-					base_col.<span class="hljs-title function_ invoke__">checked_sub</span>(<span class="hljs-number">1</span>),
-					<span class="hljs-title function_ invoke__">Some</span>(base_col),
-					(base_col + <span class="hljs-number">1</span> &lt; n_rows).<span class="hljs-title function_ invoke__">then_some</span>(base_col + <span class="hljs-number">1</span>),
-				];
-
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">row</span> <span class="hljs-keyword">in</span> rows.<span class="hljs-title function_ invoke__">into_iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
-					<span class="hljs-keyword">for</span> <span class="hljs-variable">col</span> <span class="hljs-keyword">in</span> cols.<span class="hljs-title function_ invoke__">into_iter</span>().<span class="hljs-title function_ invoke__">flatten</span>() {
-						<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.arr[[row, col]] &lt; flash_thresh {
-							<span class="hljs-keyword">self</span>.arr[[row, col]] += <span class="hljs-number">1</span>;
-						}
-					}
-				}
-			}
-		}
-
-		<span class="hljs-keyword">self</span>.arr
-			.<span class="hljs-title function_ invoke__">mapv_inplace</span>(|val| <span class="hljs-keyword">if</span> val &gt;= flash_thresh { <span class="hljs-number">0</span> } <span class="hljs-keyword">else</span> { val });
-
-		n_flashes
-	}
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">octopi</span> = Octopi::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">11</span>, (<span class="hljs-title function_ invoke__">pt1</span>(octopi.<span class="hljs-title function_ invoke__">clone</span>()), <span class="hljs-title function_ invoke__">pt2</span>(octopi))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">tick</span>(<span class="hljs-keyword">mut</span> octopi: Octopi, n: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n_flashes</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">_</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n {
-		n_flashes += octopi.<span class="hljs-title function_ invoke__">tick_in_place_and_count_flashes</span>();
-	}
-	n_flashes
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(octopi: Octopi) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-title function_ invoke__">tick</span>(octopi, <span class="hljs-number">100</span>)
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(<span class="hljs-keyword">mut</span> octopi: Octopi) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(<span class="hljs-keyword">mut</span> octopi: Octopi) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">n</span> = <span class="hljs-number">0</span>;
 	<span class="hljs-keyword">while</span> octopi.arr.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">any</span>(|&amp;val| val != <span class="hljs-number">0</span>) {
 		octopi.<span class="hljs-title function_ invoke__">tick_in_place_and_count_flashes</span>();
 		n += <span class="hljs-number">1</span>;
 	}
 	n
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">11</span>, ans: (<span class="hljs-number">1617</span>, <span class="hljs-number">258</span>));
-	}
 }</code></pre>
 </div>
 </div>

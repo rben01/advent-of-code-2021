@@ -436,10 +436,7 @@ You just have to update the current state correctly.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::Answer;
-
-<span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Position</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Position</span> {
 	h: <span class="hljs-type">i32</span>,
 	v: <span class="hljs-type">i32</span>,
 }
@@ -492,60 +489,6 @@ You just have to update the current state correctly.</p>
 
 <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
 	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;T: std::ops::Deref&lt;Target = Step&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
-	<span class="hljs-keyword">use</span> Direction::*;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">h</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">v</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">Step</span> { direction, dist } = &amp;*step;
-		<span class="hljs-keyword">match</span> direction {
-			Forward =&gt; h += dist,
-			Up =&gt; v -= dist,
-			Down =&gt; v += dist,
-		};
-	}
-
-	Position { h, v }.<span class="hljs-title function_ invoke__">get_ans</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;T: std::borrow::Borrow&lt;Step&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
-	<span class="hljs-keyword">use</span> Direction::*;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">h</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">v</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">aim</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">Step</span> { direction, dist } = step.<span class="hljs-title function_ invoke__">borrow</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">dist</span> = *dist;
-		<span class="hljs-keyword">match</span> direction {
-			Forward =&gt; {
-				h += dist;
-				v += aim * dist;
-			}
-			Up =&gt; aim -= dist,
-			Down =&gt; aim += dist,
-		};
-	}
-
-	Position { h, v }.<span class="hljs-title function_ invoke__">get_ans</span>()
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">2</span>, ans: (<span class="hljs-number">150</span>, <span class="hljs-number">900</span>));
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">2</span>, ans: (<span class="hljs-number">1_459_206</span>, <span class="hljs-number">1_320_534_480</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -560,67 +503,7 @@ You just have to update the current state correctly.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::Answer;
-
-<span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Position</span> {
-	h: <span class="hljs-type">i32</span>,
-	v: <span class="hljs-type">i32</span>,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Position</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
-		<span class="hljs-keyword">self</span>.h * <span class="hljs-keyword">self</span>.v
-	}
-}
-
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Direction</span> {
-	Forward,
-	Up,
-	Down,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Direction</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">use</span> Direction::*;
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> s {
-			<span class="hljs-string">&quot;forward&quot;</span> =&gt; Forward,
-			<span class="hljs-string">&quot;up&quot;</span> =&gt; Up,
-			<span class="hljs-string">&quot;down&quot;</span> =&gt; Down,
-			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
-		})
-	}
-}
-
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Step</span> {
-	direction: Direction,
-	dist: <span class="hljs-type">i32</span>,
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;Step&gt;&gt; {
-	s.<span class="hljs-title function_ invoke__">lines</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|line| {
-			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">tokens_iter</span> = line.<span class="hljs-title function_ invoke__">split_whitespace</span>();
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">direction</span> = Direction::<span class="hljs-title function_ invoke__">from_str</span>(tokens_iter.<span class="hljs-title function_ invoke__">next</span>()?)?;
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">dist</span> = tokens_iter.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>()?;
-
-			<span class="hljs-title function_ invoke__">Some</span>(Step { direction, dist })
-		})
-		.<span class="hljs-title function_ invoke__">collect</span>()
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">directions</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">2</span>, (<span class="hljs-title function_ invoke__">pt1</span>(directions.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(directions.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;T: std::ops::Deref&lt;Target = Step&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;T: std::ops::Deref&lt;Target = Step&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
 	<span class="hljs-keyword">use</span> Direction::*;
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">h</span> = <span class="hljs-number">0</span>;
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">v</span> = <span class="hljs-number">0</span>;
@@ -634,42 +517,6 @@ You just have to update the current state correctly.</p>
 	}
 
 	Position { h, v }.<span class="hljs-title function_ invoke__">get_ans</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;T: std::borrow::Borrow&lt;Step&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
-	<span class="hljs-keyword">use</span> Direction::*;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">h</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">v</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">aim</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">Step</span> { direction, dist } = step.<span class="hljs-title function_ invoke__">borrow</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">dist</span> = *dist;
-		<span class="hljs-keyword">match</span> direction {
-			Forward =&gt; {
-				h += dist;
-				v += aim * dist;
-			}
-			Up =&gt; aim -= dist,
-			Down =&gt; aim += dist,
-		};
-	}
-
-	Position { h, v }.<span class="hljs-title function_ invoke__">get_ans</span>()
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">2</span>, ans: (<span class="hljs-number">150</span>, <span class="hljs-number">900</span>));
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">2</span>, ans: (<span class="hljs-number">1_459_206</span>, <span class="hljs-number">1_320_534_480</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -684,85 +531,7 @@ You just have to update the current state correctly.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::Answer;
-
-<span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Position</span> {
-	h: <span class="hljs-type">i32</span>,
-	v: <span class="hljs-type">i32</span>,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Position</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
-		<span class="hljs-keyword">self</span>.h * <span class="hljs-keyword">self</span>.v
-	}
-}
-
-<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Direction</span> {
-	Forward,
-	Up,
-	Down,
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Direction</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">use</span> Direction::*;
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">match</span> s {
-			<span class="hljs-string">&quot;forward&quot;</span> =&gt; Forward,
-			<span class="hljs-string">&quot;up&quot;</span> =&gt; Up,
-			<span class="hljs-string">&quot;down&quot;</span> =&gt; Down,
-			_ =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>,
-		})
-	}
-}
-
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Step</span> {
-	direction: Direction,
-	dist: <span class="hljs-type">i32</span>,
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">read_input</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;Step&gt;&gt; {
-	s.<span class="hljs-title function_ invoke__">lines</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|line| {
-			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">tokens_iter</span> = line.<span class="hljs-title function_ invoke__">split_whitespace</span>();
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">direction</span> = Direction::<span class="hljs-title function_ invoke__">from_str</span>(tokens_iter.<span class="hljs-title function_ invoke__">next</span>()?)?;
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">dist</span> = tokens_iter.<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">parse</span>().<span class="hljs-title function_ invoke__">ok</span>()?;
-
-			<span class="hljs-title function_ invoke__">Some</span>(Step { direction, dist })
-		})
-		.<span class="hljs-title function_ invoke__">collect</span>()
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">directions</span> = <span class="hljs-title function_ invoke__">read_input</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">2</span>, (<span class="hljs-title function_ invoke__">pt1</span>(directions.<span class="hljs-title function_ invoke__">iter</span>()), <span class="hljs-title function_ invoke__">pt2</span>(directions.<span class="hljs-title function_ invoke__">iter</span>()))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">i32</span>, <span class="hljs-type">i32</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>&lt;T: std::ops::Deref&lt;Target = Step&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
-	<span class="hljs-keyword">use</span> Direction::*;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">h</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">v</span> = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">for</span> <span class="hljs-variable">step</span> <span class="hljs-keyword">in</span> steps {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">Step</span> { direction, dist } = &amp;*step;
-		<span class="hljs-keyword">match</span> direction {
-			Forward =&gt; h += dist,
-			Up =&gt; v -= dist,
-			Down =&gt; v += dist,
-		};
-	}
-
-	Position { h, v }.<span class="hljs-title function_ invoke__">get_ans</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;T: std::borrow::Borrow&lt;Step&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>&lt;T: std::borrow::Borrow&lt;Step&gt;&gt;(steps: <span class="hljs-keyword">impl</span> <span class="hljs-title class_">Iterator</span>&lt;Item = T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">i32</span> {
 	<span class="hljs-keyword">use</span> Direction::*;
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">h</span> = <span class="hljs-number">0</span>;
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">v</span> = <span class="hljs-number">0</span>;
@@ -781,19 +550,6 @@ You just have to update the current state correctly.</p>
 	}
 
 	Position { h, v }.<span class="hljs-title function_ invoke__">get_ans</span>()
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">2</span>, ans: (<span class="hljs-number">150</span>, <span class="hljs-number">900</span>));
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">2</span>, ans: (<span class="hljs-number">1_459_206</span>, <span class="hljs-number">1_320_534_480</span>));
-	}
 }</code></pre>
 </div>
 </div>

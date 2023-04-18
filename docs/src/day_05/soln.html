@@ -449,8 +449,7 @@ The range is ascending if and only if <code>a &lt; b</code>.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::Answer;
 <span class="hljs-keyword">use</span> num::Integer;
 <span class="hljs-keyword">use</span> regex::Regex;
 <span class="hljs-keyword">use</span> std::{collections::BTreeMap <span class="hljs-keyword">as</span> Map, <span class="hljs-type">str</span>::FromStr};
@@ -492,72 +491,6 @@ The range is ascending if and only if <code>a &lt; b</code>.
 <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
 	<span class="hljs-keyword">let</span> <span class="hljs-variable">input</span> = <span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>);
 	<span class="hljs-title function_ invoke__">ans_for_input</span>(input)
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_hv_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
-	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
-		<span class="hljs-keyword">if</span> x1 != x2 &amp;&amp; y1 != y2 {
-			<span class="hljs-keyword">continue</span>;
-		}
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">x</span> <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(x1, x2) {
-			<span class="hljs-keyword">for</span> <span class="hljs-variable">y</span> <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(y1, y2) {
-				*counter.<span class="hljs-title function_ invoke__">entry</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
-			}
-		}
-	}
-	counter
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;<span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints))
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_diag_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
-	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
-		<span class="hljs-title function_ invoke__">if</span> (x1 - x2).<span class="hljs-title function_ invoke__">abs</span>() != (y1 - y2).<span class="hljs-title function_ invoke__">abs</span>() {
-			<span class="hljs-keyword">continue</span>;
-		}
-
-		<span class="hljs-title function_ invoke__">for</span> (x, y) <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(x1, x2).<span class="hljs-title function_ invoke__">zip</span>(<span class="hljs-title function_ invoke__">range_between</span>(y1, y2)) {
-			*counter.<span class="hljs-title function_ invoke__">entry</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
-		}
-	}
-
-	counter
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">hv_counter</span> = <span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints);
-
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">all_counter</span> = {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">diag_counter</span> = <span class="hljs-title function_ invoke__">get_diag_point_counts</span>(endpoints);
-
-		<span class="hljs-title function_ invoke__">for</span> (k, v) <span class="hljs-keyword">in</span> hv_counter {
-			*diag_counter.<span class="hljs-title function_ invoke__">entry</span>(k).<span class="hljs-title function_ invoke__">or_default</span>() += v;
-		}
-
-		diag_counter
-	};
-	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;all_counter)
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5</span>, <span class="hljs-number">12</span>));
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5576</span>, <span class="hljs-number">18144</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -573,54 +506,7 @@ Such a line&#8217;s points are the Cartesian “product” of the ranges <code>r
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-<span class="hljs-keyword">use</span> num::Integer;
-<span class="hljs-keyword">use</span> regex::Regex;
-<span class="hljs-keyword">use</span> std::{collections::BTreeMap <span class="hljs-keyword">as</span> Map, <span class="hljs-type">str</span>::FromStr};
-
-<span class="hljs-meta">#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span>&lt;T&gt;(T, T);
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">EndpointPair</span>&lt;T: Integer&gt;(Point&lt;T&gt;, Point&lt;T&gt;);
-<span class="hljs-keyword">type</span> <span class="hljs-title class_">PointCounter</span>&lt;T&gt; = Map&lt;Point&lt;T&gt;, <span class="hljs-type">usize</span>&gt;;
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_lines</span>&lt;T: Integer + FromStr&gt;(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;EndpointPair&lt;T&gt;&gt;&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">line_re</span> = Regex::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">r&quot;(\d+),(\d+)\s*-&gt;\s*(\d+),(\d+)&quot;</span>).<span class="hljs-title function_ invoke__">ok</span>()?;
-	input
-		.<span class="hljs-title function_ invoke__">lines</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|line| {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">caps</span> = line_re.<span class="hljs-title function_ invoke__">captures</span>(line)?;
-			<span class="hljs-keyword">let</span> [x1, y1, x2, y2] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>].<span class="hljs-title function_ invoke__">map</span>(|i| caps.<span class="hljs-title function_ invoke__">get</span>(i)?.<span class="hljs-title function_ invoke__">as_str</span>().parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>());
-			<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1?, y1?), <span class="hljs-title function_ invoke__">Point</span>(x2?, y2?)))
-		})
-		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">range_between</span>(a: <span class="hljs-type">i32</span>, b: <span class="hljs-type">i32</span>) <span class="hljs-punctuation">-&gt;</span> num::iter::RangeStepInclusive&lt;<span class="hljs-type">i32</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">step</span> = <span class="hljs-keyword">if</span> a &lt; b { <span class="hljs-number">1</span> } <span class="hljs-keyword">else</span> { -<span class="hljs-number">1</span> };
-	num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(a, b, step)
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>&lt;T&gt;(counter: &amp;PointCounter&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	counter
-		.<span class="hljs-title function_ invoke__">values</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|count| <span class="hljs-keyword">if</span> *count &gt;= <span class="hljs-number">2</span> { <span class="hljs-number">1</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">0</span> })
-		.<span class="hljs-title function_ invoke__">sum</span>()
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">endpoints</span> = <span class="hljs-title function_ invoke__">get_lines</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">5</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;endpoints), <span class="hljs-title function_ invoke__">pt2</span>(&amp;endpoints))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">input</span> = <span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>);
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(input)
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_hv_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_hv_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
 		<span class="hljs-keyword">if</span> x1 != x2 &amp;&amp; y1 != y2 {
@@ -637,51 +523,6 @@ Such a line&#8217;s points are the Cartesian “product” of the ranges <code>r
 
 <span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
 	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;<span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints))
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_diag_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
-	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
-		<span class="hljs-title function_ invoke__">if</span> (x1 - x2).<span class="hljs-title function_ invoke__">abs</span>() != (y1 - y2).<span class="hljs-title function_ invoke__">abs</span>() {
-			<span class="hljs-keyword">continue</span>;
-		}
-
-		<span class="hljs-title function_ invoke__">for</span> (x, y) <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(x1, x2).<span class="hljs-title function_ invoke__">zip</span>(<span class="hljs-title function_ invoke__">range_between</span>(y1, y2)) {
-			*counter.<span class="hljs-title function_ invoke__">entry</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
-		}
-	}
-
-	counter
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">hv_counter</span> = <span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints);
-
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">all_counter</span> = {
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">diag_counter</span> = <span class="hljs-title function_ invoke__">get_diag_point_counts</span>(endpoints);
-
-		<span class="hljs-title function_ invoke__">for</span> (k, v) <span class="hljs-keyword">in</span> hv_counter {
-			*diag_counter.<span class="hljs-title function_ invoke__">entry</span>(k).<span class="hljs-title function_ invoke__">or_default</span>() += v;
-		}
-
-		diag_counter
-	};
-	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;all_counter)
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5</span>, <span class="hljs-number">12</span>));
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5576</span>, <span class="hljs-number">18144</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -698,75 +539,7 @@ Since the <span class="katex"><span class="katex-mathml"><math xmlns="http://www
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-<span class="hljs-keyword">use</span> num::Integer;
-<span class="hljs-keyword">use</span> regex::Regex;
-<span class="hljs-keyword">use</span> std::{collections::BTreeMap <span class="hljs-keyword">as</span> Map, <span class="hljs-type">str</span>::FromStr};
-
-<span class="hljs-meta">#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Point</span>&lt;T&gt;(T, T);
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">EndpointPair</span>&lt;T: Integer&gt;(Point&lt;T&gt;, Point&lt;T&gt;);
-<span class="hljs-keyword">type</span> <span class="hljs-title class_">PointCounter</span>&lt;T&gt; = Map&lt;Point&lt;T&gt;, <span class="hljs-type">usize</span>&gt;;
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_lines</span>&lt;T: Integer + FromStr&gt;(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;EndpointPair&lt;T&gt;&gt;&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">line_re</span> = Regex::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">r&quot;(\d+),(\d+)\s*-&gt;\s*(\d+),(\d+)&quot;</span>).<span class="hljs-title function_ invoke__">ok</span>()?;
-	input
-		.<span class="hljs-title function_ invoke__">lines</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|line| {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">caps</span> = line_re.<span class="hljs-title function_ invoke__">captures</span>(line)?;
-			<span class="hljs-keyword">let</span> [x1, y1, x2, y2] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>].<span class="hljs-title function_ invoke__">map</span>(|i| caps.<span class="hljs-title function_ invoke__">get</span>(i)?.<span class="hljs-title function_ invoke__">as_str</span>().parse::&lt;T&gt;().<span class="hljs-title function_ invoke__">ok</span>());
-			<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1?, y1?), <span class="hljs-title function_ invoke__">Point</span>(x2?, y2?)))
-		})
-		.collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">range_between</span>(a: <span class="hljs-type">i32</span>, b: <span class="hljs-type">i32</span>) <span class="hljs-punctuation">-&gt;</span> num::iter::RangeStepInclusive&lt;<span class="hljs-type">i32</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">step</span> = <span class="hljs-keyword">if</span> a &lt; b { <span class="hljs-number">1</span> } <span class="hljs-keyword">else</span> { -<span class="hljs-number">1</span> };
-	num::<span class="hljs-title function_ invoke__">range_step_inclusive</span>(a, b, step)
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_ans</span>&lt;T&gt;(counter: &amp;PointCounter&lt;T&gt;) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	counter
-		.<span class="hljs-title function_ invoke__">values</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|count| <span class="hljs-keyword">if</span> *count &gt;= <span class="hljs-number">2</span> { <span class="hljs-number">1</span> } <span class="hljs-keyword">else</span> { <span class="hljs-number">0</span> })
-		.<span class="hljs-title function_ invoke__">sum</span>()
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">endpoints</span> = <span class="hljs-title function_ invoke__">get_lines</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">5</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;endpoints), <span class="hljs-title function_ invoke__">pt2</span>(&amp;endpoints))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">input</span> = <span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>);
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(input)
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_hv_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
-	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
-		<span class="hljs-keyword">if</span> x1 != x2 &amp;&amp; y1 != y2 {
-			<span class="hljs-keyword">continue</span>;
-		}
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">x</span> <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(x1, x2) {
-			<span class="hljs-keyword">for</span> <span class="hljs-variable">y</span> <span class="hljs-keyword">in</span> <span class="hljs-title function_ invoke__">range_between</span>(y1, y2) {
-				*counter.<span class="hljs-title function_ invoke__">entry</span>(<span class="hljs-title function_ invoke__">Point</span>(x, y)).<span class="hljs-title function_ invoke__">or_default</span>() += <span class="hljs-number">1</span>;
-			}
-		}
-	}
-	counter
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;<span class="hljs-title function_ invoke__">get_hv_point_counts</span>(endpoints))
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_diag_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_diag_point_counts</span>(endpoints: &amp;[EndpointPair&lt;<span class="hljs-type">i32</span>&gt;]) <span class="hljs-punctuation">-&gt;</span> PointCounter&lt;<span class="hljs-type">i32</span>&gt; {
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">counter</span> = Map::<span class="hljs-title function_ invoke__">new</span>();
 	<span class="hljs-keyword">for</span> &amp;<span class="hljs-title function_ invoke__">EndpointPair</span>(<span class="hljs-title function_ invoke__">Point</span>(x1, y1), <span class="hljs-title function_ invoke__">Point</span>(x2, y2)) <span class="hljs-keyword">in</span> endpoints {
 		<span class="hljs-title function_ invoke__">if</span> (x1 - x2).<span class="hljs-title function_ invoke__">abs</span>() != (y1 - y2).<span class="hljs-title function_ invoke__">abs</span>() {
@@ -794,19 +567,6 @@ Since the <span class="katex"><span class="katex-mathml"><math xmlns="http://www
 		diag_counter
 	};
 	<span class="hljs-title function_ invoke__">get_ans</span>(&amp;all_counter)
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;sample_input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5</span>, <span class="hljs-number">12</span>));
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">5</span>, ans: (<span class="hljs-number">5576</span>, <span class="hljs-number">18144</span>));
-	}
 }</code></pre>
 </div>
 </div>

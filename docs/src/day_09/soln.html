@@ -447,8 +447,7 @@ This is just a DFS through the matrix with a small amount of bookkeeping.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">use</span> crate::Answer;
 <span class="hljs-keyword">use</span> ndarray::prelude::*;
 <span class="hljs-keyword">use</span> std::collections::BTreeSet <span class="hljs-keyword">as</span> Set;
 
@@ -497,113 +496,6 @@ This is just a DFS through the matrix with a small amount of bookkeeping.</p>
 
 <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
 	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Heightmap</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">is_lower_than_neighbors</span>(&amp;<span class="hljs-keyword">self</span>, idx: [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span> {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">val</span> = <span class="hljs-keyword">self</span>.arr[idx];
-		<span class="hljs-keyword">let</span> (n_rows, n_cols) = <span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">dim</span>();
-
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">neighbors</span> = <span class="hljs-title function_ invoke__">get_neighbor_idxs</span>(idx, n_rows, n_cols);
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">idx_pair</span> <span class="hljs-keyword">in</span> neighbors {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">idxs</span> = <span class="hljs-keyword">match</span> idx_pair {
-				[<span class="hljs-title function_ invoke__">Some</span>(r), <span class="hljs-title function_ invoke__">Some</span>(c)] =&gt; [r, c],
-				_ =&gt; <span class="hljs-keyword">continue</span>,
-			};
-			<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.arr[idxs] &lt;= val {
-				<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-			}
-		}
-
-		<span class="hljs-literal">true</span>
-	}
-
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">idxs_where_lower_than_neighbors</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;[<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]&gt; {
-		<span class="hljs-keyword">let</span> (n_rows, n_cols) = <span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">dim</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">idxs</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_rows {
-			<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_cols {
-				<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">is_lower_than_neighbors</span>([r, c]) {
-					idxs.<span class="hljs-title function_ invoke__">push</span>([r, c]);
-				}
-			}
-		}
-		idxs
-	}
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(hm: &amp;Heightmap) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	hm.<span class="hljs-title function_ invoke__">idxs_where_lower_than_neighbors</span>()
-		.<span class="hljs-title function_ invoke__">into_iter</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|idx| hm.arr[idx] + <span class="hljs-number">1</span>)
-		.<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Heightmap</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">basin_sizes</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt; {
-		<span class="hljs-keyword">let</span> (n_rows, n_cols) = <span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">dim</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">basin_sizes</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
-
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">not_yet_visited_idxs</span> = (<span class="hljs-number">0</span>..n_rows)
-			.<span class="hljs-title function_ invoke__">flat_map</span>(|r| {
-				(<span class="hljs-number">0</span>..n_cols).<span class="hljs-title function_ invoke__">filter_map</span>(<span class="hljs-keyword">move</span> |c| {
-					<span class="hljs-keyword">let</span> <span class="hljs-variable">idx</span> = [r, c];
-					(<span class="hljs-keyword">self</span>.arr[idx] != <span class="hljs-number">9</span>).<span class="hljs-title function_ invoke__">then_some</span>(idx)
-				})
-			})
-			.collect::&lt;Set&lt;_&gt;&gt;();
-
-		<span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(first_idx) = not_yet_visited_idxs.<span class="hljs-title function_ invoke__">pop_first</span>() {
-			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">visited_idxs</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
-			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">coords_stack</span> = <span class="hljs-built_in">vec!</span>[first_idx];
-			<span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(idx) = coords_stack.<span class="hljs-title function_ invoke__">pop</span>() {
-				<span class="hljs-keyword">if</span> !visited_idxs.<span class="hljs-title function_ invoke__">insert</span>(idx) {
-					<span class="hljs-keyword">continue</span>;
-				}
-
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">neighbor_idxs</span> = <span class="hljs-title function_ invoke__">get_neighbor_idxs</span>(idx, n_rows, n_cols);
-
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">nghbr_idx</span> <span class="hljs-keyword">in</span> neighbor_idxs {
-					<span class="hljs-keyword">let</span> <span class="hljs-variable">nghbr_idx</span> = <span class="hljs-keyword">match</span> nghbr_idx {
-						[<span class="hljs-title function_ invoke__">Some</span>(r), <span class="hljs-title function_ invoke__">Some</span>(c)] =&gt; [r, c],
-						_ =&gt; <span class="hljs-keyword">continue</span>,
-					};
-					<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.arr[nghbr_idx] != <span class="hljs-number">9</span> &amp;&amp; !visited_idxs.<span class="hljs-title function_ invoke__">contains</span>(&amp;nghbr_idx) {
-						coords_stack.<span class="hljs-title function_ invoke__">push</span>(nghbr_idx);
-					}
-				}
-
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">idx</span> <span class="hljs-keyword">in</span> &amp;visited_idxs {
-					not_yet_visited_idxs.<span class="hljs-title function_ invoke__">remove</span>(idx);
-				}
-			}
-			basin_sizes.<span class="hljs-title function_ invoke__">push</span>(visited_idxs.<span class="hljs-title function_ invoke__">len</span>());
-		}
-
-		basin_sizes
-	}
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(hm: &amp;Heightmap) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">basin_sizes</span> = hm.<span class="hljs-title function_ invoke__">basin_sizes</span>();
-	basin_sizes.<span class="hljs-title function_ invoke__">sort_unstable_by_key</span>(|&amp;size| std::cmp::<span class="hljs-title function_ invoke__">Reverse</span>(size));
-	basin_sizes.<span class="hljs-title function_ invoke__">into_iter</span>().<span class="hljs-title function_ invoke__">take</span>(<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">product</span>()
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">9</span>, ans: (<span class="hljs-number">575</span>, <span class="hljs-number">1_019_700</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -618,61 +510,7 @@ This is just a DFS through the matrix with a small amount of bookkeeping.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-<span class="hljs-keyword">use</span> ndarray::prelude::*;
-<span class="hljs-keyword">use</span> std::collections::BTreeSet <span class="hljs-keyword">as</span> Set;
-
-<span class="hljs-meta">#[derive(Debug)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Heightmap</span> {
-	arr: Array2&lt;<span class="hljs-type">usize</span>&gt;,
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_neighbor_idxs</span>(
-	[row, col]: [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>],
-	n_rows: <span class="hljs-type">usize</span>,
-	n_cols: <span class="hljs-type">usize</span>,
-) <span class="hljs-punctuation">-&gt;</span> [[<span class="hljs-type">Option</span>&lt;<span class="hljs-type">usize</span>&gt;; <span class="hljs-number">2</span>]; <span class="hljs-number">4</span>] {
-	[
-		[(row + <span class="hljs-number">1</span> &lt; n_rows).<span class="hljs-title function_ invoke__">then_some</span>(row + <span class="hljs-number">1</span>), <span class="hljs-title function_ invoke__">Some</span>(col)],
-		[row.<span class="hljs-title function_ invoke__">checked_sub</span>(<span class="hljs-number">1</span>), <span class="hljs-title function_ invoke__">Some</span>(col)],
-		[<span class="hljs-title function_ invoke__">Some</span>(row), (col + <span class="hljs-number">1</span> &lt; n_cols).<span class="hljs-title function_ invoke__">then_some</span>(col + <span class="hljs-number">1</span>)],
-		[<span class="hljs-title function_ invoke__">Some</span>(row), col.<span class="hljs-title function_ invoke__">checked_sub</span>(<span class="hljs-number">1</span>)],
-	]
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Heightmap</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">width</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">count</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">height</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">count</span>();
-
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">data</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">lines</span>() {
-			data.<span class="hljs-title function_ invoke__">extend</span>(
-				line.<span class="hljs-title function_ invoke__">trim</span>()
-					.<span class="hljs-title function_ invoke__">chars</span>()
-					.<span class="hljs-title function_ invoke__">map</span>(|c| c.<span class="hljs-title function_ invoke__">to_digit</span>(<span class="hljs-number">10</span>).<span class="hljs-title function_ invoke__">and_then</span>(|d| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">try_from</span>(d).<span class="hljs-title function_ invoke__">ok</span>())),
-			);
-		}
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">data</span> = data.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">copied</span>().collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
-
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">arr</span> = Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((width, height), data).<span class="hljs-title function_ invoke__">ok</span>()?;
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { arr })
-	}
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">hm</span> = Heightmap::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">9</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;hm), <span class="hljs-title function_ invoke__">pt2</span>(&amp;hm))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Heightmap</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">impl</span> <span class="hljs-title class_">Heightmap</span> {
 	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">is_lower_than_neighbors</span>(&amp;<span class="hljs-keyword">self</span>, idx: [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span> {
 		<span class="hljs-keyword">let</span> <span class="hljs-variable">val</span> = <span class="hljs-keyword">self</span>.arr[idx];
 		<span class="hljs-keyword">let</span> (n_rows, n_cols) = <span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">dim</span>();
@@ -710,71 +548,6 @@ This is just a DFS through the matrix with a small amount of bookkeeping.</p>
 		.<span class="hljs-title function_ invoke__">into_iter</span>()
 		.<span class="hljs-title function_ invoke__">map</span>(|idx| hm.arr[idx] + <span class="hljs-number">1</span>)
 		.<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Heightmap</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">basin_sizes</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt; {
-		<span class="hljs-keyword">let</span> (n_rows, n_cols) = <span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">dim</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">basin_sizes</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
-
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">not_yet_visited_idxs</span> = (<span class="hljs-number">0</span>..n_rows)
-			.<span class="hljs-title function_ invoke__">flat_map</span>(|r| {
-				(<span class="hljs-number">0</span>..n_cols).<span class="hljs-title function_ invoke__">filter_map</span>(<span class="hljs-keyword">move</span> |c| {
-					<span class="hljs-keyword">let</span> <span class="hljs-variable">idx</span> = [r, c];
-					(<span class="hljs-keyword">self</span>.arr[idx] != <span class="hljs-number">9</span>).<span class="hljs-title function_ invoke__">then_some</span>(idx)
-				})
-			})
-			.collect::&lt;Set&lt;_&gt;&gt;();
-
-		<span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(first_idx) = not_yet_visited_idxs.<span class="hljs-title function_ invoke__">pop_first</span>() {
-			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">visited_idxs</span> = Set::<span class="hljs-title function_ invoke__">new</span>();
-			<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">coords_stack</span> = <span class="hljs-built_in">vec!</span>[first_idx];
-			<span class="hljs-keyword">while</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(idx) = coords_stack.<span class="hljs-title function_ invoke__">pop</span>() {
-				<span class="hljs-keyword">if</span> !visited_idxs.<span class="hljs-title function_ invoke__">insert</span>(idx) {
-					<span class="hljs-keyword">continue</span>;
-				}
-
-				<span class="hljs-keyword">let</span> <span class="hljs-variable">neighbor_idxs</span> = <span class="hljs-title function_ invoke__">get_neighbor_idxs</span>(idx, n_rows, n_cols);
-
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">nghbr_idx</span> <span class="hljs-keyword">in</span> neighbor_idxs {
-					<span class="hljs-keyword">let</span> <span class="hljs-variable">nghbr_idx</span> = <span class="hljs-keyword">match</span> nghbr_idx {
-						[<span class="hljs-title function_ invoke__">Some</span>(r), <span class="hljs-title function_ invoke__">Some</span>(c)] =&gt; [r, c],
-						_ =&gt; <span class="hljs-keyword">continue</span>,
-					};
-					<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.arr[nghbr_idx] != <span class="hljs-number">9</span> &amp;&amp; !visited_idxs.<span class="hljs-title function_ invoke__">contains</span>(&amp;nghbr_idx) {
-						coords_stack.<span class="hljs-title function_ invoke__">push</span>(nghbr_idx);
-					}
-				}
-
-				<span class="hljs-keyword">for</span> <span class="hljs-variable">idx</span> <span class="hljs-keyword">in</span> &amp;visited_idxs {
-					not_yet_visited_idxs.<span class="hljs-title function_ invoke__">remove</span>(idx);
-				}
-			}
-			basin_sizes.<span class="hljs-title function_ invoke__">push</span>(visited_idxs.<span class="hljs-title function_ invoke__">len</span>());
-		}
-
-		basin_sizes
-	}
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt2</span>(hm: &amp;Heightmap) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">basin_sizes</span> = hm.<span class="hljs-title function_ invoke__">basin_sizes</span>();
-	basin_sizes.<span class="hljs-title function_ invoke__">sort_unstable_by_key</span>(|&amp;size| std::cmp::<span class="hljs-title function_ invoke__">Reverse</span>(size));
-	basin_sizes.<span class="hljs-title function_ invoke__">into_iter</span>().<span class="hljs-title function_ invoke__">take</span>(<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">product</span>()
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">9</span>, ans: (<span class="hljs-number">575</span>, <span class="hljs-number">1_019_700</span>));
-	}
 }</code></pre>
 </div>
 </div>
@@ -789,103 +562,7 @@ This is just a DFS through the matrix with a small amount of bookkeeping.</p>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-comment">// tag::setup[]</span>
-<span class="hljs-keyword">use</span> crate::Answer;
-<span class="hljs-keyword">use</span> ndarray::prelude::*;
-<span class="hljs-keyword">use</span> std::collections::BTreeSet <span class="hljs-keyword">as</span> Set;
-
-<span class="hljs-meta">#[derive(Debug)]</span>
-<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Heightmap</span> {
-	arr: Array2&lt;<span class="hljs-type">usize</span>&gt;,
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_neighbor_idxs</span>(
-	[row, col]: [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>],
-	n_rows: <span class="hljs-type">usize</span>,
-	n_cols: <span class="hljs-type">usize</span>,
-) <span class="hljs-punctuation">-&gt;</span> [[<span class="hljs-type">Option</span>&lt;<span class="hljs-type">usize</span>&gt;; <span class="hljs-number">2</span>]; <span class="hljs-number">4</span>] {
-	[
-		[(row + <span class="hljs-number">1</span> &lt; n_rows).<span class="hljs-title function_ invoke__">then_some</span>(row + <span class="hljs-number">1</span>), <span class="hljs-title function_ invoke__">Some</span>(col)],
-		[row.<span class="hljs-title function_ invoke__">checked_sub</span>(<span class="hljs-number">1</span>), <span class="hljs-title function_ invoke__">Some</span>(col)],
-		[<span class="hljs-title function_ invoke__">Some</span>(row), (col + <span class="hljs-number">1</span> &lt; n_cols).<span class="hljs-title function_ invoke__">then_some</span>(col + <span class="hljs-number">1</span>)],
-		[<span class="hljs-title function_ invoke__">Some</span>(row), col.<span class="hljs-title function_ invoke__">checked_sub</span>(<span class="hljs-number">1</span>)],
-	]
-}
-
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Heightmap</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">from_str</span>(s: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Option</span>&lt;<span class="hljs-keyword">Self</span>&gt; {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">width</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">next</span>()?.<span class="hljs-title function_ invoke__">chars</span>().<span class="hljs-title function_ invoke__">count</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">height</span> = s.<span class="hljs-title function_ invoke__">lines</span>().<span class="hljs-title function_ invoke__">count</span>();
-
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">data</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">line</span> <span class="hljs-keyword">in</span> s.<span class="hljs-title function_ invoke__">lines</span>() {
-			data.<span class="hljs-title function_ invoke__">extend</span>(
-				line.<span class="hljs-title function_ invoke__">trim</span>()
-					.<span class="hljs-title function_ invoke__">chars</span>()
-					.<span class="hljs-title function_ invoke__">map</span>(|c| c.<span class="hljs-title function_ invoke__">to_digit</span>(<span class="hljs-number">10</span>).<span class="hljs-title function_ invoke__">and_then</span>(|d| <span class="hljs-type">usize</span>::<span class="hljs-title function_ invoke__">try_from</span>(d).<span class="hljs-title function_ invoke__">ok</span>())),
-			);
-		}
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">data</span> = data.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">copied</span>().collect::&lt;<span class="hljs-type">Option</span>&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;&gt;()?;
-
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">arr</span> = Array2::<span class="hljs-title function_ invoke__">from_shape_vec</span>((width, height), data).<span class="hljs-title function_ invoke__">ok</span>()?;
-		<span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-keyword">Self</span> { arr })
-	}
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans_for_input</span>(input: &amp;<span class="hljs-type">str</span>) <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-keyword">let</span> <span class="hljs-variable">hm</span> = Heightmap::<span class="hljs-title function_ invoke__">from_str</span>(input).<span class="hljs-title function_ invoke__">unwrap</span>();
-	(<span class="hljs-number">9</span>, (<span class="hljs-title function_ invoke__">pt1</span>(&amp;hm), <span class="hljs-title function_ invoke__">pt2</span>(&amp;hm))).<span class="hljs-title function_ invoke__">into</span>()
-}
-
-<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">ans</span>() <span class="hljs-punctuation">-&gt;</span> Answer&lt;<span class="hljs-type">usize</span>, <span class="hljs-type">usize</span>&gt; {
-	<span class="hljs-title function_ invoke__">ans_for_input</span>(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>))
-}
-<span class="hljs-comment">// end::setup[]</span>
-
-<span class="hljs-comment">// tag::pt1[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Heightmap</span> {
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">is_lower_than_neighbors</span>(&amp;<span class="hljs-keyword">self</span>, idx: [<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">bool</span> {
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">val</span> = <span class="hljs-keyword">self</span>.arr[idx];
-		<span class="hljs-keyword">let</span> (n_rows, n_cols) = <span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">dim</span>();
-
-		<span class="hljs-keyword">let</span> <span class="hljs-variable">neighbors</span> = <span class="hljs-title function_ invoke__">get_neighbor_idxs</span>(idx, n_rows, n_cols);
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">idx_pair</span> <span class="hljs-keyword">in</span> neighbors {
-			<span class="hljs-keyword">let</span> <span class="hljs-variable">idxs</span> = <span class="hljs-keyword">match</span> idx_pair {
-				[<span class="hljs-title function_ invoke__">Some</span>(r), <span class="hljs-title function_ invoke__">Some</span>(c)] =&gt; [r, c],
-				_ =&gt; <span class="hljs-keyword">continue</span>,
-			};
-			<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.arr[idxs] &lt;= val {
-				<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-			}
-		}
-
-		<span class="hljs-literal">true</span>
-	}
-
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">idxs_where_lower_than_neighbors</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;[<span class="hljs-type">usize</span>; <span class="hljs-number">2</span>]&gt; {
-		<span class="hljs-keyword">let</span> (n_rows, n_cols) = <span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">dim</span>();
-		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">idxs</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
-		<span class="hljs-keyword">for</span> <span class="hljs-variable">r</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_rows {
-			<span class="hljs-keyword">for</span> <span class="hljs-variable">c</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..n_cols {
-				<span class="hljs-keyword">if</span> <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">is_lower_than_neighbors</span>([r, c]) {
-					idxs.<span class="hljs-title function_ invoke__">push</span>([r, c]);
-				}
-			}
-		}
-		idxs
-	}
-}
-
-<span class="hljs-keyword">fn</span> <span class="hljs-title function_">pt1</span>(hm: &amp;Heightmap) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> {
-	hm.<span class="hljs-title function_ invoke__">idxs_where_lower_than_neighbors</span>()
-		.<span class="hljs-title function_ invoke__">into_iter</span>()
-		.<span class="hljs-title function_ invoke__">map</span>(|idx| hm.arr[idx] + <span class="hljs-number">1</span>)
-		.<span class="hljs-title function_ invoke__">sum</span>()
-}
-<span class="hljs-comment">// end::pt1[]</span>
-
-<span class="hljs-comment">// tag::pt2[]</span>
-<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Heightmap</span> {
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-keyword">impl</span> <span class="hljs-title class_">Heightmap</span> {
 	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">basin_sizes</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Vec</span>&lt;<span class="hljs-type">usize</span>&gt; {
 		<span class="hljs-keyword">let</span> (n_rows, n_cols) = <span class="hljs-keyword">self</span>.arr.<span class="hljs-title function_ invoke__">dim</span>();
 		<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">basin_sizes</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
@@ -934,18 +611,6 @@ This is just a DFS through the matrix with a small amount of bookkeeping.</p>
 	<span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">basin_sizes</span> = hm.<span class="hljs-title function_ invoke__">basin_sizes</span>();
 	basin_sizes.<span class="hljs-title function_ invoke__">sort_unstable_by_key</span>(|&amp;size| std::cmp::<span class="hljs-title function_ invoke__">Reverse</span>(size));
 	basin_sizes.<span class="hljs-title function_ invoke__">into_iter</span>().<span class="hljs-title function_ invoke__">take</span>(<span class="hljs-number">3</span>).<span class="hljs-title function_ invoke__">product</span>()
-}
-<span class="hljs-comment">// end::pt2[]</span>
-
-<span class="hljs-meta">#[cfg(test)]</span>
-<span class="hljs-keyword">mod</span> test {
-	<span class="hljs-keyword">use</span> super::*;
-	<span class="hljs-keyword">use</span> crate::test_input;
-
-	<span class="hljs-meta">#[test]</span>
-	<span class="hljs-keyword">fn</span> <span class="hljs-title function_">test</span>() {
-		test_input!(<span class="hljs-built_in">include_str!</span>(<span class="hljs-string">&quot;input.txt&quot;</span>), day: <span class="hljs-number">9</span>, ans: (<span class="hljs-number">575</span>, <span class="hljs-number">1_019_700</span>));
-	}
 }</code></pre>
 </div>
 </div>

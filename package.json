@@ -15,5 +15,8 @@
 	},
 	"scripts": {
 		"build": "npx antora --clean antora-playbook.yml"
+	},
+	"dependencies": {
+		"asciidoctor": "^2.2.6"
 	}
 }
