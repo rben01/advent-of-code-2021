@@ -123,10 +123,11 @@
 	--gist-table-bg-color: white;
 	--admon-icon-text-color: white;
 	--admon-shadow-color: rgb(0 0 0 / 0.5);
+	--admon-text-shadow: var(--admon-shadow-color) 1px 1px 1px;
 	--admon-note-icon-color: #217ee7;
 	--admon-tip-shadow-color: rgb(155 155 0 / 0.8);
 	--admon-tip-icon-color: #41af46;
-	--admon-warning-icon-color: #fdbb06;
+	--admon-warning-icon-color: #e9ab00;
 	--admon-caution-icon-color: #fa5e15;
 	--admon-important-icon-color: #ca1313;
 	--conum-text-color: white;
@@ -1606,7 +1607,7 @@ h6 {
 	display: inline-flex;
 	align-items: center;
 	height: 100%;
-	text-shadow: var(--default-bg-color) 1px 1px 1px;
+	text-shadow: var(--admon-text-shadow);
 }
 
 .doc .admonitionblock .icon i::after {
