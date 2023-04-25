@@ -7,11 +7,15 @@
 <title>Advent of Code 2021 :: Robert Bennett — Advent of Code 2021</title>
         <link rel="next" href="src/day_01/soln">
     <meta name="generator" content="Antora 3.1.2">
-<link rel="preconnect" href="https://rsms.me/">
+<link rel="preconnect" href="https://my-fonts.pages.dev/">
+<link rel="preload" href="https://my-fonts.pages.dev/Rotunda/rotunda-variable-regular.woff2" type="font/woff2" as="font"
+	crossorigin>
+<link rel="preload" href="https://my-fonts.pages.dev/Rotunda/rotunda-variable-italic.woff2" type="font/woff2" as="font"
+	crossorigin>
 <link rel="stylesheet" href="./_/css/site.css" />
 <link rel="stylesheet" href="./_/css/code-syntax-highlight.css" />
-<link rel="stylesheet" href="https://iosevka-rltb.pages.dev/dist/iosevka-rltb-mono-alt/font-cloudflare.css">
-<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://my-fonts.pages.dev/Rotunda/rotunda.css">
+<link rel="stylesheet" href="https://my-fonts.pages.dev/Iosevka/iosevka-rltb-mono-alt/iosevka.css">
 <meta name="theme-color" content="#0970c4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0967b4" media="(prefers-color-scheme: dark)">
 <script>var uiRootPath = './_';</script>
@@ -36,7 +40,7 @@
     <div id="topbar-nav" class="navbar-menu">
       <div class="navbar-end">
         <div class="navbar-item has-dropdown is-hoverable open-left">
-          <span class="navbar-link">Links</span>
+          <span class="navbar-link"><span class="navbar-link-text">Links</span></span>
           <div class="navbar-dropdown">
               <a class="navbar-item navbar-external-link" href="https://rltb.me" target="_blank">
                 <div class="navbar-item-inner">
@@ -474,7 +478,39 @@ For our purposes, the residual variants of a <code>Try</code> object at the boun
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-rust" data-lang="rust"></code></pre>
+<pre class="highlight"><code class="language-rust" data-lang="rust"><span class="hljs-built_in">macro_rules!</span> include_days {
+	($($mod_name:ident:$ft_name:literal),* $(,)?) =&gt; {
+		$(<span class="hljs-meta">#[cfg(feature = $ft_name)]</span> <span class="hljs-keyword">pub</span> <span class="hljs-keyword">mod</span> $mod_name;)*
+	};
+}
+
+include_days!(
+	day_01:<span class="hljs-string">&quot;day_01&quot;</span>,
+	day_02:<span class="hljs-string">&quot;day_02&quot;</span>,
+	day_03:<span class="hljs-string">&quot;day_03&quot;</span>,
+	day_04:<span class="hljs-string">&quot;day_04&quot;</span>,
+	day_05:<span class="hljs-string">&quot;day_05&quot;</span>,
+	day_06:<span class="hljs-string">&quot;day_06&quot;</span>,
+	day_07:<span class="hljs-string">&quot;day_07&quot;</span>,
+	day_08:<span class="hljs-string">&quot;day_08&quot;</span>,
+	day_09:<span class="hljs-string">&quot;day_09&quot;</span>,
+	day_10:<span class="hljs-string">&quot;day_10&quot;</span>,
+	day_11:<span class="hljs-string">&quot;day_11&quot;</span>,
+	day_12:<span class="hljs-string">&quot;day_12&quot;</span>,
+	day_13:<span class="hljs-string">&quot;day_13&quot;</span>,
+	day_14:<span class="hljs-string">&quot;day_14&quot;</span>,
+	day_15:<span class="hljs-string">&quot;day_15&quot;</span>,
+	day_16:<span class="hljs-string">&quot;day_16&quot;</span>,
+	day_17:<span class="hljs-string">&quot;day_17&quot;</span>,
+	day_18:<span class="hljs-string">&quot;day_18&quot;</span>,
+	day_19:<span class="hljs-string">&quot;day_19&quot;</span>,
+	day_20:<span class="hljs-string">&quot;day_20&quot;</span>,
+	day_21:<span class="hljs-string">&quot;day_21&quot;</span>,
+	day_22:<span class="hljs-string">&quot;day_22&quot;</span>,
+	day_23:<span class="hljs-string">&quot;day_23&quot;</span>,
+	day_24:<span class="hljs-string">&quot;day_24&quot;</span>,
+	day_25:<span class="hljs-string">&quot;day_25&quot;</span>,
+);</code></pre>
 </div>
 </div>
 </div>
@@ -764,6 +800,23 @@ Looking forward to next year&#8217;s Advent of Code!</p>
 		}
 	}
 	add_titles()
+</script>
+<script>
+		(() => {
+			const headers = document.querySelectorAll(":is(h2, h3, h4, h5, h6)");
+			for (let i = 0, len = headers.length; i < len; i++) {
+				const header = headers[i];
+				const anchorBefore = header.getElementsByTagName("a")[0];
+				if (anchorBefore === undefined) {
+					continue;
+				}
+				const href = anchorBefore.getAttribute('href');
+				const anchorAfter = document.createElement("a");
+				anchorAfter.classList.add("anchor-after");
+				anchorAfter.setAttribute("href", href);
+				header.appendChild(anchorAfter);
+			}
+		})()
 </script>
 </main>
 </div>

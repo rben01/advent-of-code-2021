@@ -1,11 +1,10 @@
 :root {
-	--font-family: "Inter var", "Source Sans Pro", "Helvetica Neue", "Helvetica",
-		sans-serif;
+	--font-family: Rotunda, "Source Sans Pro", "Helvetica Neue", "Helvetica", sans-serif;
 	--header-font: var(--font-family);
 	--mono-font-family: "Iosevka RLTB Alt Web", monospace;
 	--mono-font-size: 0.95em;
 	--body-letter-spacing: -0.03em;
-	--default-font-weight: 400;
+	--default-font-weight: 350;
 	--bold-font-weight: 650;
 	--header-bar-height: 3rem;
 	--toolbar-height: 2.5rem;
@@ -326,10 +325,9 @@ html {
 	font-family: var(--font-family);
 	text-size-adjust: 100%;
 }
-
 @media screen and (min-width: 1024px) {
 	html {
-		font-size: 1.125em;
+		font-size: 1.15em;
 	}
 }
 
@@ -339,12 +337,21 @@ body {
 	tab-size: 3;
 	overflow-wrap: break-word;
 	font-weight: var(--default-font-weight);
+	/* TODO: add cv02 (3 -> 3) or replace both with ss02 once support for font-feature-settings is
+	added to ::marker */
+	font-feature-settings: "cv01" on, "cv03" on, "cv04" on;
 
-	font-feature-settings: /* case-sensitive forms */ "case", /* open digits */ "ss01",
-		/* curved r when followed by round letter */ "ss03",
-		/* add bars to I and hook/tail to l */ "ss04";
-	/* font-variation-settings: "wght" var(--default-font-weight); */
+	/* font-feature-settings: /1* case-sensitive forms *1/ "case", /1* open digits *1/ "ss01", */
+	/* 	/1* curved r when followed by round letter *1/ "ss03", */
+	/* 	/1* add bars to I and hook/tail to l *1/ "ss04"; */
+	/* /1* font-variation-settings: "wght" var(--default-font-weight); *1/ */
 }
+/* TODO: add cv01 or replace both with ss02 once support for font-feature-settings is
+added to ::marker */
+ol > li::marker {
+	font-feature-settings: "ss02" on;
+}
+
 .hidden {
 	visibility: hidden;
 }
@@ -353,6 +360,7 @@ a {
 	text-decoration-style: dotted;
 	color: var(--link-text-color);
 	transition: var(--default-transition);
+	text-decoration-thickness: 1px;
 }
 a:hover {
 	text-decoration-style: solid;
@@ -370,6 +378,7 @@ pre {
 	font-size: var(--mono-font-size);
 	font-stretch: expanded;
 	font-feature-settings: normal;
+	font-weight: 400;
 }
 b,
 dt,
@@ -903,8 +912,12 @@ html.is-clipped--nav {
 	height: 100%;
 }
 .home-link :is(.icon-home-filled, .icon-home-outline) {
-	background: var(--default-text-color);
+	background: var(--toolbar-text-color);
 }
+.home-link:hover :is(.icon-home-filled, .icon-home-outline) {
+	background: var(--toolbar-link-hover-color);
+}
+
 .home-link .icon-home-filled {
 	clip-path: url(#icon-home-filled);
 	opacity: 0;
@@ -917,17 +930,7 @@ html.is-clipped--nav {
 .home-link:is(.is-current, :hover) .icon-home-filled {
 	opacity: 1;
 }
-/* .home-link .svg-icon > use.icon-home {
-	fill: var(--default-text-color);
-	stroke: none;
-}
-.home-link .svg-icon > use.icon-home-filled {
-	opacity: 0;
-	transition: var(--default-transition);
-}
-.home-link:is(.is-current, :hover) .svg-icon > use.icon-home-filled {
-	opacity: 1;
-} */
+
 .edit-this-page {
 	display: none;
 	padding-right: 0.5rem;
@@ -1193,7 +1196,6 @@ h6 {
 .doc h2:not(.discrete) {
 	border-bottom: 1px solid var(--header-h1-border-color);
 	margin-left: -1rem;
-	margin-right: -1rem;
 	padding: 0.4rem 1rem 0.1rem;
 }
 .doc h3:not(.discrete),
@@ -1201,13 +1203,18 @@ h6 {
 	font-weight: 500;
 	/* font-variation-settings: "wght" 500; */
 }
-.doc :is(h1, h2, h3, h4, h5, h6) .anchor:is(a, a:visited) {
+.doc :is(h1, h2, h3, h4, h5, h6) {
+	vertical-align: bottom;
+}
+.doc :is(h1, h2, h3, h4, h5, h6) :is(a, a:visited):is(.anchor, .anchor-after) {
 	color: var(--link-text-color);
-	position: absolute;
 	text-decoration: none;
+	font-weight: 400;
+}
+.doc :is(h1, h2, h3, h4, h5, h6) .anchor:is(a, a:visited) {
+	position: absolute;
 	width: 3ex;
 	margin-left: -1.75rem;
-	font-weight: 400;
 	/* font-variation-settings: "wght" 400; */
 }
 .doc :is(h1, h2, h3, h4, h5, h6) .anchor:is(a:hover, a:hover:visited) {
@@ -1216,20 +1223,66 @@ h6 {
 .doc :is(dl, p) {
 	margin: 0;
 }
-/* todo: enable this when browsers add support for color-mix */
-/* @supports (color: color-mix(in lab, currentColor 50%, var(--default-bg-color))) {
+/* nicer looking link underlines with color-mix */
+@supports (color: color-mix(in lab, currentColor 50%, var(--default-bg-color))) {
+	:root {
+		--link-color-mix-amount: 33%;
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--link-color-mix-amount: 67%;
+		}
+	}
 	.doc :is(a, a:visited) {
 		text-decoration-style: solid;
+	}
+	a:hover,
+	.doc a:hover {
+		text-decoration-thickness: 2px;
+	}
+	/* currentColor doesn't work here — lacking browser support? */
+	.doc a {
 		text-decoration-color: color-mix(
 			in lab,
-			currentColor 50%,
+			var(--link-text-color) var(--link-color-mix-amount),
 			var(--default-bg-color)
 		);
 	}
-	.doc :is(a, a:visited):hover {
-		text-decoration-color: currentColor;
+	.doc a:visited {
+		text-decoration-color: color-mix(
+			in lab,
+			var(--visited-link-text-color) var(--link-color-mix-amount),
+			var(--default-bg-color)
+		);
 	}
-} */
+	.doc a:hover {
+		text-decoration-color: color-mix(
+			in lab,
+			var(--link-hover-color) var(--link-color-mix-amount),
+			var(--default-bg-color)
+		);
+	}
+	.doc a:hover:visited {
+		text-decoration-color: color-mix(
+			in lab,
+			var(--visited-link-hover-color) var(--link-color-mix-amount),
+			var(--default-bg-color)
+		);
+	}
+
+	:is(.nav-menu h3.title, .toolbar, .nav-panel-explore .components, .footer) a {
+		text-decoration-style: solid;
+		text-decoration-color: color-mix(
+			in lab,
+			currentColor var(--link-color-mix-amount),
+			var(--default-bg-color)
+		);
+	}
+	/* :is(.nav-menu h3.title, .toolbar, .nav-panel-explore .components, .footer) a:hover {
+		text-decoration-style: solid;
+		text-decoration-color: currentColor;
+	} */
+}
 
 .doc a {
 	color: var(--link-text-color);
@@ -1265,7 +1318,7 @@ h6 {
 	background: var(--code-parent-bg-color);
 	border-radius: 0.25em;
 	border: 1px solid var(--inline-code-border-color);
-	font-size: 0.95em;
+	font-size: 0.9em;
 	padding: 0.125em 0.25em;
 }
 .doc :is(code, pre) {
@@ -2091,6 +2144,9 @@ span.icon > i.fa, /* spans are inline. admonition block icons are in td.icon */
 .mobile-instructions {
 	display: revert;
 }
+sup.footnote > a:first-of-type {
+	text-decoration: none;
+}
 #footnotes {
 	font-size: 0.85em;
 	line-height: 1.5;
@@ -2472,7 +2528,53 @@ body {
 	display: flex;
 	flex-direction: column;
 }
+/* TODO get this working */
+/* .doc :is(h2, h3, h4, h5, h6) {
+	scroll-padding-top: var(--header-bar-height);
+} */
 @media screen and (max-width: 768.5px) {
+	.doc :is(h2, h3, h4, h5, h6) .anchor {
+		visibility: hidden;
+	}
+	.doc :is(h2, h3, h4, h5, h6) {
+		position: relative;
+	}
+	.doc :is(h2, h3, h4, h5, h6) .anchor-after {
+		position: absolute;
+		right: 0;
+		bottom: 0.2em;
+		display: inline-block;
+	}
+	.doc :is(h2) .anchor-after {
+		font-size: 0.95rem;
+	}
+	.doc :is(h3) .anchor-after {
+		font-size: 0.875rem;
+	}
+	.doc :is(h4) .anchor-after {
+		font-size: 0.8rem;
+	}
+	.doc :is(h5) .anchor-after {
+		font-size: 0.725rem;
+	}
+	.doc :is(h6) .anchor-after {
+		font-size: 0.65rem;
+	}
+	.doc :is(h2) .anchor-after::after {
+		content: "H₁";
+	}
+	.doc :is(h3) .anchor-after::after {
+		content: "H₂";
+	}
+	.doc :is(h4) .anchor-after::after {
+		content: "H₃";
+	}
+	.doc :is(h5) .anchor-after::after {
+		content: "H₄";
+	}
+	.doc :is(h6) .anchor-after::after {
+		content: "H₅";
+	}
 	.navbar-menu .search-result-dropdown-menu {
 		top: calc(100% + 3em);
 		width: 100%;
@@ -2613,7 +2715,7 @@ body {
 	.navbar-item.is-hoverable:hover .navbar-dropdown {
 		display: block;
 	}
-	.navbar-link::after {
+	.navbar-link-text::after {
 		border-width: 0 0 1.5px 1.5px;
 		border-style: solid;
 		content: "";

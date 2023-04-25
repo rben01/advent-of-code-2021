@@ -31,7 +31,7 @@ Commonly used code, in `src/lib.rs` and `src/utils.rs`, is below:
 
 .link:./{src-dir}/lib.rs[`lib.rs`^]
 --
-include_source::./src/lib.rs[tag=code]
+include_source::./src/lib.rs[tag=mods]
 --
 
 .link:./{src-dir}/utils.rs[`utils.rs`^]

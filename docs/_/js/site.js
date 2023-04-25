@@ -193,9 +193,12 @@ function __get_copy_icon_path() {
 				(((m = document.createElement("aside")).className = "toc embedded"),
 				m.appendChild(f.cloneNode(!0)),
 				e.parentNode.insertBefore(m, e.nextSibling)),
-				window.addEventListener("load", function () {
-					p(), window.addEventListener("scroll", p);
-				});
+				// this scrolls the window to the target #anchor when loaded, which in
+				// theory we shouldn't need
+				// window.addEventListener("load", function () {
+				// 	p(), window.addEventListener("scroll", p);
+				// });
+				undefined;
 		}
 	}
 	function p() {

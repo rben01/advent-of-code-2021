@@ -8,11 +8,15 @@
         <link rel="prev" href="../day_05/soln">
         <link rel="next" href="../day_07/soln">
     <meta name="generator" content="Antora 3.1.2">
-<link rel="preconnect" href="https://rsms.me/">
+<link rel="preconnect" href="https://my-fonts.pages.dev/">
+<link rel="preload" href="https://my-fonts.pages.dev/Rotunda/rotunda-variable-regular.woff2" type="font/woff2" as="font"
+	crossorigin>
+<link rel="preload" href="https://my-fonts.pages.dev/Rotunda/rotunda-variable-italic.woff2" type="font/woff2" as="font"
+	crossorigin>
 <link rel="stylesheet" href="../../_/css/site.css" />
 <link rel="stylesheet" href="../../_/css/code-syntax-highlight.css" />
-<link rel="stylesheet" href="https://iosevka-rltb.pages.dev/dist/iosevka-rltb-mono-alt/font-cloudflare.css">
-<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://my-fonts.pages.dev/Rotunda/rotunda.css">
+<link rel="stylesheet" href="https://my-fonts.pages.dev/Iosevka/iosevka-rltb-mono-alt/iosevka.css">
 <meta name="theme-color" content="#0970c4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0967b4" media="(prefers-color-scheme: dark)">
 <script>var uiRootPath = '../../_';</script>
@@ -37,7 +41,7 @@
     <div id="topbar-nav" class="navbar-menu">
       <div class="navbar-end">
         <div class="navbar-item has-dropdown is-hoverable open-left">
-          <span class="navbar-link">Links</span>
+          <span class="navbar-link"><span class="navbar-link-text">Links</span></span>
           <div class="navbar-dropdown">
               <a class="navbar-item navbar-external-link" href="https://rltb.me" target="_blank">
                 <div class="navbar-item-inner">
@@ -677,6 +681,23 @@ In one case we have to also add to said values.</p>
 		}
 	}
 	add_titles()
+</script>
+<script>
+		(() => {
+			const headers = document.querySelectorAll(":is(h2, h3, h4, h5, h6)");
+			for (let i = 0, len = headers.length; i < len; i++) {
+				const header = headers[i];
+				const anchorBefore = header.getElementsByTagName("a")[0];
+				if (anchorBefore === undefined) {
+					continue;
+				}
+				const href = anchorBefore.getAttribute('href');
+				const anchorAfter = document.createElement("a");
+				anchorAfter.classList.add("anchor-after");
+				anchorAfter.setAttribute("href", href);
+				header.appendChild(anchorAfter);
+			}
+		})()
 </script>
 </main>
 </div>
