@@ -269,7 +269,7 @@
 		--admon-note-icon-color: #1b64b7;
 		--admon-tip-shadow-color: rgb(155 155 0 / 0.8);
 		--admon-tip-icon-color: #2d9332;
-		--admon-warning-icon-color: #dba000;
+		--admon-warning-icon-color: #d39a00;
 		--admon-caution-icon-color: #e25f22;
 		--admon-important-icon-color: #b41f1f;
 		--conum-text-color: rgb(29, 29, 29);
@@ -1552,11 +1552,6 @@ h6 {
 	vertical-align: middle;
 }
 
-.doc .admonitionblock .icon i {
-	position: relative;
-	top: 0.05em;
-}
-
 .doc .admonitionblock .icon i::before {
 	background-color: var(--admon-icon-text-color);
 	display: inline-block;
@@ -1611,12 +1606,15 @@ h6 {
 	display: inline-flex;
 	align-items: center;
 	height: 100%;
+	text-shadow: var(--default-bg-color) 1px 1px 1px;
 }
 
 .doc .admonitionblock .icon i::after {
 	content: attr(title);
-	padding-left: calc(0.5rem - 0.1rem);
 	/* matches the padding-right 0.5rem above, minus a bit for visual symmetry */
+	padding-left: calc(0.5rem - 0.1rem);
+	/* shift for Rotunda baseline */
+	transform: translateY(0.1em);
 }
 .doc :is(.imageblock, .videoblock) {
 	display: flex;
