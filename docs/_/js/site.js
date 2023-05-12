@@ -193,12 +193,15 @@ function __get_copy_icon_path() {
 				(((m = document.createElement("aside")).className = "toc embedded"),
 				m.appendChild(f.cloneNode(!0)),
 				e.parentNode.insertBefore(m, e.nextSibling)),
-				// this scrolls the window to the target #anchor when loaded, which in
-				// theory we shouldn't need
-				// window.addEventListener("load", function () {
-				// 	p(), window.addEventListener("scroll", p);
-				// });
-				undefined;
+				// FALSE: "this scrolls the window to the target #anchor when loaded, which in
+				// theory we shouldn't need"
+				// TRUE: "this scrolls the window to the target #anchor when loaded AND
+				// keeps the table of contents in sync with the scroll position, which we
+				// absolutely do need"
+				window.addEventListener("load", function () {
+					p(), window.addEventListener("scroll", p);
+				});
+			undefined;
 		}
 	}
 	function p() {

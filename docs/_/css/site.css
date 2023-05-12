@@ -338,19 +338,12 @@ body {
 	tab-size: 3;
 	overflow-wrap: break-word;
 	font-weight: var(--default-font-weight);
-	/* TODO: add cv02 (3 -> 3) or replace both with ss02 once support for font-feature-settings is
-	added to ::marker */
-	font-feature-settings: "cv01" on, "cv03" on, "cv04" on;
+	font-feature-settings: "cv01" on, "cv02" on, "cv03" on, "cv04" on;
 
 	/* font-feature-settings: /1* case-sensitive forms *1/ "case", /1* open digits *1/ "ss01", */
 	/* 	/1* curved r when followed by round letter *1/ "ss03", */
 	/* 	/1* add bars to I and hook/tail to l *1/ "ss04"; */
 	/* /1* font-variation-settings: "wght" var(--default-font-weight); *1/ */
-}
-/* TODO: add cv01 or replace both with ss02 once support for font-feature-settings is
-added to ::marker */
-ol > li::marker {
-	font-feature-settings: "ss02" on;
 }
 
 .hidden {
